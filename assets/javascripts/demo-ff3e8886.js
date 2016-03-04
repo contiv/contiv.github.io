@@ -1,0 +1,1 @@
+window.Demo=Ember.Application.create({rootElement:"#demo-app"}),Demo.deferReadiness(),document.getElementById("demo-app")&&Demo.advanceReadiness();

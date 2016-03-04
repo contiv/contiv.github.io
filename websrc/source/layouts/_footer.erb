@@ -1,0 +1,26 @@
+<div id="footer">
+  <div class="container">
+    <div class="row">
+      <% if current_page.url != '/' %>
+        <div class="edit-page-link"><a href="<%= github_url :current_page %>">Edit this page</a></div>
+      <% end %>
+      <div class="col-sm-6 col-xs-12">
+        <ul class="footer-links nav navbar-nav">
+          <li><a href="/intro/index.html">Getting Started</a></li>
+          <li><a href="/docs/index.html">Docs</a></li>
+        </ul>
+      </div>
+      <div class="footer-contiv col-sm-6 col-xs-12">
+        <div class="pull-right">
+          <a class="contiv-project" href="https://contiv.io">
+              Contiv
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</body>
+</html>

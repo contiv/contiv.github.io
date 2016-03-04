@@ -1,0 +1,35 @@
+<% wrap_layout :inner do %>
+	<% content_for :sidebar do %>
+		<div class="docs-sidebar hidden-print affix-top" role="complementary">
+			<ul class="nav docs-sidenav">
+				<li<%= sidebar_current("what") %>>
+					<a href="/install/index.html">Getting Started</a>
+				</li>
+
+				<li<%= sidebar_current("getting-started") %>>
+					<a href="/install/netplugin/vagrant.html">Netplugin</a>
+					<ul class="nav">
+						<li<%= sidebar_current("getting-started-install") %>>
+							<a href="/install/netplugin/install.html">Installing Netplugin</a>
+						</li>
+						<li<%= sidebar_current("getting-started-aci") %>>
+							<a href="/install/netplugin/aci.html">ACI setup</a>
+						</li>
+						<li<%= sidebar_current("getting-started-kubernetes") %>>
+							<a href="/install/netplugin/k8s.html">Kubernetes cluster</a>
+						</li>
+						<li<%= sidebar_current("getting-started-bgp") %>>
+							<a href="/install/netplugin/bgp.html">BGP L3 setup</a>
+                        </li>
+
+						<li<%= sidebar_current("getting-started-mcast") %>>
+							<a href="/install/netplugin/mcast.html">Multicast</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	<% end %>
+
+	<%= yield %>
+<% end %>
