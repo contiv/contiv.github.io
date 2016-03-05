@@ -54,7 +54,7 @@
   @include transition( color 0.3s ease );
 
   &:hover{
-    color: $green-dark;
+    color: $medium-green;
     @include transition( color 0.3s ease );
     background-color: transparent;
   }
@@ -217,10 +217,10 @@ $project-logo-pad-left: 8px;
 
 // Mixins
 @mixin project-a-style{
-  color: $medium-gray;
+  color: $medium-black;
 
   &:hover{
-    color: $green-dark;
+    color: $medium-green;
   }
 }
 
@@ -229,7 +229,7 @@ $font-family-open-sans:	'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-se
 $header-font-family: $font-family-open-sans;
 $header-font-weight: 600; // semi-bold
 
-$header-height: 74px;
+$header-height: 50px;
 $header-mobile-height: 60px;
 $by-contiv-width: 74px;
 $by-contiv-height: 16px;

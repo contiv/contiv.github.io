@@ -1,6 +1,7 @@
 body.page-sub{
   #footer{
     padding: 0 0 40px 0;
+
     .col-md-5{
       padding-top: 40px;
       border-top: 1px solid $faint-gray;
@@ -12,6 +13,7 @@ body.page-sub{
   position: relative;
   padding: 64px 0;
   color: $black;
+  background-color: $hdr-light-gray;
 
   > .container{
     position: relative;
@@ -54,7 +56,7 @@ body.page-sub{
       &:hover{
         svg{
           .svg-bg-line{
-            fill: $green-dark;
+            fill: $medium-green;
           }
         }
       }

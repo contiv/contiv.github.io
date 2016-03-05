@@ -88,7 +88,7 @@
     }
 
     p{
-      color: $blue-dark;
+      color: $medium-black;
     }
   }
 
@@ -133,11 +133,16 @@
     text-transform: uppercase;
   }
 
+  .feature-section-title{
+      border-top: 2px solid $gray-light;
+      padding-top: 30px;
+  }
+
   .feature{
     position: relative;
     margin-bottom: 60px;
     padding-bottom: 60px;
-    border-bottom: 1px solid $blue-faint;
+    // border-bottom: 1px solid $blue-faint;
 
     &:last-child{
       border-bottom: none;
@@ -145,7 +150,7 @@
 
     &#networking-concepts{
       .feature-graphic{
-        margin-top: -130px;
+        margin-top: -300px;
         margin-left: 600px;
         width: 600px;
         height: 300px;
@@ -156,7 +161,7 @@
 
     &#networking-map{
       .feature-graphic{
-        margin-top: -50px;
+        margin-top: -300px;
         margin-left: 600px;
         width: 600px;
         height: 300px;
@@ -216,6 +221,28 @@
       }
     }
 
+    &#storage{
+      .feature-graphic{
+        margin-top: -250px;
+        margin-left: 600px;
+        width: 600px;
+        height: 300px;
+        background: image-url('dist-storage.png') 0 0 no-repeat;
+        @include img-retina("dist-storage.png", "dist-storage.png", 400px, 300px);
+      }
+    }
+
+    &#clustering{
+      .feature-graphic{
+        margin-top: -150px;
+        margin-left: 650px;
+        width: 600px;
+        height: 300px;
+        background: image-url('cluster-graphics.png') 0 0 no-repeat;
+        @include img-retina("cluster-graphics.png", "cluster-graphics.png", 300px, 150px);
+      }
+    }
+
     .feature-graphic{
       margin: 0 auto;
     }
@@ -232,7 +259,7 @@
 
       h3{
         margin: 30px 0 20px 0;
-        color: $blue-dark;
+        color: $medium-black;
         letter-spacing: 1px;
         font-size: $font-size-l;
         font-family: $font-family-blanc;
@@ -255,7 +282,7 @@
 
       p{
         display: inline-block;
-        color: $blue-dark;
+        color: $medium-black;
         font-size: $font-size-reg;
         font-family: $font-family-blanc;
         line-height: 1.75em;
