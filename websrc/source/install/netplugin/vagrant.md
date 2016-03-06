@@ -1,7 +1,7 @@
 ---
 layout: "install"
 page_title: "Install Netplugin"
-sidebar_current: "getting-started"
+sidebar_current: "getting-started-vagrant"
 description: |-
   Installing netplugin.
 ---
@@ -11,6 +11,11 @@ description: |-
 This will provide you with a minimal experience of uploading the intent and
 seeing the netplugin system act on it. It will create a network on your host
 that lives behind an OVS bridge and has its own unique interfaces.
+
+### Prerequisits
+- VirtualBox 5.0.2 or greater
+- Vagrant 1.7.4 or higher
+- Go 1.5.0
 
 #### Step 1: Clone the project and bringup the VMs
 

@@ -1,7 +1,7 @@
 ---
 layout: "install"
 page_title: "Installation"
-sidebar_current: "what"
+sidebar_current: "install"
 description: |-
   Getting started guide for Contiv
 ---
@@ -12,9 +12,9 @@ description: |-
 
 Please see [here](./netplugin/vagrant.html) for trying Netplugin in vagrant setup
 
-If you want to install Netplugin on a baremetal or a VM cluster you can follow the instructions [here](./netplugin/install.html)
+For installing Netplugin on a baremetal or a VM cluster you can follow the instructions [here](./netplugin/install.html)
 
-If you want to install Netplugin with ACI, you can use the instruction [here](./netplugin/aci.html)
+For installing Netplugin with ACI, you can use the instruction [here](./netplugin/aci.html)
 
 For installing netplugin with Kubernetes, please see [these](./netplugin/k8s.html) instructions.
 

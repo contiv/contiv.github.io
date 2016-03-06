@@ -16,7 +16,7 @@ body.layout-aws,
 body.layout-docs,
 body.layout-inner,
 body.layout-downloads,
-body.layout-intro{
+body.layout-install{
   //background: $light-black image-url('sidebar-wire.png') left 62px no-repeat;
   >.container{
     .col-md-8[role=main]{
@@ -81,7 +81,7 @@ body.layout-intro{
         >a{
           color: $medium-green;
           font-weight: 600;
-          border-right: 1px solid $green-faint;
+          // border-right: 1px solid $green-faint;
 
           &:hover{
             &:before{
@@ -117,9 +117,9 @@ body.layout-intro{
           top: 15px;
           left: $parent-default-state;
           overflow: hidden;
-          background: image-url("caret-light.png") 0 0 no-repeat;
+          // background: image-url("caret-light.png") 0 0 no-repeat;
           opacity: .3;
-          @include img-retina("caret-light.png", "caret-light@2x.png", 6px, 9px);
+          // @include img-retina("caret-light.png", "caret-light@2x.png", 6px, 9px);
         }
       }
     }
@@ -130,8 +130,8 @@ body.layout-intro{
       padding-top: 10px;
       padding-bottom: 10px;
       margin-bottom: 15px;
-      border-right: 1px solid $green-faint;
-      border-bottom: 1px solid $green-faint;
+      // border-right: 1px solid $green-faint;
+      // border-bottom: 1px solid $green-faint;
 
       > li{
         margin-left: 10px;
@@ -148,8 +148,8 @@ body.layout-intro{
             }
 
             &:before{
-              //background: url(triangle-sprite.png) 0 0 no-repeat;
-              //@include img-retina("triangle-sprite.png", "triangle-sprite@2x.png", 5px, 19px);
+              // background: url(triangle-sprite.png) 0 0 no-repeat;
+              // @include img-retina("triangle-sprite.png", "triangle-sprite@2x.png", 5px, 19px);
             }
           }
         }
@@ -173,8 +173,8 @@ body.layout-intro{
             top: 12px;
             left: $child-default-state;
             overflow: hidden;
-            //background: url(triangle-sprite.png) 0 -13px no-repeat;
-            //@include img-retina("triangle-sprite.png", "triangle-sprite@2x.png", 5px, 19px);
+            // background: url(triangle-sprite.png) 0 -13px no-repeat;
+            // @include img-retina("triangle-sprite.png", "triangle-sprite@2x.png", 5px, 19px);
           }
         }
       }
@@ -189,8 +189,9 @@ body.layout-intro{
 
 .bs-docs-section{
   padding-top: 10px;
-  padding-left: 3%;
+  padding-left: 5%;
   padding-bottom: 160px;
+  border-left: 1px solid rgba(0,0,0,0.06);
 
   .lead{
     margin-bottom: 48px
