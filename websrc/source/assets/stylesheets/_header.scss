@@ -1,0 +1,81 @@
+//
+// Header
+// - Project Specific
+// - edits should be made here
+// --------------------------------------------------
+
+#header {
+  background-color: $hdr-light-gray;
+
+  .navbar-brand {
+    .logo{
+      color: $medium-black;
+      font-family: $font-family-blanc;
+      font-size: 28px;
+      margin-right: 30px;
+      background: image-url('contiv-logo.png') 0 0 no-repeat;
+      @include img-retina("contiv-logo.png", "contiv-logo.png", $project-logo-width, $project-logo-height);
+      background-position: 0 center;
+
+      &:hover{
+        color: $medium-green;
+      }
+    }
+
+    .by{
+      &:hover{
+        svg{
+          .svg-bg-line{
+            fill: $medium-green;
+          }
+        }
+      }
+    }
+  }
+
+  .buttons{
+    margin-top: 2px; //baseline everything
+
+    ul.navbar-nav{
+      li {
+        &:hover{
+          svg path{
+            fill: $black;
+          }
+        }
+
+        svg path{
+          fill: $blue-light;
+        }
+      }
+    }
+  }
+
+  .main-links,
+  .external-links {
+    li > a {
+      @include project-a-style();
+    }
+  }
+}
+
+@media (max-width: 414px) {
+  #header {
+    .navbar-brand {
+      .logo{
+        padding-left: 42px;
+        font-size: 18px;
+        @include img-retina("contiv.png", "contiv.png", $project-logo-width * .75, $project-logo-height * .75);
+      }
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  #header {
+    .navbar-brand {
+      .logo{
+      }
+    }
+  }
+}

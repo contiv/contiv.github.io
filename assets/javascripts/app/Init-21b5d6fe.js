@@ -1,0 +1,1 @@
+!function(t,e){var n=(function(){return window.navigator.userAgent.match("Trident")?!0:!1}(),{start:function(){var t=document.body.id.toLowerCase();this.Pages[t]&&this.Pages[t](),n.initializeSidebar()},initializeSidebar:function(){new t},initializeHomepage:function(){new e},Pages:{"page-home":function(){n.initializeHomepage()}}});n.start()}(window.Sidebar,window.CubeDraw);

@@ -1,0 +1,14 @@
+---
+layout: "article"
+sidebar_current: "Articles"
+title: "Articles"
+---
+
+<% blog.articles[0...20].each do |article| %>
+  <article>
+
+    <%= article.summary %>
+
+    <a href="<%= article.url %>">Read more</a>
+  </article>
+<% end %>
