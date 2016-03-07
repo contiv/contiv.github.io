@@ -22,7 +22,7 @@ For setting up Netplugin in L3 BGP mode, please see [this](./netplugin/bgp.html)
 
 ## Volplugin
 
-Plese see the [documentation](../docs/volplugin.html) for getting started with volplugin
+Plese see the [documentation](http://contiv.github.io/docs/2_volplugin.html) for getting started with volplugin
 
 ## Cluster
 
