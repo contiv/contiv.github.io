@@ -161,7 +161,7 @@ There are just four simple concepts in Contiv networking. These concepts remain 
 <p>Figure 1: Scaling IP table rules</p>
 <p>You can see the red line in this chart that shows number of IP table rules increase exponentially. If you have service-A and service-B that need to talk to each other and each Microservice have 5 instances each, you need to install 25 iptable rules to allow all combinations. If you have 500+ Microservices like Netflix and 10s of scale out instances, number of IP table rules will run into millions.</p>
 <p>We ended up building custom switching pipeline in kernel based on OpenVswitch.  We chose OpenVswitch because its fully programmable. Its software defined. With the custom pipeline, we could do network based services and security policies in a scalable way in a single pipeline. You can see how number of rules in Contiv pipeline remains same no matter how many scale out instances you have. This is because we map all containers to a segment and then apply security on a segment.</p>
-<p><img alt="Contiv Network Performance" src="/articles/contiv-network-perf-4c43f38d.jpg"/></p>
+<p><img alt="Contiv Network Performance" src="/articles/contiv-network-perf-47e7595f.jpg"/></p>
 <p>Figure 2: Container-networking performance comparison</p>
 <p>The picture above shows performance comparison of various container-networking options. The blue line at the top is bare metal to bare metal throughput. The Orange line just below that is Contiv performance. This test was run on two bare metal servers in 10G NICs. You can see Contiv is very close to line rate. Some of the overlay networking options have low performance due to the overhead involved.</p>
 <p><img alt="Performance at Scale" src="/articles/contiv-rules-perf-6cfed325.jpg"/></p>
