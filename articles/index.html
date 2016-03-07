@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Welcome to the Contiv documentation!">
+    <meta name="description" content="">
 
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-    <title>Documentation - Contiv</title>
+    <title>Contiv</title>
 
     <link href="/assets/stylesheets/application-799c3eac.css" rel="stylesheet"/>
 
@@ -17,7 +17,7 @@
     
   </head>
 
-  <body id="page-Documentation" class=" page-Documentation layout-docs page-sub">
+  <body id="page-home" class=" page-home layout-article">
 
 <div id="header" class="navbar-static-top">
   <div class="container">
@@ -96,51 +96,29 @@ GitHub</a></li>
 <div class="container">
 	<div class="row">
 		<div class="col-md-3 col-sm-3 col-xs-12">
-					<div class="docs-sidebar hidden-print affix-top" role="complementary">
-			<ul class="nav docs-sidenav">
-				<li class="active">
-					<a href="/docs/index.html">Documentation Home</a>
-				</li>
-
-				<li>
-					<a href="/docs/netplugin.html">Netplugin</a>
-				</li>
-
-				<li>
-					<a href="/docs/volplugin.html">Volplugin</a>
-                </li>
-			</ul>
-		</div>
-
-		</div>  
+			<div class="docs-sidebar hidden-print affix-top" role="complementary">
+				<ul class="nav docs-sidenav">
+					<li class="active">
+						<a href="/articles/index.html">Articles</a>
+						<ul class="nav nav-visible">
+								<li>
+								  <a href="/articles/2016/03/06/scaling-microservices.html">Scaling Microservices with Contiv</a>
+							  </li>
+						</ul>
+					</li>
+				</ul>
+			</div>		</div>  
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
-				
-	<h1>Contiv Tools</h1>
-<p>This page describes the command line user interface for various contiv tools. The CLI
-utilizes the REST interface to a cluster-wide master entity that can be accessible to
-any automation tool.</p>
+				<div class="blog-author">  </div>
+				<div class="blog-date">  </div>
+				  <article>
 
-<h2>Contiv Networking</h2>
-<p><a href="https://github.com/contiv/netplugin">netplugin</a> allows cluster wide connectivity
-and policy controls for container networking across a multi-host cluster. If you are
-interested in contributing to the project or learn more about the architecture, please
-see the <a href="https://github.com/contiv/netplugin/blob/master/README.md">README</a> for
-more information.</p>
+    <h1>Scaling Microservices with Contiv</h1>
+<p>Enterprises are moving their applications from monolithic architectures to Microservices architectures. When they are thinking about Microservices, they are also considering containerizing their applications. In this article, we’ll discuss some of the scale challenges of deploying containerized microservices. 
 
-<h2>Contiv Storage</h2>
-<p><a href="https://github.com/contiv/volplugin">volplugin</a> controls
-<a href="http://ceph.com/">Ceph</a> RBD devices with a master/slave model to orchestrate
-the mounting and cross-host remounting of volumes scheduled with containers.
-<strong>This provides highly available, persistent volumes that can live anywhere on
-your network, and be referenced by containers for use.</strong> You can control
-docker to mount these volumes with a plugin, or you can (soon) use schedulers,
-as well as docker-compose to manage your application alongside Ceph volumes.</p>
-<p>This documentation is for the users and administrators of volplugin. If you
-wish to learn more about the project for development purposes, please see
-<a href="https://github.com/contiv/volplugin/blob/master/README.md">the README</a>
-for more information.</p>
-
+    <a href="/articles/2016/03/06/scaling-microservices.html">Read more</a>
+  </article>
 
 			</div>
 		</div>

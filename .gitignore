@@ -1,2 +1,8 @@
 /_site
 /websrc/build
+
+# Ignore .DS_store file
+.DS_Store
+
+# Ignore bundler config
+/.bundle

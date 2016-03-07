@@ -201,6 +201,15 @@ body.layout-install{
     margin-bottom: 48px;
   }
 
+  .blog-author{
+      margin-top: 1em;
+      color: $medium-green;
+      font-size: 14px;
+  }
+  .blog-date{
+      font-size: 12px;
+      color: $medium-gray;
+  }
   p, li, .alert {
     color: $medium-black;
     font-size: 18px;

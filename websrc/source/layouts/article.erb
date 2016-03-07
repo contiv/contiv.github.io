@@ -1,0 +1,28 @@
+<% wrap_layout :layout do %>
+<div class="container">
+	<div class="row">
+		<div class="col-md-3 col-sm-3 col-xs-12">
+			<div class="docs-sidebar hidden-print affix-top" role="complementary">
+				<ul class="nav docs-sidenav">
+					<li<%= sidebar_current("Articles") %>>
+						<a href="/articles/index.html">Articles</a>
+						<ul class="nav nav-visible">
+							<% blog.articles[0...50].each do |article| %>
+								<li<%= sidebar_current(article.title) %>>
+								  <a href="<%= article.url %>"><%= article.title %></a>
+							  </li>
+							<% end %>
+						</ul>
+					</li>
+				</ul>
+			</div>		</div>  <!-- /col-md-4 -->
+		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
+			<div class="bs-docs-section">
+				<div class="blog-author"> <%= current_page.data.author %> </div>
+				<div class="blog-date"> <%= current_page.data.date_str %> </div>
+				<%= yield %>
+			</div>
+		</div>
+	</div>
+</div>
+<% end %>
