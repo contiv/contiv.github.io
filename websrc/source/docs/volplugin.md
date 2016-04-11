@@ -3,7 +3,7 @@ layout: "docs"
 page_title: "Volplugin"
 sidebar_current: "docs-volplugin"
 description: |-
-  Learn about Netplugin.
+  Learn about Contiv Storage.
 ---
 # volplugin
 

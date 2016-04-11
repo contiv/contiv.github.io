@@ -6,24 +6,25 @@ description: |-
   Getting started guide for Contiv
 ---
 
-# Getting started
+# Getting Started
 
-## Netplugin
+## Contiv Network
+There are several ways to try out Contiv Network:
 
-Please see [here](./netplugin/vagrant.html) for trying Netplugin in vagrant setup
+[Install Contiv Network in a Vagrant setup](./netplugin/vagrant.html)
 
-For installing Netplugin on a baremetal or a VM cluster you can follow the instructions [here](./netplugin/install.html)
+[Install Contiv Network on a baremetal or VM cluster](./netplugin/install.html)
 
-For installing Netplugin with ACI, you can use the instruction [here](./netplugin/aci.html)
+[Install Contiv Network with ACI](./netplugin/aci.html)
 
-For installing netplugin with Kubernetes, please see [these](./netplugin/k8s.html) instructions.
+[Install Contiv Network with Kubernetes](./netplugin/k8s.html)
 
-For setting up Netplugin in L3 BGP mode, please see [this](./netplugin/bgp.html) instruction.
+[Install Contiv Network in L3 BGP mode](./netplugin/bgp.html)
 
-## Volplugin
+## Contiv Storage
 
-Plese see the [documentation](http://contiv.github.io/docs/2_volplugin.html) for getting started with volplugin
+To get started with Contiv Storage, see the documentation [here](http://contiv.github.io/docs/2_volplugin.html).
 
-## Cluster
+## Contiv Cluster
 
-Please see the instruction on contiv cluster  [github page](https://github.com/contiv/cluster/tree/master/management) for getting started with contiv cluster manager
+To get started with Contiv Cluster, see the documentation [here](https://github.com/contiv/cluster/tree/master/management).
