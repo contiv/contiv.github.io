@@ -3,34 +3,36 @@ layout: "docs"
 page_title: "Netplugin"
 sidebar_current: "docs-netplugin"
 description: |-
-  Learn about Netplugin.
+  Learn about Contiv Network.
 ---
 
-# netplugin
+# Contiv Network
 
 ## About
-Contiv netplugin is a generic networking plugin that is designed to provide multi host policy based networking for containerized applications.
+Contiv Network is a generic networking plugin that is designed to provide multi host policy based networking for containerized applications.
 
-Netplugin is designed to be used with docker containers and with cluster schedulers like Swarm, Kubernetes and Mesos
+Contiv Network is designed to be used with Docker containers and with cluster schedulers like Swarm, Kubernetes and Mesos.
 
 ## Getting started
-This section will walk you through how to try netplugin in a vagrant environment
+This section will walk you through how to try Contiv Network in a Vagrant environment.
+
 ### Prerequisits
 - VirtualBox 5.0.2 or greater
 - Vagrant 1.7.4
-- Go 1.5.0
+- Git
+- Make
 
-### Quick start guide
-Clone the repo and bring up the VMs
+### Quick Start Guide
+Clone the repo and bring up the VMs.
 
 ```
 $ git clone https://github.com/contiv/netplugin
 $ cd netplugin; make demo
 $ vagrant ssh netplugin-node1
 ```
-This brings up a cluster of two VMs running docker and netplugin
+This starts a cluster of two VMs running Docker and Contiv Network.
 
-#### Step 1: Create a network
+#### Step 1: Create a Network
 ```
 netplugin-node1$ netctl net create contiv-net --subnet=20.1.1.0/24 --gateway=20.1.1.254 --pkt-tag=1001
 ```
@@ -59,20 +61,20 @@ PING db (20.1.1.3) 56(84) bytes of data.
 64 bytes from db (20.1.1.3): icmp_seq=2 ttl=64 time=0.103 ms
 ```
 
-
 ## Architecture
+
 #### Glossary
 - *Netmaster*: Netmaster is the master daemon that is responsible for storing the Intent and distributing state to all nodes in the cluster.
-- *Netplugin*: Netplugin is a long running daemon on every node in the cluster. As a docker network plugin, it is responsible for setting up network and policy for each container.
--  *Netctl*: netctl is a command line tool to moidfy the intent.
+- *netplugin*: netplugin is a long running daemon on every node in the cluster. As a Docker network plugin, it is responsible for setting up network and policy for each container.
+-  *netctl*: netctl is a command line tool to modify the intent.
 
 
-#### Netplugin architecture
+#### Contiv Network Architecture
 ![Architecture](netplugin-arch.jpg)
 
 
-### Contiv object model
-Contiv object model provides a way for users to specify their Intent. Netmaster provides a REST api to view and modify contiv object model. Netctl commandline tool is a convinient utility to interact with the object model
+### Contiv Object Model
+Contiv Object model provides a way for users to specify their Intent. Netmaster provides a REST api to view and modify contiv object model. Netctl commandline tool is a convinient utility to interact with the object model
 
 ![Object model](contivModel.png)
 
@@ -115,29 +117,27 @@ Following command creates an endpoint group named `web` in network `contiv-net` 
 $ netctl group create contiv-net web -policy=prod_web
 ```
 
-*Note*: Each endpoint group will create a seperate docker network of the form <endpoint-group-name>.<network-name> You can attach containers to these endpoint groups using `--net` option in `docker run` command
+*Note*: Each endpoint group will create a seperate Docker network of the form <endpoint-group-name>.<network-name> You can attach containers to these endpoint groups using `--net` option in `docker run` command
 
 #### Step 4: Run a container and attach it to the endpoint group
-Following runs a docker container and attaches it to `web` endpoint group in `contiv-net` network
+Following runs a Docker container and attaches it to `web` endpoint group in `contiv-net` network
 
 ```
 $ docker run -itd --net web.contiv-net ubuntu bash
 ```
 
-## Using Netplugin with Docker Swarm
+## Using Contiv Network with Docker Swarm
 
-Docker Swarm is a scheduler that schedules containers to multiple hosts. Netplugin is a docker network plugin that provides multi host networking.
+Docker Swarm is a scheduler that schedules containers to multiple hosts. Contiv Network is a Docker network plugin that provides multi host networking.
 
-Docker + Swarm + Netplugin == Awesome!!
-
-### Using swarm
-Netplugin vagrant setup comes pre-installed with docker swarm.
-Set the following environment variable to make docker client talk to Swarm
+### Using Swarm
+The Contiv Network Vagrant setup comes pre-installed with Docker Swarm.
+Set the following environment variable to make Docker client talk to Swarm
 
 ```
 export DOCKER_HOST=tcp://192.168.2.10:2375
 ```
-Now, you should be able to see the information about the swarm cluster
+With this environment variable set, Docker operates on the entire Swarm cluster, not just the local Docker instance.
 
 ```
 $ docker info
@@ -164,7 +164,7 @@ Name: netplugin-node1
 No Proxy: 192.168.0.0/16,localhost,127.0.0.0/8
 ```
 
-Next, you can see if there are any containers running in the cluster
+Next, you can query for any containers running in the cluster.
 
 ```
 $ docker ps
@@ -174,24 +174,24 @@ CONTAINER ID        IMAGE                          COMMAND             CREATED  
 
 ```
 
-You can run containers and attach them to contiv networks or endpoint groups just like before.
+You can run containers and attach them to Contiv networks or endpoint groups just like before.
 
 ```
 $ docker run -itd --net web.contiv-net ubuntu bash
 f291e269b45a5877f6fc952317feb329e12a99bda3a44a740b4c3307ef87954c
 ```
-Here, `docker run` happens against the swarm cluster. Swarm schedules the container to one of the nodes and netplugin on that node sets up the networking and policies just like before.
+Here, `docker run` happens against the Swarm cluster. Swarm schedules the container to one of the nodes and Contiv Network on that node sets up the networking and policies just like before.
 
 
-## Service discovery
-Contiv network provides built in service discovery for all containers in the network. Unlike traditional service discovery tools which require applications to query external KV stores for container IP/port information, contiv service discovery uses standard DNS protocol and requires no changes to the application.
+## Service Discovery
+Contiv Network provides built-in service discovery for all containers in the network. Unlike traditional service discovery tools which require applications to query external KV stores for container IP and port information, Contiv service discovery uses the standard DNS protocol and requires no changes to the application.
 
-When a container is attached to an endpoint group, it automatically becomes reachable by DNS service name. In the example above, we ran a container and attached it to `web` endpoint group. This container becomes available by DNS name `web` for all other containers in the same network. It would be available as `web.contiv-net` for all containers in other networks within the same tenant. If there are multiple containers in same endpoint group, all of them would be available by same DNS service name. DNS queries will be load balanced across all containers in the group.
+When a container is attached to an endpoint group, it automatically becomes reachable by DNS service name. In the example above, we ran a container and attached it to `web` endpoint group. This container becomes available by the DNS name `web` for all other containers in the same network. It is available as `web.contiv-net` for all containers in other networks within the same tenant. If there are multiple containers in same endpoint group, all of them are available by the same DNS service name. DNS queries are load balanced across all containers in the group.
 
-## Multi tenancy
+## Multi Tenancy
 
-## Using Netplugin on baremetal servers
+## Using Contiv Network on Baremetal Servers
 
-## Using Netplugin with Kubernetes
+## Using Contiv Network with Kubernetes
 
 ## Working with Cisco ACI

@@ -6,18 +6,19 @@ description: |-
   Installing netplugin.
 ---
 
-### Getting Started with vagrant
+## Getting Started with Vagrant
 
-This will provide you with a minimal experience of uploading the intent and
-seeing the netplugin system act on it. It will create a network on your host
-that lives behind an OVS bridge and has its own unique interfaces.
+These instructions describe how to connect two containers
+over a network you create. The network has
+its own unique interfaces and lies behind an OVS bridge.
 
 ### Prerequisits
 - VirtualBox 5.0.2 or greater
 - Vagrant 1.7.4 or higher
-- Go 1.5.0
+- Git
+- Make
 
-#### Step 1: Clone the project and bringup the VMs
+### Step 1: Clone the project and start the VMs.
 
 ```
 $ git clone https://github.com/contiv/netplugin
@@ -25,17 +26,17 @@ $ cd netplugin; make demo
 $ vagrant ssh netplugin-node1
 ```
 
-#### Step 2: Create a network
+### Step 2: Create a network and run your containers.
 
 ```
 $ netctl net create contiv-net --subnet=20.1.1.0/24 --gateway=20.1.1.254 --pkt-tag=1001
-```
-
-#### Step 3: Run your containers and enjoy the networking!
-
-```
 $ docker run -itd --name=web --net=contiv-net ubuntu /bin/bash
 $ docker run -itd --name=db --net=contiv-net ubuntu /bin/bash
+```
+
+### Step 3: Log into a container and test the network.
+
+```
 $ docker exec -it web /bin/bash
 < inside the container >
 root@f90e7fd409c4:/# ping db
