@@ -13,7 +13,7 @@ This page describes how to set up a Contiv cluster using Kubernetes.
 ## Prerequisites
 * Install CentOS 7.2 on each of your servers used for the Contiv cluster.
 * Ensure that each server has at least two, and preferably three, interfaces.
-* Choose a server that is on the management network and has ansible installed. Run the install procedure below on this node.
+* Choose a server that is on the management network and has Ansible installed. Run the install procedure below on this node.
 * If required by your network, set HTTP and HTTPS proxies. Direct the HTTPS proxy to an **http://** URL; this is an Ansible requirement.
 
 ### Step 1: Clone the repository

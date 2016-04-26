@@ -103,22 +103,22 @@ GitHub</a></li>
 				</li>
 
 				<li class="active">
-					<a href="/install/netplugin/vagrant.html">Netplugin</a>
+					<a href="/install/netplugin/vagrant.html">Contiv Network</a>
 					<ul class="nav nav-visible">
 						<li>
 							<a href="/install/netplugin/vagrant.html">Vagrant Setup</a>
 						</li>
 						<li>
-							<a href="/install/netplugin/install.html">Installing Netplugin</a>
+							<a href="/install/netplugin/install.html">Installing Contiv Network</a>
 						</li>
 						<li>
-							<a href="/install/netplugin/aci.html">ACI setup</a>
+							<a href="/install/netplugin/aci.html">ACI Setup</a>
 						</li>
 						<li class="active">
-							<a href="/install/netplugin/k8s.html">Kubernetes cluster</a>
+							<a href="/install/netplugin/k8s.html">Kubernetes Cluster</a>
 						</li>
 						<li>
-							<a href="/install/netplugin/bgp.html">BGP L3 setup</a>
+							<a href="/install/netplugin/bgp.html">BGP L3 Setup</a>
                         </li>
 
 						<li>
@@ -133,41 +133,49 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h4>Pre-requisites</h4>
-<p>Machines running CentOS 7.2, connected to network, with at least two
-interfaces (3 if possible).</p>
-<p>Before starting, please be sure to set http/https proxies if your network requires it.
-<em>(Note that https_proxy should be set to point to a http:// URL (not https://).
-This is an ansible requirement.)</em></p>
-<p>Pick a machine that is on the management network and has ansible installed
-to run the following steps.</p>
+	<h2>Getting Started with Kubernetes Cluster</h2>
+<p>This page describes how to set up a Contiv cluster using Kubernetes.</p>
 
-<h3>Step 1 Clone this repo</h3>
+<h2>Prerequisites</h2>
+
+<ul>
+<li>Install CentOS 7.2 on each of your servers used for the Contiv cluster.
+</li>
+<li>Ensure that each server has at least two, and preferably three, interfaces.
+</li>
+<li>Choose a server that is on the management network and has ansible installed. Run the install procedure below on this node.
+</li>
+<li>If required by your network, set HTTP and HTTPS proxies. Direct the HTTPS proxy to an <strong>http://</strong> URL; this is an Ansible requirement.
+</li>
+</ul>
+
+<h3>Step 1: Clone the repository</h3>
+<p>Clone the <strong>git</strong> repository containing the Contiv files.</p>
 <pre class="highlight plaintext"><code>git clone https://github.com/contiv/demo
 </code></pre>
 
-<h3>Step 2 Clone the contrib repo</h3>
+<h3>Step 2: Clone the contrib repository</h3>
+<p>Clone the <strong>git</strong> repository containing the Kubernetes contributed code.</p>
 <pre class="highlight plaintext"><code>cd demo/k8s;
-
 git clone https://github.com/jojimt/contrib -b contiv
 </code></pre>
 
-<h3>Step 3 Fill in cluster info</h3>
-<p>edit cluster_defs.json</p>
-<p>See cluster_defs.json.README for instructions</p>
+<h3>Step 3: Configure the cluster information</h3>
+<p>Edit <strong>cluster_defs.json</strong> to reflect your cluster information. See <strong>cluster_defs.json.README</strong> for instructions.</p>
 
-<h3>Step 4 Prepare machines</h3>
-<p>Create an rsa key and save in cwd as id_rsa.pub.</p>
+<h3>Step 4 Prepare the nodes</h3>
+<p>Create an RSA key and save it in the working directory as <strong>id_rsa.pub</strong>.</p>
 <pre class="highlight plaintext"><code>ssh-keygen -t rsa
-
 ./prepare.sh
 </code></pre>
 
-<h3>Step 5 Create cluster</h3>
+<h3>Step 5 Create the cluster</h3>
+<p>Run the setup script:</p>
 <pre class="highlight plaintext"><code>./setup_k8s_cluster.sh
 </code></pre>
 
 <h3>Step 6 Verify cluster</h3>
+<p>Run the verification script:</p>
 <pre class="highlight plaintext"><code>./verify_cluster.sh
 </code></pre>
 
@@ -191,7 +199,7 @@ git clone https://github.com/jojimt/contrib -b contiv
       </div>
       <div class="footer-contiv col-sm-6 col-xs-12">
         <div class="pull-right">
-          <a class="contiv-project" href="https://contiv.io">
+          <a class="contiv-project" href="http://contiv.io">
               Contiv
           </a>
         </div>

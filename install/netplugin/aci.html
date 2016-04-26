@@ -103,22 +103,22 @@ GitHub</a></li>
 				</li>
 
 				<li class="active">
-					<a href="/install/netplugin/vagrant.html">Netplugin</a>
+					<a href="/install/netplugin/vagrant.html">Contiv Network</a>
 					<ul class="nav nav-visible">
 						<li>
 							<a href="/install/netplugin/vagrant.html">Vagrant Setup</a>
 						</li>
 						<li>
-							<a href="/install/netplugin/install.html">Installing Netplugin</a>
+							<a href="/install/netplugin/install.html">Installing Contiv Network</a>
 						</li>
 						<li class="active">
-							<a href="/install/netplugin/aci.html">ACI setup</a>
+							<a href="/install/netplugin/aci.html">ACI Setup</a>
 						</li>
 						<li>
-							<a href="/install/netplugin/k8s.html">Kubernetes cluster</a>
+							<a href="/install/netplugin/k8s.html">Kubernetes Cluster</a>
 						</li>
 						<li>
-							<a href="/install/netplugin/bgp.html">BGP L3 setup</a>
+							<a href="/install/netplugin/bgp.html">BGP L3 Setup</a>
                         </li>
 
 						<li>
@@ -133,66 +133,63 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h2>DIY Guide to setup Contiv Networking in ACI setup</h2>
-<p>This document mentions the steps/pre-requisites required to setup the cluster in ACI mode. Note that the steps listed here are in addition to the steps mentioned in the <a href="https://github.com/contiv/demo/tree/master/net/README.md">general README</a>.</p>
+	<h2>Setting Up Contiv Networking in ACI</h2>
+<p>This document describes how to set up a Contiv Network cluster in ACI mode. The steps listed here are in addition to the steps presented in the <a href="https://github.com/contiv/demo/tree/master/net/README.md">general README</a>.</p>
 
-<h3>Pre-requisites for ACI setup</h3>
+<h3>Prerequisites for ACI Setup</h3>
 
 <h4>VLANS</h4>
-<p>Contiv currently uses vlans starting from 100. Please make sure that a block of vlans starting from 100 are
- reserved for use by Contiv. This will be made configurable in a subsequent release.</p>
+<p>Contiv currently uses vlans starting from 100. Therefore, a block of vlans starting from 100 must be
+ reserved for use by Contiv. (The vlan range will be made configurable in a subsequent release.)</p>
 
-<h4>APIC Configuration (Fabric/Access Policies)</h4>
-<pre class="highlight plaintext"><code>1. Create a physical domain named "allvlans" (For now, this name is hard-coded. This will be made configurable/generic in
-   a follow on release.).
+<h3>APIC Configuration: Fabric and Access Policies</h3>
+<pre class="highlight plaintext"><code>1. Create a physical domain named "allvlans" (For now, this name is hard-coded. The name will be made configurable in a follow-on release).
 
-2. Create a vlan pool with a block of vlans starting with 100 as described above. Set allocation mode to "Static Allocation"
-   and associate with the "allvlans" physical domain.
+2. Create a vlan pool with a block of vlans starting with 100 as described above. Set allocation mode to "Static Allocation" and associate the pool with the "allvlans" physical domain.
 
-3. Create an Attachable Access Entity Profile(AAEP) and associate with the "allvlans" physical domain.
+3. Create an Attachable Access Entity Profile (AAEP) and associate it with the "allvlans" physical domain.
 
 4. Create a Policy Group (under Interface Policies) and specify the AAEP created in the previous step.
 
-5. Create an Interface Profile and specify the physical interfaces connected from your ToR(s) to the bare metal servers.
-   You can create separate Interface Profiles for individual ToRs if you like.
+5. Create an Interface Profile and specify the physical interfaces connected from your ToR(s) to the bare metal servers. You can create separate Interface Profiles for individual ToRs if you like.
 
 6. Create a Switch Profile (Switch Policies/Profiles) and specify the appropriate interface profile created in step 4.
 
-7. Make a note of the full node name of the ToRs you have connected to your servers.
+7. Make a note of the full node name(s) of the ToR(s) you have connected to your servers.
 
 8. Find the interface name of the NIC on the server that is connected to the ToR (e.g. eth5).
 </code></pre>
 
-<h3>Additional information in the cfg.yml</h3>
-<p>Sample cfg.yml for ACI setup: <a href="https://github.com/contiv/demo/tree/master/net/extras/sample_aci_cfg.yml">sample_aci_cfg.yml</a></p>
-<p>Apart from providing the usual information in the cfg.yml (as described <a href="https://github.com/contiv/demo/tree/master/net/README.md#information-in-cfgyml">here</a>), the following additional details are required to provide access information to the APIC and the leaf(s) connected to the ACI topology.</p>
+<h3>Additional Configuration Information</h3>
+<p>A sample <strong>cfg.yml</strong> for ACI setup is at: <a href="https://github.com/contiv/demo/tree/master/net/extras/sample_aci_cfg.yml">sample_aci_cfg.yml</a></p>
+<p>Apart from the usual information in the <strong>cfg.yml</strong> (as described <a href="https://github.com/contiv/demo/tree/master/net/README.md#information-in-cfgyml">here</a>), the following additional details are required to provide access information to the APIC and the leaf(s) connected to the ACI topology.</p>
+<p>All of the options listed below for ACI setup are mandatory.</p>
 
-<h5>ACI setup Info</h5>
-<p>All options listed below for ACI setup are mandatory.</p>
-
-<h6>General APIC reachability information</h6>
-<pre class="highlight plaintext"><code>      APIC_URL: "https://&lt;apic-server-url&gt;:443"
-      APIC_USERNAME: "admin"
-      APIC_PASSWORD: "password"
+<h4>General APIC Reachability Information</h4>
+<pre class="highlight plaintext"><code>          APIC_URL: "https://&lt;apic-server-url&gt;:443"
+          APIC_USERNAME: "admin"
+          APIC_PASSWORD: "password"
 </code></pre>
 
-<h6>Information related to leaf nodes</h6>
-<p>Full path of the leaf nodes connected to your servers. Use the informtion obtained in Step 8 of <a href="aci.md#apic-configuration-fabricaccess-policies">APIC Configuration</a> here.</p>
-<pre class="highlight plaintext"><code>    APIC_LEAF_NODES:
-    - topology/pod-1/node-101
-    - topology/pod-1/node-102
+<h4>Information Related to Leaf Nodes</h4>
+<p>Provide the full paths of the leaf nodes connected to your servers. Use the informtion obtained in Step 8 of <a href="aci.md#apic-configuration-fabricaccess-policies">APIC Configuration</a> here.</p>
+<pre class="highlight plaintext"><code>        APIC_LEAF_NODES:
+        - topology/pod-1/node-101
+        - topology/pod-1/node-102
 </code></pre>
 
-<h3>Running the installer in ACI mode</h3>
-<p>To run the installer in ACI mode use the -a option</p>
-<pre class="highlight plaintext"><code>      ./net_demo_isntaller -a
-</code></pre>
-<p>To restart the services once installed use the -r option. This ensures that the services are restarted in a clean state.</p>
-<pre class="highlight plaintext"><code>      ./net_demo_isntaller -ar
-</code></pre>
+<h3>Running the Installer in ACI Mode</h3>
+<p>To run the installer in ACI mode use the -a option.<br>
+<code>
+          ./net_demo_installer -a
+</code></p>
+<p>To restart the services once they are installed, use the -r option. This option ensures that the services are restarted in a clean state.<br>
+<code>
+          ./net_demo_installer -ar
+</code></p>
 
-<h3>NOTE</h3>
-<p>The installer script downloads some basic containers (web/redis) to get you going</p>
+<h3>Starting Containers</h3>
+<p>The installer script downloads some basic containers (web/redis) that you can use to get started.</p>
 
 
 			</div>
@@ -214,7 +211,7 @@ GitHub</a></li>
       </div>
       <div class="footer-contiv col-sm-6 col-xs-12">
         <div class="pull-right">
-          <a class="contiv-project" href="https://contiv.io">
+          <a class="contiv-project" href="http://contiv.io">
               Contiv
           </a>
         </div>
