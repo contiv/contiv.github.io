@@ -103,22 +103,22 @@ GitHub</a></li>
 				</li>
 
 				<li class="active">
-					<a href="/install/netplugin/vagrant.html">Netplugin</a>
+					<a href="/install/netplugin/vagrant.html">Contiv Network</a>
 					<ul class="nav nav-visible">
 						<li class="active">
 							<a href="/install/netplugin/vagrant.html">Vagrant Setup</a>
 						</li>
 						<li>
-							<a href="/install/netplugin/install.html">Installing Netplugin</a>
+							<a href="/install/netplugin/install.html">Installing Contiv Network</a>
 						</li>
 						<li>
-							<a href="/install/netplugin/aci.html">ACI setup</a>
+							<a href="/install/netplugin/aci.html">ACI Setup</a>
 						</li>
 						<li>
-							<a href="/install/netplugin/k8s.html">Kubernetes cluster</a>
+							<a href="/install/netplugin/k8s.html">Kubernetes Cluster</a>
 						</li>
 						<li>
-							<a href="/install/netplugin/bgp.html">BGP L3 setup</a>
+							<a href="/install/netplugin/bgp.html">BGP L3 Setup</a>
                         </li>
 
 						<li>
@@ -133,10 +133,10 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h3>Getting Started with vagrant</h3>
-<p>This will provide you with a minimal experience of uploading the intent and
-seeing the netplugin system act on it. It will create a network on your host
-that lives behind an OVS bridge and has its own unique interfaces.</p>
+	<h2>Getting Started with Vagrant</h2>
+<p>These instructions describe how to connect two containers
+over a network you create. The network has
+its own unique interfaces and lies behind an OVS bridge.</p>
 
 <h3>Prerequisits</h3>
 
@@ -145,24 +145,26 @@ that lives behind an OVS bridge and has its own unique interfaces.</p>
 </li>
 <li>Vagrant 1.7.4 or higher
 </li>
-<li>Go 1.5.0
+<li>Git
+</li>
+<li>Make
 </li>
 </ul>
 
-<h4>Step 1: Clone the project and bringup the VMs</h4>
+<h3>Step 1: Clone the project and start the VMs.</h3>
 <pre class="highlight plaintext"><code>$ git clone https://github.com/contiv/netplugin
 $ cd netplugin; make demo
 $ vagrant ssh netplugin-node1
 </code></pre>
 
-<h4>Step 2: Create a network</h4>
+<h3>Step 2: Create a network and run your containers.</h3>
 <pre class="highlight plaintext"><code>$ netctl net create contiv-net --subnet=20.1.1.0/24 --gateway=20.1.1.254 --pkt-tag=1001
+$ docker run -itd --name=web --net=contiv-net ubuntu /bin/bash
+$ docker run -itd --name=db --net=contiv-net ubuntu /bin/bash
 </code></pre>
 
-<h4>Step 3: Run your containers and enjoy the networking!</h4>
-<pre class="highlight plaintext"><code>$ docker run -itd --name=web --net=contiv-net ubuntu /bin/bash
-$ docker run -itd --name=db --net=contiv-net ubuntu /bin/bash
-$ docker exec -it web /bin/bash
+<h3>Step 3: Log into a container and test the network.</h3>
+<pre class="highlight plaintext"><code>$ docker exec -it web /bin/bash
 &lt; inside the container &gt;
 root@f90e7fd409c4:/# ping db
 PING db (20.1.1.3) 56(84) bytes of data.
@@ -190,7 +192,7 @@ PING db (20.1.1.3) 56(84) bytes of data.
       </div>
       <div class="footer-contiv col-sm-6 col-xs-12">
         <div class="pull-right">
-          <a class="contiv-project" href="https://contiv.io">
+          <a class="contiv-project" href="http://contiv.io">
               Contiv
           </a>
         </div>
