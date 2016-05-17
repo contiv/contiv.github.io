@@ -2,79 +2,85 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>http://contiv.io/articles/2016/03/06/scaling-microservices.html</loc>
-    <lastmod>2016-04-18T00:00:00-07:00</lastmod>
+    <lastmod>2016-05-17T00:00:00-07:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://contiv.io/articles/2016/05/17/onug-contiv-award.html</loc>
+    <lastmod>2016-05-17T00:00:00-07:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://contiv.io/articles/</loc>
-    <lastmod>2016-04-18T00:00:00-07:00</lastmod>
+    <lastmod>2016-05-17T00:00:00-07:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://contiv.io/docs/</loc>
-    <lastmod>2016-04-18T00:00:00-07:00</lastmod>
+    <lastmod>2016-05-17T00:00:00-07:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://contiv.io/docs/netplugin.html</loc>
-    <lastmod>2016-04-18T00:00:00-07:00</lastmod>
+    <lastmod>2016-05-17T00:00:00-07:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://contiv.io/docs/volplugin.html</loc>
-    <lastmod>2016-04-18T00:00:00-07:00</lastmod>
+    <lastmod>2016-05-17T00:00:00-07:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://contiv.io/</loc>
-    <lastmod>2016-04-18T00:00:00-07:00</lastmod>
+    <lastmod>2016-05-17T00:00:00-07:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://contiv.io/install/</loc>
-    <lastmod>2016-04-18T00:00:00-07:00</lastmod>
+    <lastmod>2016-05-17T00:00:00-07:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://contiv.io/install/netplugin/aci.html</loc>
-    <lastmod>2016-04-18T00:00:00-07:00</lastmod>
+    <lastmod>2016-05-17T00:00:00-07:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://contiv.io/install/netplugin/bgp.html</loc>
-    <lastmod>2016-04-18T00:00:00-07:00</lastmod>
+    <lastmod>2016-05-17T00:00:00-07:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://contiv.io/install/netplugin/install.html</loc>
-    <lastmod>2016-04-18T00:00:00-07:00</lastmod>
+    <lastmod>2016-05-17T00:00:00-07:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://contiv.io/install/netplugin/k8s.html</loc>
-    <lastmod>2016-04-18T00:00:00-07:00</lastmod>
+    <lastmod>2016-05-17T00:00:00-07:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://contiv.io/install/netplugin/mcast.html</loc>
-    <lastmod>2016-04-18T00:00:00-07:00</lastmod>
+    <lastmod>2016-05-17T00:00:00-07:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://contiv.io/install/netplugin/vagrant.html</loc>
-    <lastmod>2016-04-18T00:00:00-07:00</lastmod>
+    <lastmod>2016-05-17T00:00:00-07:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
