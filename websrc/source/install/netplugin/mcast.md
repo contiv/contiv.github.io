@@ -1,9 +1,9 @@
 ---
 layout: "install"
-page_title: "Multicast"
+page_title: "Demonstrating Multicast"
 sidebar_current: "getting-started-mcast"
 description: |-
-  Multicast.
+  Demonstrating Multicast
 ---
 
 ## Demonstrating Multicast in Contiv

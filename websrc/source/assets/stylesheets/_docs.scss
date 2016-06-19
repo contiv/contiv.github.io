@@ -16,6 +16,7 @@ body.layout-aws,
 body.layout-docs,
 body.layout-inner,
 body.layout-downloads,
+
 body.layout-install{
   //background: $light-black image-url('sidebar-wire.png') left 62px no-repeat;
   >.container{
@@ -35,7 +36,7 @@ body.layout-install{
   position: relative;
   z-index: 20;
   margin-bottom: 30px;
-  margin-top: 50px;
+  margin-top: 15px;
   @include open();
 
   .nav.docs-sidenav{
@@ -48,10 +49,12 @@ body.layout-install{
     //all li
     li{
       position: relative;
+      list-style-type: none;
+      padding-bottom: 10px;
 
       > a{
-        padding: 10px 8px;
-        font-size: 15px;
+        // padding: 10px 8px;
+        font-size: 18px;
         color: $medium-black;
 
         &:before{
@@ -78,10 +81,7 @@ body.layout-install{
       margin: 0 0 0 10px;
 
       &.active {
-        >a{
-          color: $medium-green;
-          font-weight: 600;
-          // border-right: 1px solid $green-faint;
+        >a {
 
           &:hover{
             &:before{
@@ -117,9 +117,9 @@ body.layout-install{
           top: 15px;
           left: $parent-default-state;
           overflow: hidden;
-          // background: image-url("caret-light.png") 0 0 no-repeat;
-          opacity: .3;
-          // @include img-retina("caret-light.png", "caret-light@2x.png", 6px, 9px);
+          opacity: .75;
+          background: url(triangle-sprite.png) 0 -13px no-repeat;
+          @include img-retina("triangle-sprite.png", "triangle-sprite@2x.png", 5px, 19px);
         }
       }
     }
@@ -138,8 +138,6 @@ body.layout-install{
 
         &.active{
           > a{
-            color: $medium-green;
-            font-weight: 600;
 
             &:hover{
               &:before{
@@ -148,8 +146,8 @@ body.layout-install{
             }
 
             &:before{
-              // background: url(triangle-sprite.png) 0 0 no-repeat;
-              // @include img-retina("triangle-sprite.png", "triangle-sprite@2x.png", 5px, 19px);
+              background: url(triangle-sprite.png) 0 0 no-repeat;
+              @include img-retina("triangle-sprite.png", "triangle-sprite@2x.png", 5px, 19px);
             }
           }
         }
@@ -173,8 +171,8 @@ body.layout-install{
             top: 12px;
             left: $child-default-state;
             overflow: hidden;
-            // background: url(triangle-sprite.png) 0 -13px no-repeat;
-            // @include img-retina("triangle-sprite.png", "triangle-sprite@2x.png", 5px, 19px);
+            background: url(triangle-sprite.png) 0 -13px no-repeat;
+            @include img-retina("triangle-sprite.png", "triangle-sprite@2x.png", 5px, 19px);
           }
         }
       }

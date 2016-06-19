@@ -17,7 +17,7 @@ $black:                 #000;
 $gray:                  #929199;
 $light-gray:            #C2C1C7;
 $faint-gray:            #E3E3EA;
-$green:                 #56cdad;
+$green:                 #205081;
 $green-dark:            #449b82;
 $green-light:           #9bdb9c;
 $green-faint:           #E3F5E3;
@@ -27,7 +27,7 @@ $blue:                  #00BFE0;
 $blue-faint:            #E0E8E8;
 $light-black:           #242424;
 $orange:                #e78c5b;
-$gray-dark:             #3B4142; //#4e5859;
+$gray-dark:             #000; // H1, H2, H3
 $gray:                  #777;
 $gray-light:            #939393;
 $gray-lighter:          #979797;
@@ -36,9 +36,9 @@ $red-dark:              #c5454e;
 $purple:                #822ff7;
 $light-purple:          #f7f3f9;
 $btn-color:             #4592C5;
-$medium-black:          rgba(0,0,0,.8);
+$medium-black:          #205081; // Header links
 $medium-gray:           rgba(0,0,0,.6);
-$medium-green:          #02b875;
+$medium-green:          #205081;  // Everything else
 $medium-blue:           #55acee;
 $hdr-light-gray:        rgba(0,0,0,.03);
 

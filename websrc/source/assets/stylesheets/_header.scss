@@ -9,12 +9,12 @@
 
   .navbar-brand {
     .logo{
-      color: $medium-black;
+      color: #205081;
       font-family: $font-family-blanc;
-      font-size: 28px;
+      font-size: 38px;
       margin-right: 30px;
-      background: image-url('contiv-logo.png') 0 0 no-repeat;
-      @include img-retina("contiv-logo.png", "contiv-logo.png", $project-logo-width, $project-logo-height);
+      background: image-url('logo3.png') 0 0 no-repeat;
+      @include img-retina("logo3.png", "contiv-logo.png", $project-logo-width, $project-logo-height);
       background-position: 0 center;
 
       &:hover{
@@ -64,7 +64,7 @@
     .navbar-brand {
       .logo{
         padding-left: 42px;
-        font-size: 18px;
+        font-size: 36px;
         @include img-retina("contiv.png", "contiv.png", $project-logo-width * .75, $project-logo-height * .75);
       }
     }

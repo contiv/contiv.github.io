@@ -3,57 +3,56 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Setting up kubernetes cluster.">
+    <meta name="description" content="Setting up Kubernetes Cluster.">
 
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <title>Kubernetes Cluster - Contiv</title>
 
-    <title>Kubernetes cluster - Contiv</title>
+    <link href="/assets/stylesheets/application-6854335d.css" rel="stylesheet"/>
 
-    <link href="/assets/stylesheets/application-799c3eac.css" rel="stylesheet"/>
-
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-8b3747c5.js"></script><script src="/assets/javascripts/respond.min-88c91176.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
 
-  <body id="page-Kubernetes cluster" class=" page-Kubernetes cluster layout-install page-sub">
+  <body id="page-Kubernetes Cluster" class=" page-Kubernetes Cluster layout-install page-sub">
 
 <div id="header" class="navbar-static-top">
   <div class="container">
     <div class="row">
-      <div class="col-xs-12">
+      
         <div class="navbar-header">
           <div class="navbar-brand">
-            <a class="logo" href="/">Contiv</a>
+              <a class="logo" href="/">Contiv</a>
+            </a>
           </div>
-          <button class="navbar-toggle" type="button">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          
         </div>
         <div class="buttons hidden-xs">
           <nav role="navigation">
             <ul class="main-links nav navbar-nav navbar-left">
-              <li class="first li-under"><a href="/install/index.html">Getting Started</a></li>
-              <li class="li-under"><a href="http://docs.contiv.io/" target="_blank">Docs</a></li>
+              <li class="first li-under"><a href="/install/index.html">Documentation</a></li>
               <li class="li-under"><a href="/articles/index.html">Articles</a></li>
-            </ul>
-            <ul class="external-links nav navbar-nav navbar-left">
-              <li class="github">
-                <a href="https://github.com/contiv" target="_blank">GitHub</a>
-              </li>
-            </ul>
-            <ul class="external-links nav navbar-nav navbar-left">
-              <li>
-                <a href="https://twitter.com/projectcontiv" target="_blank"><i class="fa fa-twitter"></i></a>
-              </li>
+              <li class="li-under"><a href="https://github.com/contiv" target="_blank">
+                        GitHub
+                        <i class="fa fa-github fa-lg"></i>
+                        </a></li>
+                    <li class="li-under"><a href="https://contiv.slack.com" target="_blank">
+                        Slack
+                        <i class="fa fa-slack fa-lg"></i>
+                        </a></li>
+                    <li><a href="https://twitter.com/projectcontiv" target="_blank">
+                        Twitter
+                        <i class="fa fa-twitter fa-lg"></i>
+                        </a></li>
             </ul>
           </nav>
         </div>
-      </div>
+      
     </div>
   </div>
 </div>
@@ -97,34 +96,158 @@ GitHub</a></li>
 	<div class="row">
 		<div class="col-md-3 col-sm-3 col-xs-12">
 					<div class="docs-sidebar hidden-print affix-top" role="complementary">
+			<hr>
+			<h3>User Guide</h3>
 			<ul class="nav docs-sidenav">
-				<li>
-					<a href="/install/index.html">Getting Started</a>
-				</li>
-
 				<li class="active">
-					<a href="/install/netplugin/vagrant.html">Contiv Network</a>
+					<a data-toggle="collapse" href="#collapse100" href="/install/user_guides/getting_started/index.html">Getting Started</a>
+				<div id="collapse100" class="panel-collapse collapse">
+
 					<ul class="nav nav-visible">
 						<li>
-							<a href="/install/netplugin/vagrant.html">Vagrant Setup</a>
+							<a href="/install/user_guides/getting_started/community_talks/index.html">Talks and Demonstrations</a>
 						</li>
 						<li>
-							<a href="/install/netplugin/install.html">Installing Contiv Network</a>
-						</li>
-						<li>
-							<a href="/install/netplugin/aci.html">ACI Setup</a>
-						</li>
-						<li class="active">
-							<a href="/install/netplugin/k8s.html">Kubernetes Cluster</a>
-						</li>
-						<li>
-							<a href="/install/netplugin/bgp.html">BGP L3 Setup</a>
-                        </li>
+							<a data-toggle="collapse" href="#collapse110" href="/install/user_guides/getting_started/networking/index.html">Networking</a>
+									<div id="collapse110" class="panel-collapse collapse">
+										<ul class="nav nav-visible">
+											<li>
+													<a href="/install/user_guides/getting_started/networking/vagrant.html"> Development Setup with Vagrant</a>
+											</li>
+											<li>
+													<a href="/install/user_guides/getting_started/networking/mcast.html">Multicast Demonstration</a>
+											</li>
+											<li>
+													<a href="/install/user_guides/getting_started/networking/basic_server_setup.html">Basic Server Setup</a>
+											</li>
+											<li>
+													<a href="/install/user_guides/getting_started/networking/swarm.html">Docker Swarm</a>
+											</li>
+											<li>
+													<a href="/install/user_guides/getting_started/networking/k8s.html">Kubernetes</a>
+											</li>
+											<li>
+													<a href="/install/user_guides/getting_started/networking/mesos.html">Mesos</a>
+											</li>
+											<li>
+													<a href="/install/user_guides/getting_started/networking/nomad.html">Nomad</a>
+											</li>
+											<li>
+													<a href="/install/user_guides/getting_started/networking/bgp.html">BGP</a>
+											</li>
+										</ul>
+									</div>
 
+						</li>
 						<li>
-							<a href="/install/netplugin/mcast.html">Multicast</a>
+							<a data-toggle="collapse" href="#collapse120" href="/install/user_guides/getting_started/network_topologies/index.html">Network Topologies</a>
+							<div id="collapse120" class="panel-collapse collapse">
+								<ul class="nav nav-visible">
+									<li>
+										<a href="/install/user_guides/getting_started/network_topologies/native_routed.html">Native Routing</a>
+									</li>
+									<li>
+										<a href="/install/user_guides/getting_started/network_topologies/native_bridged.html">Native Bridging</a>
+									</li>
+									<li>
+										<a href="/install/user_guides/getting_started/network_topologies/openstack.html">Openstack Deployment</a>
+									</li>
+									<li>
+										<a href="/install/user_guides/getting_started/network_topologies/cloud.html">Cloud Deployment</a>
+									</li>
+									<li>
+										<a href="/install/user_guides/getting_started/network_topologies/vagrant.html">Vagrant Setup</a>
+									</li>
+									<li>
+										<a href="/install/user_guides/getting_started/network_topologies/networking101.html">Containers Networking Tutorial</a>
+									</li>
+									<li>
+										<a href="/install/user_guides/getting_started/network_topologies/bgp.html">BGP</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<a data-toggle="collapse" href="#collapse130" href="/install/user_guides/getting_started/storage/index.html">Storage </a>
+							<div id="collapse130" class="panel-collapse collapse">
+								<ul class="nav">
+									<li><a href="/install/user_guides/getting_started/storage/swarm.html">Docker Swarm</a></li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<a data-toggle="collapse" href="#collapse140" href="/install/user_guides/getting_started/storage_systems/index.html">Storage Systems</a>
+							<div id="collapse140" class="panel-collapse collapse">
+								<ul class="nav">
+									<li><a href="/install/user_guides/getting_started/storage_systems/ceph.html">Ceph</a></li>
+									<li><a href="/install/user_guides/getting_started/storage_systems/nfs.html">NFS</a></li>
+								</ul>
+							</div>
 						</li>
 					</ul>
+				</div>
+				</li>
+				<li><a data-toggle="collapse" href="#collapse200" href="/install/user_guides/networking/index.html">Networking</a>
+					<div id="collapse200" class="panel-collapse collapse">
+						<ul class="nav nav-visible">
+							<li><a href="/install/user_guides/networking/concepts.html">Terminology</a></li>
+							<li><a href="/install/user_guides/networking/networks.html">Networks</a></li>
+							<li><a href="/install/user_guides/networking/tenants.html">Tenants</a></li>
+							<li><a href="/install/user_guides/networking/policies.html">Policies</a></li>
+							<li><a href="/install/user_guides/networking/external_connectivity.html">External Connectivity</a></li>
+							<li><a href="/install/user_guides/networking/service_discovery.html">Service Discovery</a></li>
+							<li><a href="/install/user_guides/networking/ipam.html">IP Address Management</a></li>
+							<li> <a href="/install/user_guides/networking/hybrid_workloads.html">Hybrid Workloads</a></li>
+						</ul>
+					</div>
+				</li>
+				<li><a data-toggle="collapse" href="#collapse300" href="/install/user_guides/storage/index.html">Storage</a>
+					<div id="collapse300" class="panel-collapse collapse">
+						<ul class="nav nav-visible">
+							<li><a href="/install/user_guides/storage/concepts.html">Terminology</a></li>
+							<li><a data-toggle="collapse" href="#collapse320" href="/install/user_guides/storage/policies/index.html">Policies</a></li>
+								<div id="collapse320" class="panel-collapse collapse">
+									<ul class="nav nav-visible">
+										<li>
+											<a href="/install/user_guides/storage/policies/allocation.html">Allocation</a></li>
+										<li>
+											<a href="/install/user_guides/storage/policies/rate_limiting.html">IOPs Rate Limiting</a></li>
+										<li>
+											<a href="/install/user_guides/storage/policies/snapshots.html">Snapshots</a></li>
+										<li>
+											<a href="/install/user_guides/storage/policies/filesystem.html">FileSystem</a></li>
+									</ul>
+								</div>
+							<li><a href="/install/user_guides/storage/ceph.html">Ceph</a></li>
+							<li><a href="/install/user_guides/storage/nfs.html">NFS</a></li>
+							<li><a href="/install/user_guides/storage/disk_management.html">Disk Management</a></li>
+						</ul>
+					</div>
+				</li>
+				<li>
+					<a data-toggle="collapse" href="#collapse400" href="/install/user_guides/cluster/index.html">Cluster</a>
+					<div id="collapse400" class="panel-collapse collapse">
+						<ul class="nav nav-visible">
+								<li><a href="/install/user_guides/cluster/concepts.html">Terminology</a></li>
+								<li><a href="/install/user_guides/cluster/discovery.html">Discovery</a></li>
+								<li><a href="/install/user_guides/cluster/commissioning.html">Commissioning and Decommissioning</a></li>
+						</ul>
+					</div>
+				</li>
+				<hr><p>
+				<h3>Reference</h3>
+					<ul class="nav nav-visible">
+						<li><a href="https://godoc.org/github.com/contiv/netplugin">Network API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client">Storage API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/cluster">Cluster API Reference</a><br></li>
+					</ul>
+				<hr><p>
+				<h3>Examples</h3>
+					<ul class="nav nav-visible">
+						<li><a href="/install/samples/index.html">Example Use Cases</a><br></li>
+					</ul>
+				<hr><p>
+
 				</li>
 			</ul>
 		</div>
@@ -184,41 +307,3 @@ git clone https://github.com/jojimt/contrib -b contiv
 		</div>
 	</div>
 </div>
-
-
-<div id="footer">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-6 col-xs-12">
-        <ul class="footer-links nav navbar-nav">
-          <li><a href="/install/index.html">Getting Started</a></li>
-          <li><a href="http://docs.contiv.io/">Docs</a></li>
-          <li><a href="/articles/index.html">Articles</a></li>
-          <li><a href="https://github.com/contiv">GitHub</a></li>
-        </ul>
-      </div>
-      <div class="footer-contiv col-sm-6 col-xs-12">
-        <div class="pull-right">
-          <a class="contiv-project" href="http://contiv.io">
-              Contiv
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-74790221-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
-
-</body>
-</html>

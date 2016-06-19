@@ -1,9 +1,9 @@
 ---
 layout: "install"
-page_title: "Kubernetes cluster"
+page_title: "Kubernetes Cluster"
 sidebar_current: "getting-started-kubernetes"
 description: |-
-  Setting up kubernetes cluster.
+  Setting up Kubernetes Cluster.
 ---
 
 ## Getting Started with Kubernetes Cluster

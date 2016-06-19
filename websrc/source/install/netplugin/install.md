@@ -1,9 +1,9 @@
 ---
 layout: "install"
-page_title: "Install Netplugin"
+page_title: "Install Contiv Network"
 sidebar_current: "getting-started-install"
 description: |-
-  Installing netplugin.
+  Installing Contiv Network
 ---
 
 ## Contiv Networking on Linux Nodes or VMs

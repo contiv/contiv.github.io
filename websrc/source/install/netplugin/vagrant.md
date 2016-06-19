@@ -1,9 +1,9 @@
 ---
 layout: "install"
-page_title: "Install Netplugin"
+page_title: "Install Contiv Network with Vagrant"
 sidebar_current: "getting-started-vagrant"
 description: |-
-  Installing netplugin.
+  Installing Contiv Network with Vagrant
 ---
 
 ## Getting Started with Vagrant
