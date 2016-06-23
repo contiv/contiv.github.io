@@ -203,7 +203,7 @@
             float: left;
             width: 60%;
             height: 200px;
-            
+
 
             &.swarm-logo{
               background: image-url('docker-swarm-hero2.png') center center no-repeat;
@@ -215,7 +215,11 @@
             }
             &.mesos-logo{
               background: image-url('Apache-Mesos-logo.jpg') center center no-repeat;
-              @include img-retina("Apache-Mesos-logo.jpg", "Apache-Mesos-logo.jpg", 160px, 160px);
+              @include img-retina("Apache-Mesos-logo.jpg", "Apache-Mesos-logo.jpg", 150px, 150px);
+            }
+            &.nomad-logo{
+              background: image-url('nomad.png') center center no-repeat;
+              @include img-retina("nomad.png", "nomad.png", 150px, 150px);
             }
           }
         }

@@ -1,0 +1,1 @@
+$("#collapse1").on("hide.bs.dropdown",function(){return!1}),$("#myDropdown").on("hide.bs.dropdown",function(){return!1});

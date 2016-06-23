@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cluster">
+
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <title>Cluster - Contiv</title>
+
+    <link href="/assets/stylesheets/application-5af9b678.css" rel="stylesheet"/>
+
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+
+    
+  </head>
+
+  <body id="page-Cluster" class=" page-Cluster layout-documents page-sub">
+
+<div id="header" class="navbar-static-top">
+  <div class="container">
+    <div class="row">
+      
+        <div class="navbar-header">
+          <div class="navbar-brand">
+              <a class="logo" href="/">Contiv</a>
+            </a>
+          </div>
+          
+        </div>
+        <div class="buttons hidden-xs">
+          <nav role="navigation">
+            <ul class="main-links nav navbar-nav navbar-left">
+              <li class="first li-under"><a href="/documents/index.html">Documentation</a></li>
+              <li class="li-under"><a href="/articles/index.html">Articles</a></li>
+              <li class="li-under"><a href="https://github.com/contiv" target="_blank">
+                        GitHub
+                        <i class="fa fa-github fa-lg"></i>
+                        </a></li>
+                    <li class="li-under"><a href="https://contiv-slack.herokuapp.com" target="_blank">
+                        Slack
+                        <i class="fa fa-slack fa-lg"></i>
+                        </a></li>
+                    <li><a href="https://twitter.com/projectcontiv" target="_blank">
+                        Twitter
+                        <i class="fa fa-twitter fa-lg"></i>
+                        </a></li>
+            </ul>
+          </nav>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="sidebar-overlay"></div>
+
+
+<aside id="sidebar" class="sidebar sidebar-default sidebar-fixed-right" role="navigation">
+    
+    <div class="sidebar-header header-cover">
+        
+        <div class="sidebar-image">
+            <img src="/assets/images/logo3-a96fcb82.png" width="49px" height="56px">
+        </div>
+    </div>
+
+    
+    <ul class="main nav sidebar-nav">
+        <li class="first"><a href="/intro/index.html">Intro</a></li>
+        <li class=""><a href="/docs/index.html">Docs</a></li>
+    </ul>
+    <div class="divider"></div>
+    
+    <ul class="external nav sidebar-nav">
+        <li class=""><a class="v-btn gray sml" href="https://github.com/contiv"><svg id="svg-download" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" style="enable-background:new 0 0 14 14;">
+  <style>
+  </style>
+  <path class="" d="M13,0H1C0.5,0,0,0.5,0,1v12c0,0.5,0.5,1,1,1h4.7c0,0,0,0,0-0.1c0-0.2,0-0.6,0-1.1c-1.8,0.4-2.2-0.9-2.2-0.9
+    c-0.3-0.8-0.7-1-0.7-1c-0.6-0.4,0-0.4,0-0.4c0.7,0,1,0.7,1,0.7c0.6,1,1.5,0.7,1.9,0.5c0.1-0.4,0.2-0.7,0.4-0.9c-1.5-0.2-3-0.7-3-3.2
+    c0-0.7,0.3-1.3,0.7-1.8C3.7,5.8,3.5,5.1,3.9,4.2c0,0,0.6-0.2,1.8,0.7c0.5-0.1,1.1-0.2,1.6-0.2c0.6,0,1.1,0.1,1.6,0.2
+    c1.3-0.8,1.8-0.7,1.8-0.7c0.4,0.9,0.1,1.6,0.1,1.7c0.4,0.5,0.7,1,0.7,1.8c0,2.5-1.5,3.1-3,3.2C8.7,11.1,9,11.5,9,12.1
+    c0,0.9,0,1.6,0,1.8c0,0,0,0,0,0.1h4c0.5,0,1-0.5,1-1V1C14,0.5,13.5,0,13,0z"/>
+</svg>
+GitHub</a></li>
+    </ul>
+</aside>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-3 col-sm-3 col-xs-12">
+					<div class="docs-sidebar hidden-print affix-top" role="complementary">
+			<hr>
+			<h3>User Guide</h3>
+			<ul class="nav docs-sidenav">
+				<li>
+					<a href="/documents/gettingStarted/index.html">Getting Started</a>
+					<ul class="nav">
+						<li>
+							<a href="/documents/gettingStarted/networking/index.html">Networking</a>
+							<ul class="nav">
+								<li>
+									<a href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<ul class="subnav">
+										<li>
+												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/k8s.html">Kubernetes</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/mesos.html">Mesos</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/nomad.html">Nomad</a>
+										</li>
+									</ul>
+								<li>
+									<a href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<ul class="subnav">
+										<li>
+												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/install-k8s.html">Kubernetes</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/bgp.html">BGP</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="/documents/gettingStarted/storage/storage.html">Storage </a>
+						</li>
+						<li>
+							<a href="/documents/gettingStarted/cluster/index.html">Cluster </a>
+							<ul class="subnav">
+								<li>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+								</li>
+								<li>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/networking/index.html">Networking</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
+						</li>
+						<li>
+								<a href="/documents/networking/policies.html">Policies</a>
+						</li>
+						<li>
+								<a href="/documents/networking/services.html">Service Routing</a>
+						</li>
+						<li>
+								<a href="/documents/networking/physical-networks.html">Physical Networks</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/storage/index.html">Storage</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/storage/architecture.html">Architecture</a>
+						</li>
+						<li>
+								<a href="/documents/storage/configuration.html">Configuration</a>
+						</li>
+						<li>
+								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+						</li>
+						<li>
+								<a href="/documents/storage/volcli.html">Volcli Reference</a>
+						</li>
+					</ul>
+				</li>
+				<li class="active">
+					<a href="/documents/cluster/index.html">Cluster</a>
+					<ul class="nav">
+						<li class="active">
+								<a href="/documents/cluster/concepts.html">Concepts and Terminology</a>
+						</li>
+						<li>
+								<a href="/documents/cluster/node-lifecycle.html">Node Lifecycle Management</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<hr><p>
+			<h3>Tutorials and Talks</h3>
+				<ul class="nav docs-sidenav">
+					<li>
+						<a href="/documents/tutorials/index.html">Tutorials</a>
+						<ul class="nav">
+							<li>
+									<a href="/documents/tutorials/container-101.html">Container Networking Tutorial</a>
+							</li>
+							<li>
+									<a href="/documents/tutorials/contiv-compose.html">Policies with Networking</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="/documents/demos/index.html">Demonstration Videos</a>
+					</li>
+					<li>
+						<a href="/documents/talks/index.html">Community Talks</a>
+					</li>
+				</ul>
+			<hr><p>
+			<h3>Examples</h3>
+				<ul class="nav docs-sidenav">
+					<ul class="subnav">
+						<li>
+							<a href="/documents/samples/index.html">Docker Compose Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/index.html">Kubernetes Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/index.html">Multicast Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/index.html">Nomad Examples</a>
+						</li>
+					</ul>
+				</ul>
+			<hr><p>
+			<h3>Reference</h3>
+				<ul class="nav docs-sidenav">
+					<ul class="subnav">
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Network API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Storage API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/cluster" target="_blank">Cluster API Reference</a><br></li>
+					</ul>
+				</ul>
+			<hr><p>
+		</div>
+
+		</div>  
+		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
+			<div class="bs-docs-section">
+				
+	<h2>Definitions</h2>
+<p>To better understand Contiv Cluster, you should know a few system definitions.</p>
+
+<h3>Node</h3>
+<p>A physical or virtual server with predefined/discovered compute, memory, storage
+and networking capabilities.</p>
+
+<h3>Cluster</h3>
+<p>A collection of one or more nodes running clustering software such as Docker Swarm.
+Nodes may or may not be homogeneous in their capabilities.</p>
+
+<h3>Image</h3>
+<p>An operating system with a <em>minimal set</em> of pre-installed packages used by a node. For instance,
+node automated discovery requires a cluster membership service like <a href="https://www.serfdom.io/">Serf</a>
+to be pre-installed and started on the node&#39;s operating system during bootstrapping.</p>
+
+<h3>Bootstrap</h3>
+<p><strong>Node Bootstrap</strong>: The process of installing the node image and booting the node for the first time.</p>
+<p><strong>Cluster Bootstrap</strong>: The process of adding one or more bootstrapped nodes to the cluster for the first time.</p>
+
+<h3>Lifecycle</h3>
+<p>A collection of well-defined states that a node or cluster transitions through based on system events.</p>
+
+<h3>Infra Service</h3>
+<p>A userspace application or a kernel module that runs on a node and provides a support service to
+the clustering system software. Examples include plugins, drivers, or components for networking
+and storage, key/value stores, etc..</p>
+
+<h2>Features</h2>
+<p>Contiv Cluster provides the following features. Not all features are implemented, or will be
+implemented in the initial release. Please review the <a href="management/ROADMAP.md">Roadmap</a> or
+continue reading to understand individual feature status.
+- Node discovery to simplify cluster bootstrapping and expansion
+- Cluster management
+  - <a href="#inventory">Inventory</a>
+    - Discovery
+    - Node state database
+  - <a href="#node-image-management">Node image management</a>
+    - Install
+    - Upgrade
+  - <a href="#node-configuration-management">Node configuration management</a>
+    - Clustering software components (swarm-agent, etc)
+    - Infrastructure software components (ovs, serf, consul/etcd, etc)
+    - Contiv infrastructure services (netmaster/netplugin and volmaster/volplugin)
+  - <a href="#bootstrap-1">Bootstrap</a>
+    - Node
+    - Cluster
+  - <a href="#lifecycle-1">Lifecycle</a>
+    - Node
+    - Cluster</p>
+<p>The rest of the the document details the <strong>cluster management</strong> features that were
+briefly listed above. Use the <a href="management/DESIGN.md">Design Guide</a> to better understand the
+technical details of Contiv Cluster or use the <a href="management/README.md">Installation and Operations Guide</a>
+to start using the system.</p>
+
+<h2>Inventory</h2>
+<p>Inventory management provides:
+- <strong>Cluster Membership Management</strong>: Automatically discovers nodes and tracks discovery status.
+- <strong>Node State Database</strong>: Tracks the current state of the node within the cluster.
+Node states consist of the following:</p>
+
+<ul>
+<li><strong>New</strong>: A node that has not completed the bootstrap and discovery process.
+</li>
+<li><strong>Discovered</strong>: A node has completed bootstrapping and notifies the Cluster Manager. The node waits to be Commissioned.
+</li>
+<li><strong>Commissioned</strong>: A node has been configured to participate in the cluster.
+</li>
+<li><strong>Upgraded</strong>: One or more node components have been successfully upgraded and the node is ready to participate in the cluster.
+</li>
+<li><strong>Decommissioned</strong>: All configuration and software components have been removed and the node no longer participates in the cluster.
+</li>
+</ul>
+
+<h2>Node Image Management</h2>
+<p>Node Image Management provides:
+- <strong>Image Repository</strong>: A central location reachable by nodes, where images are hosted. Images are delivered to nodes using mechanisms such as PXE.
+- <strong>Image Installation</strong>: Automates the image installation of new nodes.
+- <strong>Upgrades</strong>: Automates the process of upgrading the node image. Upgrades can be automatically triggered and can be performed cluster-wide or rolling.</p>
+<p><strong>Note:</strong> Node Image Management features are <strong>not</strong> included in the initial release of Contiv Cluster.
+Operators are responsible for node bootstrapping, including image provisioning.</p>
+
+<h2>Node Configuration Management</h2>
+<p>Node Configuration Management provides:
+- <strong>Configuration Repository</strong>: A central location for hosting node configuration files.
+The configuration is used to automate the deployment of nodes.
+- <strong>Configuration Push</strong>: The configuration of nodes is pushed from Cluster Manager to nodes.
+- <strong>Configuration Cleanup</strong>: Configuration files, service, packages, etc. are removed from nodes.
+- <strong>Configuration Verification</strong>: Checks to ensure that the node configuration is truly functional.
+- <strong>Configuration Upgrade</strong>: Automates the process of upgrading node software components.
+Upgrades can be automatically triggered and can be performed cluster-wide or rolling.
+- <strong>Role/Group-Based Configuration</strong>: Nodes can be assigned a group or role.
+Role/Group-Based configuration selectively manages services on nodes statically by the
+operator or dynamically based on service availability policy.</p>
+<p><strong>Note:</strong> Dynamic role assignment is <strong>not</strong> supported in initial release of Contiv Cluster.</p>
+
+<h2>Bootstrap</h2>
+<p>Bootstrap involves provisioning a node or cluster for the first time.</p>
+
+<h3>Node</h3>
+<p>Contiv Cluster provides the following node bootstrapping capabilities:
+- Installing the base image
+- Performing initial configurations such as disk partitioning
+- Assigning an IP address
+- Configuring user credentials and permissions to perform configuration management tasks
+- Starting infrastructure services such as Serf</p>
+<p><strong>Note:</strong> To start simple this feature is <strong>not</strong> provided as part of initial release of Contiv Cluster.</p>
+<p>Operators are responsible for node bootstrapping, including image provisioning.</p>
+
+<h3>Cluster</h3>
+<p>The cluster bootstrap installs and configures clustering software components such as swarm-master
+(for Docker Swarm) to the first bootstrapped node with parameters such as:
+- Configuration management parameters such as user information, configuration repository
+- Inventory management parameters such as database url</p>
+
+<h2>Lifecycle</h2>
+<p>Lifecycle management involves integrating multiple cluster and node management tasks at a
+central location to simplify monitoring and administration of the cluster.</p>
+
+<h3>Node</h3>
+<p>Node lifecycle management provides:
+- <strong>Bootstrap</strong>: Remotely provision a node&#39;s image from a central location. <em>As described
+above this feature is not provided in initial release of the Contiv Cluster.</em>
+- <strong>Cluster Membership</strong>: Automatically track cluster&#39;s membership of reachable and unreachable nodes.
+- <strong>Commission</strong>: Remotely provision a node&#39;s clustering software, configuration, etc..
+Optionally commission newly discovered nodes automatically.
+- <strong>Upgrade</strong>: Remotely upgrade the image or a software component of a commissioned node.
+Optionally upgrade nodes when a configuration repository changes.
+- <strong>Decommission</strong>: Automatically remove configuration, software components, etcd from a commissioned node.
+- <strong>Batch operations</strong>: Commission, upgrade or decommission all or a subset number of nodes.
+- <strong>Reloads</strong>: In event event of a node reload or unreachability event, verify the node configuration
+and automate corrective actions.</p>
+
+<h3>Cluster</h3>
+<p>The following Cluster management capabilities are provided by Contiv Cluster:
+- <strong>Bootstrap</strong>: Remotely bootstrapping a cluster.
+- <strong>High Availability</strong>: The cluster manager service is available as long as one node is running
+in the cluster.</p>
+
+
+			</div>
+		</div>
+	</div>
+</div>

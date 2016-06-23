@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Setting up a Swarm Cluster.">
+
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <title>Swarm Cluster - Contiv</title>
+
+    <link href="/assets/stylesheets/application-5af9b678.css" rel="stylesheet"/>
+
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+
+    
+  </head>
+
+  <body id="page-Swarm Cluster" class=" page-Swarm Cluster layout-documents page-sub">
+
+<div id="header" class="navbar-static-top">
+  <div class="container">
+    <div class="row">
+      
+        <div class="navbar-header">
+          <div class="navbar-brand">
+              <a class="logo" href="/">Contiv</a>
+            </a>
+          </div>
+          
+        </div>
+        <div class="buttons hidden-xs">
+          <nav role="navigation">
+            <ul class="main-links nav navbar-nav navbar-left">
+              <li class="first li-under"><a href="/documents/index.html">Documentation</a></li>
+              <li class="li-under"><a href="/articles/index.html">Articles</a></li>
+              <li class="li-under"><a href="https://github.com/contiv" target="_blank">
+                        GitHub
+                        <i class="fa fa-github fa-lg"></i>
+                        </a></li>
+                    <li class="li-under"><a href="https://contiv-slack.herokuapp.com" target="_blank">
+                        Slack
+                        <i class="fa fa-slack fa-lg"></i>
+                        </a></li>
+                    <li><a href="https://twitter.com/projectcontiv" target="_blank">
+                        Twitter
+                        <i class="fa fa-twitter fa-lg"></i>
+                        </a></li>
+            </ul>
+          </nav>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="sidebar-overlay"></div>
+
+
+<aside id="sidebar" class="sidebar sidebar-default sidebar-fixed-right" role="navigation">
+    
+    <div class="sidebar-header header-cover">
+        
+        <div class="sidebar-image">
+            <img src="/assets/images/logo3-a96fcb82.png" width="49px" height="56px">
+        </div>
+    </div>
+
+    
+    <ul class="main nav sidebar-nav">
+        <li class="first"><a href="/intro/index.html">Intro</a></li>
+        <li class=""><a href="/docs/index.html">Docs</a></li>
+    </ul>
+    <div class="divider"></div>
+    
+    <ul class="external nav sidebar-nav">
+        <li class=""><a class="v-btn gray sml" href="https://github.com/contiv"><svg id="svg-download" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" style="enable-background:new 0 0 14 14;">
+  <style>
+  </style>
+  <path class="" d="M13,0H1C0.5,0,0,0.5,0,1v12c0,0.5,0.5,1,1,1h4.7c0,0,0,0,0-0.1c0-0.2,0-0.6,0-1.1c-1.8,0.4-2.2-0.9-2.2-0.9
+    c-0.3-0.8-0.7-1-0.7-1c-0.6-0.4,0-0.4,0-0.4c0.7,0,1,0.7,1,0.7c0.6,1,1.5,0.7,1.9,0.5c0.1-0.4,0.2-0.7,0.4-0.9c-1.5-0.2-3-0.7-3-3.2
+    c0-0.7,0.3-1.3,0.7-1.8C3.7,5.8,3.5,5.1,3.9,4.2c0,0,0.6-0.2,1.8,0.7c0.5-0.1,1.1-0.2,1.6-0.2c0.6,0,1.1,0.1,1.6,0.2
+    c1.3-0.8,1.8-0.7,1.8-0.7c0.4,0.9,0.1,1.6,0.1,1.7c0.4,0.5,0.7,1,0.7,1.8c0,2.5-1.5,3.1-3,3.2C8.7,11.1,9,11.5,9,12.1
+    c0,0.9,0,1.6,0,1.8c0,0,0,0,0,0.1h4c0.5,0,1-0.5,1-1V1C14,0.5,13.5,0,13,0z"/>
+</svg>
+GitHub</a></li>
+    </ul>
+</aside>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-3 col-sm-3 col-xs-12">
+					<div class="docs-sidebar hidden-print affix-top" role="complementary">
+			<hr>
+			<h3>User Guide</h3>
+			<ul class="nav docs-sidenav">
+				<li class="active">
+					<a href="/documents/gettingStarted/index.html">Getting Started</a>
+					<ul class="nav">
+						<li class="active">
+							<a href="/documents/gettingStarted/networking/index.html">Networking</a>
+							<ul class="nav">
+								<li class="active">
+									<a href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<ul class="subnav">
+										<li class="active">
+												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/k8s.html">Kubernetes</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/mesos.html">Mesos</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/nomad.html">Nomad</a>
+										</li>
+									</ul>
+								<li>
+									<a href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<ul class="subnav">
+										<li>
+												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/install-k8s.html">Kubernetes</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/bgp.html">BGP</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="/documents/gettingStarted/storage/storage.html">Storage </a>
+						</li>
+						<li>
+							<a href="/documents/gettingStarted/cluster/index.html">Cluster </a>
+							<ul class="subnav">
+								<li>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+								</li>
+								<li>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/networking/index.html">Networking</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
+						</li>
+						<li>
+								<a href="/documents/networking/policies.html">Policies</a>
+						</li>
+						<li>
+								<a href="/documents/networking/services.html">Service Routing</a>
+						</li>
+						<li>
+								<a href="/documents/networking/physical-networks.html">Physical Networks</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/storage/index.html">Storage</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/storage/architecture.html">Architecture</a>
+						</li>
+						<li>
+								<a href="/documents/storage/configuration.html">Configuration</a>
+						</li>
+						<li>
+								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+						</li>
+						<li>
+								<a href="/documents/storage/volcli.html">Volcli Reference</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/cluster/index.html">Cluster</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/cluster/concepts.html">Concepts and Terminology</a>
+						</li>
+						<li>
+								<a href="/documents/cluster/node-lifecycle.html">Node Lifecycle Management</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<hr><p>
+			<h3>Tutorials and Talks</h3>
+				<ul class="nav docs-sidenav">
+					<li>
+						<a href="/documents/tutorials/index.html">Tutorials</a>
+						<ul class="nav">
+							<li>
+									<a href="/documents/tutorials/container-101.html">Container Networking Tutorial</a>
+							</li>
+							<li>
+									<a href="/documents/tutorials/contiv-compose.html">Policies with Networking</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="/documents/demos/index.html">Demonstration Videos</a>
+					</li>
+					<li>
+						<a href="/documents/talks/index.html">Community Talks</a>
+					</li>
+				</ul>
+			<hr><p>
+			<h3>Examples</h3>
+				<ul class="nav docs-sidenav">
+					<ul class="subnav">
+						<li>
+							<a href="/documents/samples/index.html">Docker Compose Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/index.html">Kubernetes Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/index.html">Multicast Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/index.html">Nomad Examples</a>
+						</li>
+					</ul>
+				</ul>
+			<hr><p>
+			<h3>Reference</h3>
+				<ul class="nav docs-sidenav">
+					<ul class="subnav">
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Network API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Storage API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/cluster" target="_blank">Cluster API Reference</a><br></li>
+					</ul>
+				</ul>
+			<hr><p>
+		</div>
+
+		</div>  
+		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
+			<div class="bs-docs-section">
+				
+	<h1>Using Contiv Network with Docker Swarm in Vagrant Environment</h1>
+<p>This page describes how to quickly create a virtual environment
+using the Vagrant environment setup tool. You then demonstrate
+some of the features of Docker and Contiv such as creating container,
+networks, and policies.</p>
+
+<h2>Prerequisites</h2>
+<p>Before you can install the virtual environment, you must have the following
+software packages on your machine:</p>
+
+<ul>
+<li>VirtualBox 5.0.2 or later
+</li>
+<li>Vagrant 1.7.4
+</li>
+<li>Make
+</li>
+</ul>
+
+<h2>Step 1: Start the Virtual Environment</h2>
+<p>The following three commands are all you need to clone the repository and start the VMs:</p>
+<pre class="highlight plaintext"><code>$ git clone https://github.com/contiv/netplugin
+$ cd netplugin; make demo
+$ vagrant ssh netplugin-node1
+</code></pre>
+<p>These commands start a cluster of two VMs running Docker and Contiv Network, and log
+you into one of the VMs.</p>
+
+<h2>Step 2: Create a Network</h2>
+<p>Use the following command to create a network:</p>
+<pre class="highlight plaintext"><code>netplugin-node1$ netctl net create contiv-net --subnet=20.1.1.0/24 --gateway=20.1.1.254 --pkt-tag=1001
+</code></pre>
+
+<h2>Step 2: Run Containers on Two Hosts</h2>
+<p>Start a Docker container on the node you just logged into:</p>
+<pre class="highlight plaintext"><code>netplugin-node1$ Docker run -itd --name=web --net=contiv-net ubuntu /bin/bash
+</code></pre>
+<p>In another shell window, log into the second VM and start another Docker container:</p>
+<pre class="highlight plaintext"><code>$ vagrant ssh netplugin-node1
+netplugin-node2$ docker run -itd --name=db --net=contiv-net ubuntu /bin/bash
+</code></pre>
+<p>On node1, log into the container and ping the container on node2:</p>
+<pre class="highlight plaintext"><code>netplugin-node1$ docker exec -it web /bin/bash
+&lt; inside the container &gt;
+root@f90e7fd409c4:/# ping db
+PING db (20.1.1.3) 56(84) bytes of data.
+64 bytes from db (20.1.1.3): icmp_seq=1 ttl=64 time=0.658 ms
+64 bytes from db (20.1.1.3): icmp_seq=2 ttl=64 time=0.103 ms
+</code></pre>
+
+<h2>Step 3: Create a Policy</h2>
+<p>Type the following to create a policy named <code>prod_web</code>:</p>
+<pre class="highlight plaintext"><code>$ netctl policy create prod_web
+</code></pre>
+
+<h2>Step 2: Add Rules to the Policy</h2>
+<p>The following three commands add a default-deny rule to drop all incoming TCP
+connections and two rules to explicitly allow traffic on ports 80 and 443.</p>
+<pre class="highlight plaintext"><code>$ netctl policy rule-add prod_web 1 -direction=in -protocol=tcp -action=deny
+$ netctl policy rule-add prod_web 2 -direction=in -protocol=tcp -port=80 -action=allow -priority=10
+$ netctl policy rule-add prod_web 3 -direction=in -protocol=tcp -port=443 -action=allow -priority=10
+</code></pre>
+
+<h2>Step 3: Create an Endpoint Group</h2>
+<p>An endpoint group (EPG) is a collection of containers&#39; interfaces on a network. You create an endpoint
+group, then assign nodes to it.</p>
+<p>Use the following command to create an endpoint group named <code>web</code> in network <code>contiv-net</code> and attach the
+<code>prod_web</code> policy to it.</p>
+<pre class="highlight plaintext"><code>$ netctl group create contiv-net web -policy=prod_web
+</code></pre>
+<p><em>Note</em>: Every endpoint group creates a seperate Docker network of the form <code>&lt;endpoint-group-name&gt;.&lt;network-name&gt;</code>.
+You can attach containers to these endpoint groups using the <code>--net</code> option in the <code>docker run</code> command.</p>
+
+<h2>Step 4: Attach a Container</h2>
+<p>Next, run a container and attach it to the endpoint group.
+The following command runs a Docker container and attaches it to the <code>web</code> EPG
+in the <code>contiv-net</code> network.</p>
+<pre class="highlight plaintext"><code>$ docker run -itd --net web.contiv-net ubuntu bash
+</code></pre>
+
+<h2>Using Netplugin with Docker Swarm</h2>
+<p>Docker Swarm is a scheduler that schedules containers to multiple hosts. Netplugin is a Docker network plugin that provides multi host networking.</p>
+<p>Docker + Swarm + Netplugin == Awesome!!</p>
+
+<h3>Using swarm</h3>
+<p>Netplugin vagrant setup comes pre-installed with Docker swarm.
+Set the following environment variable to make Docker client talk to Swarm</p>
+<pre class="highlight plaintext"><code>export DOCKER_HOST=tcp://192.168.2.10:2375
+</code></pre>
+<p>Now, you should be able to see the information about the swarm cluster</p>
+<pre class="highlight plaintext"><code>$ docker info
+Containers: 0
+Images: 5
+Engine Version:
+Role: primary
+Strategy: spread
+Filters: affinity, health, constraint, port, dependency
+Nodes: 2
+ netplugin-node1: 192.168.2.10:2385
+  └ Containers: 0
+  └ Reserved CPUs: 0 / 4
+  └ Reserved Memory: 0 B / 2.051 GiB
+  └ Labels: executiondriver=native-0.2, kernelversion=4.0.0-040000-generic, operatingsystem=Ubuntu 15.04, storagedriver=devicemapper
+ netplugin-node2: 192.168.2.11:2385
+  └ Containers: 0
+  └ Reserved CPUs: 0 / 4
+  └ Reserved Memory: 0 B / 2.051 GiB
+  └ Labels: executiondriver=native-0.2, kernelversion=4.0.0-040000-generic, operatingsystem=Ubuntu 15.04, storagedriver=devicemapper
+CPUs: 8
+Total Memory: 4.103 GiB
+Name: netplugin-node1
+No Proxy: 192.168.0.0/16,localhost,127.0.0.0/8
+</code></pre>
+<p>Next, you can see if there are any containers running in the cluster</p>
+<pre class="highlight plaintext"><code>$ docker ps
+CONTAINER ID        IMAGE                          COMMAND             CREATED             STATUS              PORTS               NAMES
+4dd09bc36875        ubuntu                         "bash"              52 minutes ago      Up 52 minutes                           netplugin-node1/reverent_allen
+18bdc2cde778        skynetservices/skydns:latest   "/skydns"           3 hours ago         Up 3 hours          53/udp, 53/tcp      netplugin-node1/defaultdns
+
+</code></pre>
+<p>You can run containers and attach them to contiv networks or endpoint groups just like before.</p>
+<pre class="highlight plaintext"><code>$ docker run -itd --net web.contiv-net ubuntu bash
+f291e269b45a5877f6fc952317feb329e12a99bda3a44a740b4c3307ef87954c
+</code></pre>
+<p>Here, <code>docker run</code> happens against the swarm cluster. Swarm schedules the container to one of the nodes and netplugin on that node sets up the networking and policies just like before.</p>
+
+
+			</div>
+		</div>
+	</div>
+</div>
