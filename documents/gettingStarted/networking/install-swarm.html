@@ -12,7 +12,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <title>Swarm Cluster - Contiv</title>
 
-    <link href="/assets/stylesheets/application-5af9b678.css" rel="stylesheet"/>
+    <link href="/assets/stylesheets/application-dec38a48.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
@@ -132,6 +132,9 @@ GitHub</a></li>
 										</li>
 										<li>
 												<a href="/documents/gettingStarted/networking/bgp.html">BGP</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/aci.html">Cisco ACI</a>
 										</li>
 									</ul>
 								</li>
@@ -288,19 +291,18 @@ Total Memory: 4.103 GiB
 Name: netplugin-node1
 No Proxy: 192.168.0.0/16,localhost,127.0.0.0/8
 </code></pre>
-<p>Next, you can see if there are any containers running in the cluster
-```
-$ docker ps
+<p>Next, you can see if there are any containers running in the cluster</p>
+<pre class="highlight plaintext"><code>$ docker ps
 CONTAINER ID        IMAGE                          COMMAND             CREATED             STATUS              PORTS               NAMES
-4dd09bc36875        ubuntu                         &quot;bash&quot;              52 minutes ago      Up 52 minutes                           netplugin-node1/reverent_allen
-18bdc2cde778        skynetservices/skydns:latest   &quot;/skydns&quot;           3 hours ago         Up 3 hours          53/udp, 53/tcp      netplugin-node1/defaultdns</p>
-<pre class="highlight plaintext"><code>
-You can run containers and attach them to contiv networks or endpoint groups just like before.
+4dd09bc36875        ubuntu                         "bash"              52 minutes ago      Up 52 minutes                           netplugin-node1/reverent_allen
+18bdc2cde778        skynetservices/skydns:latest   "/skydns"           3 hours ago         Up 3 hours          53/udp, 53/tcp      netplugin-node1/defaultdns
+
 </code></pre>
-<p>$ docker run -itd --net web.contiv-net ubuntu bash
+<p>You can run containers and attach them to contiv networks or endpoint groups just like before.</p>
+<pre class="highlight plaintext"><code>$ docker run -itd --net web.contiv-net ubuntu bash
 f291e269b45a5877f6fc952317feb329e12a99bda3a44a740b4c3307ef87954c
-``<code>
-Here,</code>docker run` happens against the swarm cluster. Swarm schedules the container to one of the nodes and netplugin on that node sets up the networking and policies just like before.</p>
+</code></pre>
+<p>Here, <code>docker run</code> happens against the swarm cluster. Swarm schedules the container to one of the nodes and netplugin on that node sets up the networking and policies just like before.</p>
 
 
 			</div>

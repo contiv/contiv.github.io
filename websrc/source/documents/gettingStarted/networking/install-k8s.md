@@ -6,54 +6,63 @@ description: |-
   Setting up Kubernetes cluster
 ---
 
-## Getting Started with Kubernetes Cluster
+####Pre-requisites
+Machines running CentOS 7.2, connected to network, with at least two
+interfaces (3 if possible).
 
-This page describes how to set up a Contiv cluster using Kubernetes.
+Before starting, please be sure to set http/https proxies if your network requires it.
+*(Note that `https_proxy` should be set to point to a `http://` URL (not `https://`).
+This is an ansible requirement.)*
 
-## Prerequisites
-* Install CentOS 7.2 on each of your servers used for the Contiv cluster.
-* Ensure that each server has at least two, and preferably three, interfaces.
-* Choose a server that is on the management network and has Ansible installed. Run the install procedure below on this node.
-* If required by your network, set HTTP and HTTPS proxies. Direct the HTTPS proxy to an **http://** URL (not **https://**); this is an Ansible requirement.
+Pick a machine that is on the management network and has ansible installed
+to run the following steps.
 
-### Step 1: Clone the repository
+The setup scripts use python module *netaddr* and linux utility `bzip2`. If these are not
+installed on the machine where you are executing these steps, you must install them
+before proceeding. *(E.g. `yum install bzip2; pip install netaddr`)*
 
-Clone the **git** repository containing the Contiv files.  
+Note on *login_userid*: Ansible requires ssh to access the nodes in the cluster for
+configuration. This requires a single userid that can log into each of the machines
+AND has sudo permission.
+
+###Step 1 Clone the contiv/demo repo
 
 ```
 git clone https://github.com/contiv/demo
 ```
 
-### Step 2: Clone the contrib repository
-
-Clone the **git** repository containing the Kubernetes contributed code.
+###Step 2 Clone the contrib repo
 
 ```
 cd demo/k8s;
+
 git clone https://github.com/jojimt/contrib -b contiv
 ```
 
-### Step 3: Configure the cluster information
-Edit **cluster_defs.json** to reflect your cluster information. See **cluster_defs.json.README** for instructions.
 
-### Step 4 Prepare the nodes
-Create an RSA key and save it in the working directory as **id_rsa.pub**.
+###Step 3 Fill in cluster info
+edit `cluster_defs.json`
 
-```
-ssh-keygen -t rsa
-./prepare.sh
-```
+See `cluster_defs.json.README` for instructions
 
-### Step 5 Create the cluster
-Run the setup script:
+If you need ACI integration, edit *aci.yml*. See [here](aci.html) for more details.
+
+###Step 4 Prepare machines
 
 ```
-./setup_k8s_cluster.sh
+./prepare.sh <login_userid>
 ```
+Supply login password when prompted.
 
-### Step 6 Verify cluster
-Run the verification script:
+###Step 5 Create cluster
 
 ```
-./verify_cluster.sh
+./setup_k8s_cluster.sh <login_userid>
 ```
+Supply login password when prompted.
+
+###Step 6 Verify cluster
+```
+./verify_cluster.sh <login_userid>
+```
+Supply login password when prompted.

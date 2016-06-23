@@ -12,7 +12,6 @@ We are excited to annouce that last week Open Networking User Group (ONUG) selec
 
 For more information about this award, visit ONUG at http://opennetworkingusergroup.com/onug-announces-winner-of-grand-challenge-hackathon/  
 
-We are honored to receive this award from such a prestigious user group.The ONUG Board is composed of IT leaders from Bank of America, BNY Mellon, Cigna, Citigroup, Credit Suisse, FedEx, Fidelity Investments, Gap Inc., GE, Intuit, JPMorgan Chase, the Lippis Report, Morgan Stanley, Pfizer, UBS, and Yahoo. 
+We are honored to receive this award from such a prestigious user group.The ONUG Board is composed of IT leaders from Bank of America, BNY Mellon, Cigna, Citigroup, Credit Suisse, FedEx, Fidelity Investments, Gap Inc., GE, Intuit, JPMorgan Chase, the Lippis Report, Morgan Stanley, Pfizer, UBS, and Yahoo.
 
-For more on ONUG, go to http://opennetworkingusergroup.com 
-
+For more on ONUG, go to http://opennetworkingusergroup.com

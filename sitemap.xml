@@ -67,6 +67,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>http://contiv.io/documents/gettingStarted/networking/aci.html</loc>
+    <lastmod>2016-06-22T00:00:00-07:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>http://contiv.io/documents/gettingStarted/networking/bgp.html</loc>
     <lastmod>2016-06-22T00:00:00-07:00</lastmod>
     <changefreq>monthly</changefreq>
@@ -193,7 +199,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://contiv.io/documents/storage/volcli.html</loc>
+    <loc>http://contiv.io/documents/storage/</loc>
     <lastmod>2016-06-22T00:00:00-07:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -229,7 +235,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://contiv.io/documents/storage/</loc>
+    <loc>http://contiv.io/documents/storage/volcli.html</loc>
     <lastmod>2016-06-22T00:00:00-07:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

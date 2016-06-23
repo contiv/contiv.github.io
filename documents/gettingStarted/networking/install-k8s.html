@@ -12,7 +12,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <title>Kubernetes cluster - Contiv</title>
 
-    <link href="/assets/stylesheets/application-5af9b678.css" rel="stylesheet"/>
+    <link href="/assets/stylesheets/application-dec38a48.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
@@ -132,6 +132,9 @@ GitHub</a></li>
 										</li>
 										<li>
 												<a href="/documents/gettingStarted/networking/bgp.html">BGP</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/aci.html">Cisco ACI</a>
 										</li>
 									</ul>
 								</li>
@@ -254,51 +257,50 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h2>Getting Started with Kubernetes Cluster</h2>
-<p>This page describes how to set up a Contiv cluster using Kubernetes.</p>
+	<h4>Pre-requisites</h4>
+<p>Machines running CentOS 7.2, connected to network, with at least two
+interfaces (3 if possible).</p>
+<p>Before starting, please be sure to set http/https proxies if your network requires it.
+<em>(Note that <code>https_proxy</code> should be set to point to a <code>http://</code> URL (not <code>https://</code>).
+This is an ansible requirement.)</em></p>
+<p>Pick a machine that is on the management network and has ansible installed
+to run the following steps.</p>
+<p>The setup scripts use python module <em>netaddr</em> and linux utility <code>bzip2</code>. If these are not
+installed on the machine where you are executing these steps, you must install them
+before proceeding. <em>(E.g. <code>yum install bzip2; pip install netaddr</code>)</em></p>
+<p>Note on <em>login_userid</em>: Ansible requires ssh to access the nodes in the cluster for
+configuration. This requires a single userid that can log into each of the machines
+AND has sudo permission.</p>
 
-<h2>Prerequisites</h2>
-
-<ul>
-<li>Install CentOS 7.2 on each of your servers used for the Contiv cluster.
-</li>
-<li>Ensure that each server has at least two, and preferably three, interfaces.
-</li>
-<li>Choose a server that is on the management network and has Ansible installed. Run the install procedure below on this node.
-</li>
-<li>If required by your network, set HTTP and HTTPS proxies. Direct the HTTPS proxy to an <strong>http://</strong> URL (not <strong>https://</strong>); this is an Ansible requirement.
-</li>
-</ul>
-
-<h3>Step 1: Clone the repository</h3>
-<p>Clone the <strong>git</strong> repository containing the Contiv files.</p>
+<h3>Step 1 Clone the contiv/demo repo</h3>
 <pre class="highlight plaintext"><code>git clone https://github.com/contiv/demo
 </code></pre>
 
-<h3>Step 2: Clone the contrib repository</h3>
-<p>Clone the <strong>git</strong> repository containing the Kubernetes contributed code.</p>
+<h3>Step 2 Clone the contrib repo</h3>
 <pre class="highlight plaintext"><code>cd demo/k8s;
+
 git clone https://github.com/jojimt/contrib -b contiv
 </code></pre>
 
-<h3>Step 3: Configure the cluster information</h3>
-<p>Edit <strong>cluster_defs.json</strong> to reflect your cluster information. See <strong>cluster_defs.json.README</strong> for instructions.</p>
+<h3>Step 3 Fill in cluster info</h3>
+<p>edit <code>cluster_defs.json</code></p>
+<p>See <code>cluster_defs.json.README</code> for instructions</p>
+<p>If you need ACI integration, edit <em>aci.yml</em>. See <a href="/documents/gettingStarted/networking/aci.html">here</a> for more details.</p>
 
-<h3>Step 4 Prepare the nodes</h3>
-<p>Create an RSA key and save it in the working directory as <strong>id_rsa.pub</strong>.</p>
-<pre class="highlight plaintext"><code>ssh-keygen -t rsa
-./prepare.sh
+<h3>Step 4 Prepare machines</h3>
+<pre class="highlight plaintext"><code>./prepare.sh &lt;login_userid&gt;
 </code></pre>
+<p>Supply login password when prompted.</p>
 
-<h3>Step 5 Create the cluster</h3>
-<p>Run the setup script:</p>
-<pre class="highlight plaintext"><code>./setup_k8s_cluster.sh
+<h3>Step 5 Create cluster</h3>
+<pre class="highlight plaintext"><code>./setup_k8s_cluster.sh &lt;login_userid&gt;
 </code></pre>
+<p>Supply login password when prompted.</p>
 
 <h3>Step 6 Verify cluster</h3>
-<p>Run the verification script:</p>
-<pre class="highlight plaintext"><code>./verify_cluster.sh
+<pre class="highlight plaintext"><code>./verify_cluster.sh &lt;login_userid&gt;
 </code></pre>
+<p>Supply login password when prompted.</p>
 
 
 			</div>

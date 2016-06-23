@@ -47,6 +47,7 @@ No Proxy: 192.168.0.0/16,localhost,127.0.0.0/8
 ```
 
 Next, you can see if there are any containers running in the cluster
+
 ```
 $ docker ps
 CONTAINER ID        IMAGE                          COMMAND             CREATED             STATUS              PORTS               NAMES
@@ -56,6 +57,7 @@ CONTAINER ID        IMAGE                          COMMAND             CREATED  
 ```
 
 You can run containers and attach them to contiv networks or endpoint groups just like before.
+
 ```
 $ docker run -itd --net web.contiv-net ubuntu bash
 f291e269b45a5877f6fc952317feb329e12a99bda3a44a740b4c3307ef87954c

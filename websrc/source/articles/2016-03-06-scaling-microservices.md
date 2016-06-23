@@ -8,7 +8,7 @@ date_str: "Mar 2016"
 
 # Scaling Microservices with Contiv
 
-Enterprises are moving their applications from monolithic architectures to Microservices architectures. When they are thinking about Microservices, they are also considering containerizing their applications. In this article, we’ll discuss some of the scale challenges of deploying containerized microservices. READMORE
+Enterprises are moving their applications from monolithic architectures to Microservices architectures. When they are thinking about Microservices, they are also considering containerizing their applications. In this article, we’ll discuss some of the scale challenges of deploying containerized microservices.
 
 There are two aspects of scaling. One is the operational aspect. How to operate large number of Microservices or containers with small number of human operators? How do you increase containers to human ratio( a ratio made popular by google)? Often this aspect gets ignored. You want to be thinking about 10s of thousands of containers per human operators. You should be embracing devops culture. You should think about self service deployments. If your developers need to file a ticket to provision something, you have already lost the battle. You should be thinking about deploying Microservices in seconds instead of hours.
 Another aspect of scaling is the architectural aspect. How do you build large clusters? How do you deploy more number of containers per node? How can you deploy more containers per second? How can you serve more traffic from a container? How can you improve response time of your application?

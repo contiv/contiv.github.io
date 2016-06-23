@@ -5,17 +5,33 @@ sidebar_current: "docs-home"
 description: |-
   Welcome to the Contiv documentation!
 ---
+# Documentation Home
 
-# [User Guides](user_guides)
+## User Guides
 Find information about Contiv design, archtecture, and components, as well as getting started
 guides.
 
-# [API Reference](api)
-REST APIs. Tip: The command line interface (CLI) mirrors the APIs, so you can try out Contiv
-commands without writing a program.
+- [Getting started](/documents/gettingStarted)
+- [Networking](/documents/networking)
+- [Storage](/documents/storage)
+- [Cluster](/documents/cluster)
 
-# [Samples](samples)
+## Tutorials and Talks
+- [Totorials](/documents/tutorials)
+- [Demostration Videos](/documents/demos)
+- [Community Talks](/documents/talks)
+
+
+## Examples
 Short but practical implementations to help you get started.
 
-# Support
+- [Docker compose examples](/documents/samples)
+- [Kubernetes examples](/documents/samples)
+- [Multicast examples](/documents/samples)
+- [Nomad examples](/documents/samples)
+
+
+## Support
 Where to find help for the open source Contiv project.
+
+- <a href="https://contiv-slack.herokuapp.com" target="_blank"> Login to Contiv Slack Channel </a>

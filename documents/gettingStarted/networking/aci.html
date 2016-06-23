@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Setting up a Swarm Cluster.">
+    <meta name="description" content="Setting up Kubernetes cluster">
 
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <title>Swarm Cluster - Contiv</title>
+    <title>Kubernetes cluster - Contiv</title>
 
     <link href="/assets/stylesheets/application-dec38a48.css" rel="stylesheet"/>
 
@@ -19,7 +19,7 @@
     
   </head>
 
-  <body id="page-Swarm Cluster" class=" page-Swarm Cluster layout-documents page-sub">
+  <body id="page-Kubernetes cluster" class=" page-Kubernetes cluster layout-documents page-sub">
 
 <div id="header" class="navbar-static-top">
   <div class="container">
@@ -105,10 +105,10 @@ GitHub</a></li>
 						<li class="active">
 							<a href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
-								<li class="active">
+								<li>
 									<a href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
 									<ul class="subnav">
-										<li class="active">
+										<li>
 												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
 										</li>
 										<li>
@@ -121,7 +121,7 @@ GitHub</a></li>
 												<a href="/documents/gettingStarted/networking/nomad.html">Nomad</a>
 										</li>
 									</ul>
-								<li>
+								<li class="active">
 									<a href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
 									<ul class="subnav">
 										<li>
@@ -133,7 +133,7 @@ GitHub</a></li>
 										<li>
 												<a href="/documents/gettingStarted/networking/bgp.html">BGP</a>
 										</li>
-										<li>
+										<li class="active">
 												<a href="/documents/gettingStarted/networking/aci.html">Cisco ACI</a>
 										</li>
 									</ul>
@@ -257,131 +257,65 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h1>Using Contiv Network with Docker Swarm in Vagrant Environment</h1>
-<p>This page describes how to quickly create a virtual environment
-using the Vagrant environment setup tool. You then demonstrate
-some of the features of Docker and Contiv such as creating container,
-networks, and policies.</p>
+	<h2>Installing Contiv Networking with ACI</h2>
 
-<h2>Prerequisites</h2>
-<p>Before you can install the virtual environment, you must have the following
-software packages on your machine:</p>
+<h3>Pre-requisites for ACI setup</h3>
 
-<ul>
-<li>VirtualBox 5.0.2 or later
+<h4>APIC Configuration (Fabric/Access Policies)</h4>
+
+<ol>
+<li><p>Create a VLAN Pool under &quot;Fabric&quot; -&gt; &quot;Access Policies&quot; -&gt; &quot;Pools&quot; -&gt; &quot;VLAN&quot;. Set allocation mode to
+&quot;Static Allocation&quot;.</p>
 </li>
-<li>Vagrant 1.7.4
+<li><p>Create a physical domain under &quot;Fabric&quot; -&gt; &quot;Access Policies&quot; -&gt; &quot;Physical and External Domains&quot; -&gt; &quot;Physical Domains&quot;</p>
 </li>
-<li>Make
+<li><p>Create an Attachable Access Entity Profile(AAEP) and associate with the physical domain created in step #2.</p>
 </li>
-</ul>
+<li><p>Create a Policy Group (under Interface Policies) and specify the AAEP created in step #3.</p>
+</li>
+<li><p>Create an Interface Profile and specify the physical interfaces connected from your ToR(s) to the bare metal servers. You can create separate Interface Profiles for individual ToRs if you like.</p>
+</li>
+<li><p>Create a Switch Profile (Switch Policies/Profiles) and specify the appropriate interface profile created in step</p>
+</li>
+<li><p>Make a note of the full node name of the ToRs you have connected to your servers.</p>
+</li>
+</ol>
 
-<h2>Step 1: Start the Virtual Environment</h2>
-<p>The following three commands are all you need to clone the repository and start the VMs:</p>
-<pre class="highlight plaintext"><code>$ git clone https://github.com/contiv/netplugin
-$ cd netplugin; make demo
-$ vagrant ssh netplugin-node1
-</code></pre>
-<p>These commands start a cluster of two VMs running Docker and Contiv Network, and log
-you into one of the VMs.</p>
+<h2>Starting the aci-gw container</h2>
+<p>The aci-gw container needs to be accessible by netmaster at localhost:5000. In order to ensure that, the aci-gw can be started on the same node as the netmaster, with --net=host option.</p>
+<p>In order for the aci-gw to access and configure ACI to match the contiv configuration, the following information need to be passed to the aci-gw via environment variables:</p>
+<p><code>APIC_URL</code>
+This is the URL of the APIC.</p>
+<p><code>APIC_USERNAME</code>
+This is the login username for the APIC.</p>
+<p><code>APIC_LEAF_NODE</code>
+This is the full URI path of the aci leaf nodes where the cluster servers are connected.
+e.g. topology/pod-1/node-101. If there are multiple nodes, you can use comma separation.
+e.g. topology/pod-1/node-101,topology/pod-1/node-102</p>
+<p><code>APIC_PHYS_DOMAIN</code>
+This is the name of the physical domain used for the contiv cluster (Step 2 above).</p>
 
-<h2>Step 2: Create a Network</h2>
-<p>Use the following command to create a network:</p>
-<pre class="highlight plaintext"><code>netplugin-node1$ netctl net create contiv-net --subnet=20.1.1.0/24 --gateway=20.1.1.254 --pkt-tag=1001
-</code></pre>
+<h2>Authentication</h2>
+<p>Both key based authentication and password authentication are supported. Key based authentication is the recommended method.</p>
+<p>For password based authentication, you need to pass the password to the aci-gw using the <code>APIC_PASSWORD</code> environment variable.</p>
 
-<h2>Step 2: Run Containers on Two Hosts</h2>
-<p>Start a Docker container on the node you just logged into:</p>
-<pre class="highlight plaintext"><code>netplugin-node1$ Docker run -itd --name=web --net=contiv-net ubuntu /bin/bash
+<h3>key based authentication</h3>
+<p>Step 1. Create a key and certicate add the certificate to APIC using the procedure described in <a href="http://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/kb/b_KB_Signature_Based_Transactions.pdf">http://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/kb/b_KB_Signature_Based_Transactions.pdf</a>.</p>
+<p>Step 2. Find the DN of the key that was added to APIC and pass it to the aci-gw via the APIC_CERT_DN environment variable. This DN is of the form*<em>uni/userext/user-admin/usercert-admin</em>* The exact DN can be found from the APIC visore.  e.g. <code>APIC_CERT_DN=uni/userext/user-admin/usercert-admin</code></p>
+<p>Step 3. Create a directory on the server that hosts aci-gw and copy the key created in the previous step to this directory.</p>
+<p>Step 4. Share this directory with the aci-gw using the bind mounting option of docker.
+e.g. if the keys are copied to /shared/keys directory on the host, use <em>-v /shared/keys:/aciconfig</em> option while starting the aci-gw container.</p>
+<p>Below is an example of starting the aci-gw with all relevant parameters.</p>
+<pre class="highlight plaintext"><code>/usr/bin/docker run --net=host \
+    -e "APIC_URL=https://11.103.101.33" \
+    -e "APIC_USERNAME=admin" \
+    -e "APIC_LEAF_NODE=topology/pod-1/node-101,topology/pod-1/node-102" \
+    -e "APIC_PHYS_DOMAIN=contivPhysDom" \
+    -e "APIC_CERT_DN=uni/userext/user-admin/usercert-admin" \
+    -v /shared/keys:/aciconfig \
+    --name=contiv-aci-gw \
+    -t contiv/aci-gw
 </code></pre>
-<p>In another shell window, log into the second VM and start another Docker container:</p>
-<pre class="highlight plaintext"><code>$ vagrant ssh netplugin-node1
-netplugin-node2$ docker run -itd --name=db --net=contiv-net ubuntu /bin/bash
-</code></pre>
-<p>On node1, log into the container and ping the container on node2:</p>
-<pre class="highlight plaintext"><code>netplugin-node1$ docker exec -it web /bin/bash
-&lt; inside the container &gt;
-root@f90e7fd409c4:/# ping db
-PING db (20.1.1.3) 56(84) bytes of data.
-64 bytes from db (20.1.1.3): icmp_seq=1 ttl=64 time=0.658 ms
-64 bytes from db (20.1.1.3): icmp_seq=2 ttl=64 time=0.103 ms
-</code></pre>
-
-<h2>Step 3: Create a Policy</h2>
-<p>Type the following to create a policy named <code>prod_web</code>:</p>
-<pre class="highlight plaintext"><code>$ netctl policy create prod_web
-</code></pre>
-
-<h2>Step 2: Add Rules to the Policy</h2>
-<p>The following three commands add a default-deny rule to drop all incoming TCP
-connections and two rules to explicitly allow traffic on ports 80 and 443.</p>
-<pre class="highlight plaintext"><code>$ netctl policy rule-add prod_web 1 -direction=in -protocol=tcp -action=deny
-$ netctl policy rule-add prod_web 2 -direction=in -protocol=tcp -port=80 -action=allow -priority=10
-$ netctl policy rule-add prod_web 3 -direction=in -protocol=tcp -port=443 -action=allow -priority=10
-</code></pre>
-
-<h2>Step 3: Create an Endpoint Group</h2>
-<p>An endpoint group (EPG) is a collection of containers&#39; interfaces on a network. You create an endpoint
-group, then assign nodes to it.</p>
-<p>Use the following command to create an endpoint group named <code>web</code> in network <code>contiv-net</code> and attach the
-<code>prod_web</code> policy to it.</p>
-<pre class="highlight plaintext"><code>$ netctl group create contiv-net web -policy=prod_web
-</code></pre>
-<p><em>Note</em>: Every endpoint group creates a seperate Docker network of the form <code>&lt;endpoint-group-name&gt;.&lt;network-name&gt;</code>.
-You can attach containers to these endpoint groups using the <code>--net</code> option in the <code>docker run</code> command.</p>
-
-<h2>Step 4: Attach a Container</h2>
-<p>Next, run a container and attach it to the endpoint group.
-The following command runs a Docker container and attaches it to the <code>web</code> EPG
-in the <code>contiv-net</code> network.</p>
-<pre class="highlight plaintext"><code>$ docker run -itd --net web.contiv-net ubuntu bash
-</code></pre>
-
-<h2>Using Netplugin with Docker Swarm</h2>
-<p>Docker Swarm is a scheduler that schedules containers to multiple hosts. Netplugin is a Docker network plugin that provides multi host networking.</p>
-<p>Docker + Swarm + Netplugin == Awesome!!</p>
-
-<h3>Using swarm</h3>
-<p>Netplugin vagrant setup comes pre-installed with Docker swarm.
-Set the following environment variable to make Docker client talk to Swarm</p>
-<pre class="highlight plaintext"><code>export DOCKER_HOST=tcp://192.168.2.10:2375
-</code></pre>
-<p>Now, you should be able to see the information about the swarm cluster</p>
-<pre class="highlight plaintext"><code>$ docker info
-Containers: 0
-Images: 5
-Engine Version:
-Role: primary
-Strategy: spread
-Filters: affinity, health, constraint, port, dependency
-Nodes: 2
- netplugin-node1: 192.168.2.10:2385
-  └ Containers: 0
-  └ Reserved CPUs: 0 / 4
-  └ Reserved Memory: 0 B / 2.051 GiB
-  └ Labels: executiondriver=native-0.2, kernelversion=4.0.0-040000-generic, operatingsystem=Ubuntu 15.04, storagedriver=devicemapper
- netplugin-node2: 192.168.2.11:2385
-  └ Containers: 0
-  └ Reserved CPUs: 0 / 4
-  └ Reserved Memory: 0 B / 2.051 GiB
-  └ Labels: executiondriver=native-0.2, kernelversion=4.0.0-040000-generic, operatingsystem=Ubuntu 15.04, storagedriver=devicemapper
-CPUs: 8
-Total Memory: 4.103 GiB
-Name: netplugin-node1
-No Proxy: 192.168.0.0/16,localhost,127.0.0.0/8
-</code></pre>
-<p>Next, you can see if there are any containers running in the cluster</p>
-<pre class="highlight plaintext"><code>$ docker ps
-CONTAINER ID        IMAGE                          COMMAND             CREATED             STATUS              PORTS               NAMES
-4dd09bc36875        ubuntu                         "bash"              52 minutes ago      Up 52 minutes                           netplugin-node1/reverent_allen
-18bdc2cde778        skynetservices/skydns:latest   "/skydns"           3 hours ago         Up 3 hours          53/udp, 53/tcp      netplugin-node1/defaultdns
-
-</code></pre>
-<p>You can run containers and attach them to contiv networks or endpoint groups just like before.</p>
-<pre class="highlight plaintext"><code>$ docker run -itd --net web.contiv-net ubuntu bash
-f291e269b45a5877f6fc952317feb329e12a99bda3a44a740b4c3307ef87954c
-</code></pre>
-<p>Here, <code>docker run</code> happens against the swarm cluster. Swarm schedules the container to one of the nodes and netplugin on that node sets up the networking and policies just like before.</p>
 
 
 			</div>
