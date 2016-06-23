@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Getting Started">
+    <meta name="description" content="Examples">
 
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <title>Getting Started - Contiv</title>
+    <title>Examples - Contiv</title>
 
     <link href="/assets/stylesheets/application-9630d0a5.css" rel="stylesheet"/>
 
@@ -19,7 +19,7 @@
     
   </head>
 
-  <body id="page-Getting Started" class=" page-Getting Started layout-documents page-sub">
+  <body id="page-Examples" class=" page-Examples layout-documents page-sub">
 
 <div id="header" class="navbar-static-top">
   <div class="container">
@@ -99,7 +99,7 @@ GitHub</a></li>
 			<hr>
 			<h3>User Guide</h3>
 			<ul class="nav docs-sidenav">
-				<li class="active">
+				<li>
 					<a href="/documents/gettingStarted/index.html">Getting Started</a>
 					<ul class="nav">
 						<li>
@@ -143,10 +143,10 @@ GitHub</a></li>
 						<li>
 							<a href="/documents/gettingStarted/storage/storage.html">Storage </a>
 						</li>
-						<li class="active">
+						<li>
 							<a href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
-								<li class="active">
+								<li>
 										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
 								</li>
 								<li>
@@ -233,13 +233,13 @@ GitHub</a></li>
 			<h3>Examples</h3>
 				<ul class="nav docs-sidenav">
 					<ul class="subnav">
-						<li>
+						<li class="active">
 							<a href="/documents/samples/index.html">Docker Compose Examples</a>
 						</li>
-						<li>
+						<li class="active">
 							<a href="/documents/samples/index.html">Kubernetes Examples</a>
 						</li>
-						<li>
+						<li class="active">
 							<a href="/documents/samples/mcast.html">Multicast Examples</a>
 						</li>
 						<li>
@@ -263,40 +263,95 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h2>3 steps to Contiv Cluster Management</h2>
-<p>If you are trying cluster manager with baremetal hosts or a personal VM setup follow <a href="./baremetal.md">this link</a> to setup the hosts. After that you can manage the cluster as described in the <a href="#3-login-to-the-first-node-to-manage-the-cluster">step 3.</a> below.</p>
-<p>To try with a built-in vagrant based VM environment continue reading.</p>
+	<h2>Multicast application demo</h2>
+<p>The purpose of the document is to illustrate the experiment done to validate
+multicast in a contiv network.</p>
 
-<h3>0. Ensure correct dependencies are installed</h3>
+<h3>Steps to run sender and receiver multicast application between containers</h3>
+<p>For this experiement we will run 2 containers , one on each VM. We will create a vlan network
+and run a sender and receiver multicast application. For the purpose of this demo we will be using
+multicast application from <a href="https://github.com/leslie-wang/py-multicast-example">https://github.com/leslie-wang/py-multicast-example</a></p>
+
+<h4>Step 1: Pull the contiv netplugin workspace from github</h4>
+<pre class="highlight plaintext"><code>$ git clone https://github.com/contiv/netplugin
+$ cd netplugin
+</code></pre>
+
+<h4>Step 2: Create demo VMs</h4>
 
 <ul>
-<li>vagrant 1.7.3 or higher
+<li>Start vms
 </li>
-<li>virtualbox 5.0 or higher
-</li>
-<li>ansible 2.0 or higher
+<li>Create multicast enabled network
 </li>
 </ul>
-
-<h3>1. checkout and build the code</h3>
-<pre class="highlight plaintext"><code>cd $GOPATH/src/github.com/contiv/
-git clone https://github.com/contiv/cluster.git
+<pre class="highlight plaintext"><code>$ make demo
+$ vagrant ssh netplugin-node1
+$ netctl net create contiv-net --encap=vlan --subnet=20.1.1.0/24 --gateway=20.1.1.254 --pkt-tag=1010
 </code></pre>
 
-<h3>2. launch three vagrant nodes.</h3>
-<p><strong>Note:</strong> If you look at the project&#39;s <code>Vagrantfile</code>, you will notice that all the vagrant nodes (except for the first node) boot up with stock centos7.2 OS and a <code>serf</code> agent running. <code>serf</code> is used as the node discovery service. This is intentional to meet the goal of limiting the amount of services that user needs to setup to start bringing up a cluster and hence making management easier.
-<code>
-cd cluster/
-CONTIV_NODES=3 make demo-cluster
-</code></p>
-
-<h3>3. login to the first node to manage the cluster</h3>
-<p><strong>Note:</strong> The first node is slightly special in a way that it is booted up with two additional services viz. <code>collins</code> and <code>clusterm</code>. <code>collins</code> is used as the node lifecycle management and event logging service. <code>clusterm</code> is the cluster manager daemon. <code>clusterctl</code> utility is provided to exercise cluster manager provided REST endpoint.</p>
-<pre class="highlight plaintext"><code>CONTIV_NODES=3 vagrant ssh cluster-node1
+<h4>Step 3: Run a docker container in the network created and start multicast sender application.</h4>
+<pre class="highlight plaintext"><code>$ docker pull qiwang/centos7-mcast
+$ docker run -it --name=msender --net=contiv-net qiwang/centos7-mcast /bin/bash
+root@9f4e7fd418c5:/# cd /root
+root@9f4e7fd418c5:/# ./mcast.py -s -i eth0
 </code></pre>
 
-<h4>Provision additional nodes</h4>
-<p>Please see Cluster section for more details [ FIXME: Add alink here]</p>
+<h4>Step 4: Login to netplugin-node2</h4>
+<pre class="highlight plaintext"><code>vagrant ssh netplugin-node2
+</code></pre>
+
+<h4>Step 5: Run a docker container in the network created and launch the multicast receiver</h4>
+<pre class="highlight plaintext"><code>$ docker pull qiwang/centos7-mcast
+$ docker run -it --name=mreceiver --net=contiv-net qiwang/centos7-mcast /bin/bash
+root@564f7f4424c1:/# cd /root
+root@564f7f4424c1:/# ./mcast.py -i eth0
+
+('20.1.1.3', 35624)  '1453881422.973572'
+('20.1.1.3', 35624)  '1453881423.977554'
+('20.1.1.3', 35624)  '1453881424.978941'
+</code></pre>
+<p>where 20.1.1.3 is the IP assigned to container msender.</p>
+
+<h3>Steps to run sender and receiver multicast application between container and host VM</h3>
+
+<h4>Step 1: Create demo VMs</h4>
+
+<ul>
+<li>Start vms
+</li>
+<li>Create multicast enabled network
+</li>
+</ul>
+<pre class="highlight plaintext"><code>$ make demo
+$ vagrant ssh netplugin-node1
+$ netctl net create contiv-net --encap=vlan --subnet=20.1.1.0/24 --gateway=20.1.1.254 --pkt-tag=1010
+</code></pre>
+
+<h4>Step 2: Create a port on the OVS with the network tag used for contiv-net</h4>
+<pre class="highlight plaintext"><code>$ sudo ovs-vsctl add-port contivVlanBridge inb01 -- set interface inb01 type=internal
+$ sudo ovs-vsctl set port inb01 tag=1010
+$ sudo ifconfig inb01 30.1.1.8/24
+</code></pre>
+
+<h4>Step 3: Launch a multicast sender application</h4>
+<pre class="highlight plaintext"><code>$ ./mcast.py -s -i inb01
+</code></pre>
+
+<h4>Step 4: Login to netplugin-node2</h4>
+<pre class="highlight plaintext"><code>$ vagrant ssh netplugin-node2
+</code></pre>
+
+<h4>Step 5: Run a docker container in the network created and launch multicast receiver.</h4>
+<pre class="highlight plaintext"><code>$ docker pull qiwang/centos7-mcast
+$ docker run -it --name=mreceiver --net=contiv-net qiwang/centos7-mcast /bin/bash
+root@426b8cdbf5f8:/# cd /root
+root@426b8cdbf5f8:/# ./mcast.py -i eth0
+
+('30.1.1.8', 35678)  '1453882966.102203'
+('30.1.1.8', 35678)  '1453882967.120764'
+('30.1.1.8', 35678)  '1453882968.12215'
+</code></pre>
 
 
 			</div>

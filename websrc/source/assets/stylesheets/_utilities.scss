@@ -238,13 +238,13 @@ $nav-margin-right: 12px;
 @mixin contiv-a-style-core{
   font-family: $header-font-family;
   font-weight: $header-font-weight;
-  font-size: 28px;
+  font-size: 25px;
   //letter-spacing: 0.0625em;
 }
 
 @mixin contiv-a-style{
   margin: 0 15px;
-  padding: 0;
+  padding: 0 8px;
   line-height: 22px;
   @include contiv-a-style-core();
   @include transition( color 0.3s ease );

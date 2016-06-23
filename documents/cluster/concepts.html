@@ -12,7 +12,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <title>Cluster - Contiv</title>
 
-    <link href="/assets/stylesheets/application-dec38a48.css" rel="stylesheet"/>
+    <link href="/assets/stylesheets/application-9630d0a5.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
@@ -171,6 +171,12 @@ GitHub</a></li>
 						<li>
 								<a href="/documents/networking/physical-networks.html">Physical Networks</a>
 						</li>
+						<li>
+								<a href="/documents/networking/ipam.html">IPAM and Service Discovery</a>
+						</li>
+						<li>
+								<a href="/documents/networking/ipv6.html">IPv6</a>
+						</li>
 					</ul>
 				</li>
 				<li>
@@ -234,10 +240,10 @@ GitHub</a></li>
 							<a href="/documents/samples/index.html">Kubernetes Examples</a>
 						</li>
 						<li>
-							<a href="/documents/samples/index.html">Multicast Examples</a>
+							<a href="/documents/samples/mcast.html">Multicast Examples</a>
 						</li>
 						<li>
-							<a href="/documents/samples/index.html">Nomad Examples</a>
+							<a href="/documents/samples/nomad.html">Nomad Examples</a>
 						</li>
 					</ul>
 				</ul>
@@ -246,7 +252,7 @@ GitHub</a></li>
 				<ul class="nav docs-sidenav">
 					<ul class="subnav">
 						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Network API Reference</a><br></li>
-						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Storage API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/volplugin/config" target="_blank">Storage API Reference</a><br></li>
 						<li><a href="https://godoc.org/github.com/contiv/cluster" target="_blank">Cluster API Reference</a><br></li>
 					</ul>
 				</ul>
@@ -313,9 +319,12 @@ technical details of Contiv Cluster or use the <a href="management/README.md">In
 to start using the system.</p>
 
 <h2>Inventory</h2>
-<p>Inventory management provides:
-- <strong>Cluster Membership Management</strong>: Automatically discovers nodes and tracks discovery status.
-- <strong>Node State Database</strong>: Tracks the current state of the node within the cluster.
+<p>Inventory management provides:</p>
+
+<ul>
+<li><strong>Cluster Membership Management</strong>: Automatically discovers nodes and tracks discovery status.
+</li>
+<li><p><strong>Node State Database</strong>: Tracks the current state of the node within the cluster.
 Node states consist of the following:</p>
 
 <ul>
@@ -330,6 +339,8 @@ Node states consist of the following:</p>
 <li><strong>Decommissioned</strong>: All configuration and software components have been removed and the node no longer participates in the cluster.
 </li>
 </ul>
+</li>
+</ul>
 
 <h2>Node Image Management</h2>
 <p>Node Image Management provides:
@@ -340,61 +351,98 @@ Node states consist of the following:</p>
 Operators are responsible for node bootstrapping, including image provisioning.</p>
 
 <h2>Node Configuration Management</h2>
-<p>Node Configuration Management provides:
-- <strong>Configuration Repository</strong>: A central location for hosting node configuration files.
+<p>Node Configuration Management provides:</p>
+
+<ul>
+<li><strong>Configuration Repository</strong>: A central location for hosting node configuration files.
 The configuration is used to automate the deployment of nodes.
-- <strong>Configuration Push</strong>: The configuration of nodes is pushed from Cluster Manager to nodes.
-- <strong>Configuration Cleanup</strong>: Configuration files, service, packages, etc. are removed from nodes.
-- <strong>Configuration Verification</strong>: Checks to ensure that the node configuration is truly functional.
-- <strong>Configuration Upgrade</strong>: Automates the process of upgrading node software components.
+</li>
+<li><strong>Configuration Push</strong>: The configuration of nodes is pushed from Cluster Manager to nodes.
+</li>
+<li><strong>Configuration Cleanup</strong>: Configuration files, service, packages, etc. are removed from nodes.
+</li>
+<li><strong>Configuration Verification</strong>: Checks to ensure that the node configuration is truly functional.
+</li>
+<li><strong>Configuration Upgrade</strong>: Automates the process of upgrading node software components.
 Upgrades can be automatically triggered and can be performed cluster-wide or rolling.
-- <strong>Role/Group-Based Configuration</strong>: Nodes can be assigned a group or role.
+</li>
+<li><strong>Role/Group-Based Configuration</strong>: Nodes can be assigned a group or role.
 Role/Group-Based configuration selectively manages services on nodes statically by the
-operator or dynamically based on service availability policy.</p>
+operator or dynamically based on service availability policy.
+</li>
+</ul>
 <p><strong>Note:</strong> Dynamic role assignment is <strong>not</strong> supported in initial release of Contiv Cluster.</p>
 
 <h2>Bootstrap</h2>
 <p>Bootstrap involves provisioning a node or cluster for the first time.</p>
 
 <h3>Node</h3>
-<p>Contiv Cluster provides the following node bootstrapping capabilities:
-- Installing the base image
-- Performing initial configurations such as disk partitioning
-- Assigning an IP address
-- Configuring user credentials and permissions to perform configuration management tasks
-- Starting infrastructure services such as Serf</p>
+<p>Contiv Cluster provides the following node bootstrapping capabilities:</p>
+
+<ul>
+<li>Installing the base image
+</li>
+<li>Performing initial configurations such as disk partitioning
+</li>
+<li>Assigning an IP address
+</li>
+<li>Configuring user credentials and permissions to perform configuration management tasks
+</li>
+<li>Starting infrastructure services such as Serf
+</li>
+</ul>
 <p><strong>Note:</strong> To start simple this feature is <strong>not</strong> provided as part of initial release of Contiv Cluster.</p>
 <p>Operators are responsible for node bootstrapping, including image provisioning.</p>
 
 <h3>Cluster</h3>
 <p>The cluster bootstrap installs and configures clustering software components such as swarm-master
-(for Docker Swarm) to the first bootstrapped node with parameters such as:
-- Configuration management parameters such as user information, configuration repository
-- Inventory management parameters such as database url</p>
+(for Docker Swarm) to the first bootstrapped node with parameters such as:</p>
+
+<ul>
+<li>Configuration management parameters such as user information, configuration repository
+</li>
+<li>Inventory management parameters such as database url
+</li>
+</ul>
 
 <h2>Lifecycle</h2>
 <p>Lifecycle management involves integrating multiple cluster and node management tasks at a
 central location to simplify monitoring and administration of the cluster.</p>
 
 <h3>Node</h3>
-<p>Node lifecycle management provides:
-- <strong>Bootstrap</strong>: Remotely provision a node&#39;s image from a central location. <em>As described
+<p>Node lifecycle management provides:</p>
+
+<ul>
+<li><strong>Bootstrap</strong>: Remotely provision a node&#39;s image from a central location. <em>As described
 above this feature is not provided in initial release of the Contiv Cluster.</em>
-- <strong>Cluster Membership</strong>: Automatically track cluster&#39;s membership of reachable and unreachable nodes.
-- <strong>Commission</strong>: Remotely provision a node&#39;s clustering software, configuration, etc..
+</li>
+<li><strong>Cluster Membership</strong>: Automatically track cluster&#39;s membership of reachable and unreachable nodes.
+</li>
+<li><strong>Commission</strong>: Remotely provision a node&#39;s clustering software, configuration, etc..
 Optionally commission newly discovered nodes automatically.
-- <strong>Upgrade</strong>: Remotely upgrade the image or a software component of a commissioned node.
+</li>
+<li><strong>Upgrade</strong>: Remotely upgrade the image or a software component of a commissioned node.
 Optionally upgrade nodes when a configuration repository changes.
-- <strong>Decommission</strong>: Automatically remove configuration, software components, etcd from a commissioned node.
-- <strong>Batch operations</strong>: Commission, upgrade or decommission all or a subset number of nodes.
-- <strong>Reloads</strong>: In event event of a node reload or unreachability event, verify the node configuration
-and automate corrective actions.</p>
+</li>
+<li><strong>Decommission</strong>: Automatically remove configuration, software components, etcd from a commissioned node.
+</li>
+<li><strong>Batch operations</strong>: Commission, upgrade or decommission all or a subset number of nodes.
+</li>
+<li><strong>Reloads</strong>: In event event of a node reload or unreachability event, verify the node configuration
+and automate corrective actions.
+</li>
+</ul>
 
 <h3>Cluster</h3>
-<p>The following Cluster management capabilities are provided by Contiv Cluster:
-- <strong>Bootstrap</strong>: Remotely bootstrapping a cluster.
-- <strong>High Availability</strong>: The cluster manager service is available as long as one node is running
-in the cluster.</p>
+<p>The following Cluster management capabilities are provided by Contiv Cluster:</p>
+
+<ul>
+<li><strong>Bootstrap</strong>: Remotely bootstrapping a cluster.
+</li>
+<li><strong>High Availability</strong>: The cluster manager service is available as long as one node is running
+in the cluster.
+</li>
+</ul>
 
 
 			</div>

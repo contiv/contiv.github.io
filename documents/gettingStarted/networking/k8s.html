@@ -12,7 +12,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <title>Kubernetes cluster - Contiv</title>
 
-    <link href="/assets/stylesheets/application-dec38a48.css" rel="stylesheet"/>
+    <link href="/assets/stylesheets/application-9630d0a5.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
@@ -171,6 +171,12 @@ GitHub</a></li>
 						<li>
 								<a href="/documents/networking/physical-networks.html">Physical Networks</a>
 						</li>
+						<li>
+								<a href="/documents/networking/ipam.html">IPAM and Service Discovery</a>
+						</li>
+						<li>
+								<a href="/documents/networking/ipv6.html">IPv6</a>
+						</li>
 					</ul>
 				</li>
 				<li>
@@ -234,10 +240,10 @@ GitHub</a></li>
 							<a href="/documents/samples/index.html">Kubernetes Examples</a>
 						</li>
 						<li>
-							<a href="/documents/samples/index.html">Multicast Examples</a>
+							<a href="/documents/samples/mcast.html">Multicast Examples</a>
 						</li>
 						<li>
-							<a href="/documents/samples/index.html">Nomad Examples</a>
+							<a href="/documents/samples/nomad.html">Nomad Examples</a>
 						</li>
 					</ul>
 				</ul>
@@ -246,7 +252,7 @@ GitHub</a></li>
 				<ul class="nav docs-sidenav">
 					<ul class="subnav">
 						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Network API Reference</a><br></li>
-						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Storage API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/volplugin/config" target="_blank">Storage API Reference</a><br></li>
 						<li><a href="https://godoc.org/github.com/contiv/cluster" target="_blank">Cluster API Reference</a><br></li>
 					</ul>
 				</ul>
@@ -261,17 +267,22 @@ GitHub</a></li>
 <p>Contiv is integrated with Kubernetes via a CNI plugin. With this integration, Contiv
 Networking and Policy can be used for Pod inter-connectivity in a Kubernetes cluster.</p>
 
-<h2>Getting Started</h2>
+<h2>Getting Started in Vagrant Environment</h2>
 <p>This step-by-step procedure will guide you through a minimal experience of creating
 a Kubernetes cluster with Contiv networking and applying policy between pods.</p>
 
 <h3>Pre-requisites</h3>
-<p>Before starting, please be sure to set http/https proxies if your network requires it.
-<em>(Note that <code>https_proxy</code> should be set to point to a <code>http://</code> URL (not <code>https://</code>).
+
+<ol>
+<li><p>Before starting, please be sure to set http/https proxies if your network requires it.
+<em>(Note that <a name="https_proxy"/><a href="#https_proxy"><code>https_proxy</code></a> should be set to point to a <code>http://</code> URL (not <code>https://</code>).
 This is an ansible requirement.)</em></p>
-<p>The setup scripts use python modules <em>parse</em> and <em>netaddr</em>. If these modules are not
+</li>
+<li><p>The setup scripts use python modules <em>parse</em> and <em>netaddr</em>. If these modules are not
 installed on the machine where you are executing these steps, you should install them
-before proceeding. <em>(E.g. <code>pip install parse; pip install netaddr</code>)</em></p>
+before proceeding. <em>(E.g. <a name="pip_install_parse_pip_install_netaddr"/><a href="#pip_install_parse_pip_install_netaddr"><code>pip install parse; pip install netaddr</code></a>)</em></p>
+</li>
+</ol>
 
 <h3>Step 1: Clone contrib and netplugin repos</h3>
 <pre class="highlight plaintext"><code>$ mkdir -p ~/go/src/github.com/k8s
@@ -282,7 +293,7 @@ $ cd ~/go/src/github.com/k8s
 $ git clone https://github.com/contiv/netplugin
 </code></pre>
 
-<h3>Step 2: Create cluster</h3>
+<h3>Step 2: Create vagrant cluster</h3>
 <pre class="highlight plaintext"><code>$ cd ~/go/src/github.com/k8s/netplugin
 $ make k8s-cluster
 </code></pre>

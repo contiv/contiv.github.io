@@ -146,10 +146,10 @@ GitHub</a></li>
 						<li class="active">
 							<a href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
-								<li class="active">
+								<li>
 										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
 								</li>
-								<li>
+								<li class="active">
 										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
 								</li>
 							</ul>
@@ -263,40 +263,72 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h2>3 steps to Contiv Cluster Management</h2>
-<p>If you are trying cluster manager with baremetal hosts or a personal VM setup follow <a href="./baremetal.md">this link</a> to setup the hosts. After that you can manage the cluster as described in the <a href="#3-login-to-the-first-node-to-manage-the-cluster">step 3.</a> below.</p>
-<p>To try with a built-in vagrant based VM environment continue reading.</p>
+	<h2>Baremetal Server or Virtual Machine Installation</h2>
+<p>This document goes through the steps to install Contiv Cluster to a baremetal
+or virtual machine.</p>
+<p><strong>Note:</strong>
+- Unless explicitly mentioned all the steps below are done by logging into the same host. It is referred as <em>control host</em> below.
+- Right now we test cluster manager on Centos7.2. More OS variations will be added in future.</p>
 
-<h3>0. Ensure correct dependencies are installed</h3>
+<h3>0. Ensure the following pre-requisites are met on the control host</h3>
 
 <ul>
-<li>vagrant 1.7.3 or higher
+<li>ansible 2.0 or higher is installed.
 </li>
-<li>virtualbox 5.0 or higher
+<li>git is installed.
 </li>
-<li>ansible 2.0 or higher
+<li>a management user has been created. Let&#39;s call that user <strong>cluster-admin</strong> from now on.
+
+<ul>
+<li>note that <a name="cluster_admin"/><a href="#cluster_admin"><code>cluster-admin</code></a> can be an existing user.
+</li>
+<li>this user needs to have <strong>passwordless sudo</strong> access configured. You can use <a name="visudo"/><a href="#visudo"><code>visudo</code></a> tool for this.
+</li>
+</ul>
+</li>
+<li>a ssh key has been generated for <a name="cluster_admin"/><a href="#cluster_admin"><code>cluster-admin</code></a>. You can use <code>ssh-keygen</code> tool for this.
+</li>
+<li>the public key for <a name="cluster_admin"/><a href="#cluster_admin"><code>cluster-admin</code></a> user is added to all the hosts(including the control host) in your setup. You can use <code>ssh-copy-id cluster-admin@&lt;hostname&gt;</code> for this, where <code>&lt;hostname&gt;</code> is name of the host in your setup where <code>cluster-admin</code> is being added as authorized user.
 </li>
 </ul>
 
-<h3>1. checkout and build the code</h3>
-<pre class="highlight plaintext"><code>cd $GOPATH/src/github.com/contiv/
-git clone https://github.com/contiv/cluster.git
-</code></pre>
+<h3>1. Download and install Cluster Manager</h3>
+<pre class="highlight plaintext"><code># Login as `cluster-admin` user before running following commands
+git clone https://github.com/contiv/ansible.git
+cd ansible
 
-<h3>2. launch three vagrant nodes.</h3>
-<p><strong>Note:</strong> If you look at the project&#39;s <code>Vagrantfile</code>, you will notice that all the vagrant nodes (except for the first node) boot up with stock centos7.2 OS and a <code>serf</code> agent running. <code>serf</code> is used as the node discovery service. This is intentional to meet the goal of limiting the amount of services that user needs to setup to start bringing up a cluster and hence making management easier.
+# Create an inventory file
+echo [cluster-control] &gt; /tmp/hosts
+echo node1 ansible_host=127.0.0.1 &gt;&gt; /tmp/hosts
+
+# Install Cluster Manager service
+ansible-playbook --key-file=~/.ssh/id_rsa -i /tmp/hosts -e '{"env": {}, "control_interface": "ifname"}' ./site.yml
+</code></pre>
+<p><strong>Note</strong>:
+- <code>env</code> and <code>control_interface</code> need to be specified.
+- <code>env</code> is used to specify the environment for running ansible tasks like http-proxy. If there is no special environment to be setup then it needs to be set to an empty dictionary as shown in the example above.
+- <code>control_interface</code> is the netdevice that will carry serf traffic on this node.</p>
+
+<h3>2. Configure the cluster manager service</h3>
+<p>Edit the cluster manager configuration file that is created at <code>/etc/default/clusterm/clusterm.conf</code> to setup the user and playbook-location information. A sample is shown below. <code>playbook-location</code> needs to be set as the path of ansible directory we cloned in previous step. <code>user</code> needs to be set as name of <code>cluster-admin</code> user and <code>priv_key_file</code> is the location of the <code>id_rsa</code> file of <code>cluster-admin</code> user.
+```</p>
+
+<h1>cat /etc/default/clusterm/clusterm.conf</h1>
+<p>{
+    &quot;ansible&quot;: {
+        &quot;playbook_location&quot;: &quot;/home/cluster-admin/ansible/&quot;,
+        &quot;user&quot;: &quot;cluster-admin&quot;,
+        &quot;priv_key_file&quot;: &quot;/home/cluster-admin/.ssh/id_rsa&quot;
+    }
+}
 <code>
-cd cluster/
-CONTIV_NODES=3 make demo-cluster
-</code></p>
+After the changes look good, restart cluster manager
+</code>
+sudo systemctl restart clusterm
+```</p>
 
-<h3>3. login to the first node to manage the cluster</h3>
-<p><strong>Note:</strong> The first node is slightly special in a way that it is booted up with two additional services viz. <code>collins</code> and <code>clusterm</code>. <code>collins</code> is used as the node lifecycle management and event logging service. <code>clusterm</code> is the cluster manager daemon. <code>clusterctl</code> utility is provided to exercise cluster manager provided REST endpoint.</p>
-<pre class="highlight plaintext"><code>CONTIV_NODES=3 vagrant ssh cluster-node1
-</code></pre>
-
-<h4>Provision additional nodes</h4>
-<p>Please see Cluster section for more details [ FIXME: Add alink here]</p>
+<h3>3. Ready to rock and roll!</h3>
+<p>All set now, you can follow the cluster manager workflows as described <a href="./README.md#provision-additional-nodes-for-discovery">here</a>.</p>
 
 
 			</div>

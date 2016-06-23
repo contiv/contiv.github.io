@@ -6,6 +6,8 @@ description: |-
   Setting up Kubernetes cluster
 ---
 
+# Installing Contiv with Kubernetes
+
 ####Pre-requisites
 Machines running CentOS 7.2, connected to network, with at least two
 interfaces (3 if possible).

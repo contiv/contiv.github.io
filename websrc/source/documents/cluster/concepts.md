@@ -68,6 +68,7 @@ to start using the system.
 
 ##Inventory
 Inventory management provides:
+
 - **Cluster Membership Management**: Automatically discovers nodes and tracks discovery status.
 - **Node State Database**: Tracks the current state of the node within the cluster.
 Node states consist of the following:
@@ -89,6 +90,7 @@ Operators are responsible for node bootstrapping, including image provisioning.
 
 ##Node Configuration Management
 Node Configuration Management provides:
+
 - **Configuration Repository**: A central location for hosting node configuration files.
 The configuration is used to automate the deployment of nodes.
 - **Configuration Push**: The configuration of nodes is pushed from Cluster Manager to nodes.
@@ -107,6 +109,7 @@ Bootstrap involves provisioning a node or cluster for the first time.
 
 ###Node
 Contiv Cluster provides the following node bootstrapping capabilities:
+
 - Installing the base image
 - Performing initial configurations such as disk partitioning
 - Assigning an IP address
@@ -120,6 +123,7 @@ Operators are responsible for node bootstrapping, including image provisioning.
 ###Cluster
 The cluster bootstrap installs and configures clustering software components such as swarm-master
 (for Docker Swarm) to the first bootstrapped node with parameters such as:
+
 - Configuration management parameters such as user information, configuration repository
 - Inventory management parameters such as database url
 
@@ -129,6 +133,7 @@ central location to simplify monitoring and administration of the cluster.
 
 ###Node
 Node lifecycle management provides:
+
 - **Bootstrap**: Remotely provision a node's image from a central location. *As described
 above this feature is not provided in initial release of the Contiv Cluster.*
 - **Cluster Membership**: Automatically track cluster's membership of reachable and unreachable nodes.
@@ -143,6 +148,7 @@ and automate corrective actions.
 
 ###Cluster
 The following Cluster management capabilities are provided by Contiv Cluster:
+
 - **Bootstrap**: Remotely bootstrapping a cluster.
 - **High Availability**: The cluster manager service is available as long as one node is running
 in the cluster.

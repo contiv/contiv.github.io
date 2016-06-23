@@ -7,7 +7,7 @@ description: |-
 ---
 
 
-## Container Networking Tutorial
+# Container Networking Tutorial
 Walks through container networking and concepts step by step
 
 ### Prerequisites
@@ -128,7 +128,7 @@ The recommended way is to cleanup the setup using `vagrant -f destroy`, and
 then restarting them again using `vagrant up`
 
 
-### Chapter 1 - Introduction to Container Networking
+# Chapter 1 - Introduction to Container Networking
 
 There are two main container networking model discussed within the community.
 
@@ -253,7 +253,7 @@ MASQUERADE rule for outbound traffic for `172.17.0.0/16`
 $ vagrant@tutorial-node1:~$ sudo iptables -t nat -L -n
 ```
 
-### Chapter 2: Multi-host networking
+# Chapter 2: Multi-host networking
 
 There are many solutions, like Contiv, Calico, Weave, Openshift, OpenContrail, Nuage,
 VMWare, Docker, Kubernetes, Openstack that provide solutions to multi-host
@@ -262,7 +262,7 @@ container networking. In this section we examine Contiv and Docker overlay solut
 #### Multi-host networking with Contiv
 Let's use the same example as above to spin up two containers on the two different hosts
 
-3#### 1. Create a multi-host network
+#### 1. Create a multi-host network
 
 ```
 vagrant@tutorial-node1:~$ netctl net create --subnet=10.1.2.0/24 contiv-net
@@ -417,7 +417,7 @@ Similar to contiv-networking, built in dns resolves the name `overlay-c1`
 to the IP address of `overlay-c1` container and be able to reach another container
 across using a vxlan overlay.
 
-### Chapter 3: Using multiple tenants with arbitrary IPs in the networks
+# Chapter 3: Using multiple tenants with arbitrary IPs in the networks
 
 First, let's create a new tenant space
 
@@ -529,7 +529,7 @@ round-trip min/avg/max = 1.637/1.637/1.637 ms
 / # exit
 ```
 
-### Chapter 4: Connecting containers to external networks
+# Chapter 4: Connecting containers to external networks
 
 In this chapter, we explore ways to connect containers to the external networks
 
@@ -712,7 +712,7 @@ listening on eth2, link-type EN10MB (Ethernet), capture size 262144 bytes
 Note that the vlan shown in tcpdump is same (i.e. `112`) as what we configured in the VLAN. After verifying this, feel free to stop the ping that is still running on
 `contiv-vlan-c2` container.
 
-### Chapter 5: Applying policies between containers with Contiv
+# Chapter 5: Applying policies between containers with Contiv
 
 Contiv provide a way to apply isolation policies between containers groups.
 For this, we create a simple policy called db-policy, and add some rules to which ports are allowed.
@@ -799,7 +799,7 @@ without any `Operation timed out` message. At this point you can add/delete rule
 to the policy dynamically
 
 
-### Chapter 6: Running containers in a swarm cluster
+# Chapter 6: Running containers in a swarm cluster
 
 We can bring in swarm scheduler by redirecting our requests to an already provision
 swarm cluster. To do so, we can set `DOCKER_HOST` as follows:
@@ -900,7 +900,7 @@ PING contiv.com (216.239.36.21): 56 data bytes
 round-trip min/avg/max = 38.867/41.202/43.537 ms
 ```
 
-### Cleanup: **after all play is done**
+## Cleanup: **after all play is done**
 To cleanup the setup, after doing all the experiments, exit the VM destroy VMs
 
 ```

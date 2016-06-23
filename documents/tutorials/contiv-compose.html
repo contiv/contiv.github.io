@@ -12,7 +12,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <title>Getting Started - Contiv</title>
 
-    <link href="/assets/stylesheets/application-dec38a48.css" rel="stylesheet"/>
+    <link href="/assets/stylesheets/application-9630d0a5.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
@@ -171,6 +171,12 @@ GitHub</a></li>
 						<li>
 								<a href="/documents/networking/physical-networks.html">Physical Networks</a>
 						</li>
+						<li>
+								<a href="/documents/networking/ipam.html">IPAM and Service Discovery</a>
+						</li>
+						<li>
+								<a href="/documents/networking/ipv6.html">IPv6</a>
+						</li>
 					</ul>
 				</li>
 				<li>
@@ -234,10 +240,10 @@ GitHub</a></li>
 							<a href="/documents/samples/index.html">Kubernetes Examples</a>
 						</li>
 						<li>
-							<a href="/documents/samples/index.html">Multicast Examples</a>
+							<a href="/documents/samples/mcast.html">Multicast Examples</a>
 						</li>
 						<li>
-							<a href="/documents/samples/index.html">Nomad Examples</a>
+							<a href="/documents/samples/nomad.html">Nomad Examples</a>
 						</li>
 					</ul>
 				</ul>
@@ -246,7 +252,7 @@ GitHub</a></li>
 				<ul class="nav docs-sidenav">
 					<ul class="subnav">
 						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Network API Reference</a><br></li>
-						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Storage API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/volplugin/config" target="_blank">Storage API Reference</a><br></li>
 						<li><a href="https://godoc.org/github.com/contiv/cluster" target="_blank">Cluster API Reference</a><br></li>
 					</ul>
 				</ul>
@@ -260,9 +266,9 @@ GitHub</a></li>
 	<h1>Policies with Networking</h1>
 <p>This tutorial utilizes modified libcompose to apply network policies on an application composition.</p>
 
-<h4>How to try it out</h4>
+<h2>How to try it out</h2>
 
-<h6>1. Get netplugin vagrant setup:</h6>
+<h3>1. Get netplugin vagrant setup:</h3>
 <p>Bring up Contiv Vagrant setup as in <a href="https://github.com/contiv/netplugin/README.md">Step 1. Contiv Netplugin</a>.</p>
 <pre class="highlight plaintext"><code>$ cd $HOME; mkdir -p deploy/src/github.com/contiv
 $ export GOPATH=$HOME/deploy
@@ -271,7 +277,7 @@ $ git clone https://github.com/contiv/netplugin
 $ cd netplugin; make demo
 </code></pre>
 
-<h6>2. Get libcompose and enter VM</h6>
+<h3>2. Get libcompose and enter VM</h3>
 <pre class="highlight plaintext"><code>$ mkdir -p $GOPATH/src/github.com/docker
 $ cd $GOPATH/src/github.com/docker
 $ git clone https://github.com/jainvipin/libcompose
@@ -279,14 +285,14 @@ $ cd $GOPATH/src/github.com/contiv/netplugin
 $ make ssh
 </code></pre>
 
-<h6>3. Inside the VM, compile libcompose</h6>
+<h3>3. Inside the VM, compile libcompose</h3>
 <pre class="highlight plaintext"><code>$ cd $GOPATH/src/github.com/docker/libcompose
 $ git checkout deploy
 $ make binary
 $ ln -s $GOPATH/src/github.com/docker/libcompose/bundles/libcompose-cli /opt/gopath/bin/contiv-compose
 </code></pre>
 
-<h6>4. Build or Get container images</h6>
+<h3>4. Build or Get container images</h3>
 <p>You can either build your own images or download prebuilt sample images needed. For if you choose to use the
 standard docker images, you can:</p>
 <pre class="highlight plaintext"><code>$ cd $GOPATH/src/github.com/docker/libcompose/deploy/example/app
@@ -305,7 +311,7 @@ $ docker build -t redis -f Dockerfile.redis .
 $ docker tag -f redis redis
 </code></pre>
 
-<h6>5. Run contiv-compose and see the policies working</h6>
+<h3>5. Run contiv-compose and see the policies working</h3>
 <p>Before we run the composition, we must create a few networks, which can be easily accomplished using:</p>
 <pre class="highlight plaintext"><code>netctl net create -s 10.11.1.0/24 dev
 </code></pre>
@@ -346,15 +352,15 @@ $ exit
 &lt; ** back to linux prompt ** &gt;
 </code></pre>
 
-<h6>6. Tear down the composition</h6>
+<h3>6. Tear down the composition</h3>
 <p>Let us tear down the composition and associated policies we started earlier</p>
 <pre class="highlight plaintext"><code>$ cd $GOPATH/src/github.com/docker/libcompose/deploy/example
 $ contiv-compose stop
 </code></pre>
 
-<h4>Playing with a few more interesting cases</h4>
+<h2>Playing with a few more interesting cases</h2>
 
-<h6>1. Trying to scale an application tier</h6>
+<h3>1. Trying to scale an application tier</h3>
 <p>One can scale any application tier and expect that the policy be applied to the group of containers belonging to
 a tier/service/group. To follow up with previous example, if we try to scale web tier as follows:</p>
 <pre class="highlight plaintext"><code>$ contiv-compose up -d
@@ -377,7 +383,7 @@ $ contiv-compose stop
 $ contiv-compose rm -f
 </code></pre>
 
-<h6>2. Changing the default network which</h6>
+<h3>2. Changing the default network which</h3>
 <p>Create a new <code>test</code> network first</p>
 <pre class="highlight plaintext"><code>netctl net create -s 10.22.1.0/24 test
 </code></pre>
@@ -400,7 +406,7 @@ redis:
 <pre class="highlight plaintext"><code>$ contiv-compose stop
 </code></pre>
 
-<h6>3. Specfying an override policy</h6>
+<h3>3. Specfying an override policy</h3>
 <p>Should there be a need to specify an override policy for a service tier, we can use a policy label to do so as
 in the following modified yml</p>
 <pre class="highlight plaintext"><code>web:
@@ -446,7 +452,7 @@ not dropping the packet towards target example_redis service</p>
 <pre class="highlight plaintext"><code>$ contiv-compose stop
 </code></pre>
 
-<h6>4. Verifying that only allowed networks are permitted</h6>
+<h3>4. Verifying that only allowed networks are permitted</h3>
 <p>For a composition that attempts to speicfy a network that is not permitted for it, contiv-compose will error out.
 For this we&#39;ll create a production network.</p>
 <pre class="highlight plaintext"><code>$ netctl net create -s 10.33.1.0/24 production
@@ -468,7 +474,7 @@ WARN[0000] Note: This is an experimental alternate implementation of the Compose
 ERRO[0000] User 'vagrant' not allowed on network 'production'
 </code></pre>
 
-<h6>5. Verifying that only allowed policies are permitted</h6>
+<h3>5. Verifying that only allowed policies are permitted</h3>
 <p>For a composition that attempts to speicfy a disallowed policy, contiv-compose will error out.
 For this we&#39;ll specify <code>AllPriviliges</code> policy for the user&#39;s vagrant, and as expected we get errored out as follows:</p>
 <pre class="highlight plaintext"><code>$ cat docker-compose.yml
@@ -492,7 +498,7 @@ ERRO[0000] Failed to apply in-policy for service 'redis': Deny disallowed policy
 FATA[0000] Failed to Create Network Config: Deny disallowed policy
 </code></pre>
 
-<h6>6. Specifying a override tenant (non default)</h6>
+<h3>6. Specifying a override tenant (non default)</h3>
 <p>We can use contiv-compose yml to specify a non default tenant to run the applications in a different tenant.
 While users are typically not allowed to specify the tenancy, rather it is picked up from the user&#39;s context,
 this example is kept here just for illustration:</p>
@@ -528,7 +534,7 @@ $ docker inspect example_redis_1 | grep \"IPAddress\"
 </code></pre>
 <p>Note that it allocated an IP from blue tenant&#39;s IP pool</p>
 
-<h4>Some Notes and Comments</h4>
+<h3>Some Notes and Comments</h3>
 
 <ul>
 <li>This tool is used to demonstration the automation and integration with Contiv Networking and is not meant to

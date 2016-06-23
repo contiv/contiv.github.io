@@ -10,9 +10,9 @@ description: |-
 
 This tutorial utilizes modified libcompose to apply network policies on an application composition.
 
-#### How to try it out
+## How to try it out
 
-###### 1. Get netplugin vagrant setup:
+### 1. Get netplugin vagrant setup:
 Bring up Contiv Vagrant setup as in [Step 1. Contiv Netplugin](https://github.com/contiv/netplugin/README.md).
 
 ```
@@ -23,7 +23,7 @@ $ git clone https://github.com/contiv/netplugin
 $ cd netplugin; make demo
 ```
 
-###### 2. Get libcompose and enter VM
+### 2. Get libcompose and enter VM
 
 ```
 $ mkdir -p $GOPATH/src/github.com/docker
@@ -33,7 +33,7 @@ $ cd $GOPATH/src/github.com/contiv/netplugin
 $ make ssh
 ```
 
-###### 3. Inside the VM, compile libcompose
+### 3. Inside the VM, compile libcompose
 
 ```
 $ cd $GOPATH/src/github.com/docker/libcompose
@@ -42,7 +42,7 @@ $ make binary
 $ ln -s $GOPATH/src/github.com/docker/libcompose/bundles/libcompose-cli /opt/gopath/bin/contiv-compose
 ```
 
-###### 4. Build or Get container images
+### 4. Build or Get container images
 
 You can either build your own images or download prebuilt sample images needed. For if you choose to use the
 standard docker images, you can:
@@ -71,7 +71,7 @@ $ docker pull jainvipin/redis
 $ docker tag -f redis redis
 ```
 
-###### 5. Run contiv-compose and see the policies working
+### 5. Run contiv-compose and see the policies working
 
 Before we run the composition, we must create a few networks, which can be easily accomplished using:
 
@@ -125,7 +125,7 @@ $ exit
 < ** back to linux prompt ** >
 ```
 
-###### 6. Tear down the composition
+### 6. Tear down the composition
 Let us tear down the composition and associated policies we started earlier
 
 ```
@@ -133,9 +133,9 @@ $ cd $GOPATH/src/github.com/docker/libcompose/deploy/example
 $ contiv-compose stop
 ```
 
-#### Playing with a few more interesting cases
+## Playing with a few more interesting cases
 
-###### 1. Trying to scale an application tier
+### 1. Trying to scale an application tier
 One can scale any application tier and expect that the policy be applied to the group of containers belonging to
 a tier/service/group. To follow up with previous example, if we try to scale web tier as follows:
 
@@ -162,7 +162,7 @@ $ contiv-compose stop
 $ contiv-compose rm -f
 ```
 
-###### 2. Changing the default network which
+### 2. Changing the default network which
 Create a new `test` network first
 
 ```
@@ -196,7 +196,7 @@ The new composition is started in the `test` network as specified in the composi
 $ contiv-compose stop
 ```
 
-###### 3. Specfying an override policy
+### 3. Specfying an override policy
 
 Should there be a need to specify an override policy for a service tier, we can use a policy label to do so as
 in the following modified yml
@@ -258,7 +258,7 @@ Let's cleanup/stop the composition, before moving to other things
 $ contiv-compose stop
 ```
 
-###### 4. Verifying that only allowed networks are permitted
+### 4. Verifying that only allowed networks are permitted
 
 For a composition that attempts to speicfy a network that is not permitted for it, contiv-compose will error out.
 For this we'll create a production network.
@@ -283,7 +283,7 @@ WARN[0000] Note: This is an experimental alternate implementation of the Compose
 ERRO[0000] User 'vagrant' not allowed on network 'production'
 ```
 
-###### 5. Verifying that only allowed policies are permitted
+### 5. Verifying that only allowed policies are permitted
 For a composition that attempts to speicfy a disallowed policy, contiv-compose will error out.
 For this we'll specify `AllPriviliges` policy for the user's vagrant, and as expected we get errored out as follows:
 
@@ -309,7 +309,7 @@ ERRO[0000] Failed to apply in-policy for service 'redis': Deny disallowed policy
 FATA[0000] Failed to Create Network Config: Deny disallowed policy
 ```
 
-###### 6. Specifying a override tenant (non default)
+### 6. Specifying a override tenant (non default)
 
 We can use contiv-compose yml to specify a non default tenant to run the applications in a different tenant.
 While users are typically not allowed to specify the tenancy, rather it is picked up from the user's context,
@@ -354,7 +354,7 @@ $ docker inspect example_redis_1 | grep \"IPAddress\"
 Note that it allocated an IP from blue tenant's IP pool
 
 
-#### Some Notes and Comments
+### Some Notes and Comments
 - This tool is used to demonstration the automation and integration with Contiv Networking and is not meant to
 be used in production.
 - The user based authentication is expected to keep the operational policy `ops.json` as docker's authorization

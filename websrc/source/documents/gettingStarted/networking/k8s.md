@@ -11,18 +11,18 @@ description: |-
 Contiv is integrated with Kubernetes via a CNI plugin. With this integration, Contiv
 Networking and Policy can be used for Pod inter-connectivity in a Kubernetes cluster.
 
-## Getting Started
+## Getting Started in Vagrant Environment
 
 This step-by-step procedure will guide you through a minimal experience of creating
 a Kubernetes cluster with Contiv networking and applying policy between pods.
 
 ### Pre-requisites
 
-Before starting, please be sure to set http/https proxies if your network requires it.
+1. Before starting, please be sure to set http/https proxies if your network requires it.
 *(Note that `https_proxy` should be set to point to a `http://` URL (not `https://`).
 This is an ansible requirement.)*
 
-The setup scripts use python modules *parse* and *netaddr*. If these modules are not
+2. The setup scripts use python modules *parse* and *netaddr*. If these modules are not
 installed on the machine where you are executing these steps, you should install them
 before proceeding. *(E.g. `pip install parse; pip install netaddr`)*
 
@@ -37,7 +37,7 @@ $ cd ~/go/src/github.com/k8s
 $ git clone https://github.com/contiv/netplugin
 ```
 
-### Step 2: Create cluster
+### Step 2: Create vagrant cluster
 
 ```
 $ cd ~/go/src/github.com/k8s/netplugin

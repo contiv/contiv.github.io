@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Getting Started">
+    <meta name="description" content="Networking IPv6">
 
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <title>Getting Started - Contiv</title>
+    <title>Networking IPv6 - Contiv</title>
 
     <link href="/assets/stylesheets/application-9630d0a5.css" rel="stylesheet"/>
 
@@ -19,7 +19,7 @@
     
   </head>
 
-  <body id="page-Getting Started" class=" page-Getting Started layout-documents page-sub">
+  <body id="page-Networking IPv6" class=" page-Networking IPv6 layout-documents page-sub">
 
 <div id="header" class="navbar-static-top">
   <div class="container">
@@ -99,7 +99,7 @@ GitHub</a></li>
 			<hr>
 			<h3>User Guide</h3>
 			<ul class="nav docs-sidenav">
-				<li class="active">
+				<li>
 					<a href="/documents/gettingStarted/index.html">Getting Started</a>
 					<ul class="nav">
 						<li>
@@ -143,10 +143,10 @@ GitHub</a></li>
 						<li>
 							<a href="/documents/gettingStarted/storage/storage.html">Storage </a>
 						</li>
-						<li class="active">
+						<li>
 							<a href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
-								<li class="active">
+								<li>
 										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
 								</li>
 								<li>
@@ -156,7 +156,7 @@ GitHub</a></li>
 						</li>
 					</ul>
 				</li>
-				<li>
+				<li class="active">
 					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
 						<li>
@@ -174,7 +174,7 @@ GitHub</a></li>
 						<li>
 								<a href="/documents/networking/ipam.html">IPAM and Service Discovery</a>
 						</li>
-						<li>
+						<li class="active">
 								<a href="/documents/networking/ipv6.html">IPv6</a>
 						</li>
 					</ul>
@@ -263,40 +263,109 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h2>3 steps to Contiv Cluster Management</h2>
-<p>If you are trying cluster manager with baremetal hosts or a personal VM setup follow <a href="./baremetal.md">this link</a> to setup the hosts. After that you can manage the cluster as described in the <a href="#3-login-to-the-first-node-to-manage-the-cluster">step 3.</a> below.</p>
-<p>To try with a built-in vagrant based VM environment continue reading.</p>
+	<h2>IPv6 in netplugin</h2>
+<p>The current implementation supports dual stack with IPv4 and IPv6 interfaces for containers, as Docker Swarm APIs do not support IPv6-only containers.</p>
 
-<h3>0. Ensure correct dependencies are installed</h3>
-
-<ul>
-<li>vagrant 1.7.3 or higher
-</li>
-<li>virtualbox 5.0 or higher
-</li>
-<li>ansible 2.0 or higher
-</li>
-</ul>
-
-<h3>1. checkout and build the code</h3>
-<pre class="highlight plaintext"><code>cd $GOPATH/src/github.com/contiv/
-git clone https://github.com/contiv/cluster.git
+<h2>Configuring IPv6 network</h2>
+<p>When configuring a network, you can specify an optional IPv6 subnet pool to allocate IPv6 address for the containers.</p>
+<pre class="highlight plaintext"><code>$ netctl net create contiv-net --subnet=20.1.1.0/24 --subnetv6=2001::/100
 </code></pre>
 
-<h3>2. launch three vagrant nodes.</h3>
-<p><strong>Note:</strong> If you look at the project&#39;s <code>Vagrantfile</code>, you will notice that all the vagrant nodes (except for the first node) boot up with stock centos7.2 OS and a <code>serf</code> agent running. <code>serf</code> is used as the node discovery service. This is intentional to meet the goal of limiting the amount of services that user needs to setup to start bringing up a cluster and hence making management easier.
-<code>
-cd cluster/
-CONTIV_NODES=3 make demo-cluster
-</code></p>
+<h2>Running containers in IPv6 network</h2>
+<p>Container &#39;web&#39; in Node1</p>
+<pre class="highlight plaintext"><code>[vagrant@netplugin-node1 ~]$ docker run -itd  --net contiv-net --name web alpine sh
+f0b75b2ccf9a7c71d138f74d8092d8535357ebc61feb963f740f1ba593afbc01
 
-<h3>3. login to the first node to manage the cluster</h3>
-<p><strong>Note:</strong> The first node is slightly special in a way that it is booted up with two additional services viz. <code>collins</code> and <code>clusterm</code>. <code>collins</code> is used as the node lifecycle management and event logging service. <code>clusterm</code> is the cluster manager daemon. <code>clusterctl</code> utility is provided to exercise cluster manager provided REST endpoint.</p>
-<pre class="highlight plaintext"><code>CONTIV_NODES=3 vagrant ssh cluster-node1
+</code></pre>
+<p>Container &#39;db&#39; in Node2</p>
+<pre class="highlight plaintext"><code>[vagrant@netplugin-node2 ~]$ docker run -itd  --net contiv-net --name db alpine sh
+5ed67c19041dd64c983bab7a21ca3a1ad7e85a6ee981b4140b32068bae6d6e26
 </code></pre>
 
-<h4>Provision additional nodes</h4>
-<p>Please see Cluster section for more details [ FIXME: Add alink here]</p>
+<h2>IP Address allocation</h2>
+<p>The containers created will get IPv4 and IPv6 address allocated from the corresponding subnet range.</p>
+<pre class="highlight plaintext"><code>[vagrant@netplugin-node1 ~]$ docker network inspect contiv-net
+[
+    {
+        "Name": "contiv-net",
+        "Id": "6c21fa082f4f456730928d076b19148e6db1d88d90fe8f2c0760223af51f4e31",
+        "Scope": "global",
+        "Driver": "netplugin",
+        "IPAM": {
+            "Driver": "netplugin",
+            "Config": [
+                {
+                    "Subnet": "20.1.1.0/24"
+                },
+                {
+                    "Subnet": "2001::/100"
+                }
+            ]
+        },
+        "Containers": {
+            "455a80938abcaf4a534a08783ff44e10b2a1a5afb3c2690d474b19ed670b3d7a": {
+                "EndpointID": "d8fcf4dc8d79841073655698ebc692ffe20251abc1c2577cdc6924fb53d7ef62",
+                "MacAddress": "02:02:14:01:01:02",
+                "IPv4Address": "20.1.1.2/24",
+                "IPv6Address": "2001::2/100"
+            },
+            "cb30c9001c118f4ae39b6fda14f6c26c9ccbdcd1110eabded179ce47a7aa63c9": {
+                "EndpointID": "06e11d75f0bada4b1e1dad848363b3fea323eb3ac175cde0569b3e7f25dff3a0",
+                "MacAddress": "02:02:14:01:01:03",
+                "IPv4Address": "20.1.1.3/24",
+                "IPv6Address": "2001::3/100"
+            }
+        },
+        "Options": {
+            "encap": "vxlan",
+            "pkt-tag": "1",
+            "tenant": "default"
+        }
+    }
+]
+</code></pre>
+
+<h2>Container IPv6 interface</h2>
+<p>Container &#39;web&#39; in Node1</p>
+<pre class="highlight plaintext"><code>[vagrant@netplugin-node1 ~]$ docker exec -it web /bin/sh
+/ # ip addr show dev eth0
+13: eth0@if12: &lt;BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN&gt; mtu 1450 qdisc noqueue state UP
+    link/ether 02:02:14:01:01:03 brd ff:ff:ff:ff:ff:ff
+    inet 20.1.1.3/24 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 2001::3/100 scope global
+       valid_lft forever preferred_lft forever
+    inet6 fe80::2:14ff:fe01:103/64 scope link
+       valid_lft forever preferred_lft forever
+/ #
+</code></pre>
+<p>Container &#39;db&#39; in Node2</p>
+<pre class="highlight plaintext"><code>[vagrant@netplugin-node2 ~]$ docker exec -it db /bin/sh
+/ # ip addr show dev eth0
+9: eth0@if8: &lt;BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN&gt; mtu 1450 qdisc noqueue state UP
+    link/ether 02:02:14:01:01:04 brd ff:ff:ff:ff:ff:ff
+    inet 20.1.1.4/24 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 2001::4/100 scope global
+       valid_lft forever preferred_lft forever
+    inet6 fe80::2:14ff:fe01:104/64 scope link
+       valid_lft forever preferred_lft forever
+/ #
+</code></pre>
+
+<h2>Ping6 between containers</h2>
+<pre class="highlight plaintext"><code>[vagrant@netplugin-node1 ~]$ docker exec -it web /bin/sh
+/ # ping6 2001::4 -I 2001::3 -c 3
+PING 2001::4 (2001::4) from 2001::3: 56 data bytes
+64 bytes from 2001::4: seq=0 ttl=64 time=1.689 ms
+64 bytes from 2001::4: seq=1 ttl=64 time=2.437 ms
+64 bytes from 2001::4: seq=2 ttl=64 time=1.526 ms
+
+--- 2001::4 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 1.526/1.884/2.437 ms
+/ #
+</code></pre>
 
 
 			</div>

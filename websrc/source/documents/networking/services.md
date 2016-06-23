@@ -77,5 +77,6 @@ docker exec -it 9e6842a59369ba67d6224c1502ab0e68360fe7aaa0949a04462a9ae0bdbc6830
 100.1.1.3 (100.1.1.3:8080) open
 ```
 
-Note: Service IP can also be a preferred ip address. This can be enforced while creating the service configuration with -ip option.
-Coming Soon: Watch for more intuitive contiv-compose integration.
+Notes:
+1. Service IP can also be a preferred ip address. This can be enforced while creating the service configuration with -ip option.
+2. Coming Soon: Watch for more intuitive contiv-compose integration.
