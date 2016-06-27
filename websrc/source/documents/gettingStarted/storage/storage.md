@@ -9,7 +9,7 @@ description: |-
 ## Getting started with Contiv Storage
 
 Getting started describes setting up a test environment with three VMs. Once
-the test environment is setup see the [**Configure Services**](#Configure Services).
+the test environment is setup see the [**Configure Services**](/documents/storage/configuration.html).
 
 #### Prerequisites
 

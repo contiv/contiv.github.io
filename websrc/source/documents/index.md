@@ -17,7 +17,7 @@ guides.
 - [Cluster](/documents/cluster)
 
 ## Tutorials and Talks
-- [Totorials](/documents/tutorials)
+- [Tutorials](/documents/tutorials)
 - [Demostration Videos](/documents/demos)
 - [Community Talks](/documents/talks)
 

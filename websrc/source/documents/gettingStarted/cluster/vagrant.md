@@ -8,7 +8,7 @@ description: |-
 
 ## 3 steps to Contiv Cluster Management
 
-If you are trying cluster manager with baremetal hosts or a personal VM setup follow [this link](./baremetal.md) to setup the hosts. After that you can manage the cluster as described in the [step 3.](#3-login-to-the-first-node-to-manage-the-cluster) below.
+If you are trying cluster manager with baremetal hosts or a personal VM setup follow [this link](baremetal.html) to setup the hosts. After that you can manage the cluster as described in the step 3. below.
 
 To try with a built-in vagrant based VM environment continue reading.
 
@@ -41,4 +41,4 @@ CONTIV_NODES=3 vagrant ssh cluster-node1
 
 #### Provision additional nodes
 
-Please see Cluster section for more details [ FIXME: Add alink here]
+Please see [Cluster](/documents/cluster/node-lifecycle.html) section for more details
