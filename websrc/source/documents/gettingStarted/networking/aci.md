@@ -58,7 +58,7 @@ For password based authentication, you need to pass the password to the aci-gw u
 
  Step 1. Create a key and certicate add the certificate to APIC using the procedure described in http://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/kb/b_KB_Signature_Based_Transactions.pdf.
 
- Step 2. Find the DN of the key that was added to APIC and pass it to the aci-gw via the APIC_CERT_DN environment variable. This DN is of the form**uni/userext/user-admin/usercert-admin** The exact DN can be found from the APIC visore.  e.g. `APIC_CERT_DN=uni/userext/user-admin/usercert-admin`
+ Step 2. Find the DN of the key that was added to APIC and pass it to the aci-gw via the `APIC_CERT_DN` environment variable. This DN is of the form **uni/userext/user-admin/usercert-admin** The exact DN can be found from the APIC visore.  e.g. `APIC_CERT_DN=uni/userext/user-admin/usercert-admin`
 
  Step 3. Create a directory on the server that hosts aci-gw and copy the key created in the previous step to this directory.
 

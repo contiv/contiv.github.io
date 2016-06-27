@@ -8,10 +8,10 @@
 					<a href="/documents/gettingStarted/index.html">Getting Started</a>
 					<ul class="nav">
 						<li<%= sidebar_current("getting-started-networking") %>>
-							<a href="/documents/gettingStarted/networking/index.html">Networking</a>
+							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
 								<li<%= sidebar_current("getting-started-networking-vagrant") %>>
-									<a href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
 									<ul class="subnav">
 										<li<%= sidebar_current("getting-started-networking-vagrant-swarm") %>>
 												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
@@ -26,8 +26,9 @@
 												<a href="/documents/gettingStarted/networking/nomad.html">Nomad</a>
 										</li>
 									</ul>
+								</li>
 								<li<%= sidebar_current("getting-started-networking-installation") %>>
-									<a href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
 									<ul class="subnav">
 										<li<%= sidebar_current("getting-started-networking-installation-swarm") %>>
 												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
@@ -49,7 +50,7 @@
 							<a href="/documents/gettingStarted/storage/storage.html">Storage </a>
 						</li>
 						<li<%= sidebar_current("getting-started-cluster") %>>
-							<a href="/documents/gettingStarted/cluster/index.html">Cluster </a>
+							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
 								<li<%= sidebar_current("getting-started-cluster-vagrant") %>>
 										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
@@ -74,7 +75,18 @@
 								<a href="/documents/networking/services.html">Service Routing</a>
 						</li>
 						<li<%= sidebar_current("networking-physical") %>>
-								<a href="/documents/networking/physical-networks.html">Physical Networks</a>
+								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
+								<ul class="nav">
+									<li<%= sidebar_current("networking-physical-bgp") %>>
+											<a href="/documents/networking/bgp.html">L3 Routed Networks</a>
+									</li>
+									<li<%= sidebar_current("networking-physical-l2") %>>
+											<a href="/documents/networking/l2-vlan.html">L2 Bridged Networks</a>
+									</li>
+									<li<%= sidebar_current("networking-physical-aci") %>>
+											<a href="/documents/networking/aci_ug.html">Cisco ACI</a>
+									</li>
+								</ul>
 						</li>
 						<li<%= sidebar_current("networking-ipam") %>>
 								<a href="/documents/networking/ipam.html">IPAM and Service Discovery</a>

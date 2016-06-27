@@ -12,7 +12,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <title>Contiv Network on Baremetal or VMs - Contiv</title>
 
-    <link href="/assets/stylesheets/application-9630d0a5.css" rel="stylesheet"/>
+    <link href="/assets/stylesheets/application-b128c5a2.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
@@ -103,10 +103,10 @@ GitHub</a></li>
 					<a href="/documents/gettingStarted/index.html">Getting Started</a>
 					<ul class="nav">
 						<li class="active">
-							<a href="/documents/gettingStarted/networking/index.html">Networking</a>
+							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
 								<li class="active">
-									<a href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
@@ -121,8 +121,9 @@ GitHub</a></li>
 												<a href="/documents/gettingStarted/networking/nomad.html">Nomad</a>
 										</li>
 									</ul>
+								</li>
 								<li>
-									<a href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
@@ -144,7 +145,7 @@ GitHub</a></li>
 							<a href="/documents/gettingStarted/storage/storage.html">Storage </a>
 						</li>
 						<li>
-							<a href="/documents/gettingStarted/cluster/index.html">Cluster </a>
+							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
 								<li>
 										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
@@ -169,7 +170,18 @@ GitHub</a></li>
 								<a href="/documents/networking/services.html">Service Routing</a>
 						</li>
 						<li>
-								<a href="/documents/networking/physical-networks.html">Physical Networks</a>
+								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
+								<ul class="nav">
+									<li>
+											<a href="/documents/networking/bgp.html">L3 Routed Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/l2-vlan.html">L2 Bridged Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/aci_ug.html">Cisco ACI</a>
+									</li>
+								</ul>
 						</li>
 						<li>
 								<a href="/documents/networking/ipam.html">IPAM and Service Discovery</a>

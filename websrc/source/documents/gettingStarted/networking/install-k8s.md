@@ -63,6 +63,13 @@ Supply login password when prompted.
 ```
 Supply login password when prompted.
 
+
+**Note**: If you need Layer 3 BGP support use
+
+```
+./setup_k8s_cluster <login_userid> contivFwdMode="routing"
+```
+
 ###Step 6 Verify cluster
 ```
 ./verify_cluster.sh <login_userid>

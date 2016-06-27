@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Physical network integration">
+
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <title>Physical network integration - Contiv</title>
+
+    <link href="/assets/stylesheets/application-b128c5a2.css" rel="stylesheet"/>
+
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+
+    
+  </head>
+
+  <body id="page-Physical network integration" class=" page-Physical network integration layout-documents page-sub">
+
+<div id="header" class="navbar-static-top">
+  <div class="container">
+    <div class="row">
+      
+        <div class="navbar-header">
+          <div class="navbar-brand">
+              <a class="logo" href="/">Contiv</a>
+            </a>
+          </div>
+          
+        </div>
+        <div class="buttons hidden-xs">
+          <nav role="navigation">
+            <ul class="main-links nav navbar-nav navbar-left">
+              <li class="first li-under"><a href="/documents/index.html">Documentation</a></li>
+              <li class="li-under"><a href="/articles/index.html">Articles</a></li>
+              <li class="li-under"><a href="https://github.com/contiv" target="_blank">
+                        GitHub
+                        <i class="fa fa-github fa-lg"></i>
+                        </a></li>
+                    <li class="li-under"><a href="https://contiv-slack.herokuapp.com" target="_blank">
+                        Slack
+                        <i class="fa fa-slack fa-lg"></i>
+                        </a></li>
+                    <li><a href="https://twitter.com/projectcontiv" target="_blank">
+                        Twitter
+                        <i class="fa fa-twitter fa-lg"></i>
+                        </a></li>
+            </ul>
+          </nav>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="sidebar-overlay"></div>
+
+
+<aside id="sidebar" class="sidebar sidebar-default sidebar-fixed-right" role="navigation">
+    
+    <div class="sidebar-header header-cover">
+        
+        <div class="sidebar-image">
+            <img src="/assets/images/logo3-a96fcb82.png" width="49px" height="56px">
+        </div>
+    </div>
+
+    
+    <ul class="main nav sidebar-nav">
+        <li class="first"><a href="/intro/index.html">Intro</a></li>
+        <li class=""><a href="/docs/index.html">Docs</a></li>
+    </ul>
+    <div class="divider"></div>
+    
+    <ul class="external nav sidebar-nav">
+        <li class=""><a class="v-btn gray sml" href="https://github.com/contiv"><svg id="svg-download" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" style="enable-background:new 0 0 14 14;">
+  <style>
+  </style>
+  <path class="" d="M13,0H1C0.5,0,0,0.5,0,1v12c0,0.5,0.5,1,1,1h4.7c0,0,0,0,0-0.1c0-0.2,0-0.6,0-1.1c-1.8,0.4-2.2-0.9-2.2-0.9
+    c-0.3-0.8-0.7-1-0.7-1c-0.6-0.4,0-0.4,0-0.4c0.7,0,1,0.7,1,0.7c0.6,1,1.5,0.7,1.9,0.5c0.1-0.4,0.2-0.7,0.4-0.9c-1.5-0.2-3-0.7-3-3.2
+    c0-0.7,0.3-1.3,0.7-1.8C3.7,5.8,3.5,5.1,3.9,4.2c0,0,0.6-0.2,1.8,0.7c0.5-0.1,1.1-0.2,1.6-0.2c0.6,0,1.1,0.1,1.6,0.2
+    c1.3-0.8,1.8-0.7,1.8-0.7c0.4,0.9,0.1,1.6,0.1,1.7c0.4,0.5,0.7,1,0.7,1.8c0,2.5-1.5,3.1-3,3.2C8.7,11.1,9,11.5,9,12.1
+    c0,0.9,0,1.6,0,1.8c0,0,0,0,0,0.1h4c0.5,0,1-0.5,1-1V1C14,0.5,13.5,0,13,0z"/>
+</svg>
+GitHub</a></li>
+    </ul>
+</aside>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-3 col-sm-3 col-xs-12">
+					<div class="docs-sidebar hidden-print affix-top" role="complementary">
+			<hr>
+			<h3>User Guide</h3>
+			<ul class="nav docs-sidenav">
+				<li>
+					<a href="/documents/gettingStarted/index.html">Getting Started</a>
+					<ul class="nav">
+						<li>
+							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
+							<ul class="nav">
+								<li>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<ul class="subnav">
+										<li>
+												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/k8s.html">Kubernetes</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/mesos.html">Mesos</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/nomad.html">Nomad</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<ul class="subnav">
+										<li>
+												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/install-k8s.html">Kubernetes</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/bgp.html">BGP</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/aci.html">Cisco ACI</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="/documents/gettingStarted/storage/storage.html">Storage </a>
+						</li>
+						<li>
+							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
+							<ul class="subnav">
+								<li>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+								</li>
+								<li>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li class="active">
+					<a href="/documents/networking/index.html">Networking</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
+						</li>
+						<li>
+								<a href="/documents/networking/policies.html">Policies</a>
+						</li>
+						<li>
+								<a href="/documents/networking/services.html">Service Routing</a>
+						</li>
+						<li class="active">
+								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
+								<ul class="nav">
+									<li class="active">
+											<a href="/documents/networking/bgp.html">L3 Routed Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/l2-vlan.html">L2 Bridged Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/aci_ug.html">Cisco ACI</a>
+									</li>
+								</ul>
+						</li>
+						<li>
+								<a href="/documents/networking/ipam.html">IPAM and Service Discovery</a>
+						</li>
+						<li>
+								<a href="/documents/networking/ipv6.html">IPv6</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/storage/index.html">Storage</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/storage/architecture.html">Architecture</a>
+						</li>
+						<li>
+								<a href="/documents/storage/configuration.html">Configuration</a>
+						</li>
+						<li>
+								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+						</li>
+						<li>
+								<a href="/documents/storage/volcli.html">Volcli Reference</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/cluster/index.html">Cluster</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/cluster/concepts.html">Concepts and Terminology</a>
+						</li>
+						<li>
+								<a href="/documents/cluster/node-lifecycle.html">Node Lifecycle Management</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<hr><p>
+			<h3>Tutorials and Talks</h3>
+				<ul class="nav docs-sidenav">
+					<li>
+						<a href="/documents/tutorials/index.html">Tutorials</a>
+						<ul class="nav">
+							<li>
+									<a href="/documents/tutorials/container-101.html">Container Networking Tutorial</a>
+							</li>
+							<li>
+									<a href="/documents/tutorials/contiv-compose.html">Policies with Networking</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="/documents/demos/index.html">Demonstration Videos</a>
+					</li>
+					<li>
+						<a href="/documents/talks/index.html">Community Talks</a>
+					</li>
+				</ul>
+			<hr><p>
+			<h3>Examples</h3>
+				<ul class="nav docs-sidenav">
+					<ul class="subnav">
+						<li>
+							<a href="/documents/samples/index.html">Docker Compose Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/index.html">Kubernetes Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/mcast.html">Multicast Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/nomad.html">Nomad Examples</a>
+						</li>
+					</ul>
+				</ul>
+			<hr><p>
+			<h3>Reference</h3>
+				<ul class="nav docs-sidenav">
+					<ul class="subnav">
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Network API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/volplugin/config" target="_blank">Storage API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/cluster" target="_blank">Cluster API Reference</a><br></li>
+					</ul>
+				</ul>
+			<hr><p>
+		</div>
+
+		</div>  
+		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
+			<div class="bs-docs-section">
+				
+	<h1>Contiv in L3 mode</h1>
+<p>This page contains the steps to use Contiv in L3 mode. Please follow the steps mentioned <a href="/documents/gettingStarted/networking/bgp.html">here</a> for setup &amp; installation process.</p>
+<p><img alt="bgp" src="/documents/networking/bgp_arch-f61447e6.png"/></p>
+
+<h1>What does L3 capabilty facilitate in a Contiv container infrastructure ?</h1>
+
+<ul>
+<li> Enable communication between containers on different hosts natively using vlan encap
+</li>
+<li> Enables communication between containers and non containers
+</li>
+<li> Provides capability for uplink TOR&#39;s/Leaf switches to learn containers deployed in the fabric
+</li>
+</ul>
+
+<h1>What are the recommended topologies ?</h1>
+<p><img alt="topo" src="/documents/networking/bgp_topology-d19d8b8b.png"/></p>
+
+<h1>Typical worklow:</h1>
+
+<ul>
+<li>Configure Bgp on the Leaf switches Leaf 1 and Leaf 2
+</li>
+<li>Bring up Contiv – netplugin and netmaster
+</li>
+<li>Create a Vlan network with subnet pool and gateway
+</li>
+<li>Add Bgp configuration on the host, to peer with the uplink leaf
+</li>
+<li>Bring up containers in the networks created on the host
+</li>
+</ul>
+
+<h1>What are the supported configurations</h1>
+
+<ul>
+<li>Ensure that BGP peering between the host server and the leaf switch is eBGP
+</li>
+<li>Currently only one uplink from the server is supported
+</li>
+<li>Currently supported on bare-metals (watch this space for support on VMs soon)
+</li>
+</ul>
+
+<h1>Supported version</h1>
+<p>This document would be applicable starting from the following version:</p>
+<pre class="highlight plaintext"><code>Version: v0.1-02-06-2016.14-42-05.UTC
+GitCommit: 392e0a7
+BuildTime: 02-06-2016.14-42-05.UTC
+</code></pre>
+
+<h2>STEP 1 : Configure the Switches to run BGP</h2>
+<p>If you are using the sample topology provided above , the following sample configuration could be used.</p>
+
+<h3>Switch1:</h3>
+<pre class="highlight plaintext"><code>router ospf 500
+  router-id 80.1.1.1
+router bgp 500
+  router-id 50.1.1.2
+  address-family ipv4 unicast
+    redistribute direct route-map FH
+    redistribute static route-map FH
+    redistribute ospf 500 route-map FH
+  neighbor 50.1.1.1 remote-as 65002
+    remote-as 65002
+    address-family ipv4 unicast
+  neighbor 60.1.1.4 remote-as 500
+    remote-as 500
+    update-source Vlan1
+    address-family ipv4 unicast
+
+interface Ethernet1/44
+  no switchport
+  ip address 80.1.1.1/24
+  ip router ospf 500 area 0.0.0.0
+
+vlan 1
+route-map FH permit 20
+  match ip address HOSTS
+
+
+interface Vlan1
+  no shutdown
+  ip address 50.1.1.2/24
+  ip router ospf 500 area 0.0.0.0
+
+ip access-list HOSTS
+  10 permit ip any any
+</code></pre>
+
+<h3>Switch 2:</h3>
+<pre class="highlight plaintext"><code>feature ospf
+feature bgp
+feature interface-vlan
+
+router ospf 500
+  router-id 80.1.1.2
+router bgp 500
+  router-id 60.1.1.4
+  address-family ipv4 unicast
+    redistribute direct route-map FH
+    redistribute ospf 500 route-map FH
+  neighbor 50.1.1.2 remote-as 500
+    remote-as 500
+    update-source Vlan1
+    address-family ipv4 unicast
+  neighbor 60.1.1.3 remote-as 65002
+    remote-as 65002
+    address-family ipv4 unicast
+
+interface Ethernet1/44
+  no switchport
+  ip address 80.1.1.2/24
+  ip router ospf 500 area 0.0.0.0
+
+vlan 1
+route-map FH permit 20
+  match ip address HOSTS
+
+
+interface Vlan1
+  no shutdown
+  ip address 60.1.1.4/24
+  ip router ospf 500 area 0.0.0.0
+
+ip access-list HOSTS
+  10 permit ip any any
+
+</code></pre>
+
+<h2>STEP 2: Add the bgp neighbor on each of the contiv hosts</h2>
+<p>On the host where netmaster is running :
+<code>
+$netctl bgp create Contiv1 -router-ip=&quot;50.1.1.1/24&quot; --as=&quot;65002&quot; --neighbor-as=&quot;500&quot; --neighbor=&quot;50.1.1.2&quot;
+$netctl bgp create Contiv2 -router-ip=&quot;60.1.1.3/24&quot; --as=&quot;65002&quot; --neighbor-as=&quot;500&quot; --neighbor=&quot;60.1.1.4&quot;
+</code>
+where Contiv1 and Contiv2 are the hostnames of the servers shown in the topology.</p>
+
+<h2>STEP 3: Create a network with encap as vlan and start containers in the network</h2>
+<p>On the host where netmaster is running :
+<code>
+$netctl network create public --encap=&quot;vlan&quot; --subnet=192.168.1.0/24 --gateway=192.168.1.254
+</code>
+On Contiv1 :
+<code>
+$docker run -itd --name=web1 --net=public alpine sh
+</code>
+On Contiv2 :
+<code>
+docker run -itd --name=web2 --net=public alpine sh
+</code></p>
+
+<h2>STEP 4: Login to continer and verify the ip address has been allocated from the network.</h2>
+<pre class="highlight plaintext"><code>$docker ps -a
+CONTAINER ID        IMAGE                          COMMAND             CREATED              STATUS              PORTS               NAMES
+084f47e72101        ubuntu                         "bash"              About a minute ago   Up About a minute                       web1
+0cc23ada5578        skynetservices/skydns:latest   "/skydns"           6 minutes ago        Up 6 minutes        53/tcp, 53/udp      defaultdns
+
+
+root@contiv1:~/# docker exec -it 084f47e72101 bash
+root@084f47e72101:/# ifconfig
+eth0      Link encap:Ethernet  HWaddr 02:02:c0:a8:01:03
+          inet addr:192.168.1.3  Bcast:0.0.0.0  Mask:255.255.255.0
+          inet6 addr: fe80::2:c0ff:fea8:103/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1450  Metric:1
+          RX packets:23 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:23 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:2062 (2.0 KB)  TX bytes:2062 (2.0 KB)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+</code></pre>
+
+<h2>STEP 6: Verify that the switches have the container routes</h2>
+<pre class="highlight plaintext"><code>Switch-1# show ip route
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%&lt;string&gt;' in via output denotes VRF &lt;string&gt;
+
+50.1.1.0/24, ubest/mbest: 1/0, attached
+    *via 50.1.1.2, Vlan1, [0/0], 3d23h, direct
+50.1.1.2/32, ubest/mbest: 1/0, attached
+    *via 50.1.1.2, Vlan1, [0/0], 3d23h, local
+60.1.1.0/24, ubest/mbest: 1/0
+    *via 80.1.1.2, Eth1/44, [110/44], 3d23h, ospf-500, intra
+60.1.1.4/32, ubest/mbest: 1/0
+    *via 80.1.1.2, [1/0], 1w3d, static
+80.1.1.0/24, ubest/mbest: 1/0, attached
+    *via 80.1.1.1, Eth1/44, [0/0], 1w3d, direct
+80.1.1.1/32, ubest/mbest: 1/0, attached
+    *via 80.1.1.1, Eth1/44, [0/0], 1w3d, local
+192.168.1.1/32, ubest/mbest: 1/0
+    *via 50.1.1.1, [20/0], 03:49:24, bgp-500, external, tag 65002
+192.168.1.2/32, ubest/mbest: 1/0
+    *via 60.1.1.3, [200/0], 00:00:02, bgp-500, internal, tag 65002
+192.168.1.3/32, ubest/mbest: 1/0
+    *via 50.1.1.1, [20/0], 03:47:08, bgp-500, external, tag 65002
+</code></pre>
+
+<h2>STEP 5: Ping between the containers</h2>
+<pre class="highlight plaintext"><code>$root@084f47e72101:/# ping 192.168.1.2
+PING 192.168.1.2 (192.168.1.2) 56(84) bytes of data.
+64 bytes from 192.168.1.2: icmp_seq=1 ttl=62 time=9.29 ms
+64 bytes from 192.168.1.2: icmp_seq=2 ttl=62 time=0.156 ms
+64 bytes from 192.168.1.2: icmp_seq=3 ttl=62 time=0.139 ms
+64 bytes from 192.168.1.2: icmp_seq=4 ttl=62 time=0.130 ms
+64 bytes from 192.168.1.2: icmp_seq=5 ttl=62 time=0.123 ms
+
+</code></pre>
+
+<h2>STEP 6: Ping between container and a switch</h2>
+<pre class="highlight plaintext"><code>$root@084f47e72101:/# ping 80.1.1.2
+PING 80.1.1.2 (80.1.1.2) 56(84) bytes of data.
+64 bytes from 80.1.1.2: icmp_seq=1 ttl=254 time=0.541 ms
+64 bytes from 80.1.1.2: icmp_seq=2 ttl=254 time=0.549 ms
+64 bytes from 80.1.1.2: icmp_seq=3 ttl=254 time=0.551 ms
+64 bytes from 80.1.1.2: icmp_seq=4 ttl=254 time=0.562 ms
+64 bytes from 80.1.1.2: icmp_seq=5 ttl=254 time=0.484 ms
+</code></pre>
+
+<h2>Policy support</h2>
+<p>For steps to apply policies supported in contiv networking. Please follow the steps in <a href="/documents/networking/policies.html">Contiv Policies</a></p>
+
+
+			</div>
+		</div>
+	</div>
+</div>

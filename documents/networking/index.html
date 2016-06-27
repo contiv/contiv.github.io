@@ -12,7 +12,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <title>Getting Started - Contiv</title>
 
-    <link href="/assets/stylesheets/application-9630d0a5.css" rel="stylesheet"/>
+    <link href="/assets/stylesheets/application-b128c5a2.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
@@ -103,10 +103,10 @@ GitHub</a></li>
 					<a href="/documents/gettingStarted/index.html">Getting Started</a>
 					<ul class="nav">
 						<li>
-							<a href="/documents/gettingStarted/networking/index.html">Networking</a>
+							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
 								<li>
-									<a href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
@@ -121,8 +121,9 @@ GitHub</a></li>
 												<a href="/documents/gettingStarted/networking/nomad.html">Nomad</a>
 										</li>
 									</ul>
+								</li>
 								<li>
-									<a href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
@@ -144,7 +145,7 @@ GitHub</a></li>
 							<a href="/documents/gettingStarted/storage/storage.html">Storage </a>
 						</li>
 						<li>
-							<a href="/documents/gettingStarted/cluster/index.html">Cluster </a>
+							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
 								<li>
 										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
@@ -169,7 +170,18 @@ GitHub</a></li>
 								<a href="/documents/networking/services.html">Service Routing</a>
 						</li>
 						<li>
-								<a href="/documents/networking/physical-networks.html">Physical Networks</a>
+								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
+								<ul class="nav">
+									<li>
+											<a href="/documents/networking/bgp.html">L3 Routed Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/l2-vlan.html">L2 Bridged Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/aci_ug.html">Cisco ACI</a>
+									</li>
+								</ul>
 						</li>
 						<li>
 								<a href="/documents/networking/ipam.html">IPAM and Service Discovery</a>
@@ -263,7 +275,59 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h1>Contiv Networking</h1>
+	<h2>Contiv Networking</h2>
+<p>To learn about container networking basics you can find a self guided hands-on
+<a href="/documents/tutorials/container-101.html">Tutorial</a>. The tutorial discusses
+libnetwork&#39;s CNM and CoreOS&#39;s CNI model. Contiv supports both networking models,
+and therefore support a pluggable networking alternative to built-in Docker, Kubernetes,
+Mesos and Nomad ecosystems.</p>
+<p>Contiv Networking supports following use cases:</p>
+
+<ul>
+<li>Feature rich policy model to provide secure, predictable application deployment
+</li>
+<li>Best in the class throughput for container workloads
+</li>
+<li>Multi-tenancy, Isolation, and overlapping subnets
+</li>
+<li>Integrated IPAM and service discovery
+</li>
+<li>Variety of physical topological connectivity:
+
+<ul>
+<li>Layer2(vlan)
+</li>
+<li>Layer3(BGP)
+</li>
+<li>Overlay(VXLAN)
+</li>
+<li>Cisco SDN Solution (ACI)
+</li>
+</ul>
+</li>
+<li>IPv6 Support
+</li>
+<li>Policy and route distribution scale
+</li>
+<li>Integration with application blue-prints like:
+
+<ul>
+<li>docker-compose
+</li>
+<li>kubernetes deployment-manager
+</li>
+</ul>
+</li>
+<li>Service Load Balancing: built in east west microservice load balancing
+</li>
+<li>Traffic isolation for storage, control (e.g. etcd/consul), network, and management traffic
+</li>
+</ul>
+<p><br>
+Please check or <a href="https://github.com/contiv/netplugin/issues">submit an issue</a> if you
+would like a feature to be addressed by Contiv.</p>
+
+<h1>Table of Contents</h1>
 
 <ul>
 <li><a href="/documents/networking/concepts.html">Concepts and Terminology</a>
@@ -272,13 +336,64 @@ GitHub</a></li>
 </li>
 <li><a href="/documents/networking/services.html">Service Routing</a>
 </li>
-<li><a href="/documents/networking/physical-networks.html">Physical networks</a>
+<li><p><a href="/documents/networking/physical-networks.html">Physical networks</a></p>
+
+<ul>
+<li><a href="/documents/networking/bgp.html">L3 routed networks</a>
 </li>
-<li><a href="/documents/networking/ipam.html">IPAM and Service Discovery</a>
+<li><a href="/documents/networking/l2-vlan.html">L2 bridged networks</a>
 </li>
-<li><a href="/documents/networking/ipv6.html">IPv6</a>
+<li><a href="/documents/networking/l2-vlan.html">Cisco ACI</a>
 </li>
 </ul>
+</li>
+<li><p><a href="/documents/networking/ipam.html">IPAM and Service Discovery</a></p>
+</li>
+<li><p><a href="/documents/networking/ipv6.html">IPv6</a></p>
+</li>
+</ul>
+
+<h1>Supported modes</h1>
+<p>Contiv supports various fabric networking modes and schedulers. In order to tryout the various combination please checkout our contiv networking <a href="/documents/gettingStarted/networking/">installation</a> page</p>
+
+<table><thead>
+<tr>
+<th>Fabric</th>
+<th>Kubernetes</th>
+<th>Docker Swarm</th>
+<th>Mesos</th>
+<th>Nomad</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>Layer 2</strong></td>
+<td><i class="fa fa-check fa-2x"></i></td>
+<td><i class="fa fa-check fa-2x"></i></td>
+<td><i class="fa fa-check fa-2x"></i></td>
+<td><i class="fa fa-check fa-2x"></i></td>
+</tr>
+<tr>
+<td><strong>Layer 3</strong></td>
+<td><i class="fa fa-check fa-2x"></i></td>
+<td><i class="fa fa-check fa-2x"></i></td>
+<td><i class="fa fa-check fa-2x"></i></td>
+<td><i class="fa fa-check fa-2x"></i></td>
+</tr>
+<tr>
+<td><strong>Overlay (cloud)</strong></td>
+<td><i class="fa fa-check fa-2x"></i></td>
+<td><i class="fa fa-check fa-2x"></i></td>
+<td><i class="fa fa-check fa-2x"></i></td>
+<td><i class="fa fa-check fa-2x"></i></td>
+</tr>
+<tr>
+<td><strong>ACI</strong></td>
+<td><i class="fa fa-check fa-2x"></i></td>
+<td><i class="fa fa-check fa-2x"></i></td>
+<td><i class="fa fa-check fa-2x"></i></td>
+<td><i class="fa fa-check fa-2x"></i></td>
+</tr>
+</tbody></table>
 
 
 			</div>

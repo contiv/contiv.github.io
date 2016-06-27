@@ -10,7 +10,7 @@ description: |-
 Set up a development environment or a cluster of servers using different clustering systems.
 
 
-# [Storage](/documents/gettingStarted/storage)
+# [Storage](/documents/gettingStarted/storage/storage.html)
 Getting started with contiv storage
 
 # [Cluster](/documents/gettingStarted/cluster)

@@ -125,7 +125,7 @@
   margin-top: 40px;
 
   h2{
-    // margin-bottom: 120px;
+    margin-bottom: 120px;
     text-align: center;
     font-size: $font-size-m;
     font-family: $font-family-blanc;
@@ -243,8 +243,8 @@
         margin-left: 650px;
         width: 600px;
         height: 300px;
-        background: image-url('cluster-graphics.png') 0 0 no-repeat;
-        @include img-retina("cluster-graphics.png", "cluster-graphics.png", 300px, 150px);
+        background: image-url('cluster-graphics.jpg') 0 0 no-repeat;
+        @include img-retina("cluster-graphics.jpg", "cluster-graphics.jpg", 300px, 150px);
       }
     }
 
@@ -278,7 +278,7 @@
         font-size: $font-size-reg+2;
         font-family: $font-family-open-sans;
         line-height: 1.75em;
-        // max-width: 480px;
+        max-width: 480px;
       }
     }
 

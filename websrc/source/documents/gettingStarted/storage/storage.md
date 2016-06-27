@@ -74,7 +74,7 @@ Install the dependencies in the following order:
   for pre-configured VMs that work on any UNIX operating system to simplify
     Ceph installation.
 
-4. Upload a global configuration. You can find an example one [here](https://github.com/contiv/volplugin/blob/master/systemtests/testdata/global1.json)
+4. Upload a global configuration. You can find an example one [here](https://raw.githubusercontent.com/contiv/volplugin/master/systemtests/testdata/globals/global1.json)
 
 5. Start volmaster (as root):
 

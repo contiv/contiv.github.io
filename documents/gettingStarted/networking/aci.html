@@ -12,7 +12,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <title>Kubernetes cluster - Contiv</title>
 
-    <link href="/assets/stylesheets/application-9630d0a5.css" rel="stylesheet"/>
+    <link href="/assets/stylesheets/application-b128c5a2.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
@@ -103,10 +103,10 @@ GitHub</a></li>
 					<a href="/documents/gettingStarted/index.html">Getting Started</a>
 					<ul class="nav">
 						<li class="active">
-							<a href="/documents/gettingStarted/networking/index.html">Networking</a>
+							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
 								<li>
-									<a href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
@@ -121,8 +121,9 @@ GitHub</a></li>
 												<a href="/documents/gettingStarted/networking/nomad.html">Nomad</a>
 										</li>
 									</ul>
+								</li>
 								<li class="active">
-									<a href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
@@ -144,7 +145,7 @@ GitHub</a></li>
 							<a href="/documents/gettingStarted/storage/storage.html">Storage </a>
 						</li>
 						<li>
-							<a href="/documents/gettingStarted/cluster/index.html">Cluster </a>
+							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
 								<li>
 										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
@@ -169,7 +170,18 @@ GitHub</a></li>
 								<a href="/documents/networking/services.html">Service Routing</a>
 						</li>
 						<li>
-								<a href="/documents/networking/physical-networks.html">Physical Networks</a>
+								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
+								<ul class="nav">
+									<li>
+											<a href="/documents/networking/bgp.html">L3 Routed Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/l2-vlan.html">L2 Bridged Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/aci_ug.html">Cisco ACI</a>
+									</li>
+								</ul>
 						</li>
 						<li>
 								<a href="/documents/networking/ipam.html">IPAM and Service Discovery</a>
@@ -307,7 +319,7 @@ This is the name of the physical domain used for the contiv cluster (Step 2 abov
 
 <h3>key based authentication</h3>
 <p>Step 1. Create a key and certicate add the certificate to APIC using the procedure described in <a href="http://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/kb/b_KB_Signature_Based_Transactions.pdf">http://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/kb/b_KB_Signature_Based_Transactions.pdf</a>.</p>
-<p>Step 2. Find the DN of the key that was added to APIC and pass it to the aci-gw via the APIC_CERT_DN environment variable. This DN is of the form*<em>uni/userext/user-admin/usercert-admin</em>* The exact DN can be found from the APIC visore.  e.g. <code>APIC_CERT_DN=uni/userext/user-admin/usercert-admin</code></p>
+<p>Step 2. Find the DN of the key that was added to APIC and pass it to the aci-gw via the <code>APIC_CERT_DN</code> environment variable. This DN is of the form <strong>uni/userext/user-admin/usercert-admin</strong> The exact DN can be found from the APIC visore.  e.g. <code>APIC_CERT_DN=uni/userext/user-admin/usercert-admin</code></p>
 <p>Step 3. Create a directory on the server that hosts aci-gw and copy the key created in the previous step to this directory.</p>
 <p>Step 4. Share this directory with the aci-gw using the bind mounting option of docker.
 e.g. if the keys are copied to /shared/keys directory on the host, use <em>-v /shared/keys:/aciconfig</em> option while starting the aci-gw container.</p>

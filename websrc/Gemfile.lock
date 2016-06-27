@@ -205,6 +205,8 @@ DEPENDENCIES
   middleman-deploy (~> 1.0)
   middleman-hashicorp!
   middleman-livereload (~> 3.4.3)
+  middleman-syntax
+  redcarpet
 
 BUNDLED WITH
    1.12.5
