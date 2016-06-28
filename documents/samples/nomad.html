@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Examples">
+
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <title>Examples - Contiv</title>
+
+    <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
+
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+
+    
+  </head>
+
+  <body id="page-Examples" class=" page-Examples layout-documents page-sub">
+
+<div id="header" class="navbar-static-top">
+  <div class="container">
+    <div class="row">
+      
+        <div class="navbar-header">
+          <div class="navbar-brand">
+              <a class="logo" href="/">Contiv</a>
+            </a>
+          </div>
+          
+        </div>
+        <div class="buttons hidden-xs">
+          <nav role="navigation">
+            <ul class="main-links nav navbar-nav navbar-left">
+              <li class="first li-under"><a href="/documents/index.html">Documentation</a></li>
+              <li class="li-under"><a href="/articles/index.html">Articles</a></li>
+              <li class="li-under"><a href="https://github.com/contiv" target="_blank">
+                        GitHub
+                        <i class="fa fa-github fa-lg"></i>
+                        </a></li>
+                    <li class="li-under"><a href="https://contiv-slack.herokuapp.com" target="_blank">
+                        Slack
+                        <i class="fa fa-slack fa-lg"></i>
+                        </a></li>
+                    <li><a href="https://twitter.com/projectcontiv" target="_blank">
+                        Twitter
+                        <i class="fa fa-twitter fa-lg"></i>
+                        </a></li>
+            </ul>
+          </nav>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="sidebar-overlay"></div>
+
+
+<aside id="sidebar" class="sidebar sidebar-default sidebar-fixed-right" role="navigation">
+    
+    <div class="sidebar-header header-cover">
+        
+        <div class="sidebar-image">
+            <img src="/assets/images/logo3-a96fcb82.png" width="49px" height="56px">
+        </div>
+    </div>
+
+    
+    <ul class="main nav sidebar-nav">
+        <li class="first"><a href="/intro/index.html">Intro</a></li>
+        <li class=""><a href="/docs/index.html">Docs</a></li>
+    </ul>
+    <div class="divider"></div>
+    
+    <ul class="external nav sidebar-nav">
+        <li class=""><a class="v-btn gray sml" href="https://github.com/contiv"><svg id="svg-download" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" style="enable-background:new 0 0 14 14;">
+  <style>
+  </style>
+  <path class="" d="M13,0H1C0.5,0,0,0.5,0,1v12c0,0.5,0.5,1,1,1h4.7c0,0,0,0,0-0.1c0-0.2,0-0.6,0-1.1c-1.8,0.4-2.2-0.9-2.2-0.9
+    c-0.3-0.8-0.7-1-0.7-1c-0.6-0.4,0-0.4,0-0.4c0.7,0,1,0.7,1,0.7c0.6,1,1.5,0.7,1.9,0.5c0.1-0.4,0.2-0.7,0.4-0.9c-1.5-0.2-3-0.7-3-3.2
+    c0-0.7,0.3-1.3,0.7-1.8C3.7,5.8,3.5,5.1,3.9,4.2c0,0,0.6-0.2,1.8,0.7c0.5-0.1,1.1-0.2,1.6-0.2c0.6,0,1.1,0.1,1.6,0.2
+    c1.3-0.8,1.8-0.7,1.8-0.7c0.4,0.9,0.1,1.6,0.1,1.7c0.4,0.5,0.7,1,0.7,1.8c0,2.5-1.5,3.1-3,3.2C8.7,11.1,9,11.5,9,12.1
+    c0,0.9,0,1.6,0,1.8c0,0,0,0,0,0.1h4c0.5,0,1-0.5,1-1V1C14,0.5,13.5,0,13,0z"/>
+</svg>
+GitHub</a></li>
+    </ul>
+</aside>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-3 col-sm-3 col-xs-12">
+					<div class="docs-sidebar hidden-print affix-top" role="complementary">
+			<hr>
+			<h3>User Guide</h3>
+			<ul class="nav docs-sidenav">
+				<li>
+					<a href="/documents/gettingStarted/index.html">Getting Started</a>
+					<ul class="nav">
+						<li>
+							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
+							<ul class="nav">
+								<li>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<ul class="subnav">
+										<li>
+												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/k8s.html">Kubernetes</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/mesos.html">Mesos</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/nomad.html">Nomad</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<ul class="subnav">
+										<li>
+												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/install-k8s.html">Kubernetes</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/bgp.html">BGP</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/aci.html">Cisco ACI</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="/documents/gettingStarted/storage/storage.html">Storage </a>
+						</li>
+						<li>
+							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
+							<ul class="subnav">
+								<li>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+								</li>
+								<li>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/networking/index.html">Networking</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
+						</li>
+						<li>
+								<a href="/documents/networking/policies.html">Policies</a>
+						</li>
+						<li>
+								<a href="/documents/networking/services.html">Service Routing</a>
+						</li>
+						<li>
+								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
+								<ul class="nav">
+									<li>
+											<a href="/documents/networking/bgp.html">L3 Routed Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/l2-vlan.html">L2 Bridged Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/aci_ug.html">Cisco ACI</a>
+									</li>
+								</ul>
+						</li>
+						<li>
+								<a href="/documents/networking/ipam.html">IPAM and Service Discovery</a>
+						</li>
+						<li>
+								<a href="/documents/networking/ipv6.html">IPv6</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/storage/index.html">Storage</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/storage/architecture.html">Architecture</a>
+						</li>
+						<li>
+								<a href="/documents/storage/configuration.html">Configuration</a>
+						</li>
+						<li>
+								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+						</li>
+						<li>
+								<a href="/documents/storage/volcli.html">Volcli Reference</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/cluster/index.html">Cluster</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/cluster/concepts.html">Concepts and Terminology</a>
+						</li>
+						<li>
+								<a href="/documents/cluster/node-lifecycle.html">Node Lifecycle Management</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<hr><p>
+			<h3>Tutorials and Talks</h3>
+				<ul class="nav docs-sidenav">
+					<li>
+						<a href="/documents/tutorials/index.html">Tutorials</a>
+						<ul class="nav">
+							<li>
+									<a href="/documents/tutorials/container-101.html">Container Networking Tutorial</a>
+							</li>
+							<li>
+									<a href="/documents/tutorials/contiv-compose.html">Policies with Networking</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="/documents/demos/index.html">Demonstration Videos</a>
+					</li>
+					<li>
+						<a href="/documents/talks/index.html">Community Talks</a>
+					</li>
+				</ul>
+			<hr><p>
+			<h3>Examples</h3>
+				<ul class="nav docs-sidenav">
+					<ul class="subnav">
+						<li class="active">
+							<a href="/documents/samples/index.html">Docker Compose Examples</a>
+						</li>
+						<li class="active">
+							<a href="/documents/samples/index.html">Kubernetes Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/mcast.html">Multicast Examples</a>
+						</li>
+						<li class="active">
+							<a href="/documents/samples/nomad.html">Nomad Examples</a>
+						</li>
+					</ul>
+				</ul>
+			<hr><p>
+			<h3>Reference</h3>
+				<ul class="nav docs-sidenav">
+					<ul class="subnav">
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Network API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/volplugin/config" target="_blank">Storage API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/cluster" target="_blank">Cluster API Reference</a><br></li>
+					</ul>
+				</ul>
+			<hr><p>
+		</div>
+
+		</div>  
+		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
+			<div class="bs-docs-section">
+				
+	<h1>Contiv with Nomad Example</h1>
+<p>The purpose of the document is to demostrate the simplicity of using Contiv as the networking and policy infrastructure for containers with Nomad for scheduling docker containers</p>
+<p>The steps could be adapted to any vagrant or bare-metal setups running contiv components. For the simplicity of the document we assume that 2 nodes are brought with necessary contiv components (netplugin , netmaster)</p>
+<p><a href="https://github.com/contiv/netplugin#step-1-clone-the-project-and-bringup-the-vms">Clone</a> the contiv netplugin <a href="https://github.com/contiv/netplugin">workspace</a> and bringup vagrant nodes</p>
+
+<h2>Step 0:</h2>
+<pre class="highlight plaintext"><code>$vagrant ssh netplugin-node1
+vagrant@netplugin-node1:/tmp$ ifconfig eth1
+eth1      Link encap:Ethernet  HWaddr 08:00:27:d5:98:b7  
+          inet addr:192.168.2.10  Bcast:0.0.0.0  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fed5:98b7/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:1066749 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:1364141 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:105016452 (105.0 MB)  TX bytes:141250926 (141.2 MB)
+</code></pre>
+<pre class="highlight plaintext"><code>$vagrant ssh netplugin-node2
+vagrant@netplugin-node2:~$ ifconfig eth1
+eth1      Link encap:Ethernet  HWaddr 08:00:27:1f:1a:5b  
+          inet addr:192.168.2.11  Bcast:0.0.0.0  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe1f:1a5b/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:1360689 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:1064053 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:140892098 (140.8 MB)  TX bytes:104739491 (104.7 MB)
+</code></pre>
+
+<h2>Step 1: Install nomad on all the vagrant nodes</h2>
+<pre class="highlight plaintext"><code>$ vagrant ssh netplugin-node1
+vagrant@netplugin-node1:cd /tmp/
+vagrant@netplugin-node1:curl -sSL https://releases.hashicorp.com/nomad/0.3.0/nomad_0.3.0_linux_amd64.zip -o nomad.zip
+vagrant@netplugin-node1:echo Installing Nomad...
+vagrant@netplugin-node1:unzip nomad.zip
+vagrant@netplugin-node1:sudo chmod +x nomad
+vagrant@netplugin-node1:sudo mv nomad /usr/bin/nomad
+vagrant@netplugin-node1:sudo mkdir -p /etc/nomad.d
+vagrant@netplugin-node1:sudo chmod a+w /etc/nomad.d
+</code></pre>
+
+<h2>Step 2: Create client and server Config file to run nomad agents</h2>
+<p>Fill client and server configuration file for nomad client and server agents. In this demo nomad server and client agent are running on netplugin node1 and a client agent is running on netplugin node2.</p>
+<p><strong>client1.hcl</strong></p>
+<pre class="highlight plaintext"><code># Increase log verbosity
+log_level = "DEBUG"         
+
+# Setup data dir
+data_dir = "/tmp/client1"
+
+enable_debug = true
+bind_addr = "192.168.2.10"
+
+addresses {
+    rpc = "192.168.2.10"
+    http = "192.168.2.10"
+    serf = "192.168.2.10"
+}
+
+advertise {
+# We need to specify our host's IP because we can't
+# advertise 0.0.0.0 to other nodes in our cluster.
+
+    rpc = "192.168.2.10:5647"
+    http = "192.168.2.10:5646"
+    serf = "192.168.2.10:5648"
+}
+
+
+# Enable the client
+client {
+    enabled = true
+
+    # For demo assume we are talking to server1. For production,
+    # this should be like "nomad.service.consul:4647" and a system
+    # like Consul used for service discovery.
+    servers = ["192.168.2.10:4647"]
+    node_class = "foo"
+    options {
+        "driver.raw_exec.enable" = "1"
+    }
+
+    reserved {
+       cpu = 300
+       memory = 301
+       disk = 302
+       iops = 303
+       reserved_ports = "1-3,80,81-83"
+    }
+}
+
+# Modify our port to avoid a collision with server1
+ports {
+    http = 5646
+    rpc = 5647
+    serf = 5648
+}
+</code></pre>
+<p><strong>server.hcl</strong></p>
+<pre class="highlight plaintext"><code># Increase log verbosity
+log_level = "DEBUG"
+
+bind_addr = "192.168.2.10"
+
+addresses {
+  rpc = "192.168.2.10"
+  http = "192.168.2.10"
+  serf = "192.168.2.10"
+}
+
+advertise {
+  # We need to specify our host's IP because we can't
+  # advertise 0.0.0.0 to other nodes in our cluster.
+  rpc = "192.168.2.10:4647"
+  http = "192.168.2.10:4646"
+  serf = "192.168.2.10:4648"
+}
+
+# Setup data dir
+data_dir = "/tmp/server1"
+
+# Enable the server
+server {
+    enabled = true
+
+    # Self-elect, should be 3 or 5 for production
+    bootstrap_expect = 1
+}
+
+ports {
+    http = 4646
+    rpc = 4647
+    serf = 4648
+}
+
+</code></pre>
+<p><strong>client2.hcl</strong></p>
+<pre class="highlight plaintext"><code># Increase log verbosity
+log_level = "DEBUG"
+
+# Setup data dir
+data_dir = "/tmp/client1"
+
+enable_debug = true
+bind_addr = "192.168.2.11"
+
+addresses {
+    rpc = "192.168.2.11"
+    http = "192.168.2.11"
+    serf = "192.168.2.11"
+}
+
+advertise {
+# We need to specify our host's IP because we can't
+# advertise 0.0.0.0 to other nodes in our cluster.
+
+    rpc = "192.168.2.11:4647"
+    http = "192.168.2.11:4646"
+    serf = "192.168.2.11:4648"
+}
+
+
+# Enable the client
+client {
+    enabled = true
+
+    # For demo assume we are talking to server1. For production,
+    # this should be like "nomad.service.consul:4647" and a system
+    # like Consul used for service discovery.
+    servers = ["192.168.2.10:4647"]
+    node_class = "foo"
+    options {
+        "driver.raw_exec.enable" = "1"
+    }
+
+    reserved {
+       cpu = 300
+       memory = 301
+       disk = 302
+       iops = 303
+       reserved_ports = "1-3,80,81-83"
+    }
+}
+
+# Modify our port to avoid a collision with server1
+ports {
+    http = 4646
+    rpc = 4647
+    serf = 4648
+}
+</code></pre>
+<pre class="highlight plaintext"><code>$vagrant ssh netplugin-node1
+vagrant@netplugin-node1:nomad agent -config server.hcl &amp;
+vagrant@netplugin-node1:nomad agent -config client1.hcl &amp;
+</code></pre>
+<pre class="highlight plaintext"><code>vagrant ssh netplugin-node2
+vagrant@netplugin-node2:nomad agent -config client2.hcl &amp;
+</code></pre>
+
+<h2>Step 3: Verify the node status to ensure the nodes are discovered and peered.</h2>
+<pre class="highlight plaintext"><code>vagrant@netplugin-node1:/tmp$ nomad node-status -address=http://192.168.2.10:4646
+    2016/03/16 17:51:11 [DEBUG] http: Request /v1/nodes (101.494µs)
+ID        Datacenter  Name             Class  Drain  Status
+8cd0aaa1  dc1         netplugin-node2  foo    false  ready
+4bac61f9  dc1         netplugin-node1  foo    false  ready
+</code></pre>
+
+<h2>Step 4: Create a network and attach it to an endpoint group.</h2>
+<p>If endpoint group has to be attached to a network - create policies and attach rules to the same. . Refer to the <a href="http://contiv.github.io/docs/3_netplugin.html">contiv docs</a> on steps to create policies.</p>
+<pre class="highlight plaintext"><code> vagrant@netplugin-node1: netctl net create contiv-net -subnet="40.1.1.0/24"
+vagrant@netplugin-node1: netctl policy create prod_web
+vagrant@netplugin-node1: netctl policy rule-add prod_web 1 -direction=in -protocol=tcp -action=deny
+vagrant@netplugin-node1: netctl policy rule-add prod_web 2 -direction=in -protocol=tcp -port=80 -action=allow -priority=10
+vagrant@netplugin-node1: netctl policy rule-add prod_web 3 -direction=in -protocol=tcp -port=443 -action=allow -priority=10
+vagrant@netplugin-node1: netctl group create contiv-net web -policy=prod_web
+
+</code></pre>
+
+<h2>Step 5: Now that infrastructure is setup . Create a job file and schedule tasks</h2>
+<pre class="highlight plaintext"><code>nomad init
+</code></pre>
+<p>This would create an example.nomad file that we will use to deploy containers in a network. Change the docker driver config in the file to specify a network containers need to be attached to. If the network has a policy group attached to it then the format is epgname.network. If the container needs to be attached to a network without any policies set network_mode=network_name.</p>
+<p><strong>example.nomad</strong></p>
+<pre class="highlight plaintext"><code>              # Use Docker to run the task.
+                        driver = "docker"
+
+                        # Configure Docker driver with the image
+                        config {
+                                image = "redis:latest"
+                                port_map {
+                                        db = 6379
+                                }
+                                network_mode="web.contiv-net"
+                        }
+</code></pre>
+<pre class="highlight plaintext"><code>vagrant@netplugin-node1:nomad run -address=http://192.168.2.10:4646 example.nomad
+</code></pre>
+
+<h2>Step 6: Verify endpoints for containers are allocated ip address from the network created.</h2>
+<pre class="highlight plaintext"><code>vagrant@netplugin-node2:~$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                                  NAMES
+5d5522b9ae0a        redis:latest        "/entrypoint.sh redis"   28 seconds ago      Up 26 seconds       10.0.2.15:58847-&gt;6379/tcp, 10.0.2.15:58847-&gt;6379/udp   redis-5d46fa82-fcc4-53cc-cf08-059417217e59
+</code></pre>
+<pre class="highlight plaintext"><code>vagrant@netplugin-node1:/tmp$ docker network ls
+NETWORK ID          NAME                DRIVER
+0c242226aa20        web.contiv-net      netplugin           
+222c44a4380b        contiv-net          netplugin           
+f28f834efacf        bridge              bridge              
+fc1f63732ca8        none                null                
+a4f246e21bb9        host                host
+</code></pre>
+<pre class="highlight plaintext"><code>vagrant@netplugin-node2:~$ docker network inspect web.contiv-net
+[
+    {
+        "Name": "web.contiv-net",
+        "Id": "0c242226aa20bfb693d6fda89f7eb6ca3f68909b056d6178a4d9c7186c5942ed",
+        "Scope": "global",
+        "Driver": "netplugin",
+        "IPAM": {
+            "Driver": "netplugin",
+            "Config": [
+                {
+                    "Subnet": "40.1.1.0/24"
+                }
+            ]
+        },
+        "Containers": {
+            "5d5522b9ae0a257707eecf05ff5beb6ee939a9c34b85254134ea0a3197427c1f": {
+                "EndpointID": "256aadcb73b1b96ce690d69d2fb044aef89f19b3dd8325242958fbb44b1ec4e8",
+                "MacAddress": "",
+                "IPv4Address": "40.1.1.4/24",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {
+            "encap": "vxlan",
+            "pkt-tag": "1",
+            "tenant": "default"
+        }
+    }
+]
+</code></pre>
+<pre class="highlight plaintext"><code>vagrant@netplugin-node2:/tmp$ docker inspect 5d5522b9ae0a
+
+        "Networks": {
+            "web.contiv-net": {
+                "EndpointID": "256aadcb73b1b96ce690d69d2fb044aef89f19b3dd8325242958fbb44b1ec4e8",
+                "Gateway": "",
+                "IPAddress": "40.1.1.4",
+                "IPPrefixLen": 24,
+                "IPv6Gateway": "",
+                "GlobalIPv6Address": "",
+                "GlobalIPv6PrefixLen": 0,
+                "MacAddress": ""
+            }
+        }
+    }
+}
+]
+</code></pre>
+
+
+			</div>
+		</div>
+	</div>
+</div>

@@ -16,6 +16,7 @@ body.layout-aws,
 body.layout-docs,
 body.layout-inner,
 body.layout-downloads,
+
 body.layout-install{
   //background: $light-black image-url('sidebar-wire.png') left 62px no-repeat;
   >.container{
@@ -35,7 +36,7 @@ body.layout-install{
   position: relative;
   z-index: 20;
   margin-bottom: 30px;
-  margin-top: 50px;
+  margin-top: 15px;
   @include open();
 
   .nav.docs-sidenav{
@@ -48,10 +49,12 @@ body.layout-install{
     //all li
     li{
       position: relative;
+      list-style-type: none;
+      padding-bottom: 10px;
 
       > a{
-        padding: 10px 8px;
-        font-size: 15px;
+        // padding: 10px 8px;
+        font-size: 18px;
         color: $medium-black;
 
         &:before{
@@ -78,10 +81,7 @@ body.layout-install{
       margin: 0 0 0 10px;
 
       &.active {
-        >a{
-          color: $medium-green;
-          font-weight: 600;
-          // border-right: 1px solid $green-faint;
+        >a {
 
           &:hover{
             &:before{
@@ -117,19 +117,19 @@ body.layout-install{
           top: 15px;
           left: $parent-default-state;
           overflow: hidden;
-          // background: image-url("caret-light.png") 0 0 no-repeat;
-          opacity: .3;
-          // @include img-retina("caret-light.png", "caret-light@2x.png", 6px, 9px);
+          opacity: .75;
+          background: url(triangle-sprite.png) 0 -13px no-repeat;
+          @include img-retina("triangle-sprite.png", "triangle-sprite@2x.png", 5px, 19px);
         }
       }
     }
 
     //nested ul.nav
-    .nav {
+    ul.nav {
       display: none;
       padding-top: 10px;
-      padding-bottom: 10px;
-      margin-bottom: 15px;
+      // padding-bottom: 10px;
+      // margin-bottom: 15px;
       // border-right: 1px solid $green-faint;
       // border-bottom: 1px solid $green-faint;
 
@@ -138,8 +138,6 @@ body.layout-install{
 
         &.active{
           > a{
-            color: $medium-green;
-            font-weight: 600;
 
             &:hover{
               &:before{
@@ -148,9 +146,18 @@ body.layout-install{
             }
 
             &:before{
-              // background: url(triangle-sprite.png) 0 0 no-repeat;
-              // @include img-retina("triangle-sprite.png", "triangle-sprite@2x.png", 5px, 19px);
+                @include rotate(90deg);
+                opacity: 1;
+                background: url(triangle-sprite.png) 0 0 no-repeat;
+                @include img-retina("triangle-sprite.png", "triangle-sprite@2x.png", 5px, 19px);
             }
+          }
+
+          .nav {
+            display: block;
+          }
+          .subnav {
+              display: block;
           }
         }
 
@@ -163,19 +170,28 @@ body.layout-install{
               left: $child-active-state;
             }
           }
+        }
 
-          &:before{
-            opacity: .75;
-            content: '';
-            position: absolute;
-            width: 5px;
-            height: 7px;
-            top: 12px;
-            left: $child-default-state;
-            overflow: hidden;
-            // background: url(triangle-sprite.png) 0 -13px no-repeat;
-            // @include img-retina("triangle-sprite.png", "triangle-sprite@2x.png", 5px, 19px);
-          }
+        > a.hasChildren {
+            &:before{
+              opacity: .75;
+              content: '';
+              position: absolute;
+              width: 5px;
+              height: 7px;
+              top: 12px;
+              left: $child-default-state;
+              overflow: hidden;
+              background: url(triangle-sprite.png) 0 -13px no-repeat;
+              @include img-retina("triangle-sprite.png", "triangle-sprite@2x.png", 5px, 19px);
+            }
+        }
+
+        .subnav {
+            display: none;
+        }
+        ul.nav {
+          display: none;
         }
       }
     }
@@ -216,7 +232,7 @@ body.layout-install{
     font-family: $font-family-open-sans;
     font-weight: $font-weight-reg;
     line-height: 1.84em;
-    margin: 0 0 18px;
+    // margin: 0 0 18px;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -225,13 +241,13 @@ body.layout-install{
   }
 
   a{
-    color: $medium-green;
+    color: $medium-blue;
     // FIXME: comment out the undeline
     // border-bottom: 1px solid $medium-green;
     @include transition(all 300ms ease-in);
 
     &:hover{
-      color: $medium-black;
+      color: $medium-blue;
       border-bottom: 2px solid $medium-black;
       text-decoration: none;
       @include transition(all 300ms ease-in);
@@ -257,6 +273,48 @@ body.layout-install{
 
   #graph {
     margin-top: 30px;
+  }
+  table {
+    padding: 0;
+    display: block;
+    width: 100%;
+    overflow: auto;
+    word-break: normal;
+    word-break: keep-all;
+    font-size: 18px;
+    font-family: $font-family-open-sans;
+    font-weight: $font-weight-reg;
+  }
+
+  table tr {
+      border-top: 1px solid #cccccc;
+      background-color: white;
+      margin: 0;
+      padding: 0;
+  }
+  table tr:nth-child(2n) {
+    background-color: #f8f8f8;
+  }
+
+  table tr th {
+    font-weight: bold;
+    border: 1px solid #cccccc;
+    text-align: left;
+    margin: 0;
+    padding: 12px 26px;
+  }
+  table tr td {
+    border: 1px solid #cccccc;
+    text-align: left;
+    margin: 0;
+    padding: 12px 26px;
+  }
+
+  table tr th :first-child, table tr td :first-child {
+    margin-top: 0;
+  }
+  table tr th :last-child, table tr td :last-child {
+    margin-bottom: 0;
   }
 }
 

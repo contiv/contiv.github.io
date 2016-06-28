@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Physical network integration">
+
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <title>Physical network integration - Contiv</title>
+
+    <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
+
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+
+    
+  </head>
+
+  <body id="page-Physical network integration" class=" page-Physical network integration layout-documents page-sub">
+
+<div id="header" class="navbar-static-top">
+  <div class="container">
+    <div class="row">
+      
+        <div class="navbar-header">
+          <div class="navbar-brand">
+              <a class="logo" href="/">Contiv</a>
+            </a>
+          </div>
+          
+        </div>
+        <div class="buttons hidden-xs">
+          <nav role="navigation">
+            <ul class="main-links nav navbar-nav navbar-left">
+              <li class="first li-under"><a href="/documents/index.html">Documentation</a></li>
+              <li class="li-under"><a href="/articles/index.html">Articles</a></li>
+              <li class="li-under"><a href="https://github.com/contiv" target="_blank">
+                        GitHub
+                        <i class="fa fa-github fa-lg"></i>
+                        </a></li>
+                    <li class="li-under"><a href="https://contiv-slack.herokuapp.com" target="_blank">
+                        Slack
+                        <i class="fa fa-slack fa-lg"></i>
+                        </a></li>
+                    <li><a href="https://twitter.com/projectcontiv" target="_blank">
+                        Twitter
+                        <i class="fa fa-twitter fa-lg"></i>
+                        </a></li>
+            </ul>
+          </nav>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="sidebar-overlay"></div>
+
+
+<aside id="sidebar" class="sidebar sidebar-default sidebar-fixed-right" role="navigation">
+    
+    <div class="sidebar-header header-cover">
+        
+        <div class="sidebar-image">
+            <img src="/assets/images/logo3-a96fcb82.png" width="49px" height="56px">
+        </div>
+    </div>
+
+    
+    <ul class="main nav sidebar-nav">
+        <li class="first"><a href="/intro/index.html">Intro</a></li>
+        <li class=""><a href="/docs/index.html">Docs</a></li>
+    </ul>
+    <div class="divider"></div>
+    
+    <ul class="external nav sidebar-nav">
+        <li class=""><a class="v-btn gray sml" href="https://github.com/contiv"><svg id="svg-download" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" style="enable-background:new 0 0 14 14;">
+  <style>
+  </style>
+  <path class="" d="M13,0H1C0.5,0,0,0.5,0,1v12c0,0.5,0.5,1,1,1h4.7c0,0,0,0,0-0.1c0-0.2,0-0.6,0-1.1c-1.8,0.4-2.2-0.9-2.2-0.9
+    c-0.3-0.8-0.7-1-0.7-1c-0.6-0.4,0-0.4,0-0.4c0.7,0,1,0.7,1,0.7c0.6,1,1.5,0.7,1.9,0.5c0.1-0.4,0.2-0.7,0.4-0.9c-1.5-0.2-3-0.7-3-3.2
+    c0-0.7,0.3-1.3,0.7-1.8C3.7,5.8,3.5,5.1,3.9,4.2c0,0,0.6-0.2,1.8,0.7c0.5-0.1,1.1-0.2,1.6-0.2c0.6,0,1.1,0.1,1.6,0.2
+    c1.3-0.8,1.8-0.7,1.8-0.7c0.4,0.9,0.1,1.6,0.1,1.7c0.4,0.5,0.7,1,0.7,1.8c0,2.5-1.5,3.1-3,3.2C8.7,11.1,9,11.5,9,12.1
+    c0,0.9,0,1.6,0,1.8c0,0,0,0,0,0.1h4c0.5,0,1-0.5,1-1V1C14,0.5,13.5,0,13,0z"/>
+</svg>
+GitHub</a></li>
+    </ul>
+</aside>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-3 col-sm-3 col-xs-12">
+					<div class="docs-sidebar hidden-print affix-top" role="complementary">
+			<hr>
+			<h3>User Guide</h3>
+			<ul class="nav docs-sidenav">
+				<li>
+					<a href="/documents/gettingStarted/index.html">Getting Started</a>
+					<ul class="nav">
+						<li>
+							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
+							<ul class="nav">
+								<li>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<ul class="subnav">
+										<li>
+												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/k8s.html">Kubernetes</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/mesos.html">Mesos</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/nomad.html">Nomad</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<ul class="subnav">
+										<li>
+												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/install-k8s.html">Kubernetes</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/bgp.html">BGP</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/aci.html">Cisco ACI</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="/documents/gettingStarted/storage/storage.html">Storage </a>
+						</li>
+						<li>
+							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
+							<ul class="subnav">
+								<li>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+								</li>
+								<li>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li class="active">
+					<a href="/documents/networking/index.html">Networking</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
+						</li>
+						<li>
+								<a href="/documents/networking/policies.html">Policies</a>
+						</li>
+						<li>
+								<a href="/documents/networking/services.html">Service Routing</a>
+						</li>
+						<li class="active">
+								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
+								<ul class="nav">
+									<li class="active">
+											<a href="/documents/networking/bgp.html">L3 Routed Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/l2-vlan.html">L2 Bridged Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/aci_ug.html">Cisco ACI</a>
+									</li>
+								</ul>
+						</li>
+						<li>
+								<a href="/documents/networking/ipam.html">IPAM and Service Discovery</a>
+						</li>
+						<li>
+								<a href="/documents/networking/ipv6.html">IPv6</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/storage/index.html">Storage</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/storage/architecture.html">Architecture</a>
+						</li>
+						<li>
+								<a href="/documents/storage/configuration.html">Configuration</a>
+						</li>
+						<li>
+								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+						</li>
+						<li>
+								<a href="/documents/storage/volcli.html">Volcli Reference</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/cluster/index.html">Cluster</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/cluster/concepts.html">Concepts and Terminology</a>
+						</li>
+						<li>
+								<a href="/documents/cluster/node-lifecycle.html">Node Lifecycle Management</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<hr><p>
+			<h3>Tutorials and Talks</h3>
+				<ul class="nav docs-sidenav">
+					<li>
+						<a href="/documents/tutorials/index.html">Tutorials</a>
+						<ul class="nav">
+							<li>
+									<a href="/documents/tutorials/container-101.html">Container Networking Tutorial</a>
+							</li>
+							<li>
+									<a href="/documents/tutorials/contiv-compose.html">Policies with Networking</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="/documents/demos/index.html">Demonstration Videos</a>
+					</li>
+					<li>
+						<a href="/documents/talks/index.html">Community Talks</a>
+					</li>
+				</ul>
+			<hr><p>
+			<h3>Examples</h3>
+				<ul class="nav docs-sidenav">
+					<ul class="subnav">
+						<li>
+							<a href="/documents/samples/index.html">Docker Compose Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/index.html">Kubernetes Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/mcast.html">Multicast Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/nomad.html">Nomad Examples</a>
+						</li>
+					</ul>
+				</ul>
+			<hr><p>
+			<h3>Reference</h3>
+				<ul class="nav docs-sidenav">
+					<ul class="subnav">
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Network API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/volplugin/config" target="_blank">Storage API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/cluster" target="_blank">Cluster API Reference</a><br></li>
+					</ul>
+				</ul>
+			<hr><p>
+		</div>
+
+		</div>  
+		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
+			<div class="bs-docs-section">
+				
+	<h1>Contiv in ACI mode</h1>
+<p>When configured in ACI mode, Contiv utilizes ACI features for policy enforcement and connectivity, while retaining a consistent interface with the container eco-system. In this mode, Contiv interacts with the APIC via an aci-gw in order to create the necessary objects and associations that allows containers to communicate according to the policy intent.</p>
+
+<h3>Configuration</h3>
+<p>Configuration in ACI mode can be split into the following three categories:</p>
+<pre class="highlight plaintext"><code>1. Network resource allocation for Contiv cluster
+2. External policy configuration
+3. Application policy configuration
+</code></pre>
+
+<h2>Network resource allocation for Contiv cluster</h2>
+<p>Contiv uses the static VLAN binding mechanism for integrating with ACI. This mechanism requires a physDom, VLAN pool and some associated objects. For a step by step procedure on this configuration refer to <a href="/documents/gettingStarted/networking/aci.html">here</a></p>
+<p>After the ACI is configured as described above, Contiv must be configured to operate in ACI mode using the netctl command as below.</p>
+<pre class="highlight plaintext"><code>netctl global set --fabric-mode aci --vlan-range 400-500
+</code></pre>
+<p>The above example uses a vlan range of 400-500. This must match the VLAN pool you created in APIC.</p>
+
+<h2>External policy configuration</h2>
+<p>External policy configuration determines how containers in the cluster communicate with endpoints that are outside the container cluster. These endpoints may include Virtual Machines, Physical Servers or endpoints external to the fabric itself. The main ACI objects of interest from this perspective are: Tenant, BD and Contracts.</p>
+
+<h3>Tenant configuration</h3>
+<p>In most scenarios, the ACI admin would want to pre-create a tenant in the APIC. This allows the tenant to span the container cluster as well as other network endpoints. Tenants are identified by their name in both ACI and Contiv. In order to refer to a tenant that exists in ACI, you can create the same tenant in Contiv using its GUI.</p>
+<p>e.g.</p>
+<pre class="highlight plaintext"><code>netctl tenant create MixedTenant
+</code></pre>
+<p>If the tenant does not already exist in ACI, it will be created for you when an app-profile is pushed to the ACI as described further down in this doc.</p>
+
+<h3>BD configuration</h3>
+<p>Contiv does not have an explicit Bridge Domain(BD) object. Because ACI requires a BD object, the aci-gw creates it in ACI when a network is associated with ACI via an app profile binding. However, some use cases might require binding to a BD that already exists in ACI. To bind with an existing BD, the BD&#39;s DN must be passed to the aci-gw via the <code>APIC_EPG_BRIDGE_DOMAIN</code> environment variable while the aci-gw is started (see <documents/gettingStarted/networking/aci.html>).</p>
+
+<h3>Contracts</h3>
+<p>For communication between the Contiv cluster and external endpoints, corresponding contracts are necessary. These contracts must be pre-created in ACI and then, their DN must be supplied to Contiv by creating an external-contracts object in Contiv.</p>
+<p>e.g.</p>
+<pre class="highlight plaintext"><code>netctl external-contracts  create -t MixedTenant -c -a "uni/tn-MixedTenant/brc-allowicmp" ToConsume
+netctl external-contracts  create -t MixedTenant -p -a "uni/tn-MixedTenant/brc-allowicmp" -a "uni/tn-MixedTenant/brc-allowtcp8080" ToProvide
+</code></pre>
+<p>An external-contracts object in Contiv contains a set of contracts that can be either consumed or provided by a container application. In the above example, <em>ToConsume</em> specifies a contract that can be consumed by an application tier and <em>ToProvide</em> specifies a set of contracts that must be provided by an application tier. Application tiers are specified by <strong>groups</strong> (equivalent to EPGs in ACI) within Contiv. A set of external contracts can be associated with a <strong>group</strong> using the netctl group create command.</p>
+<p>e.g.</p>
+<pre class="highlight plaintext"><code>netctl group create -t MixedTenant -e ToConsume net1 QueryApp
+</code></pre>
+
+<h2>Application policy configuration</h2>
+<p>Contiv uses a Group Based Policy like ACI. Each of the application tiers need an endpoint group, associated with a network before policy can be applied to it.</p>
+
+<h3>Create network</h3>
+<p>A network is created using the netctl command.
+E.g.</p>
+<pre class="highlight plaintext"><code>netctl net create -t MixedTenant -e vlan -s 66.1.1.0/24 -g 66.1.1.254 net1
+</code></pre>
+<p>Contiv uses the network object for allocating IP addresses to containers. Therefore, even if you&#39;re pre-creating a BD, you must still create a network object. If you would like to reserve a part of the subnet for allocation to external endpoints, you can provide a part of the subnet to Contiv.</p>
+<p>E.g.</p>
+<pre class="highlight plaintext"><code>netctl net create -t MixedTenant -e vlan -s 66.1.1.20-44/24 -g 66.1.1.254 net1
+</code></pre>
+<p>If you pre-created the BD, you must make sure the -g argument matches the BD&#39;s gateway.</p>
+
+<h1>Create policy</h1>
+<p>In order to apply policy, you must create a policy object. You can add rules to the policy after EndpointGroups are created.</p>
+<pre class="highlight plaintext"><code>netctl policy create -t MixedTenant app2db
+</code></pre>
+
+<h1>Create EndpointGroups</h1>
+<p>Depending on the composition of the application, one more Endpoint Groups must be created in Contiv. Typically, you want to create an Endpoint Group for each of the tiers of the application.</p>
+<p>e.g.</p>
+<pre class="highlight plaintext"><code>netctl group create -t MixedTenant -p app2db net1 db
+netctl group create -t MixedTenant -e ToConsume -e ToProvide -p app2db net1 app
+</code></pre>
+<p>In the example above, db tier specifies just an internal policy. The app tier specifies a set of external contracts in addition to the internal policy.</p>
+
+<h1>Add rules to the policy</h1>
+<p>You can specify policy between tiers by adding rules to the policy you created. You can add multiple rules to the same policy.</p>
+<p>e.g.</p>
+<pre class="highlight plaintext"><code>netctl policy rule-add -t MixedTenant -d in --protocol tcp --port 6379 --from-group app --action allow app2db 1
+</code></pre>
+<p>The above rule opens TCP port 6379 from app to db.</p>
+
+<h1>Create an Application Profile</h1>
+<p>The Application Profile is the point of policy integration between Contiv and ACI. It is when an Application Profile is created that the corresponding objects get pushed to ACI.</p>
+<pre class="highlight plaintext"><code>netctl app-profile create -t MixedTenant -g app,db container-profile
+</code></pre>
+<p>The above command will result in application profile being created under MixedTenant in the ACI, with EPG&#39;s app and db. There will also be all associated policy objects created.</p>
+
+<h3>Create containers</h3>
+<p>You can now use docker commands (or other orchestration tools) to create containers. If using docker, use the --net option to specify the docker network name that corresponds to the application tier (use <em>docker network ls | grep app</em> to find the network name that corresponds to app in the example). If using kubernetes, you need to specify the tenant, network and endpoint group using the <strong>io.contiv.tenant</strong>, <strong>io.contiv.network</strong> and <strong>io.contiv.net-group</strong> labels respectively.</p>
+
+
+			</div>
+		</div>
+	</div>
+</div>

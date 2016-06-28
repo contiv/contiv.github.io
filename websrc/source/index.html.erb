@@ -5,12 +5,49 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div id="hero-text">
-					<div id="hero-text-content">
-						<h1>Policy Based Networking and Storage for Containers</h1>
-						<h4>A new kind of infrastructure for microservices</h4>
+					<!-- <div id="hero-text-content">
+
+					</div> -->
+					<!-- Carousel Start -->
+					<!-- <div class="container"> -->
+					<!-- <br> -->
+		  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+			    <!-- Indicators -->
+			    <!-- <ol class="carousel-indicators">
+			      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			      <li data-target="#myCarousel" data-slide-to="1" class="item"></li>
+			      <li data-target="#myCarousel" data-slide-to="2" class="item"></li>
+			    </ol> -->
+			    <!-- Wrapper for slides -->
+				<div class="carousel-inner" role="listbox">
+					<div class="item active">
+					<h1><i>Policy based Infrastructure for Containers</i></h1>
+					</div>
+					<div class="item">
+					<h1><i>Sign up for a <br> Beta Evaluation</h1>
+					</div>
+					<div class="item">
+					<h1>Join the mailing list <br> to get the latest updates! </i></h1>
 					</div>
 				</div>
+
+			    <!-- Left and right controls -->
+			    <!-- <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+			      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			      <span class="sr-only">Previous</span>
+			    </a>
+			    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+			      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			      <span class="sr-only">Next</span>
+			    </a> -->
+		  </div>
+			<!-- </div> -->
+			<!-- Carousel End -->
+				</div>
+
 			</div>
+			<div> </div> <p>
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/AzrTRp-6R48" frameborder="0" allowfullscreen></iframe>
 		</div>
 	</div>
 </div>
@@ -19,21 +56,20 @@
 <div id="content">
 	<div id="modules" class="feature">
 		<div class="partner-logos">
-			<div class="row">
+			<!-- <div class="row"> -->
 				<div class="col-md-4">
 					<a class="h-btn green lrg" href="#networking-hdr">
 						<div class="module-logo">
 							<h2>Networking</h2>
-							<div class="fa fa-cloud fa-4x"></div>
+							<div class="fa fa-cloud fa-3x"></div>
 						</div>
-
 					</a>
 				</div>
 				<div class="col-md-4">
 					<a class="h-btn green lrg" href="#storage-hdr">
 						<div class="module-logo">
 							<h2>Storage</h2>
-							<div class="fa fa-database fa-4x"></div>
+							<div class="fa fa-database fa-3x"></div>
 						</div>
 					</a>
 				</div>
@@ -41,26 +77,36 @@
 					<a class="h-btn green lrg" href="#clustering-hdr">
 						<div class="module-logo">
 							<h2>Cluster</h2>
-							<div class="fa fa-cubes fa-4x"></div>
+							<div class="fa fa-cubes fa-3x"></div>
 						</div>
 					</a>
 				</div>
-			</div>
+
+			<!-- </div> -->
 		</div>
 	</div>
 	<div class="container">
+
+
+
+
+<!-- Table End -->
+
+
+
 		<div class="row">
 			<div class=" col-md-12">
 				<h2 id="networking-hdr" class="feature-section-title">Networking</h2>
 
 				<div id="networking-concepts" class="feature">
 					<div class="feature-header">
-						<h3>Networking for Microservices</h3>
+						<a href="/documents/networking/"> <h3>Networking for Microservices</h3></a>
                         <p>
                         Contiv provides a higher level of networking abstraction for microservices.
 						Contiv secures your application using a rich policy framework.
 						It provides built-in service discovery and service routing for scale out services.
-                        </p>
+						</p>
+                        	<!-- <center><img src="/assets/images/network-concepts.jpg" style="width:1000px;height:320px;"></center> -->
 					</div>
 					<div class="feature-graphic"></div>
 				</div> <!-- .feature -->
@@ -68,22 +114,26 @@
 					<div class="feature-header">
 						<h3>Scheduler Integration</h3>
 						<p>
-						Contiv works with major container schedulers like Docker Swarm, Kubernetes, and Mesos.
+						Contiv works with major container schedulers like Docker Swarm, Kubernetes, Mesos and Nomad.
 						</p>
 					</div>
 					<div class="partner-logos">
 						<div class="row">
-							<div class="col-md-4 cloud-wrap clearfix">
+							<div class="col-md-3 cloud-wrap clearfix">
 								<h3>Docker Swarm</h3>
 								<span class="partner-logo swarm-logo"></span>
 							</div>
-							<div class="col-md-4 cloud-wrap clearfix">
+							<div class="col-md-3 cloud-wrap clearfix">
 								<h3>Kubernetes</h3>
 								<span class="partner-logo kubernetes-logo"></span>
 							</div>
-							<div class="col-md-4 cloud-wrap clearfix">
+							<div class="col-md-3 cloud-wrap clearfix">
 								<h3>Mesos</h3>
 								<span class="partner-logo mesos-logo"></span>
+							</div>
+							<div class="col-md-3 cloud-wrap clearfix">
+								<h3>Nomad</h3>
+								<span class="partner-logo nomad-logo"></span>
 							</div>
 						</div>
 					</div>
@@ -95,6 +145,8 @@
 						Contiv provides IP address per container and eliminates the need for host-based port NAT.
 						It works with different kinds of networks like pure layer 3 networks, overlay networks, and layer 2 networks, and it provides the same virtual network view to containers regardless of the underlying technology.
 						</p>
+                        	<!-- <center><img src="/assets/images/network-map.jpg" style="width:600px;height:350px;"></center> -->
+
 					</div>
 					<div class="feature-graphic"></div>
 				</div> <!-- .feature -->
@@ -102,11 +154,12 @@
 				<h2 id="storage-hdr"class="feature-section-title">Storage</h2>
 				<div id="storage" class="feature">
 					<div class="feature-header">
-						<h3 class="">Distributed Storage</h3>
+						<a href="/documents/storage/"> <h3 class="">Distributed Storage</h3> </a>
                         <p>
                         Contiv Storage pools storage resources across a cluster of nodes and provides persistent volumes to stateful containers.
 						With Contiv Storage, you can treat storage as just another schedulable resource in the cluster.
-                        </p>
+						</p>
+                        	<!-- <center><img src="/assets/images/dist-storage.jpg" style="width:500px;height:350px;"></center> -->
 					</div>
 					<div class="feature-graphic"></div>
 				</div> <!-- .feature -->
@@ -115,14 +168,30 @@
 
 				<div id="clustering" class="feature">
 					<div class="feature-header">
-						<h3>Contiv Cluster</h3>
+						<a href="/documents/cluster/"> <h3>Contiv Cluster</h3> </a>
                         <p>
                         Contiv Cluster provisions and manages a large number of physical nodes.
-                        </p>
+                        <p>
 					</div>
                     <div class="feature-graphic"></div>
 				</div> <!-- .feature -->
 
+ 				<center>
+					<a class="h-btn green lrg" href="mailto:contiv-beta@cisco.com?Subject=Contiv%20Beta%20Evaluation">
+						<div class="module-logo">
+							<h3>Beta Evaluations</h3>
+							<div class="fa fa-envelope fa-3x"></div>
+						</div>
+					</a>
+					<a class="h-btn green lrg" href="mailto:contiv-update@external.cisco.com?Subject=Email%20Signup">
+						<div class="module-logo">
+							<h3>Email Updates</h3>
+							<div class="fa fa-envelope fa-3x"></div>
+						</div>
+					</a>
+				</center>
+		</div>
+	</div>
 			</div> <!-- .col -->
 		</div> <!-- .row -->
 	</div> <!-- /container -->

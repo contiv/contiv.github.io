@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Setting up Kubernetes cluster">
+
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <title>Kubernetes cluster - Contiv</title>
+
+    <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
+
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+
+    
+  </head>
+
+  <body id="page-Kubernetes cluster" class=" page-Kubernetes cluster layout-documents page-sub">
+
+<div id="header" class="navbar-static-top">
+  <div class="container">
+    <div class="row">
+      
+        <div class="navbar-header">
+          <div class="navbar-brand">
+              <a class="logo" href="/">Contiv</a>
+            </a>
+          </div>
+          
+        </div>
+        <div class="buttons hidden-xs">
+          <nav role="navigation">
+            <ul class="main-links nav navbar-nav navbar-left">
+              <li class="first li-under"><a href="/documents/index.html">Documentation</a></li>
+              <li class="li-under"><a href="/articles/index.html">Articles</a></li>
+              <li class="li-under"><a href="https://github.com/contiv" target="_blank">
+                        GitHub
+                        <i class="fa fa-github fa-lg"></i>
+                        </a></li>
+                    <li class="li-under"><a href="https://contiv-slack.herokuapp.com" target="_blank">
+                        Slack
+                        <i class="fa fa-slack fa-lg"></i>
+                        </a></li>
+                    <li><a href="https://twitter.com/projectcontiv" target="_blank">
+                        Twitter
+                        <i class="fa fa-twitter fa-lg"></i>
+                        </a></li>
+            </ul>
+          </nav>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="sidebar-overlay"></div>
+
+
+<aside id="sidebar" class="sidebar sidebar-default sidebar-fixed-right" role="navigation">
+    
+    <div class="sidebar-header header-cover">
+        
+        <div class="sidebar-image">
+            <img src="/assets/images/logo3-a96fcb82.png" width="49px" height="56px">
+        </div>
+    </div>
+
+    
+    <ul class="main nav sidebar-nav">
+        <li class="first"><a href="/intro/index.html">Intro</a></li>
+        <li class=""><a href="/docs/index.html">Docs</a></li>
+    </ul>
+    <div class="divider"></div>
+    
+    <ul class="external nav sidebar-nav">
+        <li class=""><a class="v-btn gray sml" href="https://github.com/contiv"><svg id="svg-download" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" style="enable-background:new 0 0 14 14;">
+  <style>
+  </style>
+  <path class="" d="M13,0H1C0.5,0,0,0.5,0,1v12c0,0.5,0.5,1,1,1h4.7c0,0,0,0,0-0.1c0-0.2,0-0.6,0-1.1c-1.8,0.4-2.2-0.9-2.2-0.9
+    c-0.3-0.8-0.7-1-0.7-1c-0.6-0.4,0-0.4,0-0.4c0.7,0,1,0.7,1,0.7c0.6,1,1.5,0.7,1.9,0.5c0.1-0.4,0.2-0.7,0.4-0.9c-1.5-0.2-3-0.7-3-3.2
+    c0-0.7,0.3-1.3,0.7-1.8C3.7,5.8,3.5,5.1,3.9,4.2c0,0,0.6-0.2,1.8,0.7c0.5-0.1,1.1-0.2,1.6-0.2c0.6,0,1.1,0.1,1.6,0.2
+    c1.3-0.8,1.8-0.7,1.8-0.7c0.4,0.9,0.1,1.6,0.1,1.7c0.4,0.5,0.7,1,0.7,1.8c0,2.5-1.5,3.1-3,3.2C8.7,11.1,9,11.5,9,12.1
+    c0,0.9,0,1.6,0,1.8c0,0,0,0,0,0.1h4c0.5,0,1-0.5,1-1V1C14,0.5,13.5,0,13,0z"/>
+</svg>
+GitHub</a></li>
+    </ul>
+</aside>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-3 col-sm-3 col-xs-12">
+					<div class="docs-sidebar hidden-print affix-top" role="complementary">
+			<hr>
+			<h3>User Guide</h3>
+			<ul class="nav docs-sidenav">
+				<li class="active">
+					<a href="/documents/gettingStarted/index.html">Getting Started</a>
+					<ul class="nav">
+						<li class="active">
+							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
+							<ul class="nav">
+								<li>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<ul class="subnav">
+										<li>
+												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/k8s.html">Kubernetes</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/mesos.html">Mesos</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/nomad.html">Nomad</a>
+										</li>
+									</ul>
+								</li>
+								<li class="active">
+									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<ul class="subnav">
+										<li>
+												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/install-k8s.html">Kubernetes</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/bgp.html">BGP</a>
+										</li>
+										<li class="active">
+												<a href="/documents/gettingStarted/networking/aci.html">Cisco ACI</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="/documents/gettingStarted/storage/storage.html">Storage </a>
+						</li>
+						<li>
+							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
+							<ul class="subnav">
+								<li>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+								</li>
+								<li>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/networking/index.html">Networking</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
+						</li>
+						<li>
+								<a href="/documents/networking/policies.html">Policies</a>
+						</li>
+						<li>
+								<a href="/documents/networking/services.html">Service Routing</a>
+						</li>
+						<li>
+								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
+								<ul class="nav">
+									<li>
+											<a href="/documents/networking/bgp.html">L3 Routed Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/l2-vlan.html">L2 Bridged Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/aci_ug.html">Cisco ACI</a>
+									</li>
+								</ul>
+						</li>
+						<li>
+								<a href="/documents/networking/ipam.html">IPAM and Service Discovery</a>
+						</li>
+						<li>
+								<a href="/documents/networking/ipv6.html">IPv6</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/storage/index.html">Storage</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/storage/architecture.html">Architecture</a>
+						</li>
+						<li>
+								<a href="/documents/storage/configuration.html">Configuration</a>
+						</li>
+						<li>
+								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+						</li>
+						<li>
+								<a href="/documents/storage/volcli.html">Volcli Reference</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/cluster/index.html">Cluster</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/cluster/concepts.html">Concepts and Terminology</a>
+						</li>
+						<li>
+								<a href="/documents/cluster/node-lifecycle.html">Node Lifecycle Management</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<hr><p>
+			<h3>Tutorials and Talks</h3>
+				<ul class="nav docs-sidenav">
+					<li>
+						<a href="/documents/tutorials/index.html">Tutorials</a>
+						<ul class="nav">
+							<li>
+									<a href="/documents/tutorials/container-101.html">Container Networking Tutorial</a>
+							</li>
+							<li>
+									<a href="/documents/tutorials/contiv-compose.html">Policies with Networking</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="/documents/demos/index.html">Demonstration Videos</a>
+					</li>
+					<li>
+						<a href="/documents/talks/index.html">Community Talks</a>
+					</li>
+				</ul>
+			<hr><p>
+			<h3>Examples</h3>
+				<ul class="nav docs-sidenav">
+					<ul class="subnav">
+						<li>
+							<a href="/documents/samples/index.html">Docker Compose Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/index.html">Kubernetes Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/mcast.html">Multicast Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/nomad.html">Nomad Examples</a>
+						</li>
+					</ul>
+				</ul>
+			<hr><p>
+			<h3>Reference</h3>
+				<ul class="nav docs-sidenav">
+					<ul class="subnav">
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Network API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/volplugin/config" target="_blank">Storage API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/cluster" target="_blank">Cluster API Reference</a><br></li>
+					</ul>
+				</ul>
+			<hr><p>
+		</div>
+
+		</div>  
+		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
+			<div class="bs-docs-section">
+				
+	<h2>Installing Contiv Networking with ACI</h2>
+
+<h3>Pre-requisites for ACI setup</h3>
+
+<h4>APIC Configuration (Fabric/Access Policies)</h4>
+
+<ol>
+<li><p>Create a VLAN Pool under &quot;Fabric&quot; -&gt; &quot;Access Policies&quot; -&gt; &quot;Pools&quot; -&gt; &quot;VLAN&quot;. Set allocation mode to
+&quot;Static Allocation&quot;.</p>
+</li>
+<li><p>Create a physical domain under &quot;Fabric&quot; -&gt; &quot;Access Policies&quot; -&gt; &quot;Physical and External Domains&quot; -&gt; &quot;Physical Domains&quot;</p>
+</li>
+<li><p>Create an Attachable Access Entity Profile(AAEP) and associate with the physical domain created in step #2.</p>
+</li>
+<li><p>Create a Policy Group (under Interface Policies) and specify the AAEP created in step #3.</p>
+</li>
+<li><p>Create an Interface Profile and specify the physical interfaces connected from your ToR(s) to the bare metal servers. You can create separate Interface Profiles for individual ToRs if you like.</p>
+</li>
+<li><p>Create a Switch Profile (Switch Policies/Profiles) and specify the appropriate interface profile created in step</p>
+</li>
+<li><p>Make a note of the full node name of the ToRs you have connected to your servers.</p>
+</li>
+</ol>
+
+<h2>Starting the aci-gw container</h2>
+<p>The aci-gw container needs to be accessible by netmaster at localhost:5000. In order to ensure that, the aci-gw can be started on the same node as the netmaster, with --net=host option.</p>
+<p>In order for the aci-gw to access and configure ACI to match the contiv configuration, the following information need to be passed to the aci-gw via environment variables:</p>
+<p><code>APIC_URL</code>
+This is the URL of the APIC.</p>
+<p><code>APIC_USERNAME</code>
+This is the login username for the APIC.</p>
+<p><code>APIC_LEAF_NODE</code>
+This is the full URI path of the aci leaf nodes where the cluster servers are connected.
+e.g. topology/pod-1/node-101. If there are multiple nodes, you can use comma separation.
+e.g. topology/pod-1/node-101,topology/pod-1/node-102</p>
+<p><code>APIC_PHYS_DOMAIN</code>
+This is the name of the physical domain used for the contiv cluster (Step 2 above).</p>
+
+<h2>Authentication</h2>
+<p>Both key based authentication and password authentication are supported. Key based authentication is the recommended method.</p>
+<p>For password based authentication, you need to pass the password to the aci-gw using the <code>APIC_PASSWORD</code> environment variable.</p>
+
+<h3>key based authentication</h3>
+<p>Step 1. Create a key and certicate add the certificate to APIC using the procedure described in <a href="http://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/kb/b_KB_Signature_Based_Transactions.pdf">http://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/kb/b_KB_Signature_Based_Transactions.pdf</a>.</p>
+<p>Step 2. Find the DN of the key that was added to APIC and pass it to the aci-gw via the <code>APIC_CERT_DN</code> environment variable. This DN is of the form <strong>uni/userext/user-admin/usercert-admin</strong> The exact DN can be found from the APIC visore.  e.g. <code>APIC_CERT_DN=uni/userext/user-admin/usercert-admin</code></p>
+<p>Step 3. Create a directory on the server that hosts aci-gw and copy the key created in the previous step to this directory.</p>
+<p>Step 4. Share this directory with the aci-gw using the bind mounting option of docker.
+e.g. if the keys are copied to /shared/keys directory on the host, use <em>-v /shared/keys:/aciconfig</em> option while starting the aci-gw container.</p>
+<p>Below is an example of starting the aci-gw with all relevant parameters.</p>
+<pre class="highlight plaintext"><code>/usr/bin/docker run --net=host \
+    -e "APIC_URL=https://11.103.101.33" \
+    -e "APIC_USERNAME=admin" \
+    -e "APIC_LEAF_NODE=topology/pod-1/node-101,topology/pod-1/node-102" \
+    -e "APIC_PHYS_DOMAIN=contivPhysDom" \
+    -e "APIC_CERT_DN=uni/userext/user-admin/usercert-admin" \
+    -v /shared/keys:/aciconfig \
+    --name=contiv-aci-gw \
+    -t contiv/aci-gw
+</code></pre>
+
+
+			</div>
+		</div>
+	</div>
+</div>

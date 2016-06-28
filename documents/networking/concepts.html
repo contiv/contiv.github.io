@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Networking concepts">
+
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <title>Networking concepts - Contiv</title>
+
+    <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
+
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+
+    
+  </head>
+
+  <body id="page-Networking concepts" class=" page-Networking concepts layout-documents page-sub">
+
+<div id="header" class="navbar-static-top">
+  <div class="container">
+    <div class="row">
+      
+        <div class="navbar-header">
+          <div class="navbar-brand">
+              <a class="logo" href="/">Contiv</a>
+            </a>
+          </div>
+          
+        </div>
+        <div class="buttons hidden-xs">
+          <nav role="navigation">
+            <ul class="main-links nav navbar-nav navbar-left">
+              <li class="first li-under"><a href="/documents/index.html">Documentation</a></li>
+              <li class="li-under"><a href="/articles/index.html">Articles</a></li>
+              <li class="li-under"><a href="https://github.com/contiv" target="_blank">
+                        GitHub
+                        <i class="fa fa-github fa-lg"></i>
+                        </a></li>
+                    <li class="li-under"><a href="https://contiv-slack.herokuapp.com" target="_blank">
+                        Slack
+                        <i class="fa fa-slack fa-lg"></i>
+                        </a></li>
+                    <li><a href="https://twitter.com/projectcontiv" target="_blank">
+                        Twitter
+                        <i class="fa fa-twitter fa-lg"></i>
+                        </a></li>
+            </ul>
+          </nav>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="sidebar-overlay"></div>
+
+
+<aside id="sidebar" class="sidebar sidebar-default sidebar-fixed-right" role="navigation">
+    
+    <div class="sidebar-header header-cover">
+        
+        <div class="sidebar-image">
+            <img src="/assets/images/logo3-a96fcb82.png" width="49px" height="56px">
+        </div>
+    </div>
+
+    
+    <ul class="main nav sidebar-nav">
+        <li class="first"><a href="/intro/index.html">Intro</a></li>
+        <li class=""><a href="/docs/index.html">Docs</a></li>
+    </ul>
+    <div class="divider"></div>
+    
+    <ul class="external nav sidebar-nav">
+        <li class=""><a class="v-btn gray sml" href="https://github.com/contiv"><svg id="svg-download" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" style="enable-background:new 0 0 14 14;">
+  <style>
+  </style>
+  <path class="" d="M13,0H1C0.5,0,0,0.5,0,1v12c0,0.5,0.5,1,1,1h4.7c0,0,0,0,0-0.1c0-0.2,0-0.6,0-1.1c-1.8,0.4-2.2-0.9-2.2-0.9
+    c-0.3-0.8-0.7-1-0.7-1c-0.6-0.4,0-0.4,0-0.4c0.7,0,1,0.7,1,0.7c0.6,1,1.5,0.7,1.9,0.5c0.1-0.4,0.2-0.7,0.4-0.9c-1.5-0.2-3-0.7-3-3.2
+    c0-0.7,0.3-1.3,0.7-1.8C3.7,5.8,3.5,5.1,3.9,4.2c0,0,0.6-0.2,1.8,0.7c0.5-0.1,1.1-0.2,1.6-0.2c0.6,0,1.1,0.1,1.6,0.2
+    c1.3-0.8,1.8-0.7,1.8-0.7c0.4,0.9,0.1,1.6,0.1,1.7c0.4,0.5,0.7,1,0.7,1.8c0,2.5-1.5,3.1-3,3.2C8.7,11.1,9,11.5,9,12.1
+    c0,0.9,0,1.6,0,1.8c0,0,0,0,0,0.1h4c0.5,0,1-0.5,1-1V1C14,0.5,13.5,0,13,0z"/>
+</svg>
+GitHub</a></li>
+    </ul>
+</aside>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-3 col-sm-3 col-xs-12">
+					<div class="docs-sidebar hidden-print affix-top" role="complementary">
+			<hr>
+			<h3>User Guide</h3>
+			<ul class="nav docs-sidenav">
+				<li>
+					<a href="/documents/gettingStarted/index.html">Getting Started</a>
+					<ul class="nav">
+						<li>
+							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
+							<ul class="nav">
+								<li>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<ul class="subnav">
+										<li>
+												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/k8s.html">Kubernetes</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/mesos.html">Mesos</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/nomad.html">Nomad</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<ul class="subnav">
+										<li>
+												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/install-k8s.html">Kubernetes</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/bgp.html">BGP</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/aci.html">Cisco ACI</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="/documents/gettingStarted/storage/storage.html">Storage </a>
+						</li>
+						<li>
+							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
+							<ul class="subnav">
+								<li>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+								</li>
+								<li>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li class="active">
+					<a href="/documents/networking/index.html">Networking</a>
+					<ul class="nav">
+						<li class="active">
+								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
+						</li>
+						<li>
+								<a href="/documents/networking/policies.html">Policies</a>
+						</li>
+						<li>
+								<a href="/documents/networking/services.html">Service Routing</a>
+						</li>
+						<li>
+								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
+								<ul class="nav">
+									<li>
+											<a href="/documents/networking/bgp.html">L3 Routed Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/l2-vlan.html">L2 Bridged Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/aci_ug.html">Cisco ACI</a>
+									</li>
+								</ul>
+						</li>
+						<li>
+								<a href="/documents/networking/ipam.html">IPAM and Service Discovery</a>
+						</li>
+						<li>
+								<a href="/documents/networking/ipv6.html">IPv6</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/storage/index.html">Storage</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/storage/architecture.html">Architecture</a>
+						</li>
+						<li>
+								<a href="/documents/storage/configuration.html">Configuration</a>
+						</li>
+						<li>
+								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+						</li>
+						<li>
+								<a href="/documents/storage/volcli.html">Volcli Reference</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/cluster/index.html">Cluster</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/cluster/concepts.html">Concepts and Terminology</a>
+						</li>
+						<li>
+								<a href="/documents/cluster/node-lifecycle.html">Node Lifecycle Management</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<hr><p>
+			<h3>Tutorials and Talks</h3>
+				<ul class="nav docs-sidenav">
+					<li>
+						<a href="/documents/tutorials/index.html">Tutorials</a>
+						<ul class="nav">
+							<li>
+									<a href="/documents/tutorials/container-101.html">Container Networking Tutorial</a>
+							</li>
+							<li>
+									<a href="/documents/tutorials/contiv-compose.html">Policies with Networking</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="/documents/demos/index.html">Demonstration Videos</a>
+					</li>
+					<li>
+						<a href="/documents/talks/index.html">Community Talks</a>
+					</li>
+				</ul>
+			<hr><p>
+			<h3>Examples</h3>
+				<ul class="nav docs-sidenav">
+					<ul class="subnav">
+						<li>
+							<a href="/documents/samples/index.html">Docker Compose Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/index.html">Kubernetes Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/mcast.html">Multicast Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/nomad.html">Nomad Examples</a>
+						</li>
+					</ul>
+				</ul>
+			<hr><p>
+			<h3>Reference</h3>
+				<ul class="nav docs-sidenav">
+					<ul class="subnav">
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Network API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/volplugin/config" target="_blank">Storage API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/cluster" target="_blank">Cluster API Reference</a><br></li>
+					</ul>
+				</ul>
+			<hr><p>
+		</div>
+
+		</div>  
+		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
+			<div class="bs-docs-section">
+				
+	<h2>Concepts and Terminology</h2>
+<p>Using container networking with Contiv is as easy as creating network(s)
+and associating containers to belong to respective networks. However, one can optionally
+apply the policies that govern the security, bandwidth, priority, etc. for container
+applications. Subsequent sections go over some concepts and terminilogy to understand
+the policy framework with Contiv.</p>
+
+<h4>Groups</h4>
+<p>A group (or an application-group) identifies a policy domain for a <code>container</code>
+or a <code>pod</code>. This association is often done by specifying <code>label</code> in
+<code>kubernetes pod spec</code> or <code>--net</code> in <code>docker run</code>. The grouping is arbitrary
+collection of containers that share a specific application domain, for example
+all <code>production,frontend</code> containers, or <code>backup,long-running</code> containers.</p>
+<p>Most notably, application grouping or tiers in Contiv has no one-to-one mapping
+to a network or an <code>IP subnet</code> of a network. Therefore, it is encouraged to group
+applications based on their roles/functions, and possibly have many such application
+groups belong to one network or an IP subnet.</p>
+
+<h4>Policies</h4>
+<p>A policy describes an operational behavior on a group of containers. The operational
+behavior can result into enforcement, allocation, prioritation, traffic redirection,
+stats collection, etc. on the corresponding group on which  the policy is applied. For
+example an inbound security policy on a <code>database</code> tier can specify the sepcific set
+of ports to be allowed towards the containers belonging to the group corresponding.</p>
+<p>A group can be associated with more than one policy. In such cases all policies are
+applied to a container belonging to the group. For example, if a <code>bandwidth policy</code>
+specifices the limit on the bandwidth consumption, where as a security policy specifies
+who can this container is allowed to talk to, then when a container is scheduled, the
+both policies is applied to it.</p>
+<p>Policies follows the container independent of where it gets scheduled, therefore policy
+is specified for a given cluster, but enforcement done on the host where container is
+scheduled.</p>
+
+<h4>Network</h4>
+<p>Network is an IPv4 or IPv6 subnet that may be provided with a default gateway. For
+example, a network can map to <code>10.1.1.0/24</code> is a subnet which has a default gateway
+of <code>10.1.1.1</code>.</p>
+<p>Application developer usually doesn&#39;t care about the <code>network</code> an application would
+belong to. Network association of an application becomes relevant when the application
+needs to be exposed to external network, possibly allowing non-container workloads
+or clients to communicate with it.</p>
+<p>TL;DR (only for networking experts)</p>
+<p>Contiv allows defining two types of networks: <code>application-network</code> and
+<code>infrastructure-network</code>. An application network is used by container workloads
+where as the purpose of <code>infrastructure-network</code> is to create a virtual network
+in the host-name space, for example to be used by virtual layer of host-resident
+infrastructure services e.g. monitoring services, storage services, or a
+cluster-store.</p>
+<p>Network encap <code>type</code> determines if a network is a <code>routed</code> network or a <code>bridged</code>
+network. A routed network is useful in <code>overlay</code> topology and <code>l3-routed bgp</code> topology,
+where as <code>bridged</code> network is useful in connecting to a <code>layer2 vlan</code> network.</p>
+
+<h4>Tenant</h4>
+<p>Tenant provides namespace isolation for networks. A <code>tenant</code> can have many <code>networks</code>,
+each with its own subnet address among other information. User can create
+networks with arbtrary subnet addresses within a tenant namespace, possibly reusing
+subnet IP addresses in other tenants. This provides complete freedom to a tenant
+user to specify the network names and their subnets within a tenant.</p>
+<p>TL;DR (only for networking experts)</p>
+<p>A <code>tenant</code> in the physical network is called VRF (virtual routing and forwarding),
+therefore depending on the mode of external connectivity (layer2, layer3, or
+Cisco ACI), Contiv forwarding layer communicates the <code>tenant</code> to the external network
+using a <code>vlan</code> or <code>vxlan</code> id. On the other hand, Contiv routing plane (like BGP) is
+used to communicate the VRF-ID to rest of the network. Please visit documentation
+on layer3 BGP network configuraiton to learn more about configuration and usage.</p>
+<p>Note that for <code>overlay</code> networks, the need to communicate tenant to external network
+is not applicable.</p>
+
+
+			</div>
+		</div>
+	</div>
+</div>

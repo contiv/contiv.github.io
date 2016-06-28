@@ -211,9 +211,9 @@
 
 // Variables
 $header-height: 92px;
-$project-logo-width: 49px;
-$project-logo-height: 56px;
-$project-logo-pad-left: 8px;
+$project-logo-width: 45px;
+$project-logo-height: 45px;
+$project-logo-pad-left: 20px;
 
 // Mixins
 @mixin project-a-style{
@@ -227,8 +227,7 @@ $project-logo-pad-left: 8px;
 // Variables
 $font-family-open-sans:	'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $header-font-family: $font-family-open-sans;
-$header-font-weight: 600; // semi-bold
-
+$header-font-weight: 100; // semi-bold
 $header-height: 50px;
 $header-mobile-height: 60px;
 $by-contiv-width: 74px;
@@ -239,13 +238,13 @@ $nav-margin-right: 12px;
 @mixin contiv-a-style-core{
   font-family: $header-font-family;
   font-weight: $header-font-weight;
-  font-size: 14px;
+  font-size: 25px;
   //letter-spacing: 0.0625em;
 }
 
 @mixin contiv-a-style{
   margin: 0 15px;
-  padding: 0;
+  padding: 0 8px;
   line-height: 22px;
   @include contiv-a-style-core();
   @include transition( color 0.3s ease );

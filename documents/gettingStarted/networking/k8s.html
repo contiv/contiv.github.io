@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Setting up Kubernetes cluster">
+
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <title>Kubernetes cluster - Contiv</title>
+
+    <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
+
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+
+    
+  </head>
+
+  <body id="page-Kubernetes cluster" class=" page-Kubernetes cluster layout-documents page-sub">
+
+<div id="header" class="navbar-static-top">
+  <div class="container">
+    <div class="row">
+      
+        <div class="navbar-header">
+          <div class="navbar-brand">
+              <a class="logo" href="/">Contiv</a>
+            </a>
+          </div>
+          
+        </div>
+        <div class="buttons hidden-xs">
+          <nav role="navigation">
+            <ul class="main-links nav navbar-nav navbar-left">
+              <li class="first li-under"><a href="/documents/index.html">Documentation</a></li>
+              <li class="li-under"><a href="/articles/index.html">Articles</a></li>
+              <li class="li-under"><a href="https://github.com/contiv" target="_blank">
+                        GitHub
+                        <i class="fa fa-github fa-lg"></i>
+                        </a></li>
+                    <li class="li-under"><a href="https://contiv-slack.herokuapp.com" target="_blank">
+                        Slack
+                        <i class="fa fa-slack fa-lg"></i>
+                        </a></li>
+                    <li><a href="https://twitter.com/projectcontiv" target="_blank">
+                        Twitter
+                        <i class="fa fa-twitter fa-lg"></i>
+                        </a></li>
+            </ul>
+          </nav>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="sidebar-overlay"></div>
+
+
+<aside id="sidebar" class="sidebar sidebar-default sidebar-fixed-right" role="navigation">
+    
+    <div class="sidebar-header header-cover">
+        
+        <div class="sidebar-image">
+            <img src="/assets/images/logo3-a96fcb82.png" width="49px" height="56px">
+        </div>
+    </div>
+
+    
+    <ul class="main nav sidebar-nav">
+        <li class="first"><a href="/intro/index.html">Intro</a></li>
+        <li class=""><a href="/docs/index.html">Docs</a></li>
+    </ul>
+    <div class="divider"></div>
+    
+    <ul class="external nav sidebar-nav">
+        <li class=""><a class="v-btn gray sml" href="https://github.com/contiv"><svg id="svg-download" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" style="enable-background:new 0 0 14 14;">
+  <style>
+  </style>
+  <path class="" d="M13,0H1C0.5,0,0,0.5,0,1v12c0,0.5,0.5,1,1,1h4.7c0,0,0,0,0-0.1c0-0.2,0-0.6,0-1.1c-1.8,0.4-2.2-0.9-2.2-0.9
+    c-0.3-0.8-0.7-1-0.7-1c-0.6-0.4,0-0.4,0-0.4c0.7,0,1,0.7,1,0.7c0.6,1,1.5,0.7,1.9,0.5c0.1-0.4,0.2-0.7,0.4-0.9c-1.5-0.2-3-0.7-3-3.2
+    c0-0.7,0.3-1.3,0.7-1.8C3.7,5.8,3.5,5.1,3.9,4.2c0,0,0.6-0.2,1.8,0.7c0.5-0.1,1.1-0.2,1.6-0.2c0.6,0,1.1,0.1,1.6,0.2
+    c1.3-0.8,1.8-0.7,1.8-0.7c0.4,0.9,0.1,1.6,0.1,1.7c0.4,0.5,0.7,1,0.7,1.8c0,2.5-1.5,3.1-3,3.2C8.7,11.1,9,11.5,9,12.1
+    c0,0.9,0,1.6,0,1.8c0,0,0,0,0,0.1h4c0.5,0,1-0.5,1-1V1C14,0.5,13.5,0,13,0z"/>
+</svg>
+GitHub</a></li>
+    </ul>
+</aside>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-3 col-sm-3 col-xs-12">
+					<div class="docs-sidebar hidden-print affix-top" role="complementary">
+			<hr>
+			<h3>User Guide</h3>
+			<ul class="nav docs-sidenav">
+				<li class="active">
+					<a href="/documents/gettingStarted/index.html">Getting Started</a>
+					<ul class="nav">
+						<li class="active">
+							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
+							<ul class="nav">
+								<li class="active">
+									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<ul class="subnav">
+										<li>
+												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
+										</li>
+										<li class="active">
+												<a href="/documents/gettingStarted/networking/k8s.html">Kubernetes</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/mesos.html">Mesos</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/nomad.html">Nomad</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<ul class="subnav">
+										<li>
+												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/install-k8s.html">Kubernetes</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/bgp.html">BGP</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/aci.html">Cisco ACI</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="/documents/gettingStarted/storage/storage.html">Storage </a>
+						</li>
+						<li>
+							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
+							<ul class="subnav">
+								<li>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+								</li>
+								<li>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/networking/index.html">Networking</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
+						</li>
+						<li>
+								<a href="/documents/networking/policies.html">Policies</a>
+						</li>
+						<li>
+								<a href="/documents/networking/services.html">Service Routing</a>
+						</li>
+						<li>
+								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
+								<ul class="nav">
+									<li>
+											<a href="/documents/networking/bgp.html">L3 Routed Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/l2-vlan.html">L2 Bridged Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/aci_ug.html">Cisco ACI</a>
+									</li>
+								</ul>
+						</li>
+						<li>
+								<a href="/documents/networking/ipam.html">IPAM and Service Discovery</a>
+						</li>
+						<li>
+								<a href="/documents/networking/ipv6.html">IPv6</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/storage/index.html">Storage</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/storage/architecture.html">Architecture</a>
+						</li>
+						<li>
+								<a href="/documents/storage/configuration.html">Configuration</a>
+						</li>
+						<li>
+								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+						</li>
+						<li>
+								<a href="/documents/storage/volcli.html">Volcli Reference</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/cluster/index.html">Cluster</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/cluster/concepts.html">Concepts and Terminology</a>
+						</li>
+						<li>
+								<a href="/documents/cluster/node-lifecycle.html">Node Lifecycle Management</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<hr><p>
+			<h3>Tutorials and Talks</h3>
+				<ul class="nav docs-sidenav">
+					<li>
+						<a href="/documents/tutorials/index.html">Tutorials</a>
+						<ul class="nav">
+							<li>
+									<a href="/documents/tutorials/container-101.html">Container Networking Tutorial</a>
+							</li>
+							<li>
+									<a href="/documents/tutorials/contiv-compose.html">Policies with Networking</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="/documents/demos/index.html">Demonstration Videos</a>
+					</li>
+					<li>
+						<a href="/documents/talks/index.html">Community Talks</a>
+					</li>
+				</ul>
+			<hr><p>
+			<h3>Examples</h3>
+				<ul class="nav docs-sidenav">
+					<ul class="subnav">
+						<li>
+							<a href="/documents/samples/index.html">Docker Compose Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/index.html">Kubernetes Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/mcast.html">Multicast Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/nomad.html">Nomad Examples</a>
+						</li>
+					</ul>
+				</ul>
+			<hr><p>
+			<h3>Reference</h3>
+				<ul class="nav docs-sidenav">
+					<ul class="subnav">
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Network API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/volplugin/config" target="_blank">Storage API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/cluster" target="_blank">Cluster API Reference</a><br></li>
+					</ul>
+				</ul>
+			<hr><p>
+		</div>
+
+		</div>  
+		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
+			<div class="bs-docs-section">
+				
+	<h1>Contiv Networking for Kubernetes</h1>
+<p>Contiv is integrated with Kubernetes via a CNI plugin. With this integration, Contiv
+Networking and Policy can be used for Pod inter-connectivity in a Kubernetes cluster.</p>
+
+<h2>Getting Started in Vagrant Environment</h2>
+<p>This step-by-step procedure will guide you through a minimal experience of creating
+a Kubernetes cluster with Contiv networking and applying policy between pods.</p>
+
+<h3>Pre-requisites</h3>
+
+<ol>
+<li><p>Before starting, please be sure to set http/https proxies if your network requires it.
+<em>(Note that <a name="https_proxy"/><a href="#https_proxy"><code>https_proxy</code></a> should be set to point to a <code>http://</code> URL (not <code>https://</code>).
+This is an ansible requirement.)</em></p>
+</li>
+<li><p>The setup scripts use python modules <em>parse</em> and <em>netaddr</em>. If these modules are not
+installed on the machine where you are executing these steps, you should install them
+before proceeding. <em>(E.g. <a name="pip_install_parse_pip_install_netaddr"/><a href="#pip_install_parse_pip_install_netaddr"><code>pip install parse; pip install netaddr</code></a>)</em></p>
+</li>
+</ol>
+
+<h3>Step 1: Clone contrib and netplugin repos</h3>
+<pre class="highlight plaintext"><code>$ mkdir -p ~/go/src/github.com/k8s
+$ cd ~/go/src/github.com/k8s
+$ git clone https://github.com/jojimt/contrib -b contiv
+
+$ cd ~/go/src/github.com/k8s
+$ git clone https://github.com/contiv/netplugin
+</code></pre>
+
+<h3>Step 2: Create vagrant cluster</h3>
+<pre class="highlight plaintext"><code>$ cd ~/go/src/github.com/k8s/netplugin
+$ make k8s-cluster
+</code></pre>
+<p>This step will run Vagrant and ansible commands to bring a kubernetes cluster
+with one master and two worker nodes. This will take some time. Please be
+patient.</p>
+<p>When step 2 completes, you should a message like the one below:</p>
+<pre class="highlight plaintext"><code>PLAY RECAP ********************************************************************
+k8master                   : ok=xxx  changed=xxx  unreachable=0    failed=0   
+k8node-01                  : ok=xxx  changed=xxx  unreachable=0    failed=0   
+k8node-02                  : ok=xxx  changed=xxx  unreachable=0    failed=0   
+</code></pre>
+<p>At this point, your cluster is ready for use.</p>
+<p><em>Note: Occasionally, you might hit an error during ansible provisioning.
+If that happens, just re-issue the command (usually, it&#39;s caused by a temporary
+unavailability of a repo on the web). If the problem persists, you should open an
+issue on github.</em></p>
+<p>You should proceed to Step 3 <strong>only if</strong> the previous step completed successfully.</p>
+<p>This demo utilizes a <strong>busybox</strong> image built to include a full <strong>netcat</strong> utility.
+However, you can try other images as well if you like. <em>The Dockerfile used for
+building the nc-busybox is available in the /shared folder of the k8master node
+(you will get to this directory in Step 3).</em></p>
+
+<h4>Step 3: Start the demo and ssh to the kubernetes master</h4>
+<p>This step will start network services and log you into the kubernetes master node.</p>
+<pre class="highlight plaintext"><code>$ make k8s-demo-start
+</code></pre>
+<p>When step 3 completes, you will get a shell prompt from the master. Use <em>sudo su</em> to
+enter sudo mode. Try a few commands.</p>
+<pre class="highlight plaintext"><code>[vagrant@k8master ~]$sudo su
+[root@k8master vagrant]# kubectl get nodes
+NAME        LABELS                             STATUS    AGE
+k8node-01   kubernetes.io/hostname=k8node-01   Ready     4m
+k8node-02   kubernetes.io/hostname=k8node-02   Ready     4m
+
+[root@k8master vagrant]# netctl net list
+Tenant   Network      Encap type  Packet tag  Subnet       Gateway
+------   -------      ----------  ----------  -------      ------
+default  default-net  vxlan       &lt;nil&gt;       20.1.1.0/24  20.1.1.254
+default  poc-net      vxlan       &lt;nil&gt;       21.1.1.0/24  21.1.1.254
+
+[root@k8master ~]# netctl group list
+Tenant   Group        Network      Policies
+------   -----        -------      --------
+default  default-epg  default-net  
+default  poc-epg      poc-net
+
+</code></pre>
+<p>The last two commands show contiv configuration. The demo set up created two networks
+and two epgs. Lets try some examples.</p>
+
+<h2>Example 1: No network labels = Pod placed in default network</h2>
+<p>cd to /shared directory to find some pod specs. Create defaultnet-busybox1 and
+defaultnet-busybox2.</p>
+<pre class="highlight plaintext"><code>[root@k8master ~]# cd /shared
+[root@k8master shared]#ls
+defaultnet-busybox1.yaml  noping-busybox.yaml  pocnet-busybox.yaml
+defaultnet-busybox2.yaml  pingme-busybox.yaml  policy.sh
+
+[root@k8master shared]# kubectl create -f defaultnet-busybox1.yaml
+pod "defaultnet-busybox1" created
+[root@k8master shared]# kubectl create -f defaultnet-busybox2.yaml
+pod "defaultnet-busybox2" created
+
+[root@k8master shared]# kubectl get pods
+NAME                 READY     STATUS    RESTARTS   AGE
+defaultnet-busybox1  1/1       Running   0          3m
+defaultnet-busybox2  1/1       Running   0          39s
+
+</code></pre>
+<p>It may take a few minutes for the pods to enter Running state. When both have entered
+Running state, check their ip address and try reachability.</p>
+<pre class="highlight plaintext"><code>[root@k8master shared]# kubectl exec defaultnet-busybox1 -- ip address
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+47: eth0@if46: &lt;BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN&gt; mtu 1450 qdisc noqueue
+    link/ether 02:02:14:01:01:09 brd ff:ff:ff:ff:ff:ff
+    inet 20.1.1.9/24 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::2:14ff:fe01:109/64 scope link
+       valid_lft forever preferred_lft forever
+
+
+[root@k8master shared]# kubectl describe pod defaultnet-busybox2 | grep IP
+IP:                             20.1.1.10
+
+[root@k8master shared]# kubectl exec defaultnet-busybox1 -- ping 20.1.1.10
+PING 20.1.1.10 (20.1.1.10): 56 data bytes
+64 bytes from 20.1.1.10: seq=0 ttl=64 time=0.562 ms
+64 bytes from 20.1.1.10: seq=1 ttl=64 time=0.124 ms
+64 bytes from 20.1.1.10: seq=2 ttl=64 time=0.073 ms
+
+</code></pre>
+<p>Notice that both pods were assigned IP addresses from the default network and
+they can ping each other.</p>
+
+<h2>Example 2: Use network labels to specify a network and epg for the Pod</h2>
+<p>Now let&#39;s create a Pod with poc-net and poc-epg specified as network and epg
+respectively. Examine pocnet-busybox.yaml. There are two additional labels:
+<strong>io.contiv.network:</strong> <em>poc-net</em> and <strong>io.contiv.net-group:</strong> <em>poc-epg</em> specified
+in this pod spec.</p>
+<pre class="highlight plaintext"><code>[root@k8master shared]# kubectl create -f pocnet-busybox.yaml
+pod "busybox-poc-net" created
+
+[root@k8master shared]# kubectl get pods
+NAME                  READY     STATUS    RESTARTS   AGE
+busybox-poc-net       1/1       Running   0          54s
+defaultnet-busybox1   1/1       Running   0          35m
+defaultnet-busybox2   1/1       Running   0          35m
+
+[root@k8master shared]# kubectl exec busybox-poc-net -- ip address
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+129: eth0@if128: &lt;BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN&gt; mtu 1450 qdisc noqueue
+    link/ether 02:02:15:01:01:02 brd ff:ff:ff:ff:ff:ff
+    inet 21.1.1.2/24 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::2:15ff:fe01:102/64 scope link
+       valid_lft forever preferred_lft forever
+</code></pre>
+<p>Notice that this pod was assigned an IP addresses from the poc-net.</p>
+
+<h2>Example 3: Use Contiv to specify and enforce network policy</h2>
+<p>In this example, we will create a policy and attach it to an epg. We will specify
+this epg in the pod spec and verify that the policy is enforced.</p>
+<p>Examine policy.sh. This contains contiv commands to create a simple ICMP deny rule,
+add it to a policy and attach to an epg. Excute this script to create the network
+objects.</p>
+<pre class="highlight plaintext"><code>[root@k8master shared]# ./policy.sh
+
+[root@k8master shared]# netctl group list
+Tenant   Group        Network      Policies
+------   -----        -------      --------
+default  poc-epg      poc-net      
+default  noping-epg   poc-net      icmpPol
+default  default-epg  default-net  
+
+[root@k8master shared]# netctl rule list icmpPol
+Rule  Direction  Priority  EndpointGroup  Network  IpAddress  Protocol  Port   Action
+----  ---------  --------  -------------  -------  ---------  --------  ----   ------
+1     in         1         &lt;nil&gt;          &lt;nil&gt;    &lt;nil&gt;      icmp      &lt;nil&gt;  deny
+
+</code></pre>
+<p>Examine noping-busybox.yaml and pingme-busybox.yaml. They specify noping-epg and poc-epg
+respectively as their epgs. Both of these pods have a netcat listener on TCP port 6379
+(See nc-busybox/nc_loop.sh).</p>
+<p>Create both of these pods and verify their connectivity behavior.</p>
+<pre class="highlight plaintext"><code>[root@k8master shared]# kubectl create -f noping-busybox.yaml
+pod "annoyed-busybox" created
+[root@k8master shared]# kubectl create -f pingme-busybox.yaml
+pod "sportive-busybox" created
+
+[root@k8master shared]# kubectl get pods
+NAME                READY     STATUS    RESTARTS   AGE
+annoyed-busybox       1/1       Running   0          22m
+busybox-poc-net       1/1       Running   0          35m
+defaultnet-busybox1   1/1       Running   0          35m
+defaultnet-busybox2   1/1       Running   0          35m
+sportive-busybox      1/1       Running   0          21m
+
+
+[root@k8master shared]# kubectl describe pod annoyed-busybox | grep IP
+IP:                             21.1.1.2
+
+[root@k8master shared]# kubectl describe pod sportive-busybox | grep IP
+IP:                             21.1.1.4
+
+</code></pre>
+<p>Try to access annoyed-busybox and sportive-busybox from busybox-poc-net via ping and nc.</p>
+<pre class="highlight plaintext"><code>[root@k8master shared]# kubectl exec busybox-poc-net -- ping 21.1.1.2
+
+[root@k8master shared]# kubectl exec busybox-poc-net -- ping 21.1.1.4
+PING 21.1.1.4 (21.1.1.4): 56 data bytes
+64 bytes from 21.1.1.4: seq=0 ttl=64 time=0.230 ms
+64 bytes from 21.1.1.4: seq=1 ttl=64 time=0.390 ms
+64 bytes from 21.1.1.4: seq=2 ttl=64 time=0.205 ms
+
+[root@k8master shared]# kubectl exec busybox-poc-net -- nc -zvw 1 21.1.1.2 6379
+21.1.1.2 [21.1.1.2] 6379 (6379) open
+
+[root@k8master shared]# kubectl exec busybox-poc-net -- nc -zvw 1 21.1.1.4 6379
+21.1.1.4 [21.1.1.4] 6379 (6379) open
+
+</code></pre>
+<p>Notice 1) busybox-poc-net is unable to ping annoyed-busybox 2) busybox-poc-net is able
+to ping sportive-busybox, to which no policy was applied. 3) busybox-poc-net is able
+to exchange TCP with annoyed-busybox, consistent with the applied policy. You can try
+other combinations as well, e.g. ping/nc between annoyed-busybox and sportive-busybox.
+You can also create your own policy and pod spec and try.</p>
+
+
+			</div>
+		</div>
+	</div>
+</div>

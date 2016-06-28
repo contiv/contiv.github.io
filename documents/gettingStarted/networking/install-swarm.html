@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Setting up a Swarm Cluster.">
+
+    <link rel="shortcut icon" href="/assets/images/favicon.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <title>Swarm Cluster - Contiv</title>
+
+    <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
+
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+
+    
+  </head>
+
+  <body id="page-Swarm Cluster" class=" page-Swarm Cluster layout-documents page-sub">
+
+<div id="header" class="navbar-static-top">
+  <div class="container">
+    <div class="row">
+      
+        <div class="navbar-header">
+          <div class="navbar-brand">
+              <a class="logo" href="/">Contiv</a>
+            </a>
+          </div>
+          
+        </div>
+        <div class="buttons hidden-xs">
+          <nav role="navigation">
+            <ul class="main-links nav navbar-nav navbar-left">
+              <li class="first li-under"><a href="/documents/index.html">Documentation</a></li>
+              <li class="li-under"><a href="/articles/index.html">Articles</a></li>
+              <li class="li-under"><a href="https://github.com/contiv" target="_blank">
+                        GitHub
+                        <i class="fa fa-github fa-lg"></i>
+                        </a></li>
+                    <li class="li-under"><a href="https://contiv-slack.herokuapp.com" target="_blank">
+                        Slack
+                        <i class="fa fa-slack fa-lg"></i>
+                        </a></li>
+                    <li><a href="https://twitter.com/projectcontiv" target="_blank">
+                        Twitter
+                        <i class="fa fa-twitter fa-lg"></i>
+                        </a></li>
+            </ul>
+          </nav>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="sidebar-overlay"></div>
+
+
+<aside id="sidebar" class="sidebar sidebar-default sidebar-fixed-right" role="navigation">
+    
+    <div class="sidebar-header header-cover">
+        
+        <div class="sidebar-image">
+            <img src="/assets/images/logo3-a96fcb82.png" width="49px" height="56px">
+        </div>
+    </div>
+
+    
+    <ul class="main nav sidebar-nav">
+        <li class="first"><a href="/intro/index.html">Intro</a></li>
+        <li class=""><a href="/docs/index.html">Docs</a></li>
+    </ul>
+    <div class="divider"></div>
+    
+    <ul class="external nav sidebar-nav">
+        <li class=""><a class="v-btn gray sml" href="https://github.com/contiv"><svg id="svg-download" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" style="enable-background:new 0 0 14 14;">
+  <style>
+  </style>
+  <path class="" d="M13,0H1C0.5,0,0,0.5,0,1v12c0,0.5,0.5,1,1,1h4.7c0,0,0,0,0-0.1c0-0.2,0-0.6,0-1.1c-1.8,0.4-2.2-0.9-2.2-0.9
+    c-0.3-0.8-0.7-1-0.7-1c-0.6-0.4,0-0.4,0-0.4c0.7,0,1,0.7,1,0.7c0.6,1,1.5,0.7,1.9,0.5c0.1-0.4,0.2-0.7,0.4-0.9c-1.5-0.2-3-0.7-3-3.2
+    c0-0.7,0.3-1.3,0.7-1.8C3.7,5.8,3.5,5.1,3.9,4.2c0,0,0.6-0.2,1.8,0.7c0.5-0.1,1.1-0.2,1.6-0.2c0.6,0,1.1,0.1,1.6,0.2
+    c1.3-0.8,1.8-0.7,1.8-0.7c0.4,0.9,0.1,1.6,0.1,1.7c0.4,0.5,0.7,1,0.7,1.8c0,2.5-1.5,3.1-3,3.2C8.7,11.1,9,11.5,9,12.1
+    c0,0.9,0,1.6,0,1.8c0,0,0,0,0,0.1h4c0.5,0,1-0.5,1-1V1C14,0.5,13.5,0,13,0z"/>
+</svg>
+GitHub</a></li>
+    </ul>
+</aside>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-3 col-sm-3 col-xs-12">
+					<div class="docs-sidebar hidden-print affix-top" role="complementary">
+			<hr>
+			<h3>User Guide</h3>
+			<ul class="nav docs-sidenav">
+				<li class="active">
+					<a href="/documents/gettingStarted/index.html">Getting Started</a>
+					<ul class="nav">
+						<li class="active">
+							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
+							<ul class="nav">
+								<li>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<ul class="subnav">
+										<li>
+												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/k8s.html">Kubernetes</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/mesos.html">Mesos</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/nomad.html">Nomad</a>
+										</li>
+									</ul>
+								</li>
+								<li class="active">
+									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<ul class="subnav">
+										<li class="active">
+												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/install-k8s.html">Kubernetes</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/bgp.html">BGP</a>
+										</li>
+										<li>
+												<a href="/documents/gettingStarted/networking/aci.html">Cisco ACI</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="/documents/gettingStarted/storage/storage.html">Storage </a>
+						</li>
+						<li>
+							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
+							<ul class="subnav">
+								<li>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+								</li>
+								<li>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/networking/index.html">Networking</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
+						</li>
+						<li>
+								<a href="/documents/networking/policies.html">Policies</a>
+						</li>
+						<li>
+								<a href="/documents/networking/services.html">Service Routing</a>
+						</li>
+						<li>
+								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
+								<ul class="nav">
+									<li>
+											<a href="/documents/networking/bgp.html">L3 Routed Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/l2-vlan.html">L2 Bridged Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/aci_ug.html">Cisco ACI</a>
+									</li>
+								</ul>
+						</li>
+						<li>
+								<a href="/documents/networking/ipam.html">IPAM and Service Discovery</a>
+						</li>
+						<li>
+								<a href="/documents/networking/ipv6.html">IPv6</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/storage/index.html">Storage</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/storage/architecture.html">Architecture</a>
+						</li>
+						<li>
+								<a href="/documents/storage/configuration.html">Configuration</a>
+						</li>
+						<li>
+								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+						</li>
+						<li>
+								<a href="/documents/storage/volcli.html">Volcli Reference</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="/documents/cluster/index.html">Cluster</a>
+					<ul class="nav">
+						<li>
+								<a href="/documents/cluster/concepts.html">Concepts and Terminology</a>
+						</li>
+						<li>
+								<a href="/documents/cluster/node-lifecycle.html">Node Lifecycle Management</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<hr><p>
+			<h3>Tutorials and Talks</h3>
+				<ul class="nav docs-sidenav">
+					<li>
+						<a href="/documents/tutorials/index.html">Tutorials</a>
+						<ul class="nav">
+							<li>
+									<a href="/documents/tutorials/container-101.html">Container Networking Tutorial</a>
+							</li>
+							<li>
+									<a href="/documents/tutorials/contiv-compose.html">Policies with Networking</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="/documents/demos/index.html">Demonstration Videos</a>
+					</li>
+					<li>
+						<a href="/documents/talks/index.html">Community Talks</a>
+					</li>
+				</ul>
+			<hr><p>
+			<h3>Examples</h3>
+				<ul class="nav docs-sidenav">
+					<ul class="subnav">
+						<li>
+							<a href="/documents/samples/index.html">Docker Compose Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/index.html">Kubernetes Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/mcast.html">Multicast Examples</a>
+						</li>
+						<li>
+							<a href="/documents/samples/nomad.html">Nomad Examples</a>
+						</li>
+					</ul>
+				</ul>
+			<hr><p>
+			<h3>Reference</h3>
+				<ul class="nav docs-sidenav">
+					<ul class="subnav">
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Network API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/volplugin/config" target="_blank">Storage API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/cluster" target="_blank">Cluster API Reference</a><br></li>
+					</ul>
+				</ul>
+			<hr><p>
+		</div>
+
+		</div>  
+		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
+			<div class="bs-docs-section">
+				
+	<h1>Installing Contiv Network with Docker Swarm</h1>
+
+<h3>Pre-requisites</h3>
+
+<ol>
+<li><p>You need Ubuntu 15 or Centos 7 on each of your servers used for the Contiv cluster</p>
+</li>
+<li><p>Do <a name="export_CLUSTER_NODE_IPS_ips_of_all_nodes_in_cluster"/><a href="#export_CLUSTER_NODE_IPS_ips_of_all_nodes_in_cluster"><code>export CLUSTER_NODE_IPS=ips of all nodes in cluster</code></a>, and <code>export no_proxy=ips of all nodes in cluster,127.0.0.1,localhost,netmaster</code> in your shell</p>
+</li>
+<li><p>If your servers are behind an http proxy (usually the case in many cisco labs...), you need
+to do <a name="export_http_proxy_lt_proxy_url_gt_"/><a href="#export_http_proxy_lt_proxy_url_gt_"><code>export http_proxy=&lt;proxy url&gt;</code></a> and  <code>export https_proxy=&lt;proxy_url&gt;</code> in your shell</p>
+</li>
+<li><p>You will select and use on server to initiate installation on all servers in the cluster.
+Please refrain from running install from multiple servers. Instead, stick to the same server to initiate
+installation.</p>
+</li>
+<li><p>It is recommended that you enable passwordless SSH access from the selected server to all
+the other servers in the cluster.
+An example of how to set this up is <a href="http://www.linuxproblem.org/art_9.html">here</a></p>
+</li>
+<li><p>It is recommended that you enable passwordless sudo on all servers as well.
+Example set up instructions can be found <a href="http://askubuntu.com/questions/192050/how-to-run-sudo-command-with-no-password">here</a></p>
+</li>
+<li><p>Get the IP addresses (DNS names work as well) of all the servers and the network interface on which this IP address is configured</p>
+</li>
+<li><p>Verify Python is installed on the target machines</p>
+</li>
+</ol>
+
+<h3>Step 1: Download the installer script</h3>
+<p>Log into one of the servers and download the installer script using the following command:</p>
+<pre class="highlight plaintext"><code>wget https://raw.githubusercontent.com/contiv/demo/master/net/net_demo_installer
+</code></pre>
+<p>Note that if you are behind a proxy, you may need to set <code>https_proxy</code> environment variable
+for it to work.</p>
+
+<h3>Step 2: Setup cfg.yml</h3>
+<p>Create the configuration file and provide information about each server&#39;s reachability.
+Sample configuration file can be found here: <a href="extras/sample_cfg.yml">sample_cfg.yml</a></p>
+
+<h4>Information in cfg.yml</h4>
+<p><code>CONNECTION_INFO</code>:
+    This is a mandatory option that provides the access information to all server-nodes in the setup.</p>
+<p>For every server in the setup, provide the IP/DNS and the control, data interface</p>
+<pre class="highlight plaintext"><code>    CONNECTION_INFO:
+        &lt;server1-ip-or-dns&gt;:
+            control: &lt;interface on which control protocols can interact&gt;
+            data: &lt;interface used to send data packets&gt;
+        &lt;server2-ip-or-dns&gt;:
+            control: &lt;interface on which control protocols can interact&gt;
+            data: &lt;interface used to send data packets&gt;
+</code></pre>
+
+<h3>Step 3: Provide executable privileges and run installer script</h3>
+<p>Run net_demo_installer script.</p>
+<pre class="highlight plaintext"><code>    chmod +x net_demo_installer
+    ./net_demo_installer
+</code></pre>
+
+<h5>NOTE:</h5>
+
+<ul>
+<li>To restart the services already deployed, run the installer with -r option. This ensures that the services are restarted in a clean state.
+</li>
+</ul>
+<pre class="highlight plaintext"><code>            ./net_demo_installer -r
+</code></pre>
+
+<ul>
+<li>The installer script will ask for username/password if passwordless ssh is not set during the installation
+</li>
+<li>Running the installer with &#39;-c&#39; option clears up any files that are auto-generated by the script
+</li>
+</ul>
+
+<h3>Step 4: Use netctl commands to demo Contiv networking</h3>
+<p>Follow steps in <a href="http://docs.contiv.io">docs.contiv.io</a> netplugin section for details on using netctl to explore various features of Contiv networking</p>
+
+<h3>Under the hoods</h3>
+<p>The installer script performs the following actions:
+- performs preliminary checks to verify that the supported version of OS is installed on the servers
+- verifies that access to the servers can be established
+- creates the ansible inventory file
+- establishes variables necessary for the servers to be provisioned in the appropriate mode
+- runs the ansible playbook which installs necessary packages and brings up the services</p>
+
+<h3>Troubleshooting</h3>
+<p>The current limitations of the script are as follows:
+- The installer script is assumed to run from one of the server nodes in the cluster. This approach ensures that the required packages are installed only on the necessary nodes.
+- Connections to the servers are assumed to be on the default ssh port and the default username used is the local hostname</p>
+<p>The script generates many files for bookkeeping during the installation procedure.
+These files can be found under .gen folder in your installer directory.
+If you need to clear these files and start from a clean slate, use could use the following command:</p>
+<pre class="highlight plaintext"><code>        ./net_demo_installer -c
+</code></pre>
+<p>This will list the files that will be cleared up and prompt you for confirmation to proceed.</p>
+<p>If you find any other issues or have suggestions for improvement, please feel free to suggest/contribute.</p>
+
+
+			</div>
+		</div>
+	</div>
+</div>
