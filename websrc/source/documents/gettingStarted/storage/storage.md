@@ -6,19 +6,20 @@ description: |-
   Getting Started
 ---
 
-## Getting started with Contiv Storage
+# Getting started with Contiv Storage
 
 Getting started describes setting up a test environment with three VMs. Once
-the test environment is setup see the [**Configure Services**](/documents/storage/configuration.html).
+the test environment is setup see the instructions on how to 
+[Configure Services](/documents/storage/configuration.html).
 
-#### Prerequisites
+## Prerequisites
 
 Please read and follow the instructions in the prerequisites section of the
 volplugin
 [README](https://github.com/contiv/volplugin/blob/master/README.md#prerequisites)
-before completing the following:
+before completing the following.
 
-### Clone and build the project
+## Clone and Build the Project
 
 ### On Linux (without a VM)
 
@@ -51,7 +52,7 @@ Build the project:
 make start
 ```
 
-The build and binaries will be on the VM in the following directory `/opt/golang/bin`.
+The build and binaries will be on the VM in the directory `/opt/golang/bin`.
 
 ## Do it yourself
 

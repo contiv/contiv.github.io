@@ -6,72 +6,65 @@ description: |-
   Setting up Kubernetes cluster
 ---
 
-# Installing Contiv with Kubernetes
+# Installing Contiv Network with Kubernetes
 
-####Pre-requisites
-Machines running CentOS 7.2, connected to network, with at least two
-interfaces (3 if possible).
+This page describes how to set up a Contiv cluster using Kubernetes.
 
-Before starting, please be sure to set http/https proxies if your network requires it.
-*(Note that `https_proxy` should be set to point to a `http://` URL (not `https://`).
-This is an ansible requirement.)*
+## Prerequisites
 
-Pick a machine that is on the management network and has ansible installed
-to run the following steps.
+1. Install Centos 7.2 on all servers used for the Contiv cluster.
+2. Ensure that each server has at least two, and preferably three, interfaces.
+3. If required by your network, set HTTP and HTTPS proxies. Direct the HTTPS proxy to an *http://* URL (not *https://*). This is an Ansible requirement.
+4. Choose a server that is on the management network and has Ansible installed. Run the install procedure below on this node. This *install node* manages the installation in addition to being part of your cluster.
+5. The setup scripts use the Python module *netaddr* and the Linux utility *bzip2*. If these are not installed on the machine where you are executing these steps, you must install them before proceeding. (You can use the following commands: `yum install bzip2; pip install netaddr`.)
+5. Enable passwordless SSH access from the installation server to all the other servers in the cluster. 
+An example is [here](http://www.linuxproblem.org/art_9.html).
+6. Enable passwordless sudo on all servers.  An example is 
+[here](http://askubuntu.com/questions/192050/how-to-run-sudo-command-with-no-password).
+7. Make a note of the IP addresses (or DNS names) of all the servers, and of the network
+interfaces on which these IP addresses are configured.
 
-The setup scripts use python module *netaddr* and linux utility `bzip2`. If these are not
-installed on the machine where you are executing these steps, you must install them
-before proceeding. *(E.g. `yum install bzip2; pip install netaddr`)*
+## Step 1: Clone the Repository
 
-Note on *login_userid*: Ansible requires ssh to access the nodes in the cluster for
-configuration. This requires a single userid that can log into each of the machines
-AND has sudo permission.
-
-###Step 1 Clone the contiv/demo repo
+Clone the GitHub repository containing the Contiv files:  
 
 ```
 git clone https://github.com/contiv/demo
 ```
 
-###Step 2 Clone the contrib repo
+## Step 2: Clone the Contrib Repository
+
+Clone the GitHub repository containing the Kubernetes contributed code:
 
 ```
 cd demo/k8s;
-
 git clone https://github.com/jojimt/contrib -b contiv
 ```
 
+## Step 3: Configure the Cluster Information
+Edit the `cluster_defs.json` file to reflect your cluster information. 
+See the `cluster_defs.json.README` file for instructions.
 
-###Step 3 Fill in cluster info
-edit `cluster_defs.json`
+*Note*: For ACI integration, edit `aci.yaml`. See [here](aci.html) for more information.
 
-See `cluster_defs.json.README` for instructions
-
-If you need ACI integration, edit *aci.yml*. See [here](aci.html) for more details.
-
-###Step 4 Prepare machines
+## Step 4 Prepare the Nodes
+Run the prepare script. Supply the login and *sudo* passwords when prompted.
 
 ```
 ./prepare.sh <login_userid>
 ```
-Supply login password when prompted.
 
-###Step 5 Create cluster
+## Step 5: Create the Cluster
+Run the setup script. Supply the login and *sudo* passwords when prompted.
+This script can take several minutes to complete.
 
 ```
 ./setup_k8s_cluster.sh <login_userid>
 ```
-Supply login password when prompted.
 
+## Step 6 Verify the Cluster
+Run the verification script. Supply the login and *sudo* passwords when prompted.
 
-**Note**: If you need Layer 3 BGP support use
-
-```
-./setup_k8s_cluster <login_userid> contivFwdMode="routing"
-```
-
-###Step 6 Verify cluster
 ```
 ./verify_cluster.sh <login_userid>
 ```
-Supply login password when prompted.

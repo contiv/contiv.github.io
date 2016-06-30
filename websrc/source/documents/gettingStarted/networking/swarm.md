@@ -6,11 +6,11 @@ description: |-
   Setting up a Swarm Cluster.
 ---
 
-# Using Contiv Network with Docker Swarm in Vagrant Environment
+# Contiv Network with Docker Swarm
 
 This page describes how to quickly create a virtual environment
-using the Vagrant environment setup tool. You then demonstrate
-some of the features of Docker and Contiv such as creating container,
+using the Vagrant environment setup tool. You can then demonstrate
+features of Docker and Contiv such as creating containers,
 networks, and policies.
 
 ## Prerequisites
@@ -40,7 +40,7 @@ Use the following command to create a network:
 netplugin-node1$ netctl net create contiv-net --subnet=20.1.1.0/24 --gateway=20.1.1.254 --pkt-tag=1001
 ```
 
-## Step 2: Run Containers on Two Hosts
+## Step 3: Run Containers on Two Hosts
 Start a Docker container on the node you just logged into:
 
 ```
@@ -54,7 +54,7 @@ $ vagrant ssh netplugin-node1
 netplugin-node2$ docker run -itd --name=db --net=contiv-net ubuntu /bin/bash
 ```
 
-On node1, log into the container and ping the container on node2:
+On node 1, log into the container and ping the container on node 2:
 
 ```
 netplugin-node1$ docker exec -it web /bin/bash
@@ -65,13 +65,13 @@ PING db (20.1.1.3) 56(84) bytes of data.
 64 bytes from db (20.1.1.3): icmp_seq=2 ttl=64 time=0.103 ms
 ```
 
-## Step 3: Create a Policy
+## Step 4: Create a Policy
 Type the following to create a policy named `prod_web`:
 
 ```
 $ netctl policy create prod_web
 ```
-## Step 2: Add Rules to the Policy
+## Step 5: Add Rules to the Policy
 The following three commands add a default-deny rule to drop all incoming TCP
 connections and two rules to explicitly allow traffic on ports 80 and 443.
 
@@ -80,7 +80,7 @@ $ netctl policy rule-add prod_web 1 -direction=in -protocol=tcp -action=deny
 $ netctl policy rule-add prod_web 2 -direction=in -protocol=tcp -port=80 -action=allow -priority=10
 $ netctl policy rule-add prod_web 3 -direction=in -protocol=tcp -port=443 -action=allow -priority=10
 ```
-## Step 3: Create an Endpoint Group
+## Step 6: Create an Endpoint Group
 An endpoint group (EPG) is a collection of containers' interfaces on a network. You create an endpoint
 group, then assign nodes to it.
 
@@ -94,7 +94,7 @@ $ netctl group create contiv-net web -policy=prod_web
 *Note*: Every endpoint group creates a seperate Docker network of the form `<endpoint-group-name>.<network-name>`.
 You can attach containers to these endpoint groups using the `--net` option in the `docker run` command.
 
-## Step 4: Attach a Container
+## Step 7: Attach a Container
 Next, run a container and attach it to the endpoint group.
 The following command runs a Docker container and attaches it to the `web` EPG
 in the `contiv-net` network.
@@ -105,18 +105,20 @@ $ docker run -itd --net web.contiv-net ubuntu bash
 
 ## Using Netplugin with Docker Swarm
 
-Docker Swarm is a scheduler that schedules containers to multiple hosts. Netplugin is a Docker network plugin that provides multi host networking.
+Docker Swarm is a scheduler that schedules containers to multiple hosts. The `netplugin` service is Contiv's
+Docker network plugin that provides multi-host networking. Together, Docker, Swarm, and Contiv Network are 
+a powerful combination.
 
-Docker + Swarm + Netplugin == Awesome!!
-
-### Using swarm
-Netplugin vagrant setup comes pre-installed with Docker swarm.
-Set the following environment variable to make Docker client talk to Swarm
+### Using Swarm
+The `netplugin` Vagrant setup comes pre-installed with Docker Swarm.
+Set the following environment variable to make the Docker client communicate with Swarm.
 
 ```
 export DOCKER_HOST=tcp://192.168.2.10:2375
 ```
-Now, you should be able to see the information about the swarm cluster
+
+The Swarm cluster should now be visible.
+Type the following to see information about the Swarm cluster:
 
 ```
 $ docker info
@@ -143,7 +145,7 @@ Name: netplugin-node1
 No Proxy: 192.168.0.0/16,localhost,127.0.0.0/8
 ```
 
-Next, you can see if there are any containers running in the cluster
+Next, you can see if there are any containers running in the cluster:
 
 ```
 $ docker ps
@@ -153,10 +155,12 @@ CONTAINER ID        IMAGE                          COMMAND             CREATED  
 
 ```
 
-You can run containers and attach them to contiv networks or endpoint groups just like before.
+You can run containers and attach them to Contiv networks or endpoint groups just like before.
 
 ```
 $ docker run -itd --net web.contiv-net ubuntu bash
 f291e269b45a5877f6fc952317feb329e12a99bda3a44a740b4c3307ef87954c
 ```
-Here, `docker run` happens against the swarm cluster. Swarm schedules the container to one of the nodes and netplugin on that node sets up the networking and policies just like before.
+Here, `docker run` executes against the swarm cluster. Swarm schedules the 
+container to one of the nodes, then `netplugin` on that node sets up the 
+networking and policies just like before.
