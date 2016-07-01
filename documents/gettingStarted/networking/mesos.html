@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-255d50a1.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-ccddc50c.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -106,7 +106,7 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
 								<li class="active">
-									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
@@ -123,7 +123,7 @@ GitHub</a></li>
 									</ul>
 								</li>
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
@@ -148,10 +148,10 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
 								<li>
-										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Single Machine</a>
 								</li>
 								<li>
-										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Multiple Servers</a>
 								</li>
 							</ul>
 						</li>
@@ -275,42 +275,45 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h1>Netplugin with Mesos Marathon</h1>
-<p>This document explains how to use Netplugin with Mesos Marathon. Currently, netplugin supports docker containerizer with Mesos Marathon.</p>
+	<h1>Contiv Network with Mesos and Marathon</h1>
+<p>Contiv Network supports Docker containerizer with Mesos and Marathon. 
+This page explains how to get started using Contiv Network with Mesos and Marathon.</p>
 
-<h2>Getting started with Vagrant VMs</h2>
-
-<h3>Prerequisits</h3>
+<h2>Prerequisites</h2>
+<p>Download and install the following packages onto your Linux or OS X machine:</p>
 
 <ul>
-<li>Virtualbox 5.0.2 or higher
+<li>Virtualbox 5.0.2 or later
 </li>
-<li>Vagrant 1.7.4 or higher
+<li>Vagrant 1.7.4 or later
 </li>
-<li>ansible 1.9.4 or higher
+<li>Ansible 1.9.4 or later
 </li>
 </ul>
 
-<h3>Step 1: Bring up the vagrant VMs</h3>
+<h2>Step 1: Start the Virtual Environment</h2>
+<p>The following three commands are all you need to clone the repository and start the VMs:</p>
 <pre class="highlight plaintext"><code>$ git clone https://github.com/contiv/netplugin
 $ cd netplugin
 $ make mesos-docker-demo
 </code></pre>
-<p>This will bring up a two node Vagrant setup with Mesos, Marathon and docker.
-Bringing up vagrant VMs and provisioning them can take few minutes to complete since it needs to download the VM images and mesos/marathon binaries. Please be patient.
-This will also build netplugin binaries and start them on both VMs</p>
+<p>These commands start a two-node Vagrant setup with Mesos, Marathon and Docker.</p>
+<p>Because the script needs to download the VM images and the Mesos and Marathon binaries,
+starting the Vagrant VMs and provisioning them can take few minutes to complete.</p>
+<p>The script also builds Contiv Network binaries and starts them on both VMs.</p>
 
-<h3>Step 2: Login to a VM and Create a network</h3>
+<h2>Step 2: Log Into a VM and Create a Network</h2>
+<p>The following command creates a network called <code>contiv</code> on one of the Vagrant nodes:</p>
 <pre class="highlight plaintext"><code>$ cd demo/mesos-docker; vagrant ssh node1
 &lt;Inside vagrant VM&gt;
 $ netctl net create contiv -subnet 10.1.1.0/24
 </code></pre>
-<p>This will create a network called <code>contiv</code>. Containers can be launched in this network.</p>
+<p>You can launch in the <code>contiv</code> network.</p>
 
-<h3>Step 3: Launch containers</h3>
-<p><code>docker.json</code> file in mgmtfn/mesos-docker directory has an example marathon app definition.</p>
-<pre class="highlight plaintext"><code>
-  "container": {
+<h2>Step 3: Launch Containers</h2>
+<p>The <code>docker.json</code> file in the <code>mgmtfn/mesos-docker</code> directory has an example 
+Marathon app definition like the following:</p>
+<pre class="highlight plaintext"><code>  "container": {
     "type": "DOCKER",
     "docker": {
       "image": "libmesos/ubuntu",
@@ -326,13 +329,16 @@ $ netctl net create contiv -subnet 10.1.1.0/24
   "cmd": "while sleep 10; do date -u +%T; done"
 }
 </code></pre>
-<p>This example application definition launches two ubuntu containers with a constraint that both containers be spread on different hosts.
-Note that there is a special <code>net</code> parameter used in this specification <code>&quot;parameters&quot;: [ { &quot;key&quot;: &quot;net&quot;, &quot;value&quot;: &quot;contiv&quot; } ]</code>. This tells docker to launch the application in contiv network that we created in step 3.</p>
-<p>You can launch this application using following command</p>
+<p>This example application definition launches two Ubuntu containers with a 
+constraint that the containers be deployed on different hosts.
+Note that there is a special <code>net</code> parameter used in the specification&#39;s <code>&quot;parameters&quot;</code>:</p>
+<p><code>[ { &quot;key&quot;: &quot;net&quot;, &quot;value&quot;: &quot;contiv&quot; } ]</code>.</p>
+<p>This parameter instructs Docker to launch the application in the Contiv network that you created in Step 3.</p>
+<p>You can launch the application using the following command:</p>
 <pre class="highlight plaintext"><code>$ ./launch.sh docker.json
 </code></pre>
-<p>Launching the container can take few minutes depending on how long it takes to pull the image.
-Once its launched, you should be able to see the containers using docker commands</p>
+<p>Downloading the container image can take few minutes.</p>
+<p>Once the application is launched, examine the containers as follows:</p>
 <pre class="highlight plaintext"><code>$ docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
 2a68fed77d5a        libmesos/ubuntu     "/bin/sh -c 'while sl"   About an hour ago   Up About an hour                       mesos-cce1c91f-65fb-457d-99af-5fdd4af14f16-S1.da634e3c-1fde-479a-b100-c61a498bcbe7
@@ -341,9 +347,10 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 <h2>Notes</h2>
 
 <ol>
-<li>Mesos and Marathon ports are port-mapped from vagrant VM to host machine. You can access them by logging into localhost:5050 and localhost:8080 respectively.
+<li>Mesos and Marathon ports are port-mapped from the Vagrant VMs to your host machine. 
+You can access them by logging into localhost:5050 and localhost:8080 respectively.
 </li>
-<li>Netmaster REST API is port-mapped to port 9090 on the host machine
+<li>The <a name="netmaster"/><a href="#netmaster"><code>netmaster</code></a> REST API is port-mapped to port 9090 on the host machine.
 </li>
 </ol>
 

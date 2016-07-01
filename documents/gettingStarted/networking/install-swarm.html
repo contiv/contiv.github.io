@@ -14,9 +14,9 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-255d50a1.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-ccddc50c.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
-
+    
   </head>
 
   <body id="page-Swarm Cluster" class=" page-Swarm Cluster layout-documents page-sub">
@@ -24,13 +24,13 @@
 <div id="header" class="navbar-static-top">
   <div class="container">
     <div class="row">
-
+      
         <div class="navbar-header">
           <div class="navbar-brand">
               <a class="logo" href="/">Contiv</a>
             </a>
           </div>
-
+          
         </div>
         <div class="buttons hidden-xs">
           <nav role="navigation">
@@ -52,7 +52,7 @@
             </ul>
           </nav>
         </div>
-
+      
     </div>
   </div>
 </div>
@@ -62,21 +62,21 @@
 
 
 <aside id="sidebar" class="sidebar sidebar-default sidebar-fixed-right" role="navigation">
-
+    
     <div class="sidebar-header header-cover">
-
+        
         <div class="sidebar-image">
             <img src="/assets/images/logo3-a96fcb82.png" width="49px" height="56px">
         </div>
     </div>
 
-
+    
     <ul class="main nav sidebar-nav">
         <li class="first"><a href="/intro/index.html">Intro</a></li>
         <li class=""><a href="/docs/index.html">Docs</a></li>
     </ul>
     <div class="divider"></div>
-
+    
     <ul class="external nav sidebar-nav">
         <li class=""><a class="v-btn gray sml" href="https://github.com/contiv"><svg id="svg-download" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" style="enable-background:new 0 0 14 14;">
   <style>
@@ -106,7 +106,7 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
@@ -123,7 +123,7 @@ GitHub</a></li>
 									</ul>
 								</li>
 								<li class="active">
-									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
 									<ul class="subnav">
 										<li class="active">
 												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
@@ -148,10 +148,10 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
 								<li>
-										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Single Machine</a>
 								</li>
 								<li>
-										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Multiple Servers</a>
 								</li>
 							</ul>
 						</li>
@@ -271,54 +271,54 @@ GitHub</a></li>
 			<hr><p>
 		</div>
 
-		</div>
+		</div>  
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
-
+				
 	<h1>Installing Contiv Network with Docker Swarm</h1>
+<p>This page describes how to set up a Contiv cluster using Docker Swarm.</p>
+<p><a name="Prerequisites"/></p>
 
-<h3>Pre-requisites</h3>
+<h2>Prerequisites</h2>
 
 <ol>
-<li><p>You need Ubuntu 15 or Centos 7 on each of your servers used for the Contiv cluster</p>
+<li>Install Ubuntu 15 or Centos 7.2 on all servers used for the Contiv cluster.
 </li>
-<li><p>Do <a name="export_CLUSTER_NODE_IPS_ips_of_all_nodes_in_cluster"/><a href="#export_CLUSTER_NODE_IPS_ips_of_all_nodes_in_cluster"><code>export CLUSTER_NODE_IPS=ips of all nodes in cluster</code></a>, and <code>export no_proxy=ips of all nodes in cluster,127.0.0.1,localhost,netmaster</code> in your shell</p>
+<li>Ensure that each server has at least two, and preferably three, interfaces.
 </li>
-<li><p>If your servers are behind an http proxy (usually the case in many cisco labs...), you need
-to do <a name="export_http_proxy_lt_proxy_url_gt_"/><a href="#export_http_proxy_lt_proxy_url_gt_"><code>export http_proxy=&lt;proxy url&gt;</code></a> and  <code>export https_proxy=&lt;proxy_url&gt;</code> in your shell</p>
+<li>Choose a server that is on the management network. Run the install procedure below on this node. This <em>install node</em> manages the installation in addition to being part of your cluster.
 </li>
-<li><p>You will select and use on server to initiate installation on all servers in the cluster.
-Please refrain from running install from multiple servers. Instead, stick to the same server to initiate
-installation.</p>
+<li>In a command shell, use the following commands to set two environment variables:
+<a name="export_CLUSTER_NODE_IPS_lt_node_ips_gt_and"/><a href="#export_CLUSTER_NODE_IPS_lt_node_ips_gt_and"><code>export CLUSTER_NODE_IPS=&lt;node_ips&gt; and</code></a>export no_proxy=<node_ips>,127.0.0.1,localhost,netmaster<code>,
+where</code><node_ip>` is a list of the IP addresses of all nodes in your cluster.
 </li>
-<li><p>It is recommended that you enable passwordless SSH access from the selected server to all
-the other servers in the cluster.
-An example of how to set this up is <a href="http://www.linuxproblem.org/art_9.html">here</a></p>
+<li>If your servers are behind an http proxy, use the following commands to set the proxies on the install node: <a name="export_http_proxy_lt_proxy_url_gt_"/><a href="#export_http_proxy_lt_proxy_url_gt_"><code>export http_proxy=&lt;proxy url&gt;</code></a> and  <code>export https_proxy=&lt;proxy_url&gt;</code>. 
 </li>
-<li><p>It is recommended that you enable passwordless sudo on all servers as well.
-Example set up instructions can be found <a href="http://askubuntu.com/questions/192050/how-to-run-sudo-command-with-no-password">here</a></p>
+<li>Verify Python is installed on the target machines
 </li>
-<li><p>Get the IP addresses (DNS names work as well) of all the servers and the network interface on which this IP address is configured</p>
+<li>The setup scripts use the Python module <em>netaddr</em> and the Linux utility <em>bzip2</em>. If these are not installed on the machine where you are executing these steps, you must install them before proceeding. (You can use the following commands: <a name="yum_install_bzip2_pip_install_netaddr"/><a href="#yum_install_bzip2_pip_install_netaddr"><code>yum install bzip2; pip install netaddr</code></a>.)
 </li>
-<li><p>Verify Python is installed on the target machines</p>
+<li>(Optional but recommeded): Enable passwordless SSH access from the installation server to all the other servers in the cluster. An example is <a href="http://www.linuxproblem.org/art_9.html">here</a>.
+</li>
+<li>(Optional but recommeded): Enable passwordless sudo on all servers.  An example is
+<a href="http://askubuntu.com/questions/192050/how-to-run-sudo-command-with-no-password">here</a>.
+</li>
+<li>Make a note of the IP addresses (or DNS names) of all the servers, and of the network
+interfaces on which these IP addresses are configured.
 </li>
 </ol>
+<p><a name="Download"/></p>
 
-<h3>Step 1: Download the installer script</h3>
-<p>Log into one of the servers and download the installer script using the following command:</p>
+<h2>Step 1: Download the Installer Script</h2>
+<p>Log into the install server and download the installer script using the following command:</p>
 <pre class="highlight plaintext"><code>wget https://raw.githubusercontent.com/contiv/demo/master/net/net_demo_installer
 </code></pre>
-<p>Note that if you are behind a proxy, you may need to set <code>https_proxy</code> environment variable
-for it to work.</p>
 
-<h3>Step 2: Setup cfg.yml</h3>
-<p>Create the configuration file and provide information about each server&#39;s reachability.
-Sample configuration file can be found here: <a href="extras/sample_cfg.yml">sample_cfg.yml</a></p>
-
-<h4>Information in cfg.yml</h4>
-<p><code>CONNECTION_INFO</code>:
-    This is a mandatory option that provides the access information to all server-nodes in the setup.</p>
-<p>For every server in the setup, provide the IP/DNS and the control, data interface</p>
+<h2>Step 2: Create the Configuration File</h2>
+<p>Create the configuration file, <code>cfg.yml</code>, and provide connection information for each server.</p>
+<p>In the configuration file, <code>CONNECTION_INFO</code> is a mandatory section that provides access 
+information for all server nodes in the setup.</p>
+<p>For every server in the setup, provide the IP/DNS and the control, data interface:</p>
 <pre class="highlight plaintext"><code>    CONNECTION_INFO:
         &lt;server1-ip-or-dns&gt;:
             control: &lt;interface on which control protocols can interact&gt;
@@ -327,56 +327,54 @@ Sample configuration file can be found here: <a href="extras/sample_cfg.yml">sam
             control: &lt;interface on which control protocols can interact&gt;
             data: &lt;interface used to send data packets&gt;
 </code></pre>
+<p>A sample configuration file can be found here: <a href="/extras/sample_cfg.yml">sample_cfg.yml</a>.</p>
 
-<h3>Step 3: Provide executable privileges and run installer script</h3>
-<p>Run net_demo_installer script. </p>
-<p>set the environment variable contiv_network_version if a different version of Contiv network is needed</p>
-   <p>export contiv_network_version="v0.1-06-17-2016.08-42-14.UTC"</p>
-   <p>contiv network version can be obtained from: <a href="https://github.com/contiv/netplugin/releases">Contiv Netplugin Releases</a></p>
+<h2>Step 3: Run the Installer Script</h2>
+<p>Set execute privileges on and run the installer script as follows:</p>
 <pre class="highlight plaintext"><code>    chmod +x net_demo_installer
     ./net_demo_installer
 </code></pre>
-
-<h5>NOTE:</h5>
-
-<ul>
-<li>To restart the services already deployed, run the installer with -r option. This ensures that the services are restarted in a clean state.
-</li>
-</ul>
+<p><em>Note</em>: To restart the services already deployed, run the installer with -r option. This ensures that the services are restarted in a clean state.</p>
 <pre class="highlight plaintext"><code>            ./net_demo_installer -r
 </code></pre>
 
 <ul>
-<li>The installer script will ask for username/password if passwordless ssh is not set during the installation
+<li>The installer script requests username and password if passwordless ssh is not set during the installation.
 </li>
-<li>Running the installer with &#39;-c&#39; option clears up any files that are auto-generated by the script
-</li>
-<li>Running the installer with &#39;-a&#39; option Sets fabric mode in Netplugin to ACI.
+<li>Running the installer with &#39;-c&#39; (&quot;clean&quot;) removes any files that are auto-generated by the script.
 </li>
 </ul>
-
-<h3>Step 4: Use netctl commands to demo Contiv networking</h3>
-<p>Follow steps in <a href="http://docs.contiv.io">docs.contiv.io</a> netplugin section for details on using netctl to explore various features of Contiv networking</p>
-
-<h3>Under the hoods</h3>
 <p>The installer script performs the following actions:
-- performs preliminary checks to verify that the supported version of OS is installed on the servers
-- verifies that access to the servers can be established
-- creates the ansible inventory file
-- establishes variables necessary for the servers to be provisioned in the appropriate mode
-- runs the ansible playbook which installs necessary packages and brings up the services</p>
+- Verifies that a supported operating system is installed on the servers.
+- Verifies network access to the servers. 
+- Creates the Ansible inventory file.
+- Sets server provisioning variables that determine the installation mode.
+- Runs the Ansible playbook which installs necessary packages and starts the services.</p>
 
-<h3>Troubleshooting</h3>
-<p>The current limitations of the script are as follows:
-- The installer script is assumed to run from one of the server nodes in the cluster. This approach ensures that the required packages are installed only on the necessary nodes.
-- Connections to the servers are assumed to be on the default ssh port and the default username used is the local hostname</p>
+<h2>What to Do Next</h2>
+<p>Use the Contiv <code>netctl</code> commands are used to create and manipulate networks, endpoint groups, and policies.</p>
+<p>See the small-scale Vagrant demo <a href="/documents/gettingStarted/networking/swarm.html">here</a> to get started.</p>
+<p>See the <a href="/documents/tutorials/">Tutorials</a> section for extended examples of setting up policy-based networks.</p>
+<p>See the <a href="/documents/samples/">Examples</a> section for details on using <code>netctl</code> to explore various features of Contiv networking.</p>
+
+<h2>Troubleshooting</h2>
+<p>Current limitations of the script include the following:</p>
+
+<ul>
+<li>The installer script must run from one of the server nodes in the cluster. 
+</li>
+<li>Connections to the servers must be on the default ssh port.
+</li>
+<li>The default username used is the local hostname.
+</li>
+</ul>
 <p>The script generates many files for bookkeeping during the installation procedure.
-These files can be found under .gen folder in your installer directory.
-If you need to clear these files and start from a clean slate, use could use the following command:</p>
+These files can be found under <code>.gen</code> folder in your installer directory.
+To remove these files and start from a clean slate, use the <code>-c</code> option as follows:</p>
 <pre class="highlight plaintext"><code>        ./net_demo_installer -c
 </code></pre>
-<p>This will list the files that will be cleared up and prompt you for confirmation to proceed.</p>
-<p>If you find any other issues or have suggestions for improvement, please feel free to suggest/contribute.</p>
+<p>With this option, the script lists the files to remove and prompt you for confirmation to proceed.</p>
+<p>If you find any other issues or have suggestions for improvement, please feel free to suggest or contribute.</p>
 
 
 			</div>

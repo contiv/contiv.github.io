@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-255d50a1.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-ccddc50c.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -106,7 +106,7 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
 								<li class="active">
-									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
@@ -123,7 +123,7 @@ GitHub</a></li>
 									</ul>
 								</li>
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
@@ -148,10 +148,10 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
 								<li>
-										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Single Machine</a>
 								</li>
 								<li>
-										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Multiple Servers</a>
 								</li>
 							</ul>
 						</li>
@@ -275,28 +275,43 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h1>Contiv Networking for Kubernetes</h1>
-<p>Contiv is integrated with Kubernetes via a CNI plugin. With this integration, Contiv
-Networking and Policy can be used for Pod inter-connectivity in a Kubernetes cluster.</p>
+	<h1>Contiv Networking with Kubernetes</h1>
+<p>Contiv integrates with Kubernetes using a common network interface (CNI) plugin. 
+With this integration, Contiv Networking and Policy can be used for pod interconnectivity 
+in a Kubernetes cluster.</p>
+<p>This page guides you through creating a minimal Kubernetes 
+cluster with Contiv networking and applying policy between pods.</p>
 
-<h2>Getting Started in Vagrant Environment</h2>
-<p>This step-by-step procedure will guide you through a minimal experience of creating
-a Kubernetes cluster with Contiv networking and applying policy between pods.</p>
-
-<h3>Pre-requisites</h3>
+<h2>Prerequisites</h2>
 
 <ol>
-<li><p>Before starting, please be sure to set http/https proxies if your network requires it.
-<em>(Note that <a name="https_proxy"/><a href="#https_proxy"><code>https_proxy</code></a> should be set to point to a <code>http://</code> URL (not <code>https://</code>).
-This is an ansible requirement.)</em></p>
-</li>
-<li><p>The setup scripts use python modules <em>parse</em> and <em>netaddr</em>. If these modules are not
-installed on the machine where you are executing these steps, you should install them
-before proceeding. <em>(E.g. <a name="pip_install_parse_pip_install_netaddr"/><a href="#pip_install_parse_pip_install_netaddr"><code>pip install parse; pip install netaddr</code></a>)</em></p>
+<li>Install the following packages on your Linux or OS X machine:
 </li>
 </ol>
 
-<h3>Step 1: Clone contrib and netplugin repos</h3>
+<ul>
+<li>VirtualBox 5.0.2 or later
+</li>
+<li>Vagrant 1.7.4
+</li>
+<li>Make
+</li>
+</ul>
+
+<ol>
+<li><p>Set http/https proxies if your network requires it.
+<em>Note</em>: Set <a name="https_proxy"/><a href="#https_proxy"><code>https_proxy</code></a> to point to an <code>http://</code>
+URL (not <code>https://</code>). This is an ansible requirement.</p>
+</li>
+<li><p>The setup scripts use the Python modules <em>parse</em> and <em>netaddr</em>. If these modules are not
+installed on the machine where you are executing these steps, install them
+before proceeding. (Use <a name="pip_install_parse_pip_install_netaddr"/><a href="#pip_install_parse_pip_install_netaddr"><code>pip install parse; pip install netaddr</code></a>.)</p>
+</li>
+</ol>
+
+<h3>Step 1: Clone the Repositories</h3>
+<p>Use the following commands to clone the Contiv Network and contributed
+project repositories to your local machine:</p>
 <pre class="highlight plaintext"><code>$ mkdir -p ~/go/src/github.com/k8s
 $ cd ~/go/src/github.com/k8s
 $ git clone https://github.com/jojimt/contrib -b contiv
@@ -305,37 +320,39 @@ $ cd ~/go/src/github.com/k8s
 $ git clone https://github.com/contiv/netplugin
 </code></pre>
 
-<h3>Step 2: Create vagrant cluster</h3>
+<h3>Step 2: Create a Vagrant Environment</h3>
+<p>The following commands run Vagrant and Ansible commands to start a 
+Kubernetes cluster with one master and two worker nodes. This process
+can take a few minutes.</p>
+<p>Navigate to the <code>netplugin</code> directory and run the <em>k8s-cluster</em>
+make target:</p>
 <pre class="highlight plaintext"><code>$ cd ~/go/src/github.com/k8s/netplugin
 $ make k8s-cluster
 </code></pre>
-<p>This step will run Vagrant and ansible commands to bring a kubernetes cluster
-with one master and two worker nodes. This will take some time. Please be
-patient.</p>
-<p>When step 2 completes, you should a message like the one below:</p>
+<p>When the process is complete, you should a message like the one below:</p>
 <pre class="highlight plaintext"><code>PLAY RECAP ********************************************************************
 k8master                   : ok=xxx  changed=xxx  unreachable=0    failed=0   
 k8node-01                  : ok=xxx  changed=xxx  unreachable=0    failed=0   
 k8node-02                  : ok=xxx  changed=xxx  unreachable=0    failed=0   
 </code></pre>
-<p>At this point, your cluster is ready for use.</p>
-<p><em>Note: Occasionally, you might hit an error during ansible provisioning.
-If that happens, just re-issue the command (usually, it&#39;s caused by a temporary
-unavailability of a repo on the web). If the problem persists, you should open an
-issue on github.</em></p>
-<p>You should proceed to Step 3 <strong>only if</strong> the previous step completed successfully.</p>
-<p>This demo utilizes a <strong>busybox</strong> image built to include a full <strong>netcat</strong> utility.
-However, you can try other images as well if you like. <em>The Dockerfile used for
-building the nc-busybox is available in the /shared folder of the k8master node
-(you will get to this directory in Step 3).</em></p>
+<p>At this point, your cluster is ready to use.</p>
+<p><em>Note</em>: Occasionally, you might encounter an error during Ansible provisioning.
+If this happens, just re-issue the command (usually, it&#39;s caused by a temporary
+unavailability of a repository on the web). If the problem persists, open an
+issue on GitHub.</p>
+<p>You should proceed to Step 3 <em>only</em> if the previous step completed successfully.</p>
+<p>This demo uses a <em>busybox</em> image built to include a full <em>netcat</em> utility.
+However, you can try other images as well if you like. <em>The Dockerfile used to
+build the nc-busybox is available in the <code>/shared</code> folder of the *k8master</em> node
+See Step 3).</p>
 
-<h4>Step 3: Start the demo and ssh to the kubernetes master</h4>
-<p>This step will start network services and log you into the kubernetes master node.</p>
+<h4>Step 3: Start the Network Services</h4>
+<p>The following command starts network services and logs you into the kubernetes master node.</p>
 <pre class="highlight plaintext"><code>$ make k8s-demo-start
 </code></pre>
-<p>When step 3 completes, you will get a shell prompt from the master. Use <em>sudo su</em> to
-enter sudo mode. Try a few commands.</p>
-<pre class="highlight plaintext"><code>[vagrant@k8master ~]$sudo su
+<p>When this process is finished, you are shown a shell prompt on the master node.
+Use <code>sudo su</code> to enter <em>sudo</em> mode and try a few commands as follows:</p>
+<pre class="highlight plaintext"><code>[vagrant@k8master ~]$ sudo su
 [root@k8master vagrant]# kubectl get nodes
 NAME        LABELS                             STATUS    AGE
 k8node-01   kubernetes.io/hostname=k8node-01   Ready     4m
@@ -354,12 +371,15 @@ default  default-epg  default-net
 default  poc-epg      poc-net
 
 </code></pre>
-<p>The last two commands show contiv configuration. The demo set up created two networks
-and two epgs. Lets try some examples.</p>
+<p>The last two commands show Contiv configuration. The demo setup created two networks
+and two endpoint groups (EPGs).</p>
+<p>The demo environment is now ready. Following are some examples of creating some clustered
+containers.</p>
 
-<h2>Example 1: No network labels = Pod placed in default network</h2>
-<p>cd to /shared directory to find some pod specs. Create defaultnet-busybox1 and
-defaultnet-busybox2.</p>
+<h2>Example 1: No Network Labels</h2>
+<p>With no network labels, the pod is placed in a default network.</p>
+<p>Navigate to the <code>/shared</code> directory to find some pod specification files. Use the files to
+create <code>defaultnet-busybox1</code> and <code>defaultnet-busybox2</code>:</p>
 <pre class="highlight plaintext"><code>[root@k8master ~]# cd /shared
 [root@k8master shared]#ls
 defaultnet-busybox1.yaml  noping-busybox.yaml  pocnet-busybox.yaml
@@ -376,8 +396,8 @@ defaultnet-busybox1  1/1       Running   0          3m
 defaultnet-busybox2  1/1       Running   0          39s
 
 </code></pre>
-<p>It may take a few minutes for the pods to enter Running state. When both have entered
-Running state, check their ip address and try reachability.</p>
+<p>It may take a few minutes for the pods to enter the <em>Running</em> state. 
+When both have entered the <code>Running</code> state, verify their IP addresses and reachability:</p>
 <pre class="highlight plaintext"><code>[root@k8master shared]# kubectl exec defaultnet-busybox1 -- ip address
 1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -404,17 +424,20 @@ PING 20.1.1.10 (20.1.1.10): 56 data bytes
 
 </code></pre>
 <p>Notice that both pods were assigned IP addresses from the default network and
-they can ping each other.</p>
+that they can ping each other.</p>
 
-<h2>Example 2: Use network labels to specify a network and epg for the Pod</h2>
-<p>Now let&#39;s create a Pod with poc-net and poc-epg specified as network and epg
-respectively. Examine pocnet-busybox.yaml. There are two additional labels:
-<strong>io.contiv.network:</strong> <em>poc-net</em> and <strong>io.contiv.net-group:</strong> <em>poc-epg</em> specified
-in this pod spec.</p>
+<h2>Example 2: Labeled Network</h2>
+<p>In this examply you use network labels to specify a network and EPG for the Pod</p>
+<p>Type the following command to create a Pod with <code>poc-net</code> and <code>poc-epg</code> specified as the 
+network and EPG respectively:</p>
 <pre class="highlight plaintext"><code>[root@k8master shared]# kubectl create -f pocnet-busybox.yaml
 pod "busybox-poc-net" created
-
-[root@k8master shared]# kubectl get pods
+</code></pre>
+<p>Examine pocnet-busybox.yaml. There are two additional labels,
+<code>io.contiv.network: poc-net</code> and <code>io.contiv.net-group: poc-epg</code>, defined
+in this pod specification:</p>
+<p>Notice that this pod was assigned an IP addresses from the poc-net:</p>
+<pre class="highlight plaintext"><code>[root@k8master shared]# kubectl get pods
 NAME                  READY     STATUS    RESTARTS   AGE
 busybox-poc-net       1/1       Running   0          54s
 defaultnet-busybox1   1/1       Running   0          35m
@@ -434,14 +457,13 @@ defaultnet-busybox2   1/1       Running   0          35m
     inet6 fe80::2:15ff:fe01:102/64 scope link
        valid_lft forever preferred_lft forever
 </code></pre>
-<p>Notice that this pod was assigned an IP addresses from the poc-net.</p>
 
-<h2>Example 3: Use Contiv to specify and enforce network policy</h2>
-<p>In this example, we will create a policy and attach it to an epg. We will specify
-this epg in the pod spec and verify that the policy is enforced.</p>
-<p>Examine policy.sh. This contains contiv commands to create a simple ICMP deny rule,
-add it to a policy and attach to an epg. Excute this script to create the network
-objects.</p>
+<h2>Example 3: Use Contiv to Specify and Enforce Network Policy</h2>
+<p>In this example, you create a policy and attach it to an EPG. You specify
+this epg in the pod specification and verify that the policy is enforced.</p>
+<p>Examine <code>policy.sh</code>. This file contains Contiv commands to create a simple 
+ICMP deny rule, add the rule to a policy, and attach the policy to an EPG.</p>
+<p>Excute this script to create the network objects:</p>
 <pre class="highlight plaintext"><code>[root@k8master shared]# ./policy.sh
 
 [root@k8master shared]# netctl group list
@@ -457,9 +479,9 @@ Rule  Direction  Priority  EndpointGroup  Network  IpAddress  Protocol  Port   A
 1     in         1         &lt;nil&gt;          &lt;nil&gt;    &lt;nil&gt;      icmp      &lt;nil&gt;  deny
 
 </code></pre>
-<p>Examine noping-busybox.yaml and pingme-busybox.yaml. They specify noping-epg and poc-epg
-respectively as their epgs. Both of these pods have a netcat listener on TCP port 6379
-(See nc-busybox/nc_loop.sh).</p>
+<p>Examine <code>noping-busybox.yaml</code> and <code>pingme-busybox.yaml</code>. They specify <code>noping-epg</code> and <code>poc-epg</code>
+respectively as their EPGs. Both of these pods have a <em>netcat</em> listener on TCP port 6379
+(See <code>nc-busybox/nc_loop.sh</code>).</p>
 <p>Create both of these pods and verify their connectivity behavior.</p>
 <pre class="highlight plaintext"><code>[root@k8master shared]# kubectl create -f noping-busybox.yaml
 pod "annoyed-busybox" created
@@ -482,7 +504,8 @@ IP:                             21.1.1.2
 IP:                             21.1.1.4
 
 </code></pre>
-<p>Try to access annoyed-busybox and sportive-busybox from busybox-poc-net via ping and nc.</p>
+<p>Try to access <code>annoyed-busybox</code> and <code>sportive-busybox</code> from <code>busybox-poc-net</code> 
+using <em>ping</em> and <em>nc</em>:</p>
 <pre class="highlight plaintext"><code>[root@k8master shared]# kubectl exec busybox-poc-net -- ping 21.1.1.2
 
 [root@k8master shared]# kubectl exec busybox-poc-net -- ping 21.1.1.4
@@ -498,10 +521,13 @@ PING 21.1.1.4 (21.1.1.4): 56 data bytes
 21.1.1.4 [21.1.1.4] 6379 (6379) open
 
 </code></pre>
-<p>Notice 1) busybox-poc-net is unable to ping annoyed-busybox 2) busybox-poc-net is able
-to ping sportive-busybox, to which no policy was applied. 3) busybox-poc-net is able
-to exchange TCP with annoyed-busybox, consistent with the applied policy. You can try
-other combinations as well, e.g. ping/nc between annoyed-busybox and sportive-busybox.
+<p>Notice that: 
+1. <code>busybox-poc-net</code> is unable to ping <code>annoyed-busybox</code>
+2. <code>busybox-poc-net</code> is able to ping <code>sportive-busybox</code>, 
+to which no policy was applied. 
+3. <code>busybox-poc-net</code> is able to exchange TCP with <code>annoyed-busybox</code>, 
+consistent with the applied policy. You can try other combinations as 
+well, for example applying  ping and nc between <code>annoyed-busybox</code> and <code>sportive-busybox</code>.
 You can also create your own policy and pod spec and try.</p>
 
 
