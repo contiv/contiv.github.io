@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-255d50a1.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -295,7 +295,7 @@ before completing the following:</p>
 <pre class="highlight plaintext"><code>make run-build
 </code></pre>
 <p>The command <code>make run-build</code> installs utilities for building the software in
-the <code>$GOPATH</code>, as well as the <code>volmaster</code>, <code>volplugin</code> and <code>volcli</code> utilities.</p>
+the <code>$GOPATH</code>, as well as the <code>apiserver</code>, <code>volplugin</code> and <code>volcli</code> utilities.</p>
 
 <h3>Everywhere else (with a VM):</h3>
 <p>Clone the project:</p>
@@ -334,15 +334,13 @@ when following these steps:</p>
 <ol>
 <li><p>Upload a global configuration. You can find an example one <a href="https://raw.githubusercontent.com/contiv/volplugin/master/systemtests/testdata/globals/global1.json">here</a></p>
 </li>
-<li><p>Start volmaster (as root):</p>
+<li><p>Start apiserver (as root):</p>
 </li>
 </ol>
-<pre class="highlight plaintext"><code>volmaster &amp;
+<pre class="highlight plaintext"><code>apiserver &amp;
 </code></pre>
-<p><strong>Note</strong>: volmaster debug mode is very noisy and is not recommended for
-production use. Therefore, avoid using it with background processes. volplugin
-currently connects to volmaster using port 9005, however in the future it is
-variables.</p>
+<p><strong>Note</strong>: apiserver debug mode is very noisy and is not recommended for
+production use. Therefore, avoid using it with background processes.</p>
 
 <ol>
 <li>Start volsupervisor (as root):
