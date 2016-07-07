@@ -8,7 +8,7 @@ description: |-
 
 ## volcli Reference
 
-`volcli` controls the `volmaster`, which in turn is referenced by the
+`volcli` controls the `apiserver`, which in turn is referenced by the
 `volplugin` for local management of storage. Think of volcli as a tap into the
 control plane.
 
