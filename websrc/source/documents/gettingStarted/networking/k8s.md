@@ -17,17 +17,17 @@ cluster with Contiv networking and applying policy between pods.
 
 ## Prerequisites
 
-1. Install the following packages on your Linux or OS X machine:
+1\. Install the following packages on your Linux or OS X machine:
 
 - VirtualBox 5.0.2 or later
 - Vagrant 1.7.4
 - Make
 
-2. Set http/https proxies if your network requires it.
+2\. Set http/https proxies if your network requires it.
 *Note*: Set `https_proxy` to point to an `http://`
  URL (not `https://`). This is an ansible requirement.
 
-2. The setup scripts use the Python modules *parse* and *netaddr*. If these modules are not
+3\. The setup scripts use the Python modules *parse* and *netaddr*. If these modules are not
 installed on the machine where you are executing these steps, install them
 before proceeding. (Use `pip install parse; pip install netaddr`.)
 

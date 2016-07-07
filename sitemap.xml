@@ -169,6 +169,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>http://contiv.io/documents/networking/features.html</loc>
+    <lastmod>2016-07-09T00:00:00-07:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>http://contiv.io/documents/networking/</loc>
     <lastmod>2016-07-09T00:00:00-07:00</lastmod>
     <changefreq>monthly</changefreq>

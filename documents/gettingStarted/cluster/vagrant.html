@@ -161,6 +161,9 @@ GitHub</a></li>
 					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
 						<li>
+								<a href="/documents/networking/features.html">Features</a>
+						</li>
+						<li>
 								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
 						</li>
 						<li>
@@ -275,40 +278,46 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h2>3 steps to Contiv Cluster Management</h2>
-<p>If you are trying cluster manager with baremetal hosts or a personal VM setup follow <a href="/documents/gettingStarted/cluster/baremetal.html">this link</a> to setup the hosts. After that you can manage the cluster as described in the step 3. below.</p>
-<p>To try with a built-in vagrant based VM environment continue reading.</p>
+	<h1>Getting Started with Contiv Cluster</h1>
+<p>For Contiv Cluster manager with baremetal hosts or a multiple VMs, see  <a href="/documents/gettingStarted/cluster/baremetal.html">Installing Contiv Cluster on a Baremetal Server or VM</a> to set up the hosts.</p>
+<p>To quickly create a virtual environment using the Vagrant environment setup tool, do the following:</p>
 
-<h3>0. Ensure correct dependencies are installed</h3>
+<h2>Prerequisites</h2>
+<p>Install the following packages on your machnine:</p>
 
 <ul>
-<li>vagrant 1.7.3 or higher
+<li>Vagrant 1.7.3 or later
 </li>
-<li>virtualbox 5.0 or higher
+<li>VirtualBox 5.0 or later
 </li>
-<li>ansible 2.0 or higher
+<li>Ansible 2.0 or later
+</li>
+<li>Go 1.6 or later
 </li>
 </ul>
 
-<h3>1. checkout and build the code</h3>
+<h2>Step 1. Check Out the Project</h2>
+<p>Use the following commands to clone the project to your machine:</p>
 <pre class="highlight plaintext"><code>cd $GOPATH/src/github.com/contiv/
 git clone https://github.com/contiv/cluster.git
 </code></pre>
 
-<h3>2. launch three vagrant nodes.</h3>
-<p><strong>Note:</strong> If you look at the project&#39;s <code>Vagrantfile</code>, you will notice that all the vagrant nodes (except for the first node) boot up with stock centos7.2 OS and a <code>serf</code> agent running. <code>serf</code> is used as the node discovery service. This is intentional to meet the goal of limiting the amount of services that user needs to setup to start bringing up a cluster and hence making management easier.
-<code>
-cd cluster/
+<h2>Step 2. Launch Three Vagrant Nodes</h2>
+<p>Use the following commands to launch three nodes in the Vagrant environment:</p>
+<pre class="highlight plaintext"><code>cd cluster/
 CONTIV_NODES=3 make demo-cluster
-</code></p>
+</code></pre>
+<p><em>Note:</em> The project&#39;s <code>Vagrantfile</code> configures all the vagrant nodes (except for the first node) to boot up with a stock Centos7.2 OS and with a <code>serf</code> agent running. The <code>serf</code> agent is used as the node&#39;s discovery service. This configuration is intended to make management easier by limiting the number of services needed to start a cluster.</p>
 
-<h3>3. login to the first node to manage the cluster</h3>
-<p><strong>Note:</strong> The first node is slightly special in a way that it is booted up with two additional services viz. <code>collins</code> and <code>clusterm</code>. <code>collins</code> is used as the node lifecycle management and event logging service. <code>clusterm</code> is the cluster manager daemon. <code>clusterctl</code> utility is provided to exercise cluster manager provided REST endpoint.</p>
+<h2>Step 3. Log In to the First Node</h2>
+<p>The first node is is booted with two additional services, <code>collins</code> and <code>clusterm</code>. The <code>collins</code> service serves as the node lifecycle management and event logging service. The <code>clusterm</code> service is the cluster manager daemon.</p>
+<p>You use the <code>clusterctl</code> utility exercise the cluster manager&#39;s REST endpoint.</p>
+<p>Use the following command to log into the first node:</p>
 <pre class="highlight plaintext"><code>CONTIV_NODES=3 vagrant ssh cluster-node1
 </code></pre>
 
-<h4>Provision additional nodes</h4>
-<p>Please see <a href="/documents/cluster/node-lifecycle.html">Cluster</a> section for more details</p>
+<h2>What to Do Next</h2>
+<p>See the <a href="/documents/cluster/node-lifecycle.html">Cluster</a> docuentation for information about managing the cluster lifecycle.</p>
 
 
 			</div>

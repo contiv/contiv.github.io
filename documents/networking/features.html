@@ -99,7 +99,7 @@ GitHub</a></li>
 			<hr>
 			<h3>User Guide</h3>
 			<ul class="nav docs-sidenav">
-				<li class="active">
+				<li>
 					<a href="/documents/gettingStarted/index.html">Getting Started</a>
 					<ul class="nav">
 						<li>
@@ -144,7 +144,7 @@ GitHub</a></li>
 						<li>
 							<a href="/documents/gettingStarted/storage/storage.html">Storage </a>
 						</li>
-						<li class="active">
+						<li>
 							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
 								<li>
@@ -157,7 +157,7 @@ GitHub</a></li>
 						</li>
 					</ul>
 				</li>
-				<li>
+				<li class="active">
 					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
 						<li>
@@ -278,14 +278,54 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h1>Getting Started with Contiv Cluster</h1>
+	<h1>Contiv Features</h1>
+<p>Contiv Networking supports the following features:</p>
 
 <ul>
-<li><a href="/documents/gettingStarted/cluster/vagrant.html">Use our Vagrant scripts to set up a virtual environment on a single machine</a>
+<li>A feature-rich policy model to provide secure, predictable application deployment
 </li>
-<li><a href="/documents/gettingStarted/cluster/baremetal.html">Instal Contiv Cluster on two or more bare-metal or virtual servers</a>
+<li>Best-in-class throughput for container workloads
+</li>
+<li>Multi-tenancy, isolation, and overlapping subnets
+</li>
+<li>Integrated IPAM and service discovery
+</li>
+<li>A variety of physical topologies:
+
+<ul>
+<li>Layer2 (VLAN)
+</li>
+<li>Layer3 (BGP)
+</li>
+<li>Overlay (VXLAN)
+</li>
+<li>Cisco SDN Solution (ACI)
 </li>
 </ul>
+</li>
+<li>IPv6 Support
+</li>
+<li>Scalable policy and route distribution
+</li>
+<li>Integration with application blueprints, including:
+
+<ul>
+<li>Docker Compose
+</li>
+<li>Kubernetes deployment manager
+</li>
+</ul>
+</li>
+<li>Service Load Balancing: built in east-west microservice load balancing
+</li>
+<li>Traffic isolation for storage, control (for example, etcd/consul), network, and management traffic
+</li>
+</ul>
+<p>To learn about container networking basics, read our self-guided hands-on
+<a href="/documents/tutorials/container-101.html">Tutorial</a>. The tutorial discusses
+libnetwork&#39;s CNM and CoreOS&#39;s CNI model. Contiv supports both networking models,
+and therefore supports a pluggable networking alternative to built-in Docker, Kubernetes,
+Mesos, and Nomad ecosystems.</p>
 
 
 			</div>

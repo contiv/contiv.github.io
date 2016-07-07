@@ -161,6 +161,9 @@ GitHub</a></li>
 					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
 						<li>
+								<a href="/documents/networking/features.html">Features</a>
+						</li>
+						<li>
 								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
 						</li>
 						<li>
@@ -275,99 +278,147 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h1>Getting started with Contiv Storage</h1>
-<p>Getting started describes setting up a test environment with three VMs. Once
-the test environment is setup see the instructions on how to 
-<a href="/documents/storage/configuration.html">Configure Services</a>.</p>
+	<h1>Getting Started with Contiv Storage</h1>
+<p>This page describes setting up a test environment with three VMs.</p>
 
 <h2>Prerequisites</h2>
-<p>Please read and follow the instructions in the prerequisites section of the
-volplugin
-<a href="https://github.com/contiv/volplugin/blob/master/README.md#prerequisites">README</a>
-before completing the following.</p>
-
-<h2>Clone and Build the Project</h2>
-
-<h3>On Linux (without a VM)</h3>
-<p>Clone the project:</p>
-<pre class="highlight plaintext"><code>git clone https://github.com/contiv/volplugin
-</code></pre>
-<p>Build the project:</p>
-<pre class="highlight plaintext"><code>make run-build
-</code></pre>
-<p>The command <code>make run-build</code> installs utilities for building the software in
-the <code>$GOPATH</code>, as well as the <code>apiserver</code>, <code>volplugin</code> and <code>volcli</code> utilities.</p>
-
-<h3>Everywhere else (with a VM):</h3>
-<p>Clone the project:</p>
-<pre class="highlight plaintext"><code>git clone https://github.com/contiv/volplugin
-</code></pre>
-<p>Build the project:</p>
-<pre class="highlight plaintext"><code>make start
-</code></pre>
-<p>The build and binaries will be on the VM in the directory <code>/opt/golang/bin</code>.</p>
-
-<h2>Do it yourself</h2>
-
-<h3>Installing Dependencies</h3>
-<p>Use the Contiv <a href="https://github.com/contiv/volplugin/releases">nightly releases</a>
-when following these steps:</p>
-<p><strong>Note:</strong> Using the nightly builds is simpler than building the applications.</p>
-<p>Install the dependencies in the following order:</p>
-
-<ol>
-<li><p>Follow the <a href="https://github.com/coreos/etcd/releases/tag/v2.2.0">Getting Started</a> to install <a href="https://coreos.com/etcd/docs/latest/getting-started-with-etcd.html">Etcd</a>.</p>
+<p>Your machine must have 12GB of free RAM. (Ceph is memory intensive.)</p>
+<p>Install the following packages on your Linux or OS X machine:</p>
 
 <ul>
-<li>Currently versions 2.0 and later are supported.
+<li>VirtualBox 5.0.2 or later
+</li>
+<li>Vagrant 1.8.x
+</li>
+<li>Ansible 2.0+
+</li>
+<li>Git
+</li>
+<li>Go 1.6, if you want to run the system tests
 </li>
 </ul>
-</li>
-<li><p>Follow the <a href="http://docs.ceph.com/docs/master/install/">Ceph Installation Guide</a> to install <a href="http://ceph.com">Ceph</a>.</p>
-</li>
-<li><p>Configure Ceph with <a href="https://github.com/ceph/ceph-ansible">Ansible</a>.</p>
-</li>
-</ol>
-<p><strong>Note</strong>: See the <a href="https://github.com/contiv/volplugin/blob/master/README.md#running-the-processes">README</a>
+
+<h2>Clone and Build the Project</h2>
+<p>The following instructions enable you to run an automated install process that creates a development
+environment on either a Linux machine or on a Linux, OS X, or Windows machine running a Linux VM.</p>
+
+<h3>On Linux (without a VM)</h3>
+<p>1. Clone the project:</p>
+<pre class="highlight plaintext"><code>git clone https://github.com/contiv/volplugin  
+</code></pre>
+<p>2. Build the project:</p>
+<p>The <code>make run-build</code> command installs utilities for building the software in
+the <code>$GOPATH</code>, and installs the the <code>volmaster</code>, <code>volplugin</code>, and <code>volcli</code> utilities.</p>
+<pre class="highlight plaintext"><code>make run-build
+</code></pre>
+
+<h3>With a VM, on Any Operating System</h3>
+<p>1. Clone the project:</p>
+<pre class="highlight plaintext"><code>git clone https://github.com/contiv/volplugin
+</code></pre>
+<p>2. Build the project:</p>
+<p>The <code>make start</code> command installs the build and binary files on 
+the VM in the directory <code>/opt/golang/bin</code> and starts the services on the VM.</p>
+<pre class="highlight plaintext"><code>make start
+</code></pre>
+
+<h2>Installing Without the Scripts</h2>
+<p>Following are instructions on how to install Contiv Storage without using the 
+setup scripts.  Use the Contiv <a href="https://github.com/contiv/volplugin/releases">nightly releases</a>
+when following these steps.</p>
+<p><em>Note:</em> You can avoid building the applications by using the nightly builds.</p>
+
+<h3>Installing Dependencies</h3>
+<p>Install the dependencies in the following order:</p>
+<p>1. Install <code>etcd</code>
+Follow the instructions <a href="https://github.com/coreos/etcd/releases/tag/v2.2.0">here</a> 
+instructions to install <em><a href="https://coreos.com/etcd/docs/latest/getting-started-with-etcd.html">etcd</a></em>.
+Install version 2.0 or later.</p>
+<p>2. Install Ceph
+Follow the <a href="http://docs.ceph.com/docs/master/install/">Ceph Installation Guide</a> to install <a href="http://ceph.com">Ceph</a>.</p>
+<p>3. Configure Ceph 
+Configure Ceph with <a href="https://github.com/ceph/ceph-ansible">Ansible</a>.</p>
+<p><em>Note</em>: See the Contiv Storage 
+<a href="https://github.com/contiv/volplugin/blob/master/README.md#running-the-processes">README here</a>
   for pre-configured VMs that work on any UNIX operating system to simplify
     Ceph installation.</p>
+<p>4. Upload a Configuration
+Upload a global configuration. You can find an example configuration 
+<a href="https://raw.githubusercontent.com/contiv/volplugin/master/systemtests/testdata/globals/global1.json">here</a>.</p>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; 9d54c4add2fffc94d1722449c8fbbb8bdc9fe0b5</p>
 
-<ol>
-<li><p>Upload a global configuration. You can find an example one <a href="https://raw.githubusercontent.com/contiv/volplugin/master/systemtests/testdata/globals/global1.json">here</a></p>
-</li>
-<li><p>Start apiserver (as root):</p>
-</li>
-</ol>
+<h1>5. Start apiserver (as root):</h1>
+<p>5. Start the Master Process
+Log in as root, then start the <code>volmaster</code> process :</p>
+
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<pre class="highlight plaintext"><code>Website documentation edits, round 2:
+</code></pre>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <pre class="highlight plaintext"><code>apiserver &amp;
 </code></pre>
-<p><strong>Note</strong>: apiserver debug mode is very noisy and is not recommended for
-production use. Therefore, avoid using it with background processes.</p>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; 9d54c4add2fffc94d1722449c8fbbb8bdc9fe0b5
+<strong>Note</strong>: apiserver debug mode is very noisy and is not recommended for</p>
 
-<ol>
-<li>Start volsupervisor (as root):
-</li>
-</ol>
+<h1>production use. Therefore, avoid using it with background processes. </h1>
+<p><em>Note</em>: <code>volmaster</code> debug mode produces a lot of output and is not recommended for
+production use. Therefore, avoid using it with background processes. The <code>volplugin</code>
+process connects to <code>volmaster</code> using port 9005.</p>
+
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<pre class="highlight plaintext"><code>Website documentation edits, round 2:
+</code></pre>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>6. Start the Supervisor Process
+Log in as root, then start <code>volsupervisor</code>:</p>
 <pre class="highlight plaintext"><code>volsupervisor &amp;
 </code></pre>
-<p><strong>Note</strong>: volsupervisor debug mode is very noisy and is not recommended for production.</p>
-
-<ol>
-<li> Start volplugin (as root):
-</li>
-</ol>
+<p><em>Note</em>: <code>volsupervisor</code> debug mode produces a lot of output and is not recommended for
+production use. Therefore, avoid using it with background processes.</p>
+<p>7.  Start the Contiv Plugin
+Log in as root, then start <code>volplugin</code>:</p>
 <pre class="highlight plaintext"><code>volplugin &amp;
 </code></pre>
-<p>If running volplugin on multiple hosts, use the <code>--master</code> flag to
-provide a ip:port pair to connect to over http. By default it connects to
-<code>127.0.0.1:9005</code>.</p>
+<p>If you run <code>volplugin</code> on multiple hosts, use the <code>--master</code> flag to
+provide an ip:port pair to reach the process over http. By default 
+this port is <code>127.0.0.1:9005</code>.</p>
 
-<h2>Configure Services</h2>
-<p>Ensure Ceph is fully operational, and that the <code>rbd</code> tool works as root.</p>
+<h3>Configure Services</h3>
+<p>Ensure that Ceph is fully operational, and that the <code>rbd</code> tool works as root.</p>
 <p>Upload a policy:</p>
 <pre class="highlight plaintext"><code>volcli policy upload policy1 &lt; mypolicy.json
 </code></pre>
-<p><strong>Note</strong>: It accepts the policy from stdin, e.g.: <code>volcli policy upload policy1 &lt; mypolicy.json</code>
-Examples of a policy are in <a href="https://github.com/contiv/volplugin/tree/master/systemtests/testdata">systemtests/testdata</a>.</p>
+<p>Note that <code>volcli</code> reads the policy from <em>stdin</em>.</p>
+<p>You can find example policies in 
+<a href="https://github.com/contiv/volplugin/tree/master/systemtests/testdata">systemtests/testdata</a>.</p>
+
+<h2>What to Do Next</h2>
+<p>Once the test environment is set up, see the instructions on how to 
+<a href="/documents/storage/configuration.html">Configure Services</a>.</p>
 
 
 			</div>

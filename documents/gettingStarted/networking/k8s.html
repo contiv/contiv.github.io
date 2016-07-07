@@ -161,6 +161,9 @@ GitHub</a></li>
 					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
 						<li>
+								<a href="/documents/networking/features.html">Features</a>
+						</li>
+						<li>
 								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
 						</li>
 						<li>
@@ -283,11 +286,7 @@ in a Kubernetes cluster.</p>
 cluster with Contiv networking and applying policy between pods.</p>
 
 <h2>Prerequisites</h2>
-
-<ol>
-<li>Install the following packages on your Linux or OS X machine:
-</li>
-</ol>
+<p>1. Install the following packages on your Linux or OS X machine:</p>
 
 <ul>
 <li>VirtualBox 5.0.2 or later
@@ -297,17 +296,12 @@ cluster with Contiv networking and applying policy between pods.</p>
 <li>Make
 </li>
 </ul>
-
-<ol>
-<li><p>Set http/https proxies if your network requires it.
-<em>Note</em>: Set <a name="https_proxy"/><a href="#https_proxy"><code>https_proxy</code></a> to point to an <code>http://</code>
-URL (not <code>https://</code>). This is an ansible requirement.</p>
-</li>
-<li><p>The setup scripts use the Python modules <em>parse</em> and <em>netaddr</em>. If these modules are not
+<p>2. Set http/https proxies if your network requires it.
+<em>Note</em>: Set <code>https_proxy</code> to point to an <code>http://</code>
+ URL (not <code>https://</code>). This is an ansible requirement.</p>
+<p>3. The setup scripts use the Python modules <em>parse</em> and <em>netaddr</em>. If these modules are not
 installed on the machine where you are executing these steps, install them
-before proceeding. (Use <a name="pip_install_parse_pip_install_netaddr"/><a href="#pip_install_parse_pip_install_netaddr"><code>pip install parse; pip install netaddr</code></a>.)</p>
-</li>
-</ol>
+before proceeding. (Use <code>pip install parse; pip install netaddr</code>.)</p>
 
 <h3>Step 1: Clone the Repositories</h3>
 <p>Use the following commands to clone the Contiv Network and contributed

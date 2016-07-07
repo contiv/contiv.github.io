@@ -6,39 +6,49 @@ description: |-
   Getting Started
 ---
 
-## 3 steps to Contiv Cluster Management
+# Getting Started with Contiv Cluster
 
-If you are trying cluster manager with baremetal hosts or a personal VM setup follow [this link](baremetal.html) to setup the hosts. After that you can manage the cluster as described in the step 3. below.
+For Contiv Cluster manager with baremetal hosts or a multiple VMs, see  [Installing Contiv Cluster on a Baremetal Server or VM](baremetal.html) to set up the hosts.
 
-To try with a built-in vagrant based VM environment continue reading.
+To quickly create a virtual environment using the Vagrant environment setup tool, do the following:
 
-### 0. Ensure correct dependencies are installed
-- vagrant 1.7.3 or higher
-- virtualbox 5.0 or higher
-- ansible 2.0 or higher
+## Prerequisites
+Install the following packages on your machnine:
 
-### 1. checkout and build the code
+- Vagrant 1.7.3 or later
+- VirtualBox 5.0 or later
+- Ansible 2.0 or later
+- Go 1.6 or later
+
+## Step 1. Check Out the Project
+Use the following commands to clone the project to your machine:
+
 ```
 cd $GOPATH/src/github.com/contiv/
 git clone https://github.com/contiv/cluster.git
 ```
 
-### 2. launch three vagrant nodes.
+## Step 2. Launch Three Vagrant Nodes
+Use the following commands to launch three nodes in the Vagrant environment:
 
-**Note:** If you look at the project's `Vagrantfile`, you will notice that all the vagrant nodes (except for the first node) boot up with stock centos7.2 OS and a `serf` agent running. `serf` is used as the node discovery service. This is intentional to meet the goal of limiting the amount of services that user needs to setup to start bringing up a cluster and hence making management easier.
 ```
 cd cluster/
 CONTIV_NODES=3 make demo-cluster
 ```
 
-### 3. login to the first node to manage the cluster
+*Note:* The project's `Vagrantfile` configures all the vagrant nodes (except for the first node) to boot up with a stock Centos7.2 OS and with a `serf` agent running. The `serf` agent is used as the node's discovery service. This configuration is intended to make management easier by limiting the number of services needed to start a cluster.
 
-**Note:** The first node is slightly special in a way that it is booted up with two additional services viz. `collins` and `clusterm`. `collins` is used as the node lifecycle management and event logging service. `clusterm` is the cluster manager daemon. `clusterctl` utility is provided to exercise cluster manager provided REST endpoint.
+## Step 3. Log In to the First Node
+The first node is is booted with two additional services, `collins` and `clusterm`. The `collins` service serves as the node lifecycle management and event logging service. The `clusterm` service is the cluster manager daemon. 
+
+You use the `clusterctl` utility exercise the cluster manager's REST endpoint.
+
+Use the following command to log into the first node:
 
 ```
 CONTIV_NODES=3 vagrant ssh cluster-node1
 ```
 
-#### Provision additional nodes
+## What to Do Next
 
-Please see [Cluster](/documents/cluster/node-lifecycle.html) section for more details
+See the [Cluster](/documents/cluster/node-lifecycle.html) docuentation for information about managing the cluster lifecycle.

@@ -6,108 +6,135 @@ description: |-
   Getting Started
 ---
 
-# Getting started with Contiv Storage
+# Getting Started with Contiv Storage
 
-Getting started describes setting up a test environment with three VMs. Once
-the test environment is setup see the instructions on how to 
-[Configure Services](/documents/storage/configuration.html).
+This page describes setting up a test environment with three VMs. 
 
 ## Prerequisites
+Your machine must have 12GB of free RAM. (Ceph is memory intensive.)
 
-Please read and follow the instructions in the prerequisites section of the
-volplugin
-[README](https://github.com/contiv/volplugin/blob/master/README.md#prerequisites)
-before completing the following.
+Install the following packages on your Linux or OS X machine:
+
+- VirtualBox 5.0.2 or later
+- Vagrant 1.8.x
+- Ansible 2.0+
+- Git
+- Go 1.6, if you want to run the system tests
 
 ## Clone and Build the Project
+The following instructions enable you to run an automated install process that creates a development
+environment on either a Linux machine or on a Linux, OS X, or Windows machine running a Linux VM. 
 
 ### On Linux (without a VM)
 
-Clone the project:
+1\. Clone the project:  
 
-```
-git clone https://github.com/contiv/volplugin
-```
+```  
+git clone https://github.com/contiv/volplugin  
+```  
 
-Build the project:
+2\. Build the project:
+
+The `make run-build` command installs utilities for building the software in
+the `$GOPATH`, and installs the the `volmaster`, `volplugin`, and `volcli` utilities.
 
 ```
 make run-build
 ```
 
-The command `make run-build` installs utilities for building the software in
-the `$GOPATH`, as well as the `apiserver`, `volplugin` and `volcli` utilities.
+### With a VM, on Any Operating System
 
-### Everywhere else (with a VM):
-
-Clone the project:
+1\. Clone the project:
 
 ```
 git clone https://github.com/contiv/volplugin
 ```
 
-Build the project:
+2\. Build the project:
+
+The `make start` command installs the build and binary files on 
+the VM in the directory `/opt/golang/bin` and starts the services on the VM.
 
 ```
 make start
 ```
 
-The build and binaries will be on the VM in the directory `/opt/golang/bin`.
+## Installing Without the Scripts
 
-## Do it yourself
+Following are instructions on how to install Contiv Storage without using the 
+setup scripts.  Use the Contiv [nightly releases](https://github.com/contiv/volplugin/releases)
+when following these steps.
+
+*Note:* You can avoid building the applications by using the nightly builds. 
 
 ### Installing Dependencies
 
-Use the Contiv [nightly releases](https://github.com/contiv/volplugin/releases)
-when following these steps:
-
-**Note:** Using the nightly builds is simpler than building the applications.
-
 Install the dependencies in the following order:
 
-1. Follow the [Getting Started](https://github.com/coreos/etcd/releases/tag/v2.2.0) to install [Etcd](https://coreos.com/etcd/docs/latest/getting-started-with-etcd.html).
-  * Currently versions 2.0 and later are supported.
+1\. Install `etcd`
+Follow the instructions [here](https://github.com/coreos/etcd/releases/tag/v2.2.0) 
+instructions to install *[etcd](https://coreos.com/etcd/docs/latest/getting-started-with-etcd.html)*.
+Install version 2.0 or later.
 
-2. Follow the [Ceph Installation Guide](http://docs.ceph.com/docs/master/install/) to install [Ceph](http://ceph.com).
-3. Configure Ceph with [Ansible](https://github.com/ceph/ceph-ansible).
+2\. Install Ceph
+Follow the [Ceph Installation Guide](http://docs.ceph.com/docs/master/install/) to install [Ceph](http://ceph.com).
 
-  **Note**: See the [README](https://github.com/contiv/volplugin/blob/master/README.md#running-the-processes)
+3\. Configure Ceph 
+Configure Ceph with [Ansible](https://github.com/ceph/ceph-ansible).
+
+*Note*: See the Contiv Storage 
+[README here](https://github.com/contiv/volplugin/blob/master/README.md#running-the-processes)
   for pre-configured VMs that work on any UNIX operating system to simplify
     Ceph installation.
 
-4. Upload a global configuration. You can find an example one [here](https://raw.githubusercontent.com/contiv/volplugin/master/systemtests/testdata/globals/global1.json)
+4\. Upload a Configuration
+Upload a global configuration. You can find an example configuration 
+[here](https://raw.githubusercontent.com/contiv/volplugin/master/systemtests/testdata/globals/global1.json).
 
+<<<<<<< 9d54c4add2fffc94d1722449c8fbbb8bdc9fe0b5
 5. Start apiserver (as root):
+=======
+5\. Start the Master Process
+Log in as root, then start the `volmaster` process :
+>>>>>>>     Website documentation edits, round 2:
 
 ```
 apiserver &
 ```
 
+<<<<<<< 9d54c4add2fffc94d1722449c8fbbb8bdc9fe0b5
 **Note**: apiserver debug mode is very noisy and is not recommended for
 production use. Therefore, avoid using it with background processes. 
+=======
+*Note*: `volmaster` debug mode produces a lot of output and is not recommended for
+production use. Therefore, avoid using it with background processes. The `volplugin`
+process connects to `volmaster` using port 9005.
+>>>>>>>     Website documentation edits, round 2:
 
-6. Start volsupervisor (as root):
+6\. Start the Supervisor Process
+Log in as root, then start `volsupervisor`:
 
 ```
 volsupervisor &
 ```
 
+*Note*: `volsupervisor` debug mode produces a lot of output and is not recommended for
+production use. Therefore, avoid using it with background processes. 
 
-**Note**: volsupervisor debug mode is very noisy and is not recommended for production.
-
-7.  Start volplugin (as root):
+7\.  Start the Contiv Plugin
+Log in as root, then start `volplugin`:
 
 ```
 volplugin &
 ```
 
-If running volplugin on multiple hosts, use the `--master` flag to
-provide a ip:port pair to connect to over http. By default it connects to
-`127.0.0.1:9005`.
+If you run `volplugin` on multiple hosts, use the `--master` flag to
+provide an ip:port pair to reach the process over http. By default 
+this port is `127.0.0.1:9005`.
 
-## Configure Services
+### Configure Services
 
-Ensure Ceph is fully operational, and that the `rbd` tool works as root.
+Ensure that Ceph is fully operational, and that the `rbd` tool works as root.
 
 Upload a policy:
 
@@ -115,5 +142,11 @@ Upload a policy:
 volcli policy upload policy1 < mypolicy.json
 ```
 
-**Note**: It accepts the policy from stdin, e.g.: `volcli policy upload policy1 < mypolicy.json`
-Examples of a policy are in [systemtests/testdata](https://github.com/contiv/volplugin/tree/master/systemtests/testdata).
+Note that `volcli` reads the policy from *stdin*.
+
+You can find example policies in 
+[systemtests/testdata](https://github.com/contiv/volplugin/tree/master/systemtests/testdata).
+
+## What to Do Next
+Once the test environment is set up, see the instructions on how to 
+[Configure Services](/documents/storage/configuration.html).
