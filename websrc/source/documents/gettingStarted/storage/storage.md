@@ -35,7 +35,7 @@ make run-build
 ```
 
 The command `make run-build` installs utilities for building the software in
-the `$GOPATH`, as well as the `volmaster`, `volplugin` and `volcli` utilities.
+the `$GOPATH`, as well as the `apiserver`, `volplugin` and `volcli` utilities.
 
 ### Everywhere else (with a VM):
 
@@ -76,16 +76,14 @@ Install the dependencies in the following order:
 
 4. Upload a global configuration. You can find an example one [here](https://raw.githubusercontent.com/contiv/volplugin/master/systemtests/testdata/globals/global1.json)
 
-5. Start volmaster (as root):
+5. Start apiserver (as root):
 
 ```
-volmaster &
+apiserver &
 ```
 
-**Note**: volmaster debug mode is very noisy and is not recommended for
-production use. Therefore, avoid using it with background processes. volplugin
-currently connects to volmaster using port 9005, however in the future it is
-variables.
+**Note**: apiserver debug mode is very noisy and is not recommended for
+production use. Therefore, avoid using it with background processes. 
 
 6. Start volsupervisor (as root):
 

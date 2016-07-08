@@ -53,7 +53,7 @@ continue reading to understand individual feature status.
   - [Node configuration management](#node-configuration-management)
     - Clustering software components (swarm-agent, etc)
     - Infrastructure software components (ovs, serf, consul/etcd, etc)
-    - Contiv infrastructure services (netmaster/netplugin and volmaster/volplugin)
+    - Contiv infrastructure services (netmaster/netplugin and volplugin)
   - [Bootstrap](#bootstrap-1)
     - Node
     - Cluster

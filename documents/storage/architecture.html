@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-255d50a1.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -277,42 +277,39 @@ GitHub</a></li>
 				
 	<h2>Architecture</h2>
 <p>&quot;volplugin&quot;, despite the name, is actually a suite of components:</p>
-<p><code>volmaster</code> is the master process. It exists to coordinate the volplugins in a
-way that safely manages container volumes. It talks to <code>etcd</code> to keep its
-state.</p>
-<p><code>volplugin</code> is the slave process. It exists to bridge the state management
-between <code>volmaster</code> and <code>docker</code>, and to mount volumes on specific hosts.</p>
-<p><code>volcli</code> is a utility for managing <code>volmaster</code>&#39;s data. It makes both REST calls
-into the volmaster and additionally can write directly to etcd.</p>
+<p><code>apiserver</code> is the api service process. It exists to give <code>volcli</code> a way to
+coordinate with the cluster at large.  It talks to <code>etcd</code> to keep its state.</p>
+<p><code>volplugin</code> is the plugin process. It manages the lifecycle of mounts on
+specific hosts, and manages the local operations for CRUD and runtime parameter
+management.</p>
+<p><code>volcli</code> is a utility for managing <code>apiserver</code>&#39;s data. It makes both REST calls
+into the apiserver and additionally can write directly to etcd.</p>
 
 <h3>Organizational Architecture</h3>
-<p><code>volmaster</code> is completely stateless, and can be run multi-host for redundancy.
-<code>volmaster</code> needs both root permissions, and capability to manipulate RBD
-images with the <code>rbd</code> tool.</p>
+<p><code>apiserver</code> will need to be contacted by volcli and lives anywhere it can reach etcd.</p>
 <p><code>volsupervisor</code> handles scheduled and supervised tasks such as snapshotting. It
 may only be deployed on one host at a time.</p>
 <p><code>volplugin</code> needs to run on every host that will be running containers. Upon
 start, it will create a unix socket in the appropriate plugin path so that
 docker recognizes it. This creates a driver named <code>volplugin</code>.</p>
 <p><code>volcli</code> is a management tool and can live anywhere that has access to the etcd
-cluster and volmaster.</p>
+cluster and apiserver.</p>
 
 <h3>Security Architecture</h3>
 <p>There is none currently. This is still an alpha, security will be a beta
 target.</p>
 
 <h3>Network Architecture</h3>
-<p><code>volmaster</code>, by default, listens on <code>0.0.0.0:9005</code>. It provides a REST
+<p><code>apiserver</code>, by default, listens on <code>0.0.0.0:9005</code>. It provides a REST
 interface to each of its operations that are used both by <code>volplugin</code> and
 <code>volcli</code>. It connects to etcd at <code>127.0.0.1:2379</code>, which you can change by
 supplying <code>--etcd</code> one or more times.</p>
 <p><code>volsupervisor</code> needs root, connections to etcd, and access to ceph <code>rbd</code> tools
 as admin.</p>
-<p><code>volplugin</code> contacts the volmaster but listens on no network ports (it uses a
-unix socket as described above, to talk to docker). It by default connects to
-the volmaster at <code>127.0.0.1:9005</code> and must be supplied the <code>--master</code> switch to
-talk to a remote <code>volmaster</code>.</p>
-<p><code>volcli</code> talks to both <code>volmaster</code> and <code>etcd</code> to communicate various state and
+<p><code>volplugin</code> listens on no network ports (it uses a unix socket as described
+above, to talk to docker). It connects to etcd at <code>127.0.0.1:2379</code>, which you
+can change by supplying <code>--etcd</code> one or more times.</p>
+<p><code>volcli</code> talks to both <code>apiserver</code> and <code>etcd</code> to communicate various state and
 operations to the system.</p>
 
 

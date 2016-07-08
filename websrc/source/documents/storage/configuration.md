@@ -30,7 +30,7 @@ you wish to change the pool (or other options), see "Driver Options" below.
 
 ### JSON Global Configuration
 
-Global configuration modifies the whole system through the volmaster, volplugin
+Global configuration modifies the whole system through the apiserver, volplugin
 and volsupervisor systems. You can manipulate them with the `volcli global`
 command set.
 
