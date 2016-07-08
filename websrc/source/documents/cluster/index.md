@@ -8,20 +8,22 @@ description: |-
 
 # Contiv Cluster
 
-##Overview
-Contiv Cluster is an integrated collection of software that simplifies deployment, management, and maintenance
+## Overview
+
+Contiv Cluster is an integrated collection of software components that simplifies deployment, management, and maintenance
 of clustering systems. At the heart of Contiv Cluster is Cluster Manager, a RESTful API service providing
-programmatic access to the Contiv Cluster.
+programmatic access to Contiv Cluster.
 
-Contiv Cluster intends on supporting a range of clustering software such as Docker Swarm, Kubernetes,
-Apache Mesos, and others. Currently, Contiv Cluster supports the following cluster formation:
+Contiv Cluster is designed to support a range of clustering software such as Docker Swarm, Kubernetes,
+Apache Mesos, and others. Currently, Contiv Cluster supports the following cluster-related products:
 
-* **Cluster Type**: Docker [Unified Control Plane]
-(https://www.docker.com/products/docker-universal-control-plane) | Docker [Swarm](https://docs.docker.com/swarm/)
-* **Cluster OS**: [CentOS 7.2](https://www.centos.org/)
-* **Cluster Target**: Bare Metal | [Vagrant](https://www.vagrantup.com/)
+- *Cluster Type*: Docker [Unified Control Plane]
+https://www.docker.com/products/docker-universal-control-plane) and Docker [Swarm](https://docs.docker.com/swarm/)
+- *Cluster OS*: [CentOS 7.2](https://www.centos.org/)
+- *Cluster Target*: Bare Metal and [Vagrant](https://www.vagrantup.com/)
 
+## More Information
 
-## Table of Contents
+The following sections contain more background information on Contiv Cluster.
 - [Concepts and Terminology](/documents/cluster/concepts.html)
 - [Node Lifecycle management](/documents/cluster/node-lifecycle.html)

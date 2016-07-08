@@ -7,23 +7,23 @@ description: |-
 ---
 
 
-##Definitions
+## Definitions
 To better understand Contiv Cluster, you should know a few system definitions.
 
-###Node
+### Node
 A physical or virtual server with predefined/discovered compute, memory, storage
 and networking capabilities.
 
-###Cluster
+### Cluster
 A collection of one or more nodes running clustering software such as Docker Swarm.
 Nodes may or may not be homogeneous in their capabilities.
 
-###Image
+### Image
 An operating system with a *minimal set* of pre-installed packages used by a node. For instance,
 node automated discovery requires a cluster membership service like [Serf](https://www.serfdom.io/)
 to be pre-installed and started on the node's operating system during bootstrapping.
 
-###Bootstrap
+### Bootstrap
 
 **Node Bootstrap**: The process of installing the node image and booting the node for the first time.
 

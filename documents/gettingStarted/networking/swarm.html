@@ -170,7 +170,7 @@ GitHub</a></li>
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
 						<li>
-								<a href="/documents/networking/services.html">Service Routing</a>
+								<a href="/documents/networking/services.html">Service Loadbalancing</a>
 						</li>
 						<li>
 								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
@@ -313,7 +313,7 @@ you into one of the VMs.</p>
 
 <h2>Step 3: Run Containers on Two Hosts</h2>
 <p>Start a Docker container on the node you just logged into:</p>
-<pre class="highlight plaintext"><code>netplugin-node1$ Docker run -itd --name=web --net=contiv-net ubuntu /bin/bash
+<pre class="highlight plaintext"><code>netplugin-node1$ docker run -itd --name=web --net=contiv-net ubuntu /bin/bash
 </code></pre>
 <p>In another shell window, log into the second VM and start another Docker container:</p>
 <pre class="highlight plaintext"><code>$ vagrant ssh netplugin-node1

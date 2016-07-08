@@ -170,7 +170,7 @@ GitHub</a></li>
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
 						<li>
-								<a href="/documents/networking/services.html">Service Routing</a>
+								<a href="/documents/networking/services.html">Service Loadbalancing</a>
 						</li>
 						<li class="active">
 								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
@@ -278,31 +278,40 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h2>Contiv in L2 Mode</h2>
-<p>This page contains the steps to use Contiv in L2 mode.</p>
+	<h1>Contiv in L2 Mode</h1>
+<p>This page describes how to use Contiv in L2 mode.</p>
 <p><img alt="L2" src="/documents/networking/contiv-l2-mode-265556b8.png"/></p>
 
-<h1>Typical Workflow:</h1>
-
-<ul>
-<li>Bring up Contiv – netplugin and netmaster
-</li>
-<li>Create a Vlan network with subnet pool and gateway
-</li>
-<li>Configure SVIs on switches
-</li>
-<li>Bring up containers in the networks created on the host
-</li>
-</ul>
-
-<h1>Supported Version:</h1>
+<h2>Supported Version</h2>
+<p>The version supported by Contiv is:</p>
 <pre class="highlight plaintext"><code>Version: v0.1-02-06-2016.14-42-05.UTC
 GitCommit: 392e0a7
 BuildTime: 02-06-2016.14-42-05.UTC
 </code></pre>
 
-<h1>STEP 1: Configure Switches:</h1>
-<p>Need to configure vlans (probably as a SVIs) in a following manner.</p>
+<h2>Workflow</h2>
+<p>Briefly, a typical workflow is as follows:</p>
+
+<ul>
+<li>Configure switch virtual interfaces (SVIs) on switches.
+</li>
+<li>Create VLAN networks with subnet pools and gateways.
+</li>
+<li>Start the Contiv processes <a name="netplugin"/><a href="#netplugin"><code>netplugin</code></a> and <code>netmaster</code>.
+</li>
+<li>Start containers in the networks created on the host.
+</li>
+<li>Verify the IP addresses.
+</li>
+<li>Verify routes.
+</li>
+<li>Verify connectivity between containers.
+</li>
+</ul>
+<p>These steps are detailed in the following sections.</p>
+
+<h3>Step 1: Configure the Switches</h3>
+<p>Configure VLANs (as SVIs) as follows:</p>
 <pre class="highlight plaintext"><code>interface Vlan10
   no shutdown
   ip address 10.1.1.1/24
@@ -317,14 +326,25 @@ interface Vlan12
 
 </code></pre>
 
-<h1>STEP 2: Create Network:</h1>
-<p>Need to create network with encap as Vlan and packet tag as VlandID and Start containers in Network.</p>
-<pre class="highlight plaintext"><code>netctl network create demo1-net1 -s 10.1.1.0/24 -g 10.1.1.1 --pkt-tag 10 --encap vlan
-netctl network create demo1-net2 -s 11.1.1.0/24 -g 11.1.1.1 --pkt-tag 11 --encap vlan
+<h3>Step 2: Create Networks</h3>
+<p>Create networks with <code>encap</code> type set to <code>vlan</code> and packet tags set to VLAN IDs.</p>
+<pre class="highlight plaintext"><code>netctl network create demo1-net0 -s 10.1.1.0/24 -g 10.1.1.1 --pkt-tag 10 --encap vlan
+netctl network create demo1-net1 -s 11.1.1.0/24 -g 11.1.1.1 --pkt-tag 11 --encap vlan
 netctl network create demo1-net2 -s 12.1.1.0/24 -g 12.1.1.1 --pkt-tag 12 --encap vlan
 </code></pre>
 
-<h1>STEP 3: Log in to containers and verify the IP address has been allocated from the network</h1>
+<h3>Step 3: Start the Contiv Processes</h3>
+<p>Start the Contiv processes:</p>
+<pre class="highlight plaintext"><code>netmaster
+netplugin
+</code></pre>
+
+<h3>Step 4: Start Containers in the Network</h3>
+<p>Start containers on the networks:</p>
+<pre class="highlight plaintext"><code>
+</code></pre>
+
+<h3>Step 5: Log in to containers and verify the IP address has been allocated from the network</h3>
 <pre class="highlight plaintext"><code>docker ps
 CONTAINER ID        IMAGE                          COMMAND             CREATED             STATUS              PORTS               NAMES
 049a85ec0c8c        alpine                         "sh"                7 minutes ago       Up 7 minutes                            contiv-demo-swarm-l2-4/desperate_bose
@@ -357,7 +377,8 @@ lo        Link encap:Local Loopback
           RX bytes:168 (168.0 B)  TX bytes:168 (168.0 B)
 </code></pre>
 
-<h1>STEP 4: Verify that switch has the container routes</h1>
+<h2>Step 6: Verify Routes</h2>
+<p>Verify that the switch has the container routes:</p>
 <pre class="highlight plaintext"><code>sh ip arp
 
 Flags: * - Adjacencies learnt on non-active FHRP router
@@ -373,8 +394,8 @@ Address         Age       MAC Address     Interface
 12.1.1.2        00:00:23  0202.0c01.0102  Vlan12    
 </code></pre>
 
-<h1>STEP 5: Ping between containers</h1>
-<p>From container having IP 11.1.1.2</p>
+<h2>Step 7: Verify Connectivity Between Containers</h2>
+<p>Log into a container and ping one of the other containers:</p>
 <pre class="highlight plaintext"><code>ping 10.1.1.2
 PING 10.1.1.2 (10.1.1.2): 56 data bytes
 64 bytes from 10.1.1.2: seq=0 ttl=63 time=2.909 ms
@@ -396,8 +417,8 @@ PING 11.1.1.2 (11.1.1.2): 56 data bytes
 round-trip min/avg/max = 0.756/1.020/1.181 ms
 </code></pre>
 
-<h1>Policy Support</h1>
-<p>For steps to apply policies supported in contiv networking. Please follow the steps in <a href="/documents/networking/policies.html">Contiv Policies</a></p>
+<h2>Policy Support</h2>
+<p>For information about applying policies in Contiv networking, see <a href="/documents/networking/policies.html">Contiv Policies</a>.</p>
 
 
 			</div>

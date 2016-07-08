@@ -170,7 +170,7 @@ GitHub</a></li>
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
 						<li>
-								<a href="/documents/networking/services.html">Service Routing</a>
+								<a href="/documents/networking/services.html">Service Loadbalancing</a>
 						</li>
 						<li>
 								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
@@ -279,12 +279,23 @@ GitHub</a></li>
 			<div class="bs-docs-section">
 				
 	<h1>Policies with Networking</h1>
-<p>This tutorial utilizes modified libcompose to apply network policies on an application composition.</p>
+<p>This tutorial uses a modified <em>libcompose</em> utility to apply network policies on a Docker application composition.</p>
 
-<h2>How to try it out</h2>
+<h2>Getting Started</h2>
+<p>The following steps describe how to set up a demo application and apply policies to it.</p>
 
-<h3>1. Get netplugin vagrant setup:</h3>
-<p>Bring up Contiv Vagrant setup as in <a href="https://github.com/contiv/netplugin/README.md">Step 1. Contiv Netplugin</a>.</p>
+<h3>Prerequisites</h3>
+<p>Before starting, install the following tools on your Linux or OS X machine:</p>
+
+<ul>
+<li>Make
+</li>
+<li>Git
+</li>
+</ul>
+
+<h3>Step 1: Start the Vagrant Environment</h3>
+<p>Use the following commands to start a Contiv Vagrant setup.</p>
 <pre class="highlight plaintext"><code>$ cd $HOME; mkdir -p deploy/src/github.com/contiv
 $ export GOPATH=$HOME/deploy
 $ cd deploy/src/github.com/contiv/
@@ -292,7 +303,7 @@ $ git clone https://github.com/contiv/netplugin
 $ cd netplugin; make demo
 </code></pre>
 
-<h3>2. Get libcompose and enter VM</h3>
+<h3>2. Get libcompose and Log into a VM</h3>
 <pre class="highlight plaintext"><code>$ mkdir -p $GOPATH/src/github.com/docker
 $ cd $GOPATH/src/github.com/docker
 $ git clone https://github.com/jainvipin/libcompose
@@ -300,28 +311,30 @@ $ cd $GOPATH/src/github.com/contiv/netplugin
 $ make ssh
 </code></pre>
 
-<h3>3. Inside the VM, compile libcompose</h3>
+<h3>3. Compile libcompose</h3>
+<p>While logged into the VM, do the following to compile <em>libcompose</em>:</p>
 <pre class="highlight plaintext"><code>$ cd $GOPATH/src/github.com/docker/libcompose
 $ git checkout deploy
 $ make binary
 $ ln -s $GOPATH/src/github.com/docker/libcompose/bundles/libcompose-cli /opt/gopath/bin/contiv-compose
 </code></pre>
 
-<h3>4. Build or Get container images</h3>
-<p>You can either build your own images or download prebuilt sample images needed. For if you choose to use the
-standard docker images, you can:</p>
+<h3>4. Build or Get Container Images</h3>
+<p>You can either build your own images or download pre-built standard Docker images.</p>
+<p>To build the images, use the following commands:</p>
 <pre class="highlight plaintext"><code>$ cd $GOPATH/src/github.com/docker/libcompose/deploy/example/app
 $ docker build -t web .
 </code></pre>
-<p>or</p>
+<p>To use the standard Docker images, do the following instead:</p>
 <pre class="highlight plaintext"><code>$ docker pull jainvipin/web
 $ docker tag -f web web
 </code></pre>
-<p>Similarly build the db image</p>
+<p>Next, build or download the database image.</p>
+<p>To build the database image:</p>
 <pre class="highlight plaintext"><code>$ cd $GOPATH/src/github.com/docker/libcompose/deploy/example/db
 $ docker build -t redis -f Dockerfile.redis .
 </code></pre>
-<p>or</p>
+<p>To download the database image:</p>
 <pre class="highlight plaintext"><code>$ docker pull jainvipin/redis
 $ docker tag -f redis redis
 </code></pre>
@@ -563,6 +576,7 @@ submitting a PR. It could be easily done by <a name="make_test_deploy"/><a href=
 you are good
 </li>
 </ul>
+<p>[Step 1. Contiv Netplugin]: &lt;&gt;</p>
 
 
 			</div>

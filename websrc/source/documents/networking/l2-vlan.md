@@ -6,31 +6,36 @@ description: |-
   Networking concepts
 ---
 
-##Contiv in L2 Mode
+# Contiv in L2 Mode
 
-This page contains the steps to use Contiv in L2 mode.
+This page describes how to use Contiv in L2 mode.
 
 ![L2](contiv-l2-mode.png)
 
-
-#Typical Workflow:
-
-- Bring up Contiv – netplugin and netmaster
-- Create a Vlan network with subnet pool and gateway
-- Configure SVIs on switches
-- Bring up containers in the networks created on the host
-
-#Supported Version:
+## Supported Version
+The version supported by Contiv is:
 
 ```
 Version: v0.1-02-06-2016.14-42-05.UTC
 GitCommit: 392e0a7
 BuildTime: 02-06-2016.14-42-05.UTC
 ```
+## Workflow
+Briefly, a typical workflow is as follows:
 
-#STEP 1: Configure Switches:
+- Configure switch virtual interfaces (SVIs) on switches.
+- Create VLAN networks with subnet pools and gateways.
+- Start the Contiv processes `netplugin` and `netmaster`.
+- Start containers in the networks created on the host.
+- Verify the IP addresses.
+- Verify routes.
+- Verify connectivity between containers.
 
-Need to configure vlans (probably as a SVIs) in a following manner.
+These steps are detailed in the following sections.
+
+### Step 1: Configure the Switches
+
+Configure VLANs (as SVIs) as follows:
 
 ```
 interface Vlan10
@@ -47,17 +52,32 @@ interface Vlan12
 
 ```
 
-#STEP 2: Create Network:
+###  Step 2: Create Networks
 
-Need to create network with encap as Vlan and packet tag as VlandID and Start containers in Network.
+Create networks with `encap` type set to `vlan` and packet tags set to VLAN IDs. 
 
 ```
-netctl network create demo1-net1 -s 10.1.1.0/24 -g 10.1.1.1 --pkt-tag 10 --encap vlan
-netctl network create demo1-net2 -s 11.1.1.0/24 -g 11.1.1.1 --pkt-tag 11 --encap vlan
+netctl network create demo1-net0 -s 10.1.1.0/24 -g 10.1.1.1 --pkt-tag 10 --encap vlan
+netctl network create demo1-net1 -s 11.1.1.0/24 -g 11.1.1.1 --pkt-tag 11 --encap vlan
 netctl network create demo1-net2 -s 12.1.1.0/24 -g 12.1.1.1 --pkt-tag 12 --encap vlan
 ```
 
-#STEP 3: Log in to containers and verify the IP address has been allocated from the network
+### Step 3: Start the Contiv Processes
+Start the Contiv processes:
+
+```
+netmaster
+netplugin
+```
+
+### Step 4: Start Containers in the Network
+Start containers on the networks:
+
+```
+
+```
+
+### Step 5: Log in to containers and verify the IP address has been allocated from the network
 ```
 docker ps
 CONTAINER ID        IMAGE                          COMMAND             CREATED             STATUS              PORTS               NAMES
@@ -92,7 +112,10 @@ lo        Link encap:Local Loopback
 ```
 
 
-#STEP 4: Verify that switch has the container routes
+## Step 6: Verify Routes
+
+Verify that the switch has the container routes:
+
 ```
 sh ip arp
 
@@ -109,9 +132,9 @@ Address         Age       MAC Address     Interface
 12.1.1.2        00:00:23  0202.0c01.0102  Vlan12    
 ```
 
-#STEP 5: Ping between containers
+## Step 7: Verify Connectivity Between Containers
 
-From container having IP 11.1.1.2
+Log into a container and ping one of the other containers:
 
 ```
 ping 10.1.1.2
@@ -137,8 +160,8 @@ PING 11.1.1.2 (11.1.1.2): 56 data bytes
 round-trip min/avg/max = 0.756/1.020/1.181 ms
 ```
 
-#Policy Support
-For steps to apply policies supported in contiv networking. Please follow the steps in [Contiv Policies]
+## Policy Support
+For information about applying policies in Contiv networking, see [Contiv Policies].
 
 
 [Contiv Policies]: </documents/networking/policies.html>

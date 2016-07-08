@@ -8,12 +8,19 @@ description: |-
 
 # Policies with Networking
 
-This tutorial utilizes modified libcompose to apply network policies on an application composition.
+This tutorial uses a modified *libcompose* utility to apply network policies on a Docker application composition.
 
-## How to try it out
+## Getting Started
+The following steps describe how to set up a demo application and apply policies to it.
 
-### 1. Get netplugin vagrant setup:
-Bring up Contiv Vagrant setup as in [Step 1. Contiv Netplugin](https://github.com/contiv/netplugin/README.md).
+### Prerequisites
+Before starting, install the following tools on your Linux or OS X machine:
+
+- Make
+- Git
+
+### Step 1: Start the Vagrant Environment
+Use the following commands to start a Contiv Vagrant setup.
 
 ```
 $ cd $HOME; mkdir -p deploy/src/github.com/contiv
@@ -23,7 +30,7 @@ $ git clone https://github.com/contiv/netplugin
 $ cd netplugin; make demo
 ```
 
-### 2. Get libcompose and enter VM
+### 2. Get libcompose and Log into a VM
 
 ```
 $ mkdir -p $GOPATH/src/github.com/docker
@@ -33,7 +40,8 @@ $ cd $GOPATH/src/github.com/contiv/netplugin
 $ make ssh
 ```
 
-### 3. Inside the VM, compile libcompose
+### 3. Compile libcompose
+While logged into the VM, do the following to compile *libcompose*:
 
 ```
 $ cd $GOPATH/src/github.com/docker/libcompose
@@ -42,29 +50,32 @@ $ make binary
 $ ln -s $GOPATH/src/github.com/docker/libcompose/bundles/libcompose-cli /opt/gopath/bin/contiv-compose
 ```
 
-### 4. Build or Get container images
+### 4. Build or Get Container Images
+You can either build your own images or download pre-built standard Docker images. 
 
-You can either build your own images or download prebuilt sample images needed. For if you choose to use the
-standard docker images, you can:
+To build the images, use the following commands:
 
 ```
 $ cd $GOPATH/src/github.com/docker/libcompose/deploy/example/app
 $ docker build -t web .
 ```
-or
+To use the standard Docker images, do the following instead:
 
 ```
 $ docker pull jainvipin/web
 $ docker tag -f web web
 ```
 
-Similarly build the db image
+Next, build or download the database image.
+
+To build the database image:
 
 ```
 $ cd $GOPATH/src/github.com/docker/libcompose/deploy/example/db
 $ docker build -t redis -f Dockerfile.redis .
 ```
-or
+
+To download the database image:
 
 ```
 $ docker pull jainvipin/redis
@@ -362,3 +373,5 @@ plugin to permit only authenticated users to specify certain operations
 - Hacking on contiv's libcompose version is welcome! Please make sure you run unit/sanity tests before
 submitting a PR. It could be easily done by `make test-deploy` and 'make test-unit` - if both succeed
 you are good
+
+[Step 1. Contiv Netplugin]: <>

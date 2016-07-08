@@ -27,7 +27,7 @@ A provider is one or more containers that match the label selector associated wi
 
 ## How is a Service Defined?
 
-Services are defined using the `netctl` command line interface (CLI) or the Contiv Network Rest APIs. 
+Services are defined using the `netctl` command line interface (CLI) or the Contiv Network REST APIs. 
 Services must be created in an existing service network, so you first create a service network, then attach 
 the service. Requirements for services are defined in the form of *selectors*. Selectors are key-value pairs 
 that group providers with matching labels. 

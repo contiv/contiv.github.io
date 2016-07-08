@@ -44,7 +44,7 @@ netplugin-node1$ netctl net create contiv-net --subnet=20.1.1.0/24 --gateway=20.
 Start a Docker container on the node you just logged into:
 
 ```
-netplugin-node1$ Docker run -itd --name=web --net=contiv-net ubuntu /bin/bash
+netplugin-node1$ docker run -itd --name=web --net=contiv-net ubuntu /bin/bash
 ```
 
 In another shell window, log into the second VM and start another Docker container:
