@@ -91,25 +91,16 @@ Configure Ceph with [Ansible](https://github.com/ceph/ceph-ansible).
 Upload a global configuration. You can find an example configuration 
 [here](https://raw.githubusercontent.com/contiv/volplugin/master/systemtests/testdata/globals/global1.json).
 
-<<<<<<< 9d54c4add2fffc94d1722449c8fbbb8bdc9fe0b5
-5. Start apiserver (as root):
-=======
 5\. Start the Master Process
 Log in as root, then start the `volmaster` process :
->>>>>>>     Website documentation edits, round 2:
 
 ```
 apiserver &
 ```
 
-<<<<<<< 9d54c4add2fffc94d1722449c8fbbb8bdc9fe0b5
-**Note**: apiserver debug mode is very noisy and is not recommended for
-production use. Therefore, avoid using it with background processes. 
-=======
 *Note*: `volmaster` debug mode produces a lot of output and is not recommended for
 production use. Therefore, avoid using it with background processes. The `volplugin`
 process connects to `volmaster` using port 9005.
->>>>>>>     Website documentation edits, round 2:
 
 6\. Start the Supervisor Process
 Log in as root, then start `volsupervisor`:
