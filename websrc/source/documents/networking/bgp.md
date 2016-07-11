@@ -6,40 +6,19 @@ description: |-
   Physical network integration
 ---
 
-#Contiv in L3 mode
+# Contiv in L3 Mode
 
-This page contains the steps to use Contiv in L3 mode. Please follow the steps mentioned [here](/documents/gettingStarted/networking/bgp.html) for setup & installation process.
+This page describes how to use Contiv in L3 mode. 
 
-![bgp](bgp_arch.png)
+In a Contiv container infrastructure, L3 capability enables the following:
 
+-  Communication between containers on different hosts natively using VLAN encapsulation.
+-  Communication between containers and non-containers.
+-  Uplink TORs and leaf switches route to containers deployed in the fabric.
 
-#What does L3 capabilty facilitate in a Contiv container infrastructure ?
+## Prerequisites
 
--  Enable communication between containers on different hosts natively using vlan encap
--  Enables communication between containers and non containers
--  Provides capability for uplink TOR's/Leaf switches to learn containers deployed in the fabric
-
-#What are the recommended topologies ?
-
-![topo](bgp_topology.png)
-
-
-#Typical worklow:
-- Configure Bgp on the Leaf switches Leaf 1 and Leaf 2
-- Bring up Contiv – netplugin and netmaster
-- Create a Vlan network with subnet pool and gateway
-- Add Bgp configuration on the host, to peer with the uplink leaf
-- Bring up containers in the networks created on the host
-
-#What are the supported configurations
-
-- Ensure that BGP peering between the host server and the leaf switch is eBGP
-- Currently only one uplink from the server is supported
-- Currently supported on bare-metals (watch this space for support on VMs soon)
-
-#Supported version
-
-This document would be applicable starting from the following version:
+Contiv can be used in L3 mode with this build and later:
 
 ```
 Version: v0.1-02-06-2016.14-42-05.UTC
@@ -47,13 +26,34 @@ GitCommit: 392e0a7
 BuildTime: 02-06-2016.14-42-05.UTC
 ```
 
+The following configuration details are required to use Contiv in L3 mode:
 
-##STEP 1 : Configure the Switches to run BGP
+- Peering between the host server and the leaf switch is eBGP peering.
+- Only one uplink from the server is supported.
+- Only bare-metal nodes are supported.
 
-If you are using the sample topology provided above , the following sample configuration could be used.
+Start the Contiv processes `netplugin` on all hosts and `netmaster` on one host.
 
+See instructions [here](/documents/gettingStarted/networking/bgp.html) for a setup and installation process.
 
-###Switch1:
+## Recommended Topologies
+
+![topo](/assets/images/bgp_topology.png)
+
+## Typical Workflow:
+- Configure BGP on the leaf switches Leaf 1 and Leaf 2
+- Add BGP configuration on the host, to peer with the uplink leaf
+- Create a VLAN network with subnet pool and gateway
+- Start containers in the networks created on the host
+
+### Step 1 : Configure the Switches to run BGP
+
+![bgp](/assets/images/bgp_arch.png)
+
+The following sample configuration corresponds to the topology shown in the figure:
+
+#### Switch1
+
 ```
 router ospf 500
   router-id 80.1.1.1
@@ -90,7 +90,7 @@ ip access-list HOSTS
   10 permit ip any any
 ```
 
-###Switch 2:
+#### Switch 2
 
 ```
 feature ospf
@@ -132,31 +132,40 @@ ip access-list HOSTS
 
 ```
 
-##STEP 2: Add the bgp neighbor on each of the contiv hosts
+### Step 2: Add the BGP Neighbor on Each of the Contiv Hosts
 
-On the host where netmaster is running :
+On the host where netmaster is running:
+
 ```
 $netctl bgp create Contiv1 -router-ip="50.1.1.1/24" --as="65002" --neighbor-as="500" --neighbor="50.1.1.2"
 $netctl bgp create Contiv2 -router-ip="60.1.1.3/24" --as="65002" --neighbor-as="500" --neighbor="60.1.1.4"
 ```
 where Contiv1 and Contiv2 are the hostnames of the servers shown in the topology.
 
-##STEP 3: Create a network with encap as vlan and start containers in the network
+### Step 3: Create Networks
+Create a network with VLAN encapsulation and start containers in the network:
 
-On the host where netmaster is running :
+On the host where netmaster is running:
+
 ```
 $netctl network create public --encap="vlan" --subnet=192.168.1.0/24 --gateway=192.168.1.254
 ```
+
 On Contiv1 :
+
 ```
 $docker run -itd --name=web1 --net=public alpine sh
 ```
+
 On Contiv2 :
+
 ```
 docker run -itd --name=web2 --net=public alpine sh
 ```
 
-##STEP 4: Login to continer and verify the ip address has been allocated from the network.
+### Step 4: Verify IP Allocation, Routes, and Connectivity
+
+Log in to the containers and verify the IP address has been allocated from the network.
 
 ```
 $docker ps -a
@@ -186,7 +195,7 @@ lo        Link encap:Local Loopback
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 ```
 
-##STEP 6: Verify that the switches have the container routes
+Verify that the switches have the container routes:
 
 ```
 Switch-1# show ip route
@@ -216,7 +225,7 @@ IP Route Table for VRF "default"
     *via 50.1.1.1, [20/0], 03:47:08, bgp-500, external, tag 65002
 ```
 
-##STEP 5: Ping between the containers
+Ping between the containers:
 
 ```
 $root@084f47e72101:/# ping 192.168.1.2
@@ -229,7 +238,7 @@ PING 192.168.1.2 (192.168.1.2) 56(84) bytes of data.
 
 ```
 
-##STEP 6: Ping between container and a switch
+Ping between container and a switch:
 
 ```
 $root@084f47e72101:/# ping 80.1.1.2

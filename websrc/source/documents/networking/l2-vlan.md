@@ -10,26 +10,26 @@ description: |-
 
 This page describes how to use Contiv in L2 mode.
 
-![L2](contiv-l2-mode.png)
+![L2](/assets/images/contiv-l2-mode.png)
 
-## Supported Version
-The version supported by Contiv is:
+## Prerequisites
+To use Contiv in L2 mode, you must be using this build or later of Contiv Network:
 
 ```
 Version: v0.1-02-06-2016.14-42-05.UTC
 GitCommit: 392e0a7
 BuildTime: 02-06-2016.14-42-05.UTC
 ```
+
+Start the Contiv processes `netplugin` and `netmaster` on the host.
+
 ## Workflow
 Briefly, a typical workflow is as follows:
 
 - Configure switch virtual interfaces (SVIs) on switches.
 - Create VLAN networks with subnet pools and gateways.
-- Start the Contiv processes `netplugin` and `netmaster`.
 - Start containers in the networks created on the host.
-- Verify the IP addresses.
-- Verify routes.
-- Verify connectivity between containers.
+- Verify the IP addresses, routes, and connectivity between containers.
 
 These steps are detailed in the following sections.
 
@@ -54,7 +54,7 @@ interface Vlan12
 
 ###  Step 2: Create Networks
 
-Create networks with `encap` type set to `vlan` and packet tags set to VLAN IDs. 
+Create networks with `encap` type set to `vlan` and packet tags set to VLAN IDs:
 
 ```
 netctl network create demo1-net0 -s 10.1.1.0/24 -g 10.1.1.1 --pkt-tag 10 --encap vlan
@@ -62,22 +62,19 @@ netctl network create demo1-net1 -s 11.1.1.0/24 -g 11.1.1.1 --pkt-tag 11 --encap
 netctl network create demo1-net2 -s 12.1.1.0/24 -g 12.1.1.1 --pkt-tag 12 --encap vlan
 ```
 
-### Step 3: Start the Contiv Processes
-Start the Contiv processes:
-
-```
-netmaster
-netplugin
-```
-
-### Step 4: Start Containers in the Network
+### Step 3: Start Containers in the Network
 Start containers on the networks:
 
 ```
-
+docker run -itd  --net demo1-net0 alpine sh
+docker run -itd  --net demo1-net1 alpine sh
+docker run -itd  --net demo1-net2 alpine sh
 ```
 
-### Step 5: Log in to containers and verify the IP address has been allocated from the network
+### Step 4: Verify the Networking and Containers
+
+Log in to containers and verify the IP address has been allocated from the network:
+
 ```
 docker ps
 CONTAINER ID        IMAGE                          COMMAND             CREATED             STATUS              PORTS               NAMES
@@ -111,9 +108,6 @@ lo        Link encap:Local Loopback
           RX bytes:168 (168.0 B)  TX bytes:168 (168.0 B)
 ```
 
-
-## Step 6: Verify Routes
-
 Verify that the switch has the container routes:
 
 ```
@@ -132,12 +126,11 @@ Address         Age       MAC Address     Interface
 12.1.1.2        00:00:23  0202.0c01.0102  Vlan12    
 ```
 
-## Step 7: Verify Connectivity Between Containers
-
-Log into a container and ping one of the other containers:
+Log into a container and ping the other containers:
 
 ```
-ping 10.1.1.2
+docker exec -it 049a85ec0c8c sh
+/ # ping 10.1.1.2
 PING 10.1.1.2 (10.1.1.2): 56 data bytes
 64 bytes from 10.1.1.2: seq=0 ttl=63 time=2.909 ms
 64 bytes from 10.1.1.2: seq=1 ttl=63 time=0.833 ms
@@ -145,11 +138,7 @@ PING 10.1.1.2 (10.1.1.2): 56 data bytes
 --- 10.1.1.2 ping statistics ---
 2 packets transmitted, 2 packets received, 0% packet loss
 round-trip min/avg/max = 0.833/1.871/2.909 ms
-```
-From container having IP 10.1.1.2
-
-```
-ping 11.1.1.2
+/ # ping 11.1.1.2
 PING 11.1.1.2 (11.1.1.2): 56 data bytes
 64 bytes from 11.1.1.2: seq=0 ttl=63 time=1.123 ms
 64 bytes from 11.1.1.2: seq=1 ttl=63 time=0.756 ms
@@ -162,6 +151,5 @@ round-trip min/avg/max = 0.756/1.020/1.181 ms
 
 ## Policy Support
 For information about applying policies in Contiv networking, see [Contiv Policies].
-
 
 [Contiv Policies]: </documents/networking/policies.html>

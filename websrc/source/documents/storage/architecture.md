@@ -6,52 +6,53 @@ description: |-
   Storage
 ---
 
-## Architecture
+# Architecture
 
-"volplugin", despite the name, is actually a suite of components:
+Contiv Storage consists of a suite of four components:
 
-`apiserver` is the api service process. It exists to give `volcli` a way to
-coordinate with the cluster at large.  It talks to `etcd` to keep its state.
+The `volplugin` process is a plugin process that manages the lifecycle of volume mounts on
+specific hosts and local create, read, update delete (CRUD) operations and runtime parameter
+management. 
 
-`volplugin` is the plugin process. It manages the lifecycle of mounts on
-specific hosts, and manages the local operations for CRUD and runtime parameter
-management.
+The `apiserver` process is the API service. It exists to give `volcli` a way to
+coordinate with the cluster at large.  It store state with the `etcd` service.
 
-`volcli` is a utility for managing `apiserver`'s data. It makes both REST calls
-into the apiserver and additionally can write directly to etcd.
+The `volcli` utility manages the `apiserver`'s data. It both makes REST calls
+into `apiserver` and additionally can write directly to etcd.
 
-### Organizational Architecture
+The `volsupervisor` service handles scheduled and supervised tasks such as snapshotting. 
 
-`apiserver` will need to be contacted by volcli and lives anywhere it can reach etcd.
+## Organizational Architecture
 
-`volsupervisor` handles scheduled and supervised tasks such as snapshotting. It
-may only be deployed on one host at a time.
+The `apiserver` process can be installed anywhere it is able to contact `etcd`, 
+and must be reachable by `volcli`.
 
-`volplugin` needs to run on every host that will be running containers. Upon
-start, it will create a unix socket in the appropriate plugin path so that
-docker recognizes it. This creates a driver named `volplugin`.
+The `volsupervisor` service must only be deployed on one host at a time.
 
-`volcli` is a management tool and can live anywhere that has access to the etcd
-cluster and apiserver.
+The `volplugin` component must run on every host that runs containers. On
+startup, it creates a UNIX socket in the appropriate plugin path so that
+Docker recognizes it. This creates a driver named `volplugin`.
 
-### Security Architecture
+The `volcli` utility is a management tool and can be run anywhere that has access to 
+the `etcd` cluster and `apiserver`.
+
+## Security Architecture
 
 There is none currently. This is still an alpha, security will be a beta
 target.
 
-### Network Architecture
+## Network Architecture
 
-`apiserver`, by default, listens on `0.0.0.0:9005`. It provides a REST
-interface to each of its operations that are used both by `volplugin` and
-`volcli`. It connects to etcd at `127.0.0.1:2379`, which you can change by
-supplying `--etcd` one or more times.
+The `apiserver`, by default, listens on `0.0.0.0:9005`. It provides a REST
+interface used both by `volplugin` and `volcli`. It connects to `etcd` at `127.0.0.1:2379`.
+You can change the `etcd` address and port by supplying `--etcd` one or more times.
 
-`volsupervisor` needs root, connections to etcd, and access to ceph `rbd` tools
-as admin.
+The `volsupervisor` service needs root access, a connection to `etcd`, and access to 
+ceph `rbd` tools as *admin*.
 
-`volplugin` listens on no network ports (it uses a unix socket as described
-above, to talk to docker). It connects to etcd at `127.0.0.1:2379`, which you
-can change by supplying `--etcd` one or more times.
+The `volplugin` component listens on no network ports (it uses a UNIX socket, as described
+above, to connect to Docker). It connects to `etcd` at `127.0.0.1:2379`. You can
+can change the `etcd` address and port by supplying `--etcd` one or more times.
 
-`volcli` talks to both `apiserver` and `etcd` to communicate various state and
+The `volcli` utility connects to `apiserver` and `etcd` to communicate various state and
 operations to the system.
