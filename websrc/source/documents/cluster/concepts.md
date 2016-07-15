@@ -69,7 +69,7 @@ A physical or virtual server with defined compute, memory, storage and networkin
 ## Features
 The following sections detail the *cluster management* features listed in the [Features](#features) 
 definition. The Contiv Cluster GitHub repository contains a 
-[Design Guide](https://github.com/contiv/cluster/management/DESIGN.md) 
+[Design Guide]
 that describes technical details of Contiv Cluster features.
 
 <a name="inventory"></a>
@@ -130,9 +130,9 @@ Cluster bootstrap installs and configures clustering software components such as
 (for Docker Swarm) to the first bootstrapped node with parameters such as:
 
 - Configuration management parameters such as user information, configuration repository.
-- Inventory management parameters such as database url.
+- Inventory management parameters such as database URL.
 
-<a name="lifecycle-1></a>
+<a name="lifecycle-1"></a>
 ### Lifecycle
 Lifecycle management integrates multiple cluster and node management tasks at a
 central location to simplify monitoring and administration of the cluster.
@@ -158,3 +158,5 @@ Cluster lifecycle management provides:
 - *Bootstrap*: Remotely bootstrap a cluster.
 - *High Availability*: The cluster manager service is available as long as at least one node is running
 in the cluster.
+
+[Design Guide]: <https://github.com/contiv/cluster/blob/master/management/DESIGN.md>

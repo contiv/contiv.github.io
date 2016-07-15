@@ -9,7 +9,7 @@ description: |-
 
 # Node Lifecycle Management
 
-To set up a cluster with baremetal or VM hosts see [this link](/documents/gettingStarted/cluster/baremetal.html). To configure cluster management after setup, start with Step 3 below.
+To set up a cluster with baremetal or VM hosts see [Installing Contiv Cluster on a Baremetal Server or VM](/documents/gettingStarted/cluster/baremetal.html). To configure cluster management after setup, start with Step 3 below.
 
 To set up Contiv Cluster on a development machine using Vagrant, follow all the steps below.
 
@@ -98,7 +98,7 @@ See the `service-master` and `service-worker` host groups in [ansible/site.yml](
 clusterctl node commission node1 --extra-vars='{"env" : {}, "control_interface": "eth1", "netplugin_if": "eth2" }' --host-group "service-master"
 ```
 
-You can eliminate the need to set global variables with every commission command by setting global variables (such as environment) using [global variables](#setget_global_variables). 
+You can eliminate the need to set global variables with every commission command by directly setting [global level variables].
 
 #### Decommission a Node
 Decommissioning a node stops infra services and removes the configuration from the node using `ansible` based configuration management.
