@@ -34,6 +34,9 @@ description: |-
 ### Contiv Layer 3 Network Integration
 <iframe width="600" height="400" src="https://www.youtube.com/embed/FrA1szyp9jc" frameborder="0" allowfullscreen></iframe>
 
+### Contiv Bandwidth Policy Demonstration
+<iframe width="600" height="400" src="https://www.youtube.com/embed/25OZHQ_t3nY" frameborder="0" allowfullscreen></iframe>
+
 ## Cluster
 
 ### Cluster Demo Video
