@@ -279,7 +279,7 @@ GitHub</a></li>
 			<div class="bs-docs-section">
 				
 	<h1>Node Lifecycle Management</h1>
-<p>To set up a cluster with baremetal or VM hosts see <a href="/documents/gettingStarted/cluster/baremetal.html">this link</a>. To configure cluster management after setup, start with Step 3 below.</p>
+<p>To set up a cluster with baremetal or VM hosts see <a href="/documents/gettingStarted/cluster/baremetal.html">Installing Contiv Cluster on a Baremetal Server or VM</a>. To configure cluster management after setup, start with Step 3 below.</p>
 <p>To set up Contiv Cluster on a development machine using Vagrant, follow all the steps below.</p>
 
 <h3>Prerequisites</h3>
@@ -349,7 +349,7 @@ Specify these variables in one of two ways:</p>
 <p><em>Note</em>: Some Ansible variables must be set to provision a node. See the list of mandatory variables, as well as other useful variables, in the discussion of <a href="https://github.com/contiv/cluster/blob/master/management/ansible_vars.md">Ansible Variables</a> in the Contiv Cluster GitHub repository. The variables must be passed as a quoted JSON string in the node commission command using the <code>--extra-vars</code> flag:</p>
 <pre class="highlight plaintext"><code>clusterctl node commission node1 --extra-vars='{"env" : {}, "control_interface": "eth1", "netplugin_if": "eth2" }' --host-group "service-master"
 </code></pre>
-<p>You can eliminate the need to set global variables with every commission command by setting global variables (such as environment) using <a href="#setget_global_variables">global variables</a>.</p>
+<p>You can eliminate the need to set global variables with every commission command by directly setting <a href="#setget_global_vars">global level variables</a>.</p>
 
 <h4>Decommission a Node</h4>
 <p>Decommissioning a node stops infra services and removes the configuration from the node using <code>ansible</code> based configuration management.</p>
