@@ -204,7 +204,7 @@ GitHub</a></li>
 								<a href="/documents/storage/configuration.html">Configuration</a>
 						</li>
 						<li>
-								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+								<a href="/documents/storage/containers.html">Creating a Container with a Volume</a>
 						</li>
 						<li>
 								<a href="/documents/storage/volcli.html">Volcli Reference</a>
@@ -278,27 +278,29 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h2>IPv6 in netplugin</h2>
-<p>The current implementation supports dual stack with IPv4 and IPv6 interfaces for containers, as Docker Swarm APIs do not support IPv6-only containers.</p>
+	<h1>IPv6 in Contiv Network</h1>
+<p>Contiv Network supports a dual stack with IPv4 and IPv6 interfaces for containers. Docker Swarm APIs do not support IPv6-only containers.</p>
 
-<h2>Configuring IPv6 network</h2>
-<p>When configuring a network, you can specify an optional IPv6 subnet pool to allocate IPv6 address for the containers.</p>
+<h2>Configuring an IPv6 Network</h2>
+<p>When configuring a network, you can specify an optional IPv6 subnet pool to allocate IPv6 address for the containers:</p>
 <pre class="highlight plaintext"><code>$ netctl net create contiv-net --subnet=20.1.1.0/24 --subnetv6=2001::/100
 </code></pre>
 
-<h2>Running containers in IPv6 network</h2>
-<p>Container &#39;web&#39; in Node1</p>
+<h2>Running Containers in an IPv6 Network</h2>
+<p>You run containers in an IPv6 network by assigning them to the named network.</p>
+<p>Consider two containers.</p>
+<p>First, a container &#39;web&#39; in Node1:</p>
 <pre class="highlight plaintext"><code>[vagrant@netplugin-node1 ~]$ docker run -itd  --net contiv-net --name web alpine sh
 f0b75b2ccf9a7c71d138f74d8092d8535357ebc61feb963f740f1ba593afbc01
 
 </code></pre>
-<p>Container &#39;db&#39; in Node2</p>
+<p>Second, a container &#39;db&#39; in Node2:</p>
 <pre class="highlight plaintext"><code>[vagrant@netplugin-node2 ~]$ docker run -itd  --net contiv-net --name db alpine sh
 5ed67c19041dd64c983bab7a21ca3a1ad7e85a6ee981b4140b32068bae6d6e26
 </code></pre>
 
-<h2>IP Address allocation</h2>
-<p>The containers created will get IPv4 and IPv6 address allocated from the corresponding subnet range.</p>
+<h2>IP Address Allocation</h2>
+<p>The containers are allocated IPv4 and IPv6 address from the corresponding subnet range:</p>
 <pre class="highlight plaintext"><code>[vagrant@netplugin-node1 ~]$ docker network inspect contiv-net
 [
     {
@@ -340,8 +342,9 @@ f0b75b2ccf9a7c71d138f74d8092d8535357ebc61feb963f740f1ba593afbc01
 ]
 </code></pre>
 
-<h2>Container IPv6 interface</h2>
-<p>Container &#39;web&#39; in Node1</p>
+<h2>Container IPv6 Interface</h2>
+<p>Logging into the two containers shows the following:</p>
+<p>Container &#39;web&#39; in Node1:</p>
 <pre class="highlight plaintext"><code>[vagrant@netplugin-node1 ~]$ docker exec -it web /bin/sh
 / # ip addr show dev eth0
 13: eth0@if12: &lt;BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN&gt; mtu 1450 qdisc noqueue state UP
@@ -354,7 +357,7 @@ f0b75b2ccf9a7c71d138f74d8092d8535357ebc61feb963f740f1ba593afbc01
        valid_lft forever preferred_lft forever
 / #
 </code></pre>
-<p>Container &#39;db&#39; in Node2</p>
+<p>Container &#39;db&#39; in Node2:</p>
 <pre class="highlight plaintext"><code>[vagrant@netplugin-node2 ~]$ docker exec -it db /bin/sh
 / # ip addr show dev eth0
 9: eth0@if8: &lt;BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN&gt; mtu 1450 qdisc noqueue state UP
@@ -368,7 +371,8 @@ f0b75b2ccf9a7c71d138f74d8092d8535357ebc61feb963f740f1ba593afbc01
 / #
 </code></pre>
 
-<h2>Ping6 between containers</h2>
+<h2>Ping6 Between Containers</h2>
+<p>The following output shows the ability to ping a container&#39;s IPv6 address:</p>
 <pre class="highlight plaintext"><code>[vagrant@netplugin-node1 ~]$ docker exec -it web /bin/sh
 / # ping6 2001::4 -I 2001::3 -c 3
 PING 2001::4 (2001::4) from 2001::3: 56 data bytes

@@ -204,7 +204,7 @@ GitHub</a></li>
 								<a href="/documents/storage/configuration.html">Configuration</a>
 						</li>
 						<li>
-								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+								<a href="/documents/storage/containers.html">Creating a Container with a Volume</a>
 						</li>
 						<li class="active">
 								<a href="/documents/storage/volcli.html">Volcli Reference</a>
@@ -278,12 +278,12 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h2>volcli Reference</h2>
-<p><code>volcli</code> controls the <code>apiserver</code>, which in turn is referenced by the
-<code>volplugin</code> for local management of storage. Think of volcli as a tap into the
-control plane.</p>
+	<h1>Contiv Storage Command Reference</h1>
+<p>The <code>volcli</code> command invokes API calls on  the <code>apiserver</code> service, which in turn 
+is referenced by the <code>volplugin</code> component for local management of storage. 
+Think of <code>volcli</code> as a tap into the control plane.</p>
 
-<h3>Top-Level Commands</h3>
+<h2>Top-Level Commands</h2>
 <p>These commands present CRUD options on their respective sub-sections:</p>
 
 <ul>
@@ -295,19 +295,19 @@ control plane.</p>
 </li>
 <li><a name="volcli_mount"/><a href="#volcli_mount"><code>volcli mount</code></a> manipulates mounts.
 </li>
-<li><code>volcli help</code> prints the help.
+<li><code>volcli help</code> prints the help messages.
 
 <ul>
-<li>Note that for each subcommand, <a name="volcli_help_subcommand_"/><a href="#volcli_help_subcommand_"><code>volcli help [subcommand]</code></a> will print the
-help for that command. For multi-level commands, <code>volcli [subcommand] help
-[subcommand]</code> will work. Appending <code>--help</code> to any command will print the
+<li>For each subcommand, <a name="volcli_help_subcommand_"/><a href="#volcli_help_subcommand_"><code>volcli help [subcommand]</code></a> prints the help message
+for [subcommand]. For multi-level commands, <code>volcli [subcommand] help
+[subcommand]</code> provides appropriate help. Appending <code>--help</code> to any command prints the
 help as well.
 </li>
 </ul>
 </li>
 </ul>
 
-<h3>Global Commands</h3>
+<h2>Global Commands</h2>
 
 <ul>
 <li><a name="volcli_global_upload"/><a href="#volcli_global_upload"><code>volcli global upload</code></a> takes JSON global configuration from the standard input.
@@ -316,52 +316,51 @@ help as well.
 </li>
 </ul>
 
-<h3>Tenant Commands</h3>
-<p>Typing <code>volcli policy</code> without arguments will print help for these commands.</p>
+<h2>Tenant Commands</h2>
+<p>Typing <code>volcli policy</code> without arguments prints help for these commands.</p>
 
 <ul>
-<li><a name="volcli_policy_upload"/><a href="#volcli_policy_upload"><code>volcli policy upload</code></a> takes a policy name, and JSON configuration from standard input.
+<li><a name="volcli_policy_upload"/><a href="#volcli_policy_upload"><code>volcli policy upload</code></a> takes a policy name and JSON configuration from standard input.
 </li>
-<li><a name="volcli_policy_delete"/><a href="#volcli_policy_delete"><code>volcli policy delete</code></a> removes a policy. Its volumes and mounts will not be removed.
+<li><a name="volcli_policy_delete"/><a href="#volcli_policy_delete"><code>volcli policy delete</code></a> removes a policy. The policy&#39;s volumes and mounts are not removed.
 </li>
 <li><a name="volcli_policy_get"/><a href="#volcli_policy_get"><code>volcli policy get</code></a> displays the JSON configuration for a policy.
 </li>
-<li><a name="volcli_policy_list"/><a href="#volcli_policy_list"><code>volcli policy list</code></a> lists the policies etcd knows about.
+<li><a name="volcli_policy_list"/><a href="#volcli_policy_list"><code>volcli policy list</code></a> lists the policies contained in etcd.
 </li>
 </ul>
 
-<h3>Volume Commands</h3>
-<p>Typing <code>volcli volume</code> without arguments will print help for these commands.</p>
+<h2>Volume Commands</h2>
+<p>Typing <code>volcli volume</code> without arguments prints help for these commands.</p>
 
 <ul>
-<li><a name="volcli_volume_create"/><a href="#volcli_volume_create"><code>volcli volume create</code></a> will forcefully create a volume just like it was created with
-<code>docker volume create</code>. Requires a policy, and volume name.
+<li><a name="volcli_volume_create"/><a href="#volcli_volume_create"><code>volcli volume create</code></a> forcefully creates a volume just as if it were created with
+<code>docker volume create</code>. Requires a policy and volume name.
 </li>
-<li><a name="volcli_volume_get"/><a href="#volcli_volume_get"><code>volcli volume get</code></a> will retrieve the volume configuration for a given policy/volume combination.
+<li><a name="volcli_volume_get"/><a href="#volcli_volume_get"><code>volcli volume get</code></a> retrieves the volume configuration for a given policy/volume combination.
 </li>
-<li><a name="volcli_volume_list"/><a href="#volcli_volume_list"><code>volcli volume list</code></a> will list all the volumes for a provided policy.
+<li><a name="volcli_volume_list"/><a href="#volcli_volume_list"><code>volcli volume list</code></a> lists all the volumes for a provided policy.
 </li>
-<li><a name="volcli_volume_list_all"/><a href="#volcli_volume_list_all"><code>volcli volume list-all</code></a> will list all volumes, across policies.
+<li><a name="volcli_volume_list_all"/><a href="#volcli_volume_list_all"><code>volcli volume list-all</code></a> lists all volumes, across policies.
 </li>
-<li><a name="volcli_volume_remove"/><a href="#volcli_volume_remove"><code>volcli volume remove</code></a> will remove a volume given a policy/volume
+<li><a name="volcli_volume_remove"/><a href="#volcli_volume_remove"><code>volcli volume remove</code></a> removes a volume given a policy/volume
 combination, deleting the underlying data.  This operation may fail if the
 device is mounted, or expected to be mounted.
 </li>
-<li><a name="volcli_volume_force_remove"/><a href="#volcli_volume_force_remove"><code>volcli volume force-remove</code></a>, given a policy/volume combination, will remove
-the data from etcd but not perform any other operations. Use this option with
+<li><a name="volcli_volume_force_remove"/><a href="#volcli_volume_force_remove"><code>volcli volume force-remove</code></a>, given a policy/volume combination, removes
+the data from etcd but does not perform any other operations. Use this option with
 caution.
 </li>
-<li><a name="volcli_volume_runtime_get"/><a href="#volcli_volume_runtime_get"><code>volcli volume runtime get</code></a> will retrieve the runtime policy for a given volume
+<li><a name="volcli_volume_runtime_get"/><a href="#volcli_volume_runtime_get"><code>volcli volume runtime get</code></a> retrieves the runtime policy for a given volume.
 </li>
-<li><a name="volcli_volume_runtime_upload"/><a href="#volcli_volume_runtime_upload"><code>volcli volume runtime upload</code></a> will upload (via stdin) the runtime policy for a given volume
+<li><a name="volcli_volume_runtime_upload"/><a href="#volcli_volume_runtime_upload"><code>volcli volume runtime upload</code></a> uploads (via stdin) the runtime policy for a given volume.
 </li>
 </ul>
 
-<h3>Mount Commands</h3>
-<p>Typing <code>volcli mount</code> without arguments will print help for these commands.</p>
-<p><strong>Note:</strong> <code>volcli mount</code> cannot control mounts -- this is managed by
-<code>volplugin</code> which lives on each host. Eventually there will be support for
-pushing operations down to the volplugin, but not yet.</p>
+<h2>Mount Commands</h2>
+<p>Typing <code>volcli mount</code> without arguments prints help for these commands.</p>
+<p><em>Note:</em> <code>volcli mount</code> cannot control mounts - this is managed by
+<code>volplugin</code> which runs on each host.</p>
 
 <ul>
 <li><a name="volcli_mount_list"/><a href="#volcli_mount_list"><code>volcli mount list</code></a> lists all known mounts in etcd.
@@ -370,24 +369,24 @@ pushing operations down to the volplugin, but not yet.</p>
 </li>
 <li><a name="volcli_mount_force_remove"/><a href="#volcli_mount_force_remove"><code>volcli mount force-remove</code></a> removes the contents from etcd, but does not
 attempt to perform any unmounting. This is useful for removing mounts that
-for some reason (e.g., host failure, which is not currently satsified by
-volplugin)
+fail for some reason (e.g., host failure, which is not currently satsified by
+volplugin).
 </li>
 </ul>
 
-<h3>Use Commands</h3>
+<h2>Use Commands</h2>
 <p>Use commands control the locking system and also provide information about what
 is being used by what. Use these commands with caution as they can affect the
 stability of the cluster if used improperly.</p>
 
 <ul>
-<li><a name="volcli_use_list"/><a href="#volcli_use_list"><code>volcli use list</code></a> will list all uses (mounts, snapshots) in effect.
+<li><a name="volcli_use_list"/><a href="#volcli_use_list"><code>volcli use list</code></a> lists all uses (mounts, snapshots) in effect.
 </li>
-<li><a name="volcli_use_get"/><a href="#volcli_use_get"><code>volcli use get</code></a> will get information on a specific use lock.
+<li><a name="volcli_use_get"/><a href="#volcli_use_get"><code>volcli use get</code></a> gets information on a specific use lock.
 </li>
-<li><a name="volcli_use_force_remove"/><a href="#volcli_use_force_remove"><code>volcli use force-remove</code></a> will force a lock open for a given volume.
+<li><a name="volcli_use_force_remove"/><a href="#volcli_use_force_remove"><code>volcli use force-remove</code></a> forces a lock open for a given volume.
 </li>
-<li><a name="volcli_use_exec"/><a href="#volcli_use_exec"><code>volcli use exec</code></a> will wait for a lock to free, then execute hte command.
+<li><a name="volcli_use_exec"/><a href="#volcli_use_exec"><code>volcli use exec</code></a> waits for a lock to free, then executes the supplied command.
 </li>
 </ul>
 

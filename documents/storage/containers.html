@@ -204,7 +204,7 @@ GitHub</a></li>
 								<a href="/documents/storage/configuration.html">Configuration</a>
 						</li>
 						<li class="active">
-								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+								<a href="/documents/storage/containers.html">Creating a Container with a Volume</a>
 						</li>
 						<li>
 								<a href="/documents/storage/volcli.html">Volcli Reference</a>
@@ -278,39 +278,24 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h3>Creating a container with a volume</h3>
-<p>Create a volume that refers to the volplugin driver:</p>
+	<h3>Creating a Container with a Volume</h3>
+<p>To create a container with a volume, create a volume that refers to the <code>volplugin</code> driver:</p>
 <pre class="highlight plaintext"><code>docker volume create -d volplugin --name policy1/test
 </code></pre>
-<p><strong>Notes</strong>:</p>
-
-<ul>
-<li><a name="test"/><a href="#test"><code>test</code></a> is the name of the volume, and is located under policy <code>policy1</code>,
-which is uploaded with <code>volcli policy upload.</code>
-</li>
-<li>The volume will inherit the properties of the policy. Therefore, the
-volume will be of appropriate size, iops, etc.
-</li>
-<li>There are numerous options (see below) to declare overrides of most parameters in the policy configuration.
-</li>
-<li>Run a container that uses the policy:
-</li>
-</ul>
+<p>Note the following:</p>
+<p>The name of the volume is <code>test</code>. The volumen is located under policy <code>policy1</code>,
+ which is uploaded with <code>volcli policy upload</code>.</p>
+<p>The volume inherits the properties of the policy: <em>size</em>, <em>iops</em>, and so on.</p>
+<p>There are numerous options (see below) to declare overrides of most parameters in the policy configuration.</p>
+<p>To run a container that uses the policy, do the following:</p>
+<p>1. Run the command:</p>
 <pre class="highlight plaintext"><code>docker run -it -v policy1/test:/mnt ubuntu bash
 </code></pre>
-
-<ul>
-<li>Run <a name="mount_grep_mnt"/><a href="#mount_grep_mnt"><code>mount | grep /mnt</code></a> in the container.
-</li>
-</ul>
-<p><strong>Note</strong>: <code>/dev/rbd#</code>should be attached to that directory.</p>
-
-<ul>
-<li>Once a multi-host system is setup, anytime the volume is not mounted, it
-can be mounted on any host that has a connected rbd client available, and
-volplugin running.
-</li>
-</ul>
+<p>2. Run <code>mount | grep /mnt</code> in the container.</p>
+<p><em>Note</em>: <code>/dev/rbd#</code>should be attached to the <code>mnt</code> directory.</p>
+<p>Once a multi-host system is set up, anytime the volume is not mounted, it
+can be mounted on any host that has a connected <code>rbd</code> client available and
+<code>volplugin</code> running.</p>
 
 
 			</div>

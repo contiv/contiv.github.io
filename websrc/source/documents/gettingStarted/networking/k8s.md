@@ -57,7 +57,7 @@ $ cd ~/go/src/github.com/k8s/netplugin
 $ make k8s-cluster
 ```
 
-When the process is complete, you should a message like the one below:
+When the process is complete, a message like the following displays:
 
 ```
 PLAY RECAP ********************************************************************
@@ -175,7 +175,7 @@ Notice that both pods were assigned IP addresses from the default network and
 that they can ping each other.
 
 ## Example 2: Labeled Network
-In this examply you use network labels to specify a network and EPG for the Pod
+In this examply you use network labels to specify a network and EPG for the Pod.
 
 Type the following command to create a Pod with `poc-net` and `poc-epg` specified as the 
 network and EPG respectively:
@@ -186,9 +186,9 @@ pod "busybox-poc-net" created
 ```
 
 
-Examine pocnet-busybox.yaml. There are two additional labels,
+Examine `pocnet-busybox.yaml`. There are two additional labels,
 `io.contiv.network: poc-net` and `io.contiv.net-group: poc-epg`, defined
-in this pod specification:
+in this pod specification.
 
 Notice that this pod was assigned an IP addresses from the poc-net:
 

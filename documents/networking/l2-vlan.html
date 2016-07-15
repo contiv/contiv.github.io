@@ -204,7 +204,7 @@ GitHub</a></li>
 								<a href="/documents/storage/configuration.html">Configuration</a>
 						</li>
 						<li>
-								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+								<a href="/documents/storage/containers.html">Creating a Container with a Volume</a>
 						</li>
 						<li>
 								<a href="/documents/storage/volcli.html">Volcli Reference</a>
@@ -280,14 +280,15 @@ GitHub</a></li>
 				
 	<h1>Contiv in L2 Mode</h1>
 <p>This page describes how to use Contiv in L2 mode.</p>
-<p><img alt="L2" src="/documents/networking/contiv-l2-mode-265556b8.png"/></p>
+<p><img alt="L2" src="/assets/images/contiv-l2-mode-265556b8.png"/></p>
 
-<h2>Supported Version</h2>
-<p>The version supported by Contiv is:</p>
+<h2>Prerequisites</h2>
+<p>To use Contiv in L2 mode, you must be using this build or later of Contiv Network:</p>
 <pre class="highlight plaintext"><code>Version: v0.1-02-06-2016.14-42-05.UTC
 GitCommit: 392e0a7
 BuildTime: 02-06-2016.14-42-05.UTC
 </code></pre>
+<p>Start the Contiv processes <code>netplugin</code> and <code>netmaster</code> on the host.</p>
 
 <h2>Workflow</h2>
 <p>Briefly, a typical workflow is as follows:</p>
@@ -297,15 +298,9 @@ BuildTime: 02-06-2016.14-42-05.UTC
 </li>
 <li>Create VLAN networks with subnet pools and gateways.
 </li>
-<li>Start the Contiv processes <a name="netplugin"/><a href="#netplugin"><code>netplugin</code></a> and <code>netmaster</code>.
-</li>
 <li>Start containers in the networks created on the host.
 </li>
-<li>Verify the IP addresses.
-</li>
-<li>Verify routes.
-</li>
-<li>Verify connectivity between containers.
+<li>Verify the IP addresses, routes, and connectivity between containers.
 </li>
 </ul>
 <p>These steps are detailed in the following sections.</p>
@@ -327,24 +322,21 @@ interface Vlan12
 </code></pre>
 
 <h3>Step 2: Create Networks</h3>
-<p>Create networks with <code>encap</code> type set to <code>vlan</code> and packet tags set to VLAN IDs.</p>
+<p>Create networks with <code>encap</code> type set to <code>vlan</code> and packet tags set to VLAN IDs:</p>
 <pre class="highlight plaintext"><code>netctl network create demo1-net0 -s 10.1.1.0/24 -g 10.1.1.1 --pkt-tag 10 --encap vlan
 netctl network create demo1-net1 -s 11.1.1.0/24 -g 11.1.1.1 --pkt-tag 11 --encap vlan
 netctl network create demo1-net2 -s 12.1.1.0/24 -g 12.1.1.1 --pkt-tag 12 --encap vlan
 </code></pre>
 
-<h3>Step 3: Start the Contiv Processes</h3>
-<p>Start the Contiv processes:</p>
-<pre class="highlight plaintext"><code>netmaster
-netplugin
-</code></pre>
-
-<h3>Step 4: Start Containers in the Network</h3>
+<h3>Step 3: Start Containers in the Network</h3>
 <p>Start containers on the networks:</p>
-<pre class="highlight plaintext"><code>
+<pre class="highlight plaintext"><code>docker run -itd  --net demo1-net0 alpine sh
+docker run -itd  --net demo1-net1 alpine sh
+docker run -itd  --net demo1-net2 alpine sh
 </code></pre>
 
-<h3>Step 5: Log in to containers and verify the IP address has been allocated from the network</h3>
+<h3>Step 4: Verify the Networking and Containers</h3>
+<p>Log in to containers and verify the IP address has been allocated from the network:</p>
 <pre class="highlight plaintext"><code>docker ps
 CONTAINER ID        IMAGE                          COMMAND             CREATED             STATUS              PORTS               NAMES
 049a85ec0c8c        alpine                         "sh"                7 minutes ago       Up 7 minutes                            contiv-demo-swarm-l2-4/desperate_bose
@@ -376,8 +368,6 @@ lo        Link encap:Local Loopback
           collisions:0 txqueuelen:0
           RX bytes:168 (168.0 B)  TX bytes:168 (168.0 B)
 </code></pre>
-
-<h2>Step 6: Verify Routes</h2>
 <p>Verify that the switch has the container routes:</p>
 <pre class="highlight plaintext"><code>sh ip arp
 
@@ -393,10 +383,9 @@ Address         Age       MAC Address     Interface
 11.1.1.2        00:00:23  0202.0b01.0102  Vlan11          
 12.1.1.2        00:00:23  0202.0c01.0102  Vlan12    
 </code></pre>
-
-<h2>Step 7: Verify Connectivity Between Containers</h2>
-<p>Log into a container and ping one of the other containers:</p>
-<pre class="highlight plaintext"><code>ping 10.1.1.2
+<p>Log into a container and ping the other containers:</p>
+<pre class="highlight plaintext"><code>docker exec -it 049a85ec0c8c sh
+/ # ping 10.1.1.2
 PING 10.1.1.2 (10.1.1.2): 56 data bytes
 64 bytes from 10.1.1.2: seq=0 ttl=63 time=2.909 ms
 64 bytes from 10.1.1.2: seq=1 ttl=63 time=0.833 ms
@@ -404,9 +393,7 @@ PING 10.1.1.2 (10.1.1.2): 56 data bytes
 --- 10.1.1.2 ping statistics ---
 2 packets transmitted, 2 packets received, 0% packet loss
 round-trip min/avg/max = 0.833/1.871/2.909 ms
-</code></pre>
-<p>From container having IP 10.1.1.2</p>
-<pre class="highlight plaintext"><code>ping 11.1.1.2
+/ # ping 11.1.1.2
 PING 11.1.1.2 (11.1.1.2): 56 data bytes
 64 bytes from 11.1.1.2: seq=0 ttl=63 time=1.123 ms
 64 bytes from 11.1.1.2: seq=1 ttl=63 time=0.756 ms

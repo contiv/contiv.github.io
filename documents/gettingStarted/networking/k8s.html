@@ -204,7 +204,7 @@ GitHub</a></li>
 								<a href="/documents/storage/configuration.html">Configuration</a>
 						</li>
 						<li>
-								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+								<a href="/documents/storage/containers.html">Creating a Container with a Volume</a>
 						</li>
 						<li>
 								<a href="/documents/storage/volcli.html">Volcli Reference</a>
@@ -323,7 +323,7 @@ make target:</p>
 <pre class="highlight plaintext"><code>$ cd ~/go/src/github.com/k8s/netplugin
 $ make k8s-cluster
 </code></pre>
-<p>When the process is complete, you should a message like the one below:</p>
+<p>When the process is complete, a message like the following displays:</p>
 <pre class="highlight plaintext"><code>PLAY RECAP ********************************************************************
 k8master                   : ok=xxx  changed=xxx  unreachable=0    failed=0   
 k8node-01                  : ok=xxx  changed=xxx  unreachable=0    failed=0   
@@ -421,15 +421,15 @@ PING 20.1.1.10 (20.1.1.10): 56 data bytes
 that they can ping each other.</p>
 
 <h2>Example 2: Labeled Network</h2>
-<p>In this examply you use network labels to specify a network and EPG for the Pod</p>
+<p>In this examply you use network labels to specify a network and EPG for the Pod.</p>
 <p>Type the following command to create a Pod with <code>poc-net</code> and <code>poc-epg</code> specified as the 
 network and EPG respectively:</p>
 <pre class="highlight plaintext"><code>[root@k8master shared]# kubectl create -f pocnet-busybox.yaml
 pod "busybox-poc-net" created
 </code></pre>
-<p>Examine pocnet-busybox.yaml. There are two additional labels,
+<p>Examine <code>pocnet-busybox.yaml</code>. There are two additional labels,
 <code>io.contiv.network: poc-net</code> and <code>io.contiv.net-group: poc-epg</code>, defined
-in this pod specification:</p>
+in this pod specification.</p>
 <p>Notice that this pod was assigned an IP addresses from the poc-net:</p>
 <pre class="highlight plaintext"><code>[root@k8master shared]# kubectl get pods
 NAME                  READY     STATUS    RESTARTS   AGE

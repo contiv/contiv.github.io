@@ -204,7 +204,7 @@ GitHub</a></li>
 								<a href="/documents/storage/configuration.html">Configuration</a>
 						</li>
 						<li>
-								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+								<a href="/documents/storage/containers.html">Creating a Container with a Volume</a>
 						</li>
 						<li>
 								<a href="/documents/storage/volcli.html">Volcli Reference</a>
@@ -278,52 +278,52 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h2>Configuration</h2>
-<p>This section describes various ways to manipulate volplugin through
-configuration and options.</p>
+	<h1>Configuration</h1>
+<p>This page describes ways to manipulate Contiv Storage through configuration and options.</p>
 
-<h3>Volume Formatting</h3>
-<p>Because of limitations in the docker volume implementation, we use a <em>pattern</em>
-to describe volumes to docker. This pattern is <code>policy-name/volume-name</code>, and
+<h2>Volume Formatting</h2>
+<p>Because of limitations in the Docker volume implementation, we use a <em>pattern</em>
+to describe volumes to Docker. This pattern is <code>policy-name/volume-name</code>, and
 is supplied to <code>docker volume create --name</code> and transfers to <code>docker run -v</code>.</p>
-<p>For example, a typical use of volplugin might work like this presuming we have
-a policy uploaded named <code>policy1</code>:</p>
-<pre class="highlight plaintext"><code>$ docker volume create -d volplugin --name policy1/foo
-$ docker run -it -v policy1/foo:/mnt ubuntu bash
+<p>For example, the following commands illustrate a typical use of Contiv Storage presuming 
+a policy named <code>policy1</code> has been uploaded:</p>
+<pre class="highlight plaintext"><code>$ docker volume create -d volplugin --name policy1/sample
+$ docker run -it -v policy1/sample:/mnt ubuntu bash
 </code></pre>
-<p>This pattern creates a volume called <code>foo</code> in <code>policy1</code>&#39;s default ceph pool. If
-you wish to change the pool (or other options), see &quot;Driver Options&quot; below.</p>
+<p>This pattern creates a volume called <code>sample</code> in the default Ceph pool of <code>policy1</code>. 
+See <a href="#driver_options">Driver Options</a> for information about how to change the pool (or other options),</p>
 
-<h3>JSON Global Configuration</h3>
-<p>Global configuration modifies the whole system through the apiserver, volplugin
-and volsupervisor systems. You can manipulate them with the <code>volcli global</code>
+<h2>JSON Global Configuration</h2>
+<p>Global configuration modifies the whole system through the <code>apiserver</code>, <code>volplugin</code>
+and &#39;volsupervisor&#39; systems. You can manipulate these systems with the <code>volcli global</code>
 command set.</p>
-<p>A global configuration looks like this:</p>
-<pre class="highlight javascript"><code><span class="p">{</span>
-  <span class="s2">"TTL"</span><span class="err">:</span> <span class="mi">60</span><span class="p">,</span>
-  <span class="s2">"Debug"</span><span class="err">:</span> <span class="kc">true</span><span class="p">,</span>
-  <span class="s2">"Timeout"</span><span class="err">:</span> <span class="mi">5</span><span class="p">,</span>
-  <span class="s2">"MountPath"</span><span class="err">:</span> <span class="s2">"/mnt/ceph"</span>
-<span class="p">}</span>
+<p>A global configuration looks like the following:</p>
+<pre class="highlight plaintext"><code>javascript
+{
+  "TTL": 60,
+  "Debug": true,
+  "Timeout": 5,
+  "MountPath": "/mnt/ceph"
+}
 </code></pre>
-<p>Options:</p>
+<p>The options are:</p>
 
 <ul>
-<li>TTL: time (in seconds) for a mount record to timeout in the event a volplugin dies
+<li><a name="TTL"/><a href="#TTL"><code>TTL</code></a>: Time (in seconds) for a mount record to timeout if a <code>volplugin</code> instance dies.
 </li>
-<li>Debug: boolean value indicating whether or not to enable debug traps/logging
+<li><a name="Debug"/><a href="#Debug"><code>Debug</code></a>: Boolean value indicating whether or not to enable debug traps and logging.
 </li>
-<li>Timeout: time (in minutes) for a command to be terminated if it exceeds this value
+<li><a name="Timeout"/><a href="#Timeout"><code>Timeout</code></a>: A command is terminated if it runs longer than this time (in minutes).
 </li>
-<li>MountPath: the base path used for mount directories. Directories will be in
-<a name="policy_volume"/><a href="#policy_volume"><code>policy/volume</code></a> format off this root.
+<li><a name="MountPath"/><a href="#MountPath"><code>MountPath</code></a>: The base path used for mount directories. Directories will be in <code>policy/volume</code> format at this root.
 </li>
 </ul>
+<p><a name="json_tenant_config"></a></p>
 
-<h3>JSON Tenant Configuration</h3>
+<h2>JSON Tenant Configuration</h2>
 <p>Tenant configuration uses JSON to configure the default volume parameters such
-as what pool to use. It is uploaded to etcd by the <code>volcli</code> tool.</p>
-<p>Here is an example:</p>
+as which pool to use. The JSON is uploaded to <code>etcd</code> by the <code>volcli</code> tool.</p>
+<p>For example:</p>
 <pre class="highlight javascript"><code><span class="p">{</span>
   <span class="s2">"backends"</span><span class="err">:</span> <span class="p">{</span>
     <span class="s2">"crud"</span><span class="err">:</span> <span class="s2">"ceph"</span><span class="p">,</span>
@@ -358,96 +358,98 @@ as what pool to use. It is uploaded to etcd by the <code>volcli</code> tool.</p>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
-<p>Let&#39;s go through what these parameters mean.</p>
+<p>The parameters described by the JSON are:</p>
 
 <ul>
-<li><a name="unlocked"/><a href="#unlocked"><code>unlocked</code></a>: removes the exclusive locks between mounts for a given volume.
+<li><a name="unlocked"/><a href="#unlocked"><code>unlocked</code></a>: Removes the exclusive locks between mounts for a given volume.
 
 <ul>
 <li>This is a protective measure and is <em>not needed</em> to use NFS, so this flag
-will turn it off (by setting it to true) if desired for a given policy.
+turns it off (by setting it to true) if desired for a given policy.
 </li>
 </ul>
 </li>
-<li><code>filesystems</code>: a policy-level map of filesystem name -&gt; mkfs command.
+<li><code>filesystems</code>: A policy-level map of filesystem <em>name</em> to <em>mkfs</em> command.
 
 <ul>
 <li>Commands are run when the filesystem is specified and the volume has not
 been created already.
 </li>
-<li>Commands run in a POSIX (not bash, zsh) shell.
+<li>Commands run in a POSIX (not bash or zsh) shell.
 </li>
-<li>If the <a name="filesystems"/><a href="#filesystems"><code>filesystems</code></a> block is omitted, <code>mkfs.ext4 -m0 %</code> will be applied to
+<li>If the <a name="filesystems"/><a href="#filesystems"><code>filesystems</code></a> block is omitted, <code>mkfs.ext4 -m0 %</code> is applied to
 all volumes within this policy.
 </li>
-<li>Referred to by the volume create-time parameter <a name="filesystem"/><a href="#filesystem"><code>filesystem</code></a>. Note that you
-can use a <code>%</code> to be replaced with the device to format.
+<li>Referred to by the volume create-time parameter <a name="filesystem"/><a href="#filesystem"><code>filesystem</code></a>. A
+<code>%</code> is replaced with the device to format.
 </li>
 </ul>
 </li>
-<li><code>backends</code>: the storage backends to use for different operations. Note that
-not all drivers are compatible with each other. This is still an area with
-work being done on it. Ceph and NFS are supported as <code>mount</code> options, <code>crud</code>
-and <code>snapshot</code> operations require Ceph for now. Both driver names are lower-case.
+<li><code>backends</code>: The storage backends to use for different operations. Not all 
+drivers are compatible with each other. Ceph and NFS are supported as <code>mount</code> options.
+The <code>crud</code> and <code>snapshot</code> operations require Ceph. Both driver names are lower-case.
 
 <ul>
-<li><a name="crud"/><a href="#crud"><code>crud</code></a>: Create/Delete operations driver name
+<li><a name="crud"/><a href="#crud"><code>crud</code></a>: Create-Delete operations driver name.
 </li>
-<li><a name="mount"/><a href="#mount"><code>mount</code></a>: Mount operations driver name
+<li><a name="mount"/><a href="#mount"><code>mount</code></a>: Mount operations driver name.
 </li>
-<li><a name="snapshot"/><a href="#snapshot"><code>snapshot</code></a>: Snapshot operations
+<li><a name="snapshot"/><a href="#snapshot"><code>snapshot</code></a>: Snapshot operations.
 </li>
 </ul>
 </li>
-<li><code>driver</code>: driver-specific options.
+<li><code>driver</code>: Driver-specific options.
 
 <ul>
-<li><a name="pool"/><a href="#pool"><code>pool</code></a>: the ceph pool to use
+<li><a name="pool"/><a href="#pool"><code>pool</code></a>: The Ceph pool to use.
 </li>
 </ul>
 </li>
-<li><code>create</code>: create-time options.
+<li><code>create</code>: Create-time options.
 
 <ul>
-<li><a name="size"/><a href="#size"><code>size</code></a>: the size of the volume
+<li><a name="size"/><a href="#size"><code>size</code></a>: The size of the volume.
 </li>
-<li><a name="filesystem"/><a href="#filesystem"><code>filesystem</code></a>: the filesystem to use, see <code>filesystems</code> above.
+<li><a name="filesystem"/><a href="#filesystem"><code>filesystem</code></a>: The filesystem to use. See the <code>filesystems</code> parameter.
 </li>
 </ul>
 </li>
-<li><code>runtime</code>: runtime options. These options can be changed and the changes will
-be applied to mounted volumes almost immediately.
+<li><code>runtime</code>: Runtime options. These options can be changed and the changes are
+applied to mounted volumes almost immediately.
 
 <ul>
-<li><a name="snapshots"/><a href="#snapshots"><code>snapshots</code></a>: use the snapshots feature
+<li><a name="snapshots"/><a href="#snapshots"><code>snapshots</code></a>: Use the snapshots feature.
 </li>
-<li><a name="snapshot"/><a href="#snapshot"><code>snapshot</code></a>: map of the following parameters:
+<li><a name="snapshot"/><a href="#snapshot"><code>snapshot</code></a>: Map of the following parameters:
 </li>
-<li><a name="frequency"/><a href="#frequency"><code>frequency</code></a>: the amount of time between taking snapshots.
+<li>`frequencyr: The amount of time between taking snapshots.
 </li>
-<li><a name="keep"/><a href="#keep"><code>keep</code></a>: the number of snapshots to keep. the oldest ones will be deleted first.
+<li><a name="keep"/><a href="#keep"><code>keep</code></a>: The number of snapshots to keep. The oldest snapshots are deleted first.
 </li>
-<li><a name="rate_limit"/><a href="#rate_limit"><code>rate-limit</code></a>: map of the following rate-limiting parameters:
+<li><a name="rate_limit"/><a href="#rate_limit"><code>rate-limit</code></a>: Map of the following rate-limiting parameters:
 </li>
-<li><a name="write_iops"/><a href="#write_iops"><code>write-iops</code></a>: Write I/O weight
+<li><a name="write_iops"/><a href="#write_iops"><code>write-iops</code></a>: Write I/O weight.
 </li>
-<li><a name="read_iops"/><a href="#read_iops"><code>read-iops</code></a>: Read I/O weight
+<li><a name="read_iops"/><a href="#read_iops"><code>read-iops</code></a>: Read I/O weight.
 </li>
-<li><a name="write_bps"/><a href="#write_bps"><code>write-bps</code></a>: Write bytes/s
+<li><a name="write_bps"/><a href="#write_bps"><code>write-bps</code></a>: Write bytes/s.
 </li>
-<li><a name="read_bps"/><a href="#read_bps"><code>read-bps</code></a>: Read bytes/s
-</li>
-</ul>
+<li><a name="read_bps"/><a href="#read_bps"><code>read-bps</code></a>: Read bytes/s.
 </li>
 </ul>
-<p>You supply them with <code>volcli policy upload &lt;policy name&gt;</code>. The JSON itself is
-provided via standard input, so for example if your file is <code>policy2.json</code>:</p>
+</li>
+</ul>
+<p>You supply the parameters with the following command:</p>
+<pre class="highlight plaintext"><code>volcli policy upload &lt;policy name&gt;
+</code></pre>
+<p>The JSON itself is provided in standard input. For example, if your file is <code>policy2.json</code>:</p>
 <pre class="highlight plaintext"><code>$ volcli policy upload myTenant &lt; policy2.json
 </code></pre>
+<p><a name="driver_options">&lt;/&gt;</p>
 
-<h3>Driver Options</h3>
+<h2>Driver Options</h2>
 <p>Driver options are passed at <code>docker volume create</code> time with the <code>--opt</code> flag.
-They are <code>key=value</code> pairs and are specified as such, f.e.:</p>
+They are <code>key=value</code> pairs. For example:</p>
 <pre class="highlight plaintext"><code>docker volume create -d volplugin \
   --name policy2/image \
   --opt size=1000
@@ -455,21 +457,20 @@ They are <code>key=value</code> pairs and are specified as such, f.e.:</p>
 <p>The options are as follows:</p>
 
 <ul>
-<li><a name="size"/><a href="#size"><code>size</code></a>: the size (in MB) for the volume.
+<li><a name="size"/><a href="#size"><code>size</code></a>: The size (in MB) of the volume.
 </li>
-<li><code>snapshots</code>: take snapshots or not. Affects future options with <code>snapshot</code> in the key name.
+<li><code>snapshots</code>: Take snapshots or not. Affects future options with <code>snapshot</code> in the key name.
 
 <ul>
-<li>the value must satisfy <a href="https://golang.org/pkg/strconv/#ParseBool">this specification</a>
+<li>The value must satisfy <a href="https://golang.org/pkg/strconv/#ParseBool">this specification</a>
 </li>
 </ul>
 </li>
-<li><a name="snapshots_frequency"/><a href="#snapshots_frequency"><code>snapshots.frequency</code></a>: as above in the previous chapter, the frequency which we
-take snapshots.
+<li><a name="snapshots_frequency"/><a href="#snapshots_frequency"><code>snapshots.frequency</code></a>: The frequency which to take snapshots.
 </li>
-<li><a name="snapshots_keep"/><a href="#snapshots_keep"><code>snapshots.keep</code></a>: as above in the previous chapter, the number of snapshots to keep.
+<li><a name="snapshots_keep"/><a href="#snapshots_keep"><code>snapshots.keep</code></a>: The number of snapshots to keep.
 </li>
-<li><a name="filesystem"/><a href="#filesystem"><code>filesystem</code></a>: the named filesystem to create. See the JSON Configuration
+<li><a name="filesystem"/><a href="#filesystem"><code>filesystem</code></a>: The named filesystem to create. See the JSON Configuration
 section for more information on this.
 </li>
 <li><a name="rate_limit_write_iops"/><a href="#rate_limit_write_iops"><code>rate-limit.write.iops</code></a>: Write IOPS
@@ -482,21 +483,13 @@ section for more information on this.
 </li>
 </ul>
 
-<h3>NFS Support</h3>
-<p>NFS support is still limited (at the time of this writing). To use the NFS
-support in its current state you must take a few steps.</p>
-
-<ol>
-<li>Ensure &quot;nfs&quot; is the &quot;mount&quot; backend for your policy. <a name="crud"/><a href="#crud"><code>crud</code></a> and <code>snapshot</code>
-should be empty.
-</li>
-<li><p>Create your volume with the remote mount path specified at create time:</p>
+<h2>NFS Support</h2>
+<p>NFS support is limited. To use NFS support, do the following:</p>
+<p>1. Ensure <code>nfs</code> is the <code>mount</code> backend for your policy, and that <code>crud</code> and <code>snapshot</code> are empty.
+2. Create your volume with the remote mount path specified at create time:</p>
 <pre class="highlight plaintext"><code>docker volume create -d volplugin --name mypolicy/myvolume --opt mount=127.0.0.1:/mynfsmount
 </code></pre>
-</li>
-<li><p>Mount and continue as normally.</p>
-</li>
-</ol>
+<p>3. Mount the volume and continue as normal.</p>
 
 
 			</div>
