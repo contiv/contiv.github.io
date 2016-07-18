@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-255d50a1.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -345,8 +345,6 @@ as which pool to use. The JSON is uploaded to <code>etcd</code> by the <code>vol
       <span class="s2">"keep"</span><span class="err">:</span> <span class="mi">20</span>
     <span class="p">},</span>
     <span class="s2">"rate-limit"</span><span class="err">:</span> <span class="p">{</span>
-      <span class="s2">"write-iops"</span><span class="err">:</span> <span class="mi">1000</span><span class="p">,</span>
-      <span class="s2">"read-iops"</span><span class="err">:</span> <span class="mi">1000</span><span class="p">,</span>
       <span class="s2">"write-bps"</span><span class="err">:</span> <span class="mi">100000000</span><span class="p">,</span>
       <span class="s2">"read-bps"</span><span class="err">:</span> <span class="mi">100000000</span>
     <span class="p">}</span>
@@ -380,69 +378,64 @@ been created already.
 <li>If the <a name="filesystems"/><a href="#filesystems"><code>filesystems</code></a> block is omitted, <code>mkfs.ext4 -m0 %</code> is applied to
 all volumes within this policy.
 </li>
-<li>Referred to by the volume create-time parameter <a name="filesystem"/><a href="#filesystem"><code>filesystem</code></a>. A
-<code>%</code> is replaced with the device to format.
+<li>Referred to by the volume create-time parameter <a name="filesystem"/><a href="#filesystem"><code>filesystem</code></a>. Note that you
+can use a <code>%</code> to be replaced with the device to format.
 </li>
 </ul>
 </li>
-<li><code>backends</code>: The storage backends to use for different operations. Not all 
-drivers are compatible with each other. Ceph and NFS are supported as <code>mount</code> options.
-The <code>crud</code> and <code>snapshot</code> operations require Ceph. Both driver names are lower-case.
+<li><code>backends</code>: the storage backends to use for different operations. Note that
+not all drivers are compatible with each other. This is still an area with
+work being done on it. Ceph and NFS are supported as <code>mount</code> options, <code>crud</code>
+and <code>snapshot</code> operations require Ceph for now. Both driver names are lower-case.
 
 <ul>
-<li><a name="crud"/><a href="#crud"><code>crud</code></a>: Create-Delete operations driver name.
+<li><a name="crud"/><a href="#crud"><code>crud</code></a>: Create/Delete operations driver name
 </li>
-<li><a name="mount"/><a href="#mount"><code>mount</code></a>: Mount operations driver name.
+<li><a name="mount"/><a href="#mount"><code>mount</code></a>: Mount operations driver name
 </li>
-<li><a name="snapshot"/><a href="#snapshot"><code>snapshot</code></a>: Snapshot operations.
+<li><a name="snapshot"/><a href="#snapshot"><code>snapshot</code></a>: Snapshot operations
 </li>
 </ul>
 </li>
-<li><code>driver</code>: Driver-specific options.
+<li><code>driver</code>: driver-specific options.
 
 <ul>
-<li><a name="pool"/><a href="#pool"><code>pool</code></a>: The Ceph pool to use.
+<li><a name="pool"/><a href="#pool"><code>pool</code></a>: the ceph pool to use
 </li>
 </ul>
 </li>
-<li><code>create</code>: Create-time options.
+<li><code>create</code>: create-time options.
 
 <ul>
-<li><a name="size"/><a href="#size"><code>size</code></a>: The size of the volume.
+<li><a name="size"/><a href="#size"><code>size</code></a>: the size of the volume
 </li>
-<li><a name="filesystem"/><a href="#filesystem"><code>filesystem</code></a>: The filesystem to use. See the <code>filesystems</code> parameter.
+<li><a name="filesystem"/><a href="#filesystem"><code>filesystem</code></a>: the filesystem to use, see <code>filesystems</code> above.
 </li>
 </ul>
 </li>
-<li><code>runtime</code>: Runtime options. These options can be changed and the changes are
-applied to mounted volumes almost immediately.
+<li><code>runtime</code>: runtime options. These options can be changed and the changes will
+be applied to mounted volumes almost immediately.
 
 <ul>
-<li><a name="snapshots"/><a href="#snapshots"><code>snapshots</code></a>: Use the snapshots feature.
+<li><a name="snapshots"/><a href="#snapshots"><code>snapshots</code></a>: use the snapshots feature
 </li>
-<li><a name="snapshot"/><a href="#snapshot"><code>snapshot</code></a>: Map of the following parameters:
+<li><a name="snapshot"/><a href="#snapshot"><code>snapshot</code></a>: map of the following parameters:
 </li>
-<li>`frequencyr: The amount of time between taking snapshots.
+<li><a name="frequency"/><a href="#frequency"><code>frequency</code></a>: the amount of time between taking snapshots.
 </li>
-<li><a name="keep"/><a href="#keep"><code>keep</code></a>: The number of snapshots to keep. The oldest snapshots are deleted first.
+<li><a name="keep"/><a href="#keep"><code>keep</code></a>: the number of snapshots to keep. the oldest ones will be deleted first.
 </li>
-<li><a name="rate_limit"/><a href="#rate_limit"><code>rate-limit</code></a>: Map of the following rate-limiting parameters:
+<li><a name="rate_limit"/><a href="#rate_limit"><code>rate-limit</code></a>: map of the following rate-limiting parameters:
 </li>
-<li><a name="write_iops"/><a href="#write_iops"><code>write-iops</code></a>: Write I/O weight.
+<li><a name="write_bps"/><a href="#write_bps"><code>write-bps</code></a>: Write bytes/s
 </li>
-<li><a name="read_iops"/><a href="#read_iops"><code>read-iops</code></a>: Read I/O weight.
-</li>
-<li><a name="write_bps"/><a href="#write_bps"><code>write-bps</code></a>: Write bytes/s.
-</li>
-<li><a name="read_bps"/><a href="#read_bps"><code>read-bps</code></a>: Read bytes/s.
+<li><a name="read_bps"/><a href="#read_bps"><code>read-bps</code></a>: Read bytes/s
 </li>
 </ul>
 </li>
 </ul>
-<p>You supply the parameters with the following command:</p>
-<pre class="highlight plaintext"><code>volcli policy upload &lt;policy name&gt;
-</code></pre>
-<p>The JSON itself is provided in standard input. For example, if your file is <code>policy2.json</code>:</p>
+<p>You supply them with <code>volcli policy upload &lt;policy name&gt;</code>. The JSON itself is
+provided via standard input, so for example if your file is <code>policy2.json</code>:</p>
 <pre class="highlight plaintext"><code>$ volcli policy upload myTenant &lt; policy2.json
 </code></pre>
 <p><a name="driver_options">&lt;/&gt;</p>
@@ -472,10 +465,6 @@ They are <code>key=value</code> pairs. For example:</p>
 </li>
 <li><a name="filesystem"/><a href="#filesystem"><code>filesystem</code></a>: The named filesystem to create. See the JSON Configuration
 section for more information on this.
-</li>
-<li><a name="rate_limit_write_iops"/><a href="#rate_limit_write_iops"><code>rate-limit.write.iops</code></a>: Write IOPS
-</li>
-<li><a name="rate_limit_read_iops"/><a href="#rate_limit_read_iops"><code>rate-limit.read.iops</code></a>: Read IOPS
 </li>
 <li><a name="rate_limit_read_bps"/><a href="#rate_limit_read_bps"><code>rate-limit.read.bps</code></a>: Read b/s
 </li>

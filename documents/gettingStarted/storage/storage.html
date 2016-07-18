@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-255d50a1.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -279,7 +279,24 @@ GitHub</a></li>
 			<div class="bs-docs-section">
 				
 	<h1>Getting Started with Contiv Storage</h1>
-<p>This page describes setting up a test environment with three VMs.</p>
+
+<h3>Prerequisites</h3>
+
+<ul>
+<li>Docker 1.11
+</li>
+<li>Working ceph installation on the host
+</li>
+</ul>
+
+<h3>Installation</h3>
+<p>Run these commands on your docker host:</p>
+<pre class="highlight plaintext"><code>docker run -it -v /var/run/docker.sock:/var/run/docker.sock contiv/volplugin-autorun
+</code></pre>
+<p>This will configure all the services in your docker with the latest
+contiv/volplugin release.</p>
+
+<h2>Development Instructions</h2>
 
 <h2>Prerequisites</h2>
 <p>Your machine must have 12GB of free RAM. (Ceph is memory intensive.)</p>
