@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-255d50a1.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-ccddc50c.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -106,7 +106,7 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
@@ -123,7 +123,7 @@ GitHub</a></li>
 									</ul>
 								</li>
 								<li class="active">
-									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
@@ -148,10 +148,10 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
 								<li>
-										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Single Machine</a>
 								</li>
 								<li>
-										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Multiple Servers</a>
 								</li>
 							</ul>
 						</li>
@@ -161,13 +161,16 @@ GitHub</a></li>
 					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
 						<li>
+								<a href="/documents/networking/features.html">Features</a>
+						</li>
+						<li>
 								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
 						</li>
 						<li>
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
 						<li>
-								<a href="/documents/networking/services.html">Service Routing</a>
+								<a href="/documents/networking/services.html">Service Loadbalancing</a>
 						</li>
 						<li>
 								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
@@ -201,7 +204,7 @@ GitHub</a></li>
 								<a href="/documents/storage/configuration.html">Configuration</a>
 						</li>
 						<li>
-								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+								<a href="/documents/storage/containers.html">Creating a Container with a Volume</a>
 						</li>
 						<li>
 								<a href="/documents/storage/volcli.html">Volcli Reference</a>
@@ -275,55 +278,64 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h1>Installing Contiv with Kubernetes</h1>
+	<h1>Installing Contiv Network with Kubernetes</h1>
+<p>This page describes how to set up a Contiv cluster using Kubernetes.</p>
 
-<h4>Pre-requisites</h4>
-<p>Machines running CentOS 7.2, connected to network, with at least two
-interfaces (3 if possible).</p>
-<p>Before starting, please be sure to set http/https proxies if your network requires it.
-<em>(Note that <code>https_proxy</code> should be set to point to a <code>http://</code> URL (not <code>https://</code>).
-This is an ansible requirement.)</em></p>
-<p>Pick a machine that is on the management network and has ansible installed
-to run the following steps.</p>
-<p>The setup scripts use python module <em>netaddr</em> and linux utility <code>bzip2</code>. If these are not
-installed on the machine where you are executing these steps, you must install them
-before proceeding. <em>(E.g. <code>yum install bzip2; pip install netaddr</code>)</em></p>
-<p>Note on <em>login_userid</em>: Ansible requires ssh to access the nodes in the cluster for
-configuration. This requires a single userid that can log into each of the machines
-AND has sudo permission.</p>
+<h2>Prerequisites</h2>
 
-<h3>Step 1 Clone the contiv/demo repo</h3>
+<ol>
+<li>Install Centos 7.2 on all servers used for the Contiv cluster.
+</li>
+<li>Ensure that each server has at least two, and preferably three, interfaces.
+</li>
+<li>If required by your network, set HTTP and HTTPS proxies. Direct the HTTPS proxy to an <em>http://</em> URL (not <em>https://</em>). This is an Ansible requirement.
+</li>
+<li>Choose a server that is on the management network and has Ansible installed. Run the install procedure below on this node. This <em>install node</em> manages the installation in addition to being part of your cluster.
+</li>
+<li>The setup scripts use the Python module <em>netaddr</em> and the Linux utility <em>bzip2</em>. If these are not installed on the machine where you are executing these steps, you must install them before proceeding. (You can use the following commands: <a name="yum_install_bzip2_pip_install_netaddr"/><a href="#yum_install_bzip2_pip_install_netaddr"><code>yum install bzip2; pip install netaddr</code></a>.)
+</li>
+<li>Enable passwordless SSH access from the installation server to all the other servers in the cluster. 
+An example is <a href="http://www.linuxproblem.org/art_9.html">here</a>.
+</li>
+<li>Enable passwordless sudo on all servers.  An example is 
+<a href="http://askubuntu.com/questions/192050/how-to-run-sudo-command-with-no-password">here</a>.
+</li>
+<li>Make a note of the IP addresses (or DNS names) of all the servers, and of the network
+interfaces on which these IP addresses are configured.
+</li>
+</ol>
+
+<h2>Step 1: Clone the Repository</h2>
+<p>Clone the GitHub repository containing the Contiv files:</p>
 <pre class="highlight plaintext"><code>git clone https://github.com/contiv/demo
 </code></pre>
 
-<h3>Step 2 Clone the contrib repo</h3>
+<h2>Step 2: Clone the Contrib Repository</h2>
+<p>Clone the GitHub repository containing the Kubernetes contributed code:</p>
 <pre class="highlight plaintext"><code>cd demo/k8s;
-
 git clone https://github.com/jojimt/contrib -b contiv
 </code></pre>
 
-<h3>Step 3 Fill in cluster info</h3>
-<p>edit <code>cluster_defs.json</code></p>
-<p>See <code>cluster_defs.json.README</code> for instructions</p>
-<p>If you need ACI integration, edit <em>aci.yml</em>. See <a href="/documents/gettingStarted/networking/aci.html">here</a> for more details.</p>
+<h2>Step 3: Configure the Cluster Information</h2>
+<p>Edit the <code>cluster_defs.json</code> file to reflect your cluster information. 
+See the <code>cluster_defs.json.README</code> file for instructions.</p>
+<p><em>Note</em>: For ACI integration, edit <code>aci.yaml</code>. See <a href="/documents/gettingStarted/networking/aci.html">here</a> for more information.</p>
 
-<h3>Step 4 Prepare machines</h3>
+<h2>Step 4 Prepare the Nodes</h2>
+<p>Run the prepare script. Supply the login and <em>sudo</em> passwords when prompted.</p>
 <pre class="highlight plaintext"><code>./prepare.sh &lt;login_userid&gt;
 </code></pre>
-<p>Supply login password when prompted.</p>
 
-<h3>Step 5 Create cluster</h3>
+<h2>Step 5: Create the Cluster</h2>
+<p>Run the setup script. Supply the login and <em>sudo</em> passwords when prompted.
+This script can take several minutes to complete.</p>
 <pre class="highlight plaintext"><code>./setup_k8s_cluster.sh &lt;login_userid&gt;
 </code></pre>
-<p>Supply login password when prompted.</p>
-<p><strong>Note</strong>: If you need Layer 3 BGP support use</p>
-<pre class="highlight plaintext"><code>./setup_k8s_cluster &lt;login_userid&gt; contivFwdMode="routing"
-</code></pre>
 
-<h3>Step 6 Verify cluster</h3>
+<h2>Step 6 Verify the Cluster</h2>
+<p>Run the verification script. Supply the login and <em>sudo</em> passwords when prompted.</p>
 <pre class="highlight plaintext"><code>./verify_cluster.sh &lt;login_userid&gt;
 </code></pre>
-<p>Supply login password when prompted.</p>
 
 
 			</div>

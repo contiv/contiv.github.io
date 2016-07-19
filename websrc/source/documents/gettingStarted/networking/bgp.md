@@ -6,25 +6,34 @@ description: |-
   Setting up an L3 BGP setup
 ---
 
-## Setting Up Contiv in a BGP L3 Setup
-This document describes how to configure the Contiv infrastructure in L3 native VLAN mode.
+# Installing Contiv in a BGP L3 Setup
 
-##Steps to bring up a contiv cluster with routing capabilites:
+This page describes how to configure the Contiv infrastructure in L3 native VLAN mode.
+
+The following figure shows a Contiv cluster with routing capabilites:
 
 ![bgp](bgp_arch.png)
 
+## Prerequisites
 
-##Provision the host nodes with required services
+Follow the [Prerequisites](install-swarm.html#Prerequisites) and [Download](install-swarm.html#Download)
+steps on the [Swarm Cluster](install-swarm.html) installation page. 
+These steps install all of the required packages and binaries needed to start the Contiv infrastrure services. 
 
-Please follow the [prequesite] and [download] steps in the [demo installer] page. This would enable installation of all the required packages , versions of the binary that would be needed to bring up the contiv infrastrure services. At the end of these steps netplugin , netmaster would be started in routing mode. Once the prerequiste is completed please start the installer script.
+## Step 1: Run the Installer Script
+Use the following command to run the installer script:
 
 ```
 $chmod +x net_demo_installer
 $./net_demo_installer -l
 ```
-The net_demo_installer will create a cfg.yaml template file on the first run.
+The `net_demo_installer` creates a `cfg.yaml` template file on the first run.
 
-The [cfg.yaml] for the demo topology is as shown below.
+## Step 2: Specify the Configuration
+Edit the `cfg.yaml` file to specify the interfaces and IP addresses of your cluster nodes.
+
+The configuration file for a simple demo topology is shown below. A sample configuration file can be 
+downloaded [here](extras/sample_cfg.yml).
 
 ```
 CONNECTION_INFO:
@@ -35,15 +44,13 @@ CONNECTION_INFO:
         control: eth1
         data: eth6
 ```
-Note: As shown in the topo diagram data interface should be the uplink interface and not the management interface of the server.
+*Note*: As shown in the topology diagram, the server's data interface,
+not the management interface, should be the uplink interface.
 
-Rerun the installer after filling up the cfg.yaml.
+## Step 3: Rerun the Installer
+Rerun the installer after editing the `cfg.yaml` file.
 
 ```
 ./net_demo_installer -l
 ```
 
-[demo installer]: <https://github.com/contiv/demo/tree/master/net>
-[prequesite]: <https://github.com/contiv/demo/tree/master/net#pre-requisites>
-[download]: <https://github.com/contiv/demo/tree/master/net#step-1-download-the-installer-script>
-[cfg.yaml]: <https://github.com/contiv/demo/blob/master/net/extras/sample_cfg.yml>

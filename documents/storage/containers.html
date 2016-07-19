@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-255d50a1.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-ccddc50c.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -106,7 +106,7 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
@@ -123,7 +123,7 @@ GitHub</a></li>
 									</ul>
 								</li>
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
@@ -148,10 +148,10 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
 								<li>
-										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Single Machine</a>
 								</li>
 								<li>
-										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Multiple Servers</a>
 								</li>
 							</ul>
 						</li>
@@ -161,13 +161,16 @@ GitHub</a></li>
 					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
 						<li>
+								<a href="/documents/networking/features.html">Features</a>
+						</li>
+						<li>
 								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
 						</li>
 						<li>
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
 						<li>
-								<a href="/documents/networking/services.html">Service Routing</a>
+								<a href="/documents/networking/services.html">Service Loadbalancing</a>
 						</li>
 						<li>
 								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
@@ -201,7 +204,7 @@ GitHub</a></li>
 								<a href="/documents/storage/configuration.html">Configuration</a>
 						</li>
 						<li class="active">
-								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+								<a href="/documents/storage/containers.html">Creating a Container with a Volume</a>
 						</li>
 						<li>
 								<a href="/documents/storage/volcli.html">Volcli Reference</a>
@@ -275,39 +278,24 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h3>Creating a container with a volume</h3>
-<p>Create a volume that refers to the volplugin driver:</p>
+	<h3>Creating a Container with a Volume</h3>
+<p>To create a container with a volume, create a volume that refers to the <code>volplugin</code> driver:</p>
 <pre class="highlight plaintext"><code>docker volume create -d volplugin --name policy1/test
 </code></pre>
-<p><strong>Notes</strong>:</p>
-
-<ul>
-<li><a name="test"/><a href="#test"><code>test</code></a> is the name of the volume, and is located under policy <code>policy1</code>,
-which is uploaded with <code>volcli policy upload.</code>
-</li>
-<li>The volume will inherit the properties of the policy. Therefore, the
-volume will be of appropriate size, iops, etc.
-</li>
-<li>There are numerous options (see below) to declare overrides of most parameters in the policy configuration.
-</li>
-<li>Run a container that uses the policy:
-</li>
-</ul>
+<p>Note the following:</p>
+<p>The name of the volume is <code>test</code>. The volumen is located under policy <code>policy1</code>,
+ which is uploaded with <code>volcli policy upload</code>.</p>
+<p>The volume inherits the properties of the policy: <em>size</em>, <em>iops</em>, and so on.</p>
+<p>There are numerous options (see below) to declare overrides of most parameters in the policy configuration.</p>
+<p>To run a container that uses the policy, do the following:</p>
+<p>1. Run the command:</p>
 <pre class="highlight plaintext"><code>docker run -it -v policy1/test:/mnt ubuntu bash
 </code></pre>
-
-<ul>
-<li>Run <a name="mount_grep_mnt"/><a href="#mount_grep_mnt"><code>mount | grep /mnt</code></a> in the container.
-</li>
-</ul>
-<p><strong>Note</strong>: <code>/dev/rbd#</code>should be attached to that directory.</p>
-
-<ul>
-<li>Once a multi-host system is setup, anytime the volume is not mounted, it
-can be mounted on any host that has a connected rbd client available, and
-volplugin running.
-</li>
-</ul>
+<p>2. Run <code>mount | grep /mnt</code> in the container.</p>
+<p><em>Note</em>: <code>/dev/rbd#</code>should be attached to the <code>mnt</code> directory.</p>
+<p>Once a multi-host system is set up, anytime the volume is not mounted, it
+can be mounted on any host that has a connected <code>rbd</code> client available and
+<code>volplugin</code> running.</p>
 
 
 			</div>

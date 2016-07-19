@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-255d50a1.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-ccddc50c.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -106,7 +106,7 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
@@ -123,7 +123,7 @@ GitHub</a></li>
 									</ul>
 								</li>
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
@@ -148,10 +148,10 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
 								<li>
-										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Single Machine</a>
 								</li>
 								<li>
-										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Multiple Servers</a>
 								</li>
 							</ul>
 						</li>
@@ -161,13 +161,16 @@ GitHub</a></li>
 					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
 						<li>
+								<a href="/documents/networking/features.html">Features</a>
+						</li>
+						<li>
 								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
 						</li>
 						<li>
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
 						<li>
-								<a href="/documents/networking/services.html">Service Routing</a>
+								<a href="/documents/networking/services.html">Service Loadbalancing</a>
 						</li>
 						<li class="active">
 								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
@@ -201,7 +204,7 @@ GitHub</a></li>
 								<a href="/documents/storage/configuration.html">Configuration</a>
 						</li>
 						<li>
-								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+								<a href="/documents/storage/containers.html">Creating a Container with a Volume</a>
 						</li>
 						<li>
 								<a href="/documents/storage/volcli.html">Volcli Reference</a>
@@ -275,89 +278,86 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h1>Contiv in ACI mode</h1>
-<p>When configured in ACI mode, Contiv utilizes ACI features for policy enforcement and connectivity, while retaining a consistent interface with the container eco-system. In this mode, Contiv interacts with the APIC via an aci-gw in order to create the necessary objects and associations that allows containers to communicate according to the policy intent.</p>
+	<h1>Contiv in ACI Mode</h1>
+<p>When used in Cisco Application Centric Infrastructure (ACI) mode, Contiv uses ACI features for policy enforcement and connectivity. At the same time, Contiv maintains a consistent interface with the container ecosystem. Contiv interacts with the APIC via an ACI gateway (ACI-GW) to create the objects and associations that enable containers to communicate according to the policy intent.</p>
 
-<h3>Configuration</h3>
+<h2>Configuration</h2>
 <p>Configuration in ACI mode can be split into the following three categories:</p>
-<pre class="highlight plaintext"><code>1. Network resource allocation for Contiv cluster
+<p>1. Network resource allocation for Contiv Cluster
 2. External policy configuration
-3. Application policy configuration
-</code></pre>
+3. Application policy configuration</p>
 
-<h2>Network resource allocation for Contiv cluster</h2>
-<p>Contiv uses the static VLAN binding mechanism for integrating with ACI. This mechanism requires a physDom, VLAN pool and some associated objects. For a step by step procedure on this configuration refer to <a href="/documents/gettingStarted/networking/aci.html">here</a></p>
-<p>After the ACI is configured as described above, Contiv must be configured to operate in ACI mode using the netctl command as below.</p>
+<h3>Network Resource Allocation for Contiv Cluster</h3>
+<p>Contiv uses the static VLAN binding mechanism to integrate with ACI. This mechanism requires a physDom, VLAN pool and some associated objects. For a step-by-step guide to this configuration see <a href="/documents/gettingStarted/networking/aci.html">Installing Contiv Network with Cisco ACI</a>.</p>
+<p>After the ACI is configured, Contiv must be configured using the <code>netctl</code> command as follows:</p>
 <pre class="highlight plaintext"><code>netctl global set --fabric-mode aci --vlan-range 400-500
 </code></pre>
-<p>The above example uses a vlan range of 400-500. This must match the VLAN pool you created in APIC.</p>
+<p>The VLAN range must match the VLAN pool you create in APIC. in this example the range is 400-500.</p>
 
-<h2>External policy configuration</h2>
-<p>External policy configuration determines how containers in the cluster communicate with endpoints that are outside the container cluster. These endpoints may include Virtual Machines, Physical Servers or endpoints external to the fabric itself. The main ACI objects of interest from this perspective are: Tenant, BD and Contracts.</p>
+<h3>External Policy Configuration</h3>
+<p>External policy configuration determines how containers in the cluster communicate with endpoints that are outside the container cluster. These endpoints may include VMs, physical servers or endpoints external to the fabric itself. The main ACI objects of interest from this perspective are: tenants, bridge domains (BDs), and contracts.</p>
 
-<h3>Tenant configuration</h3>
-<p>In most scenarios, the ACI admin would want to pre-create a tenant in the APIC. This allows the tenant to span the container cluster as well as other network endpoints. Tenants are identified by their name in both ACI and Contiv. In order to refer to a tenant that exists in ACI, you can create the same tenant in Contiv using its GUI.</p>
-<p>e.g.</p>
+<h4>Tenant Configuration</h4>
+<p>In most scenarios, the ACI admin wants to pre-create a tenant in the APIC. This gives the tenant the ability to span the container cluster as well as other network endpoints. Tenants are identified by their name in both ACI and Contiv. In order to refer to a tenant that exists in ACI, you can create the same tenant in Contiv using the Contiv Network CLI.</p>
+<p>For example, the following command creates a tenant in Contiv:</p>
 <pre class="highlight plaintext"><code>netctl tenant create MixedTenant
 </code></pre>
-<p>If the tenant does not already exist in ACI, it will be created for you when an app-profile is pushed to the ACI as described further down in this doc.</p>
+<p>If the tenant does not already exist in ACI, it is created for you when an application profile is pushed to the ACI as described below.</p>
 
-<h3>BD configuration</h3>
-<p>Contiv does not have an explicit Bridge Domain(BD) object. Because ACI requires a BD object, the aci-gw creates it in ACI when a network is associated with ACI via an app profile binding. However, some use cases might require binding to a BD that already exists in ACI. To bind with an existing BD, the BD&#39;s DN must be passed to the aci-gw via the <code>APIC_EPG_BRIDGE_DOMAIN</code> environment variable while the aci-gw is started (see <documents/gettingStarted/networking/aci.html>).</p>
+<h4>Bridge Domain Configuration</h4>
+<p>Contiv does not have an explicit BD object. Because ACI requires a BD object, the ACI-GW creates it in ACI when a network is associated with ACI with an app profile binding.</p>
+<p>Some use cases might require binding to a BD that already exists in ACI. To bind with an existing BD, the BD&#39;s domain name (DN) must be passed to the ACI-GW via the <code>APIC_EPG_BRIDGE_DOMAIN</code> environment variable when the ACI-GW is started. See <a href="/documents/gettingStarted/networking/aci.html">Installing Contiv Network with Cisco ACI</a>.</p>
 
-<h3>Contracts</h3>
-<p>For communication between the Contiv cluster and external endpoints, corresponding contracts are necessary. These contracts must be pre-created in ACI and then, their DN must be supplied to Contiv by creating an external-contracts object in Contiv.</p>
-<p>e.g.</p>
+<h4>Contracts</h4>
+<p>For communication between the Contiv cluster and external endpoints, corresponding contracts are necessary. Such a contract must first be created in ACI, then its DN must be supplied to Contiv by creating an external-contracts object in Contiv.</p>
+<p>An external-contracts object in Contiv contains a set of contracts that can be either consumed or provided by a container application.</p>
+<p>In the following example, <em>ToConsume</em> specifies a contract that can be consumed by an application tier and <em>ToProvide</em> specifies a set of contracts that must be provided by an application tier. Application tiers are specified by <em>groups</em> (equivalent to EPGs in ACI) within Contiv.</p>
 <pre class="highlight plaintext"><code>netctl external-contracts  create -t MixedTenant -c -a "uni/tn-MixedTenant/brc-allowicmp" ToConsume
 netctl external-contracts  create -t MixedTenant -p -a "uni/tn-MixedTenant/brc-allowicmp" -a "uni/tn-MixedTenant/brc-allowtcp8080" ToProvide
 </code></pre>
-<p>An external-contracts object in Contiv contains a set of contracts that can be either consumed or provided by a container application. In the above example, <em>ToConsume</em> specifies a contract that can be consumed by an application tier and <em>ToProvide</em> specifies a set of contracts that must be provided by an application tier. Application tiers are specified by <strong>groups</strong> (equivalent to EPGs in ACI) within Contiv. A set of external contracts can be associated with a <strong>group</strong> using the netctl group create command.</p>
-<p>e.g.</p>
+<p>A set of external contracts can be associated with a group using the netctl group create command:</p>
 <pre class="highlight plaintext"><code>netctl group create -t MixedTenant -e ToConsume net1 QueryApp
 </code></pre>
 
-<h2>Application policy configuration</h2>
-<p>Contiv uses a Group Based Policy like ACI. Each of the application tiers need an endpoint group, associated with a network before policy can be applied to it.</p>
+<h3>Application Policy Configuration</h3>
+<p>Contiv uses a group-based policy like ACI. Each of the application tiers must have an endpoint group associated with a network before policy can be applied to it.</p>
 
-<h3>Create network</h3>
-<p>A network is created using the netctl command.
-E.g.</p>
+<h4>Create a Network</h4>
+<p>You create a network using the <code>netctl</code> command:</p>
 <pre class="highlight plaintext"><code>netctl net create -t MixedTenant -e vlan -s 66.1.1.0/24 -g 66.1.1.254 net1
 </code></pre>
-<p>Contiv uses the network object for allocating IP addresses to containers. Therefore, even if you&#39;re pre-creating a BD, you must still create a network object. If you would like to reserve a part of the subnet for allocation to external endpoints, you can provide a part of the subnet to Contiv.</p>
-<p>E.g.</p>
+<p>Contiv uses the network object to allocate IP addresses to containers. Therefore, even if you pre-create a BD, you must still create a network object. If you would like to reserve a part of the subnet for allocation to external endpoints, you can provide part of the subnet to Contiv.</p>
+<p>For example:</p>
 <pre class="highlight plaintext"><code>netctl net create -t MixedTenant -e vlan -s 66.1.1.20-44/24 -g 66.1.1.254 net1
 </code></pre>
-<p>If you pre-created the BD, you must make sure the -g argument matches the BD&#39;s gateway.</p>
+<p>If you pre-created the BD, the <code>-g</code> argument matches the BD&#39;s gateway.</p>
 
-<h1>Create policy</h1>
-<p>In order to apply policy, you must create a policy object. You can add rules to the policy after EndpointGroups are created.</p>
+<h4>Create a Policy</h4>
+<p>To apply a policy, create a policy object. You can add rules to the policy after EPGs are created.</p>
 <pre class="highlight plaintext"><code>netctl policy create -t MixedTenant app2db
 </code></pre>
 
-<h1>Create EndpointGroups</h1>
-<p>Depending on the composition of the application, one more Endpoint Groups must be created in Contiv. Typically, you want to create an Endpoint Group for each of the tiers of the application.</p>
-<p>e.g.</p>
+<h4>Create Endpoint Groups</h4>
+<p>Depending on the composition of the application, one more EPG must be created in Contiv. Typically, you create an EPG for each tier of the application.</p>
+<p>In the following example , the <em>db</em> tier specifies only an internal policy. The <em>app</em> tier specifies a set of external contracts in addition to the internal policy.</p>
 <pre class="highlight plaintext"><code>netctl group create -t MixedTenant -p app2db net1 db
 netctl group create -t MixedTenant -e ToConsume -e ToProvide -p app2db net1 app
 </code></pre>
-<p>In the example above, db tier specifies just an internal policy. The app tier specifies a set of external contracts in addition to the internal policy.</p>
 
-<h1>Add rules to the policy</h1>
-<p>You can specify policy between tiers by adding rules to the policy you created. You can add multiple rules to the same policy.</p>
-<p>e.g.</p>
+<h4>Add rules to the policy</h4>
+<p>Specify policy between tiers by adding rules to the policy you created. You can add multiple rules to the same policy.</p>
+<p>For example, the follwing rule opens TCP port 6379 from <em>app</em> to <em>db</em>.</p>
 <pre class="highlight plaintext"><code>netctl policy rule-add -t MixedTenant -d in --protocol tcp --port 6379 --from-group app --action allow app2db 1
 </code></pre>
-<p>The above rule opens TCP port 6379 from app to db.</p>
 
-<h1>Create an Application Profile</h1>
-<p>The Application Profile is the point of policy integration between Contiv and ACI. It is when an Application Profile is created that the corresponding objects get pushed to ACI.</p>
+<h4>Create an Application Profile</h4>
+<p>The application profile is the point of policy integration between Contiv and ACI. It is when an application profile is created that the corresponding objects get pushed to ACI.</p>
+<p>The following command results in an application profile being created under MixedTenant in the ACI with EPGs <code>app</code> and <code>db</code>. All associated policy objects are also created.</p>
 <pre class="highlight plaintext"><code>netctl app-profile create -t MixedTenant -g app,db container-profile
 </code></pre>
-<p>The above command will result in application profile being created under MixedTenant in the ACI, with EPG&#39;s app and db. There will also be all associated policy objects created.</p>
 
-<h3>Create containers</h3>
-<p>You can now use docker commands (or other orchestration tools) to create containers. If using docker, use the --net option to specify the docker network name that corresponds to the application tier (use <em>docker network ls | grep app</em> to find the network name that corresponds to app in the example). If using kubernetes, you need to specify the tenant, network and endpoint group using the <strong>io.contiv.tenant</strong>, <strong>io.contiv.network</strong> and <strong>io.contiv.net-group</strong> labels respectively.</p>
+<h3>Create Containers</h3>
+<p>You can now use Docker commands (or other orchestration tools) to create containers. If using Docker, use the <code>--net</code> option to specify the Docker network name that corresponds to the application tier (use <code>docker network ls | grep app</code> to find the network name that corresponds to <code>app</code> in the example). If using Kubernetes, specify the tenant, network, and endpoint group using the <code>io.contiv.tenant</code>, <code>io.contiv.network</code>, and <code>io.contiv.net-group</code> labels respectively.</p>
 
 
 			</div>

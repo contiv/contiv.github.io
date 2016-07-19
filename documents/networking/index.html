@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-255d50a1.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-ccddc50c.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -106,7 +106,7 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
@@ -123,7 +123,7 @@ GitHub</a></li>
 									</ul>
 								</li>
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
@@ -148,10 +148,10 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
 								<li>
-										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Single Machine</a>
 								</li>
 								<li>
-										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Multiple Servers</a>
 								</li>
 							</ul>
 						</li>
@@ -161,13 +161,16 @@ GitHub</a></li>
 					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
 						<li>
+								<a href="/documents/networking/features.html">Features</a>
+						</li>
+						<li>
 								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
 						</li>
 						<li>
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
 						<li>
-								<a href="/documents/networking/services.html">Service Routing</a>
+								<a href="/documents/networking/services.html">Service Loadbalancing</a>
 						</li>
 						<li>
 								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
@@ -201,7 +204,7 @@ GitHub</a></li>
 								<a href="/documents/storage/configuration.html">Configuration</a>
 						</li>
 						<li>
-								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+								<a href="/documents/storage/containers.html">Creating a Container with a Volume</a>
 						</li>
 						<li>
 								<a href="/documents/storage/volcli.html">Volcli Reference</a>
@@ -275,61 +278,26 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h2>Contiv Networking</h2>
-<p>To learn about container networking basics you can find a self guided hands-on
-<a href="/documents/tutorials/container-101.html">Tutorial</a>. The tutorial discusses
-libnetwork&#39;s CNM and CoreOS&#39;s CNI model. Contiv supports both networking models,
-and therefore support a pluggable networking alternative to built-in Docker, Kubernetes,
-Mesos and Nomad ecosystems.</p>
-<p>Contiv Networking supports following use cases:</p>
+	<h1>Contiv Networking</h1>
+<p>Contiv Networking supports both major networking models:</p>
 
 <ul>
-<li>Feature rich policy model to provide secure, predictable application deployment
+<li>The libnetwork CNM model 
 </li>
-<li>Best in the class throughput for container workloads
-</li>
-<li>Multi-tenancy, Isolation, and overlapping subnets
-</li>
-<li>Integrated IPAM and service discovery
-</li>
-<li>Variety of physical topological connectivity:
-
-<ul>
-<li>Layer2(vlan)
-</li>
-<li>Layer3(BGP)
-</li>
-<li>Overlay(VXLAN)
-</li>
-<li>Cisco SDN Solution (ACI)
+<li>The CoreOS CNI model
 </li>
 </ul>
-</li>
-<li>IPv6 Support
-</li>
-<li>Policy and route distribution scale
-</li>
-<li>Integration with application blue-prints like:
+<p>Thus, Contiv Network provides a pluggable networking alternative to built-in Docker, Kubernetes,
+Mesos, and Nomad ecosystems.</p>
+<p>To learn about container networking basics, including descriptions of both models, 
+read our self-guided hands-on <a href="/documents/tutorials/container-101.html">Tutorial</a>.</p>
+
+<h2>Learning Resources</h2>
+<p>Other learning resources on this site, designed to help you get up to speed on Contiv and container networkinginclude:</p>
 
 <ul>
-<li>docker-compose
+<li><a href="/documents/networking/features.html">Contiv Features</a>
 </li>
-<li>kubernetes deployment-manager
-</li>
-</ul>
-</li>
-<li>Service Load Balancing: built in east west microservice load balancing
-</li>
-<li>Traffic isolation for storage, control (e.g. etcd/consul), network, and management traffic
-</li>
-</ul>
-<p><br>
-Please check or <a href="https://github.com/contiv/netplugin/issues">submit an issue</a> if you
-would like a feature to be addressed by Contiv.</p>
-
-<h1>Table of Contents</h1>
-
-<ul>
 <li><a href="/documents/networking/concepts.html">Concepts and Terminology</a>
 </li>
 <li><a href="/documents/networking/policies.html">Policies</a>
@@ -353,8 +321,8 @@ would like a feature to be addressed by Contiv.</p>
 </li>
 </ul>
 
-<h1>Supported modes</h1>
-<p>Contiv supports various fabric networking modes and schedulers. In order to tryout the various combination please checkout our contiv networking <a href="/documents/gettingStarted/networking/">installation</a> page</p>
+<h2>Supported Modes</h2>
+<p>Contiv supports the networking modes and schedulers shown in the table below. To learn about and try the various combinations, see the Contiv Network <a href="/documents/gettingStarted/networking/">Getting Started</a> page.</p>
 
 <table><thead>
 <tr>
@@ -394,6 +362,8 @@ would like a feature to be addressed by Contiv.</p>
 <td><i class="fa fa-check fa-2x"></i></td>
 </tr>
 </tbody></table>
+<p>Please <a href="https://github.com/contiv/netplugin/issues">submit an issue</a> if you
+would like to suggest a feature or enhancement to be addressed by Contiv developers and contributors.</p>
 
 
 			</div>

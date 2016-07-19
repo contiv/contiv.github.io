@@ -6,31 +6,36 @@ description: |-
   Storage
 ---
 
-### Creating a container with a volume
+### Creating a Container with a Volume
 
-Create a volume that refers to the volplugin driver:
+To create a container with a volume, create a volume that refers to the `volplugin` driver:
 
 ```
 docker volume create -d volplugin --name policy1/test
 ```
 
-**Notes**:
+Note the following:
 
-* `test` is the name of the volume, and is located under policy `policy1`,
- which is uploaded with `volcli policy upload.`
-* The volume will inherit the properties of the policy. Therefore, the
-volume will be of appropriate size, iops, etc.
-* There are numerous options (see below) to declare overrides of most parameters in the policy configuration.
-* Run a container that uses the policy:
+The name of the volume is `test`. The volumen is located under policy `policy1`,
+ which is uploaded with `volcli policy upload`.
+
+The volume inherits the properties of the policy: *size*, *iops*, and so on.
+
+There are numerous options (see below) to declare overrides of most parameters in the policy configuration.
+
+To run a container that uses the policy, do the following:
+
+1\. Run the command:
 
 ```
 docker run -it -v policy1/test:/mnt ubuntu bash
 ```
-* Run `mount | grep /mnt` in the container.
+
+2\. Run `mount | grep /mnt` in the container.
 
 
-**Note**: `/dev/rbd#`should be attached to that directory.
+*Note*: `/dev/rbd#`should be attached to the `mnt` directory.
 
-* Once a multi-host system is setup, anytime the volume is not mounted, it
-can be mounted on any host that has a connected rbd client available, and
-volplugin running.
+Once a multi-host system is set up, anytime the volume is not mounted, it
+can be mounted on any host that has a connected `rbd` client available and
+`volplugin` running.

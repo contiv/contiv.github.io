@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-255d50a1.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-ccddc50c.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -106,7 +106,7 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
@@ -123,7 +123,7 @@ GitHub</a></li>
 									</ul>
 								</li>
 								<li class="active">
-									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
@@ -148,10 +148,10 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
 								<li>
-										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Single Machine</a>
 								</li>
 								<li>
-										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Multiple Servers</a>
 								</li>
 							</ul>
 						</li>
@@ -161,13 +161,16 @@ GitHub</a></li>
 					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
 						<li>
+								<a href="/documents/networking/features.html">Features</a>
+						</li>
+						<li>
 								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
 						</li>
 						<li>
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
 						<li>
-								<a href="/documents/networking/services.html">Service Routing</a>
+								<a href="/documents/networking/services.html">Service Loadbalancing</a>
 						</li>
 						<li>
 								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
@@ -201,7 +204,7 @@ GitHub</a></li>
 								<a href="/documents/storage/configuration.html">Configuration</a>
 						</li>
 						<li>
-								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+								<a href="/documents/storage/containers.html">Creating a Container with a Volume</a>
 						</li>
 						<li>
 								<a href="/documents/storage/volcli.html">Volcli Reference</a>
@@ -275,19 +278,27 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h2>Setting Up Contiv in a BGP L3 Setup</h2>
-<p>This document describes how to configure the Contiv infrastructure in L3 native VLAN mode.</p>
-
-<h2>Steps to bring up a contiv cluster with routing capabilites:</h2>
+	<h1>Installing Contiv in a BGP L3 Setup</h1>
+<p>This page describes how to configure the Contiv infrastructure in L3 native VLAN mode.</p>
+<p>The following figure shows a Contiv cluster with routing capabilites:</p>
 <p><img alt="bgp" src="/documents/gettingStarted/networking/bgp_arch-f61447e6.png"/></p>
 
-<h2>Provision the host nodes with required services</h2>
-<p>Please follow the <a href="https://github.com/contiv/demo/tree/master/net#pre-requisites">prequesite</a> and <a href="https://github.com/contiv/demo/tree/master/net#step-1-download-the-installer-script">download</a> steps in the <a href="https://github.com/contiv/demo/tree/master/net">demo installer</a> page. This would enable installation of all the required packages , versions of the binary that would be needed to bring up the contiv infrastrure services. At the end of these steps netplugin , netmaster would be started in routing mode. Once the prerequiste is completed please start the installer script.</p>
+<h2>Prerequisites</h2>
+<p>Follow the <a href="/documents/gettingStarted/networking/install-swarm.html#Prerequisites">Prerequisites</a> and <a href="/documents/gettingStarted/networking/install-swarm.html#Download">Download</a>
+steps on the <a href="/documents/gettingStarted/networking/install-swarm.html">Swarm Cluster</a> installation page. 
+These steps install all of the required packages and binaries needed to start the Contiv infrastrure services.</p>
+
+<h2>Step 1: Run the Installer Script</h2>
+<p>Use the following command to run the installer script:</p>
 <pre class="highlight plaintext"><code>$chmod +x net_demo_installer
 $./net_demo_installer -l
 </code></pre>
-<p>The net_demo_installer will create a cfg.yaml template file on the first run.</p>
-<p>The <a href="https://github.com/contiv/demo/blob/master/net/extras/sample_cfg.yml">cfg.yaml</a> for the demo topology is as shown below.</p>
+<p>The <code>net_demo_installer</code> creates a <code>cfg.yaml</code> template file on the first run.</p>
+
+<h2>Step 2: Specify the Configuration</h2>
+<p>Edit the <code>cfg.yaml</code> file to specify the interfaces and IP addresses of your cluster nodes.</p>
+<p>The configuration file for a simple demo topology is shown below. A sample configuration file can be 
+downloaded <a href="extras/sample_cfg.yml">here</a>.</p>
 <pre class="highlight plaintext"><code>CONNECTION_INFO:
       172.29.205.224:
         control: eth1
@@ -296,8 +307,11 @@ $./net_demo_installer -l
         control: eth1
         data: eth6
 </code></pre>
-<p>Note: As shown in the topo diagram data interface should be the uplink interface and not the management interface of the server.</p>
-<p>Rerun the installer after filling up the cfg.yaml.</p>
+<p><em>Note</em>: As shown in the topology diagram, the server&#39;s data interface,
+not the management interface, should be the uplink interface.</p>
+
+<h2>Step 3: Rerun the Installer</h2>
+<p>Rerun the installer after editing the <code>cfg.yaml</code> file.</p>
 <pre class="highlight plaintext"><code>./net_demo_installer -l
 </code></pre>
 

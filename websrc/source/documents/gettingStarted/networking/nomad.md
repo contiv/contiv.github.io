@@ -2,28 +2,47 @@
 layout: "documents"
 page_title: "Installing Mesos"
 sidebar_current: "getting-started-networking-vagrant-nomad"
-description: |-
+and description: |-
   Installing Mesos
 ---
 
-## Getting Started with Nomad
+# Contiv Network with Nomad
 
-The purpose of the page is to demostrate the simplicity of using Contiv as the networking and policy infrastructure for containers with Nomad for scheduling docker containers
-The steps could be adapted to any vagrant or bare-metal setups running contiv components.
+This page demostrates the simplicity of using Contiv as 
+the networking and policy infrastructure for containers using Nomad to schedule 
+Docker containers. 
 
-Clone the contiv netplugin [workspace] and bringup vagrant nodes with nomad installed
+The steps here can be adapted to any Vagrant or bare-metal setups running Contiv components.
 
-##Step 1:
+## Prerequisites
+Before you can install the virtual environment, you must have the following
+software packages on your machine:
+
+- VirtualBox 5.0.2 or later
+- Vagrant 1.7.4
+- Make
+
+
+## Step 1: Start the Virtual Environment
+
+Use the following commands to clone the Contiv Network [workspace] 
+and start the Vagrant envaronment with Nomad installed.
+
 ```
-$make nomad-docker
-vagrant ssh netplugin-node1
+$ git clone https://github.com/contiv/netplugin
+$ cd netplugin; make nomad-docker
+$ vagrant ssh netplugin-node1
 ```
 
-##Step 2: Create client and server Config file to run nomad agents
+## Step 2: Create Client and Server Configuration File
 
-Fill client and server configuration file for nomad client and server agents. In this demo nomad server and client agent are running on netplugin node1 and a client agent is running on netplugin node2.
+Open the client and server configuration files for the Nomad 
+client and server agents. 
 
-**client1.hcl**
+In this demo the Nomad server and client agents are running on 
+`netplugin-node1` and a client agent is running on `netplugin-node2`.
+
+The `client1.hcl` file should look like the following:
 
 ```
 # Increase log verbosity
@@ -81,7 +100,7 @@ ports {
 }
 ```
 
-**server.hcl**
+The `server.hcl` file should look like the following:
 
 ```
 # Increase log verbosity
@@ -122,7 +141,7 @@ ports {
 
 ```
 
-**client2.hcl**
+The `client2.hcl` file should look like the following:
 
 ```
 # Increase log verbosity
@@ -179,17 +198,27 @@ ports {
     serf = 4648
 }
 ```
+
+Use the following commands to log into `netplugin-node1` and start
+the Nomad client and server agents:
+
 ```
 $vagrant ssh netplugin-node1
-vagrant@netplugin-node1:nomad agent -config server.hcl &
-vagrant@netplugin-node1:nomad agent -config client1.hcl &
-```
-```
-vagrant ssh netplugin-node2
-vagrant@netplugin-node2:nomad agent -config client2.hcl &
+vagrant@netplugin-node1$ nomad agent -config server.hcl &
+vagrant@netplugin-node1$ nomad agent -config client1.hcl &
 ```
 
-##Step 3: Verify the node status to ensure the nodes are discovered and peered.
+In a different shell window, log into `netplugin-node2` and start the
+Nomad client:
+
+```
+vagrant ssh netplugin-node2
+vagrant@netplugin-node2$ nomad agent -config client2.hcl &
+```
+
+## Step 3: Verify the Node Status 
+Use the following command to ensure the nodes have been discovered and peered:
+
 ```
 vagrant@netplugin-node1:/tmp$ nomad node-status -address=http://192.168.2.10:4646
     2016/03/16 17:51:11 [DEBUG] http: Request /v1/nodes (101.494µs)
@@ -198,9 +227,19 @@ ID        Datacenter  Name             Class  Drain  Status
 4bac61f9  dc1         netplugin-node1  foo    false  ready
 ```
 
-##Step 4: Create a network and attach it to an endpoint group.
+##Step 4: Create a Network 
+Next, create a network and attach it to an endpoint group (EPG).
 
-If endpoint group has to be attached to a network - create policies and attach rules to the same. . Refer to the [contiv docs] on steps to create policies.  
+If an EPG has to be attached to a network - create policies and attach rules to the same. . Refer to the [Contiv docs] on steps to create policies.  
+
+The following commands create the following entities:
+
+- A network called `contiv-net`
+- A policy call `prod_web`
+- An EPG called `web`
+
+The policy is associated with the EPG, and the EPG is attached to the network.
+The policy has three rules, one to deny all incoming TCP connections and two to create exceptions on ports 80 and 443.
 
 ```
 vagrant@netplugin-node1: netctl net create contiv-net -subnet="40.1.1.0/24"
@@ -212,15 +251,20 @@ vagrant@netplugin-node1: netctl group create contiv-net web -policy=prod_web
 
 ```
 
-##Step 5: Now that infrastructure is setup . Create a job file and schedule tasks
+## Step 5: Schedule Tasks
+
+Now that infrastructure is set up, create a job file to schedule tasks:
 
 ```
-nomad init
+vagrant@netplugin-node1:~$ nomad init
 ```
 
-This would create an example.nomad file that we will use to deploy containers in a network. Change the docker driver config in the file to specify a network containers need to be attached to. If the network has a policy group attached to it then the format is epgname.network. If the container needs to be attached to a network without any policies set network_mode=network_name.
+This creates a file called `example.nomad` that deploys containers in a network. 
+Change the Docker driver configuration in the file to specify a network to attach containers to. 
+If the network has an EPG (and thus a policy) attached to it, then the format for the network name is `<epgname>.<network>`. 
+To attach the container to a network with policies, set the `network_mode` to `network_name`.
 
-**example.nomad**
+The following file, `example.nomad`, illustrates a configuration with an EPG:
 
 ```
               # Use Docker to run the task.
@@ -236,17 +280,24 @@ This would create an example.nomad file that we will use to deploy containers in
                         }
 ```
 
+Finally, use this command to start the task: 
+
 ```
-vagrant@netplugin-node1:nomad run -address=http://192.168.2.10:4646 example.nomad
+vagrant@netplugin-node1:~$ nomad run -address=http://192.168.2.10:4646 example.nomad
 ```
 
-##Step 6: Verify endpoints for containers are allocated ip address from the network created.
+## Step 6: Verify the EPGs
+
+On node 2, use the following command to verify that the endpoints for containers are allocated 
+IP addresses from the network you created:
 
 ```
 vagrant@netplugin-node2:~$ docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                                  NAMES
 5d5522b9ae0a        redis:latest        "/entrypoint.sh redis"   28 seconds ago      Up 26 seconds       10.0.2.15:58847->6379/tcp, 10.0.2.15:58847->6379/udp   redis-5d46fa82-fcc4-53cc-cf08-059417217e59
 ```
+
+List the networks:
 
 ```
 vagrant@netplugin-node1:/tmp$ docker network ls
@@ -257,6 +308,8 @@ f28f834efacf        bridge              bridge
 fc1f63732ca8        none                null                
 a4f246e21bb9        host                host
 ```
+
+View the network details with the following command:
 
 ```
 vagrant@netplugin-node2:~$ docker network inspect web.contiv-net
@@ -290,6 +343,9 @@ vagrant@netplugin-node2:~$ docker network inspect web.contiv-net
     }
 ]
 ```
+
+View a container by copying its ID from the network information:
+
 ```
 vagrant@netplugin-node2:/tmp$ docker inspect 5d5522b9ae0a
 
@@ -310,6 +366,5 @@ vagrant@netplugin-node2:/tmp$ docker inspect 5d5522b9ae0a
 ]
 ```
 
-
 [workspace]: <https://github.com/contiv/netplugin>
-[contiv docs]: <http://contiv.github.io/docs/3_netplugin.html>
+[Contiv docs]: <http://contiv.github.io/docs/3_netplugin.html>

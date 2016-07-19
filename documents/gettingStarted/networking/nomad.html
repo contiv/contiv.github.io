@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Installing Mesos">
+    <meta name="description" content="">
 
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-255d50a1.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-ccddc50c.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -106,7 +106,7 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
 								<li class="active">
-									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
@@ -123,7 +123,7 @@ GitHub</a></li>
 									</ul>
 								</li>
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
@@ -148,10 +148,10 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
 								<li>
-										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Single Machine</a>
 								</li>
 								<li>
-										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Multiple Servers</a>
 								</li>
 							</ul>
 						</li>
@@ -161,13 +161,16 @@ GitHub</a></li>
 					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
 						<li>
+								<a href="/documents/networking/features.html">Features</a>
+						</li>
+						<li>
 								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
 						</li>
 						<li>
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
 						<li>
-								<a href="/documents/networking/services.html">Service Routing</a>
+								<a href="/documents/networking/services.html">Service Loadbalancing</a>
 						</li>
 						<li>
 								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
@@ -201,7 +204,7 @@ GitHub</a></li>
 								<a href="/documents/storage/configuration.html">Configuration</a>
 						</li>
 						<li>
-								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+								<a href="/documents/storage/containers.html">Creating a Container with a Volume</a>
 						</li>
 						<li>
 								<a href="/documents/storage/volcli.html">Volcli Reference</a>
@@ -275,19 +278,39 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h2>Getting Started with Nomad</h2>
-<p>The purpose of the page is to demostrate the simplicity of using Contiv as the networking and policy infrastructure for containers with Nomad for scheduling docker containers
-The steps could be adapted to any vagrant or bare-metal setups running contiv components.</p>
-<p>Clone the contiv netplugin <a href="https://github.com/contiv/netplugin">workspace</a> and bringup vagrant nodes with nomad installed</p>
+	<h1>Contiv Network with Nomad</h1>
+<p>This page demostrates the simplicity of using Contiv as 
+the networking and policy infrastructure for containers using Nomad to schedule 
+Docker containers.</p>
+<p>The steps here can be adapted to any Vagrant or bare-metal setups running Contiv components.</p>
 
-<h2>Step 1:</h2>
-<pre class="highlight plaintext"><code>$make nomad-docker
-vagrant ssh netplugin-node1
+<h2>Prerequisites</h2>
+<p>Before you can install the virtual environment, you must have the following
+software packages on your machine:</p>
+
+<ul>
+<li>VirtualBox 5.0.2 or later
+</li>
+<li>Vagrant 1.7.4
+</li>
+<li>Make
+</li>
+</ul>
+
+<h2>Step 1: Start the Virtual Environment</h2>
+<p>Use the following commands to clone the Contiv Network <a href="https://github.com/contiv/netplugin">workspace</a> 
+and start the Vagrant envaronment with Nomad installed.</p>
+<pre class="highlight plaintext"><code>$ git clone https://github.com/contiv/netplugin
+$ cd netplugin; make nomad-docker
+$ vagrant ssh netplugin-node1
 </code></pre>
 
-<h2>Step 2: Create client and server Config file to run nomad agents</h2>
-<p>Fill client and server configuration file for nomad client and server agents. In this demo nomad server and client agent are running on netplugin node1 and a client agent is running on netplugin node2.</p>
-<p><strong>client1.hcl</strong></p>
+<h2>Step 2: Create Client and Server Configuration File</h2>
+<p>Open the client and server configuration files for the Nomad 
+client and server agents.</p>
+<p>In this demo the Nomad server and client agents are running on 
+<code>netplugin-node1</code> and a client agent is running on <code>netplugin-node2</code>.</p>
+<p>The <code>client1.hcl</code> file should look like the following:</p>
 <pre class="highlight plaintext"><code># Increase log verbosity
 log_level = "DEBUG"         
 
@@ -342,7 +365,7 @@ ports {
     serf = 5648
 }
 </code></pre>
-<p><strong>server.hcl</strong></p>
+<p>The <code>server.hcl</code> file should look like the following:</p>
 <pre class="highlight plaintext"><code># Increase log verbosity
 log_level = "DEBUG"
 
@@ -380,7 +403,7 @@ ports {
 }
 
 </code></pre>
-<p><strong>client2.hcl</strong></p>
+<p>The <code>client2.hcl</code> file should look like the following:</p>
 <pre class="highlight plaintext"><code># Increase log verbosity
 log_level = "DEBUG"
 
@@ -435,15 +458,20 @@ ports {
     serf = 4648
 }
 </code></pre>
+<p>Use the following commands to log into <code>netplugin-node1</code> and start
+the Nomad client and server agents:</p>
 <pre class="highlight plaintext"><code>$vagrant ssh netplugin-node1
-vagrant@netplugin-node1:nomad agent -config server.hcl &amp;
-vagrant@netplugin-node1:nomad agent -config client1.hcl &amp;
+vagrant@netplugin-node1$ nomad agent -config server.hcl &amp;
+vagrant@netplugin-node1$ nomad agent -config client1.hcl &amp;
 </code></pre>
+<p>In a different shell window, log into <code>netplugin-node2</code> and start the
+Nomad client:</p>
 <pre class="highlight plaintext"><code>vagrant ssh netplugin-node2
-vagrant@netplugin-node2:nomad agent -config client2.hcl &amp;
+vagrant@netplugin-node2$ nomad agent -config client2.hcl &amp;
 </code></pre>
 
-<h2>Step 3: Verify the node status to ensure the nodes are discovered and peered.</h2>
+<h2>Step 3: Verify the Node Status</h2>
+<p>Use the following command to ensure the nodes have been discovered and peered:</p>
 <pre class="highlight plaintext"><code>vagrant@netplugin-node1:/tmp$ nomad node-status -address=http://192.168.2.10:4646
     2016/03/16 17:51:11 [DEBUG] http: Request /v1/nodes (101.494µs)
 ID        Datacenter  Name             Class  Drain  Status
@@ -451,8 +479,21 @@ ID        Datacenter  Name             Class  Drain  Status
 4bac61f9  dc1         netplugin-node1  foo    false  ready
 </code></pre>
 
-<h2>Step 4: Create a network and attach it to an endpoint group.</h2>
-<p>If endpoint group has to be attached to a network - create policies and attach rules to the same. . Refer to the <a href="http://contiv.github.io/docs/3_netplugin.html">contiv docs</a> on steps to create policies.</p>
+<h2>Step 4: Create a Network</h2>
+<p>Next, create a network and attach it to an endpoint group (EPG).</p>
+<p>If an EPG has to be attached to a network - create policies and attach rules to the same. . Refer to the <a href="http://contiv.github.io/docs/3_netplugin.html">Contiv docs</a> on steps to create policies.</p>
+<p>The following commands create the following entities:</p>
+
+<ul>
+<li>A network called <a name="contiv_net"/><a href="#contiv_net"><code>contiv-net</code></a>
+</li>
+<li>A policy call <a name="prod_web"/><a href="#prod_web"><code>prod_web</code></a>
+</li>
+<li>An EPG called <a name="web"/><a href="#web"><code>web</code></a>
+</li>
+</ul>
+<p>The policy is associated with the EPG, and the EPG is attached to the network.
+The policy has three rules, one to deny all incoming TCP connections and two to create exceptions on ports 80 and 443.</p>
 <pre class="highlight plaintext"><code>vagrant@netplugin-node1: netctl net create contiv-net -subnet="40.1.1.0/24"
 vagrant@netplugin-node1: netctl policy create prod_web
 vagrant@netplugin-node1: netctl policy rule-add prod_web 1 -direction=in -protocol=tcp -action=deny
@@ -462,11 +503,15 @@ vagrant@netplugin-node1: netctl group create contiv-net web -policy=prod_web
 
 </code></pre>
 
-<h2>Step 5: Now that infrastructure is setup . Create a job file and schedule tasks</h2>
-<pre class="highlight plaintext"><code>nomad init
+<h2>Step 5: Schedule Tasks</h2>
+<p>Now that infrastructure is set up, create a job file to schedule tasks:</p>
+<pre class="highlight plaintext"><code>vagrant@netplugin-node1:~$ nomad init
 </code></pre>
-<p>This would create an example.nomad file that we will use to deploy containers in a network. Change the docker driver config in the file to specify a network containers need to be attached to. If the network has a policy group attached to it then the format is epgname.network. If the container needs to be attached to a network without any policies set network_mode=network_name.</p>
-<p><strong>example.nomad</strong></p>
+<p>This creates a file called <code>example.nomad</code> that deploys containers in a network. 
+Change the Docker driver configuration in the file to specify a network to attach containers to. 
+If the network has an EPG (and thus a policy) attached to it, then the format for the network name is <code>&lt;epgname&gt;.&lt;network&gt;</code>. 
+To attach the container to a network with policies, set the <code>network_mode</code> to <code>network_name</code>.</p>
+<p>The following file, <code>example.nomad</code>, illustrates a configuration with an EPG:</p>
 <pre class="highlight plaintext"><code>              # Use Docker to run the task.
                         driver = "docker"
 
@@ -479,14 +524,18 @@ vagrant@netplugin-node1: netctl group create contiv-net web -policy=prod_web
                                 network_mode="web.contiv-net"
                         }
 </code></pre>
-<pre class="highlight plaintext"><code>vagrant@netplugin-node1:nomad run -address=http://192.168.2.10:4646 example.nomad
+<p>Finally, use this command to start the task:</p>
+<pre class="highlight plaintext"><code>vagrant@netplugin-node1:~$ nomad run -address=http://192.168.2.10:4646 example.nomad
 </code></pre>
 
-<h2>Step 6: Verify endpoints for containers are allocated ip address from the network created.</h2>
+<h2>Step 6: Verify the EPGs</h2>
+<p>On node 2, use the following command to verify that the endpoints for containers are allocated 
+IP addresses from the network you created:</p>
 <pre class="highlight plaintext"><code>vagrant@netplugin-node2:~$ docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                                  NAMES
 5d5522b9ae0a        redis:latest        "/entrypoint.sh redis"   28 seconds ago      Up 26 seconds       10.0.2.15:58847-&gt;6379/tcp, 10.0.2.15:58847-&gt;6379/udp   redis-5d46fa82-fcc4-53cc-cf08-059417217e59
 </code></pre>
+<p>List the networks:</p>
 <pre class="highlight plaintext"><code>vagrant@netplugin-node1:/tmp$ docker network ls
 NETWORK ID          NAME                DRIVER
 0c242226aa20        web.contiv-net      netplugin           
@@ -495,6 +544,7 @@ f28f834efacf        bridge              bridge
 fc1f63732ca8        none                null                
 a4f246e21bb9        host                host
 </code></pre>
+<p>View the network details with the following command:</p>
 <pre class="highlight plaintext"><code>vagrant@netplugin-node2:~$ docker network inspect web.contiv-net
 [
     {
@@ -526,6 +576,7 @@ a4f246e21bb9        host                host
     }
 ]
 </code></pre>
+<p>View a container by copying its ID from the network information:</p>
 <pre class="highlight plaintext"><code>vagrant@netplugin-node2:/tmp$ docker inspect 5d5522b9ae0a
 
         "Networks": {

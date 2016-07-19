@@ -6,39 +6,23 @@ description: |-
   Getting Started
 ---
 
-## Contiv Networking
+# Contiv Networking
 
-To learn about container networking basics you can find a self guided hands-on
-[Tutorial](/documents/tutorials/container-101.html). The tutorial discusses
-libnetwork's CNM and CoreOS's CNI model. Contiv supports both networking models,
-and therefore support a pluggable networking alternative to built-in Docker, Kubernetes,
-Mesos and Nomad ecosystems.
+Contiv Networking supports both major networking models:
 
-Contiv Networking supports following use cases:
+- The libnetwork CNM model 
+- The CoreOS CNI model
 
-- Feature rich policy model to provide secure, predictable application deployment
-- Best in the class throughput for container workloads
-- Multi-tenancy, Isolation, and overlapping subnets
-- Integrated IPAM and service discovery
-- Variety of physical topological connectivity:
-    - Layer2(vlan)
-    - Layer3(BGP)
-    - Overlay(VXLAN)
-    - Cisco SDN Solution (ACI)
-- IPv6 Support
-- Policy and route distribution scale
-- Integration with application blue-prints like:
-    - docker-compose
-    - kubernetes deployment-manager
-- Service Load Balancing: built in east west microservice load balancing
-- Traffic isolation for storage, control (e.g. etcd/consul), network, and management traffic
+Thus, Contiv Network provides a pluggable networking alternative to built-in Docker, Kubernetes,
+Mesos, and Nomad ecosystems.
 
-<br>
-Please check or [submit an issue](https://github.com/contiv/netplugin/issues) if you
-would like a feature to be addressed by Contiv.
+To learn about container networking basics, including descriptions of both models, 
+read our self-guided hands-on [Tutorial](/documents/tutorials/container-101.html).
 
-# Table of Contents
+## Learning Resources
+Other learning resources on this site, designed to help you get up to speed on Contiv and container networkinginclude:
 
+- [Contiv Features](/documents/networking/features.html)
 - [Concepts and Terminology](/documents/networking/concepts.html)
 - [Policies](/documents/networking/policies.html)
 - [Service Routing](/documents/networking/services.html)
@@ -50,10 +34,9 @@ would like a feature to be addressed by Contiv.
 - [IPAM and Service Discovery](/documents/networking/ipam.html)
 - [IPv6](/documents/networking/ipv6.html)
 
+## Supported Modes
 
-# Supported modes
-
-Contiv supports various fabric networking modes and schedulers. In order to tryout the various combination please checkout our contiv networking [installation](/documents/gettingStarted/networking/index.html) page
+Contiv supports the networking modes and schedulers shown in the table below. To learn about and try the various combinations, see the Contiv Network [Getting Started](/documents/gettingStarted/networking/index.html) page.
 
 |Fabric  | Kubernetes | Docker Swarm | Mesos | Nomad |
 |--------+------------+--------------+-------+-------|
@@ -61,3 +44,7 @@ Contiv supports various fabric networking modes and schedulers. In order to tryo
 | **Layer 3** | <i class="fa fa-check fa-2x"></i>| <i class="fa fa-check fa-2x"></i> | <i class="fa fa-check fa-2x"></i> | <i class="fa fa-check fa-2x"></i> |
 | **Overlay (cloud)** | <i class="fa fa-check fa-2x"></i>| <i class="fa fa-check fa-2x"></i> | <i class="fa fa-check fa-2x"></i> | <i class="fa fa-check fa-2x"></i> |
 | **ACI**     | <i class="fa fa-check fa-2x"></i>| <i class="fa fa-check fa-2x"></i> | <i class="fa fa-check fa-2x"></i> | <i class="fa fa-check fa-2x"></i> |
+
+Please [submit an issue](https://github.com/contiv/netplugin/issues) if you
+would like to suggest a feature or enhancement to be addressed by Contiv developers and contributors.
+

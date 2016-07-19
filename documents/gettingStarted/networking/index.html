@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-255d50a1.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-ccddc50c.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -106,7 +106,7 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
@@ -123,7 +123,7 @@ GitHub</a></li>
 									</ul>
 								</li>
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
@@ -148,10 +148,10 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
 								<li>
-										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Single Machine</a>
 								</li>
 								<li>
-										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Multiple Servers</a>
 								</li>
 							</ul>
 						</li>
@@ -161,13 +161,16 @@ GitHub</a></li>
 					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
 						<li>
+								<a href="/documents/networking/features.html">Features</a>
+						</li>
+						<li>
 								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
 						</li>
 						<li>
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
 						<li>
-								<a href="/documents/networking/services.html">Service Routing</a>
+								<a href="/documents/networking/services.html">Service Loadbalancing</a>
 						</li>
 						<li>
 								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
@@ -201,7 +204,7 @@ GitHub</a></li>
 								<a href="/documents/storage/configuration.html">Configuration</a>
 						</li>
 						<li>
-								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+								<a href="/documents/storage/containers.html">Creating a Container with a Volume</a>
 						</li>
 						<li>
 								<a href="/documents/storage/volcli.html">Volcli Reference</a>
@@ -276,37 +279,46 @@ GitHub</a></li>
 			<div class="bs-docs-section">
 				
 	<h1>Getting Started with Contiv Network</h1>
-<p>There are several ways to try out Contiv Network:</p>
-
-<h2><a href="/documents/gettingStarted/networking/vagrant.html">Using Vagrant</a></h2>
-<p>Vagrant is a utility for setting up virtual machines (VMs).
-You can use our Vagrant script to get up and running fast on a single Linux or OS X machine.</p>
+<p>There are several ways to try out Contiv Network. All of these ways fall into two categories:</p>
 
 <ul>
-<li><a href="/documents/gettingStarted/networking/swarm.html">Try out Contiv Network with Docker Swarm</a>
+<li><a href="#UsingVagrant">Use our Vagrant scripts to set up a small-scale virtual environment on an single machine.</a>
 </li>
-<li><a href="/documents/gettingStarted/networking/k8s.html">Try out Contiv Network with Kubernetes</a>
-</li>
-<li><a href="/documents/gettingStarted/networking/mesos.html">Try out Contiv Network with Mesos</a>
-</li>
-<li><a href="/documents/gettingStarted/networking/nomad.html">Try out Contiv Network with Nomad</a>
+<li><a href="#WithNetworkedServers">Install Contiv Network on two or more bare-metal or virtual servers.</a>
 </li>
 </ul>
+<p><a name="UsingVagrant"/></p>
 
-<h2><a href="/documents/gettingStarted/networking/installation.html">With Networked Servers</a></h2>
+<h2>On a Single Machine</h2>
+<p>You can use our Vagrant script to get up and running fast on a single Linux or OS X machine.
+Vagrant is a utility for quickly and consistently setting up virtual machines (VMs).</p>
+
+<ul>
+<li><a href="/documents/gettingStarted/networking/swarm.html">Try out Contiv Network with Docker Swarm</a>.
+</li>
+<li><a href="/documents/gettingStarted/networking/k8s.html">Try out Contiv Network with Kubernetes</a>.
+</li>
+<li><a href="/documents/gettingStarted/networking/mesos.html">Try out Contiv Network with Mesos</a>.
+</li>
+<li><a href="/documents/gettingStarted/networking/nomad.html">Try out Contiv Network with Nomad</a>.
+</li>
+</ul>
+<p><a name="WithNetworkedServers"/></p>
+
+<h2>On Multiple Servers</h2>
 <p>You can install Contiv on two or more baremetal nodes or VMs.</p>
 
 <ul>
-<li><a href="/documents/gettingStarted/networking/install-swarm.html">Install Contiv Network with Docker Swarm</a>
+<li><a href="/documents/gettingStarted/networking/install-swarm.html">Install Contiv Network with Docker Swarm</a>.
 </li>
-<li><a href="/documents/gettingStarted/networking/install-k8s.html">Install Contiv Network with Kubernetes</a>
+<li><a href="/documents/gettingStarted/networking/install-k8s.html">Install Contiv Network with Kubernetes</a>.
 </li>
-<li><a href="/documents/gettingStarted/networking/bgp.html">Install Contiv Network in L3 BGP mode</a>
+<li><a href="/documents/gettingStarted/networking/bgp.html">Install Contiv Network in L3 BGP mode</a>.
 </li>
-<li><a href="/documents/gettingStarted/networking/aci.html">Install Contiv Network with ACI</a>
+<li><a href="/documents/gettingStarted/networking/aci.html">Install Contiv Network with Cisco ACI</a>*.
 </li>
 </ul>
-<p>You can also use Contiv Network with Cisco Application Centric Infrastructure (ACI). For more information,
+<p>*For more information about using Contiv Network with Cisco Application Centric Infrastructure (ACI),
 contact Cisco Systems.</p>
 
 

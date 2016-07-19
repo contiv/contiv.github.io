@@ -6,19 +6,22 @@ description: |-
   Networking IPv6
 ---
 
-## IPv6 in netplugin
-The current implementation supports dual stack with IPv4 and IPv6 interfaces for containers, as Docker Swarm APIs do not support IPv6-only containers.
+# IPv6 in Contiv Network
+Contiv Network supports a dual stack with IPv4 and IPv6 interfaces for containers. Docker Swarm APIs do not support IPv6-only containers.
 
-## Configuring IPv6 network
-When configuring a network, you can specify an optional IPv6 subnet pool to allocate IPv6 address for the containers.
+## Configuring an IPv6 Network
+When configuring a network, you can specify an optional IPv6 subnet pool to allocate IPv6 address for the containers:
 
 ```
 $ netctl net create contiv-net --subnet=20.1.1.0/24 --subnetv6=2001::/100
 ```
 
-## Running containers in IPv6 network
+## Running Containers in an IPv6 Network
+You run containers in an IPv6 network by assigning them to the named network.
 
-Container 'web' in Node1
+Consider two containers. 
+
+First, a container 'web' in Node1:
 
 ```
 [vagrant@netplugin-node1 ~]$ docker run -itd  --net contiv-net --name web alpine sh
@@ -26,15 +29,15 @@ f0b75b2ccf9a7c71d138f74d8092d8535357ebc61feb963f740f1ba593afbc01
 
 ```
 
-Container 'db' in Node2
+Second, a container 'db' in Node2:
 
 ```
 [vagrant@netplugin-node2 ~]$ docker run -itd  --net contiv-net --name db alpine sh
 5ed67c19041dd64c983bab7a21ca3a1ad7e85a6ee981b4140b32068bae6d6e26
 ```
 
-## IP Address allocation
-The containers created will get IPv4 and IPv6 address allocated from the corresponding subnet range.
+## IP Address Allocation
+The containers are allocated IPv4 and IPv6 address from the corresponding subnet range:
 
 ```
 [vagrant@netplugin-node1 ~]$ docker network inspect contiv-net
@@ -78,9 +81,10 @@ The containers created will get IPv4 and IPv6 address allocated from the corresp
 ]
 ```
 
-## Container IPv6 interface
+## Container IPv6 Interface
+Logging into the two containers shows the following:
 
-Container 'web' in Node1
+Container 'web' in Node1:
 
 ```
 [vagrant@netplugin-node1 ~]$ docker exec -it web /bin/sh
@@ -96,7 +100,7 @@ Container 'web' in Node1
 / #
 ```
 
-Container 'db' in Node2
+Container 'db' in Node2:
 
 ```
 [vagrant@netplugin-node2 ~]$ docker exec -it db /bin/sh
@@ -112,7 +116,9 @@ Container 'db' in Node2
 / #
 ```
 
-## Ping6 between containers
+## Ping6 Between Containers
+The following output shows the ability to ping a container's IPv6 address:
+
 ```
 [vagrant@netplugin-node1 ~]$ docker exec -it web /bin/sh
 / # ping6 2001::4 -I 2001::3 -c 3

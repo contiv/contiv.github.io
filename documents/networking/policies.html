@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-255d50a1.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-ccddc50c.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -106,7 +106,7 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
@@ -123,7 +123,7 @@ GitHub</a></li>
 									</ul>
 								</li>
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
@@ -148,10 +148,10 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
 								<li>
-										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Single Machine</a>
 								</li>
 								<li>
-										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Multiple Servers</a>
 								</li>
 							</ul>
 						</li>
@@ -161,13 +161,16 @@ GitHub</a></li>
 					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
 						<li>
+								<a href="/documents/networking/features.html">Features</a>
+						</li>
+						<li>
 								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
 						</li>
 						<li class="active">
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
 						<li>
-								<a href="/documents/networking/services.html">Service Routing</a>
+								<a href="/documents/networking/services.html">Service Loadbalancing</a>
 						</li>
 						<li>
 								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
@@ -201,7 +204,7 @@ GitHub</a></li>
 								<a href="/documents/storage/configuration.html">Configuration</a>
 						</li>
 						<li>
-								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+								<a href="/documents/storage/containers.html">Creating a Container with a Volume</a>
 						</li>
 						<li>
 								<a href="/documents/storage/volcli.html">Volcli Reference</a>
@@ -275,80 +278,80 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h2>Network Policies</h2>
-<p>Network policies can help describe rules for network resource usage,
-isolation rules, prioritization behavior, etc. on a group of containers.</p>
+	<h1>Network Policies</h1>
+<p>Network policies describe rules for network resource usage, isolation rules, 
+prioritization, and other network behavior on a group of containers.</p>
 
-<h3>Network Isolation Policies</h3>
-<p>Network Isolation Policies allows white-list or black-list access control rules
-to or from an application. It is particularly useful in securing an application
-tier. A group on which an inbound policy is applied could be a service tier or
-some other logical collection of containers that are required to become part of
+<h2>Network Isolation Policies</h2>
+<p>Network isolation policies enable white-list or black-list access control rules
+to or from an application. Network isolation policies are particularly useful in 
+securing an application tier. A group on which an inbound policy is applied can 
+be a service tier or some other logical collection of containers that must be part of
 a policy domain.</p>
-<p>A policy can be manipulated (CRUD) using the following CLI (or an equivalent REST API)
-on the <code>policy</code> object.</p>
+<p>The following sections describe how to use the Contiv Network CLI to manipulate
+(create, read, update, delete, or CRUD) a network isolation policy. The same 
+effect can be achieved with the Contiv Network REST API, which has the same functionality 
+as the CLI.</p>
 
-<h4>Creating a network isolation policy</h4>
-<p>A policy can be created using <code>create</code> operation on <code>policy</code> object. During creation of
-the policy it must be supplied with a unique name in the <code>tenant</code> namespace.</p>
+<h3>Creating a Network Isolation Policy</h3>
+<p>You can create a policy using the <code>create</code> operation on a <code>policy</code> object. During creation, 
+the policy must be supplied with a unique name in the <code>tenant</code> namespace.</p>
+<p>The following command creates a policy named <code>web-policy</code>:</p>
 <pre class="highlight plaintext"><code>$ netctl policy create web-policy
 </code></pre>
-<p>The above example will create a policy name <code>web-policy</code>. A network isolation policy
-can have ACL(access control lists) style white-list or black-list rules. A policy rule
-can specify following information:</p>
+<p>A network isolation policy can have access control list (ACL) -style whitelist 
+or blacklist rules. A policy rule can specify the following information:</p>
 
 <ul>
-<li><a name="match_criteria"/><a href="#match_criteria"><code>match criteria</code></a>: specified using <code>protocol</code> and optionally a <code>port</code>. If a match
-criteria is not specified the rule matches all traffic, or if only <code>protocol</code> is
-specified but <code>port</code> is omitted, then the traffic matches all ports
-. <code>protocol</code>: a layer3 (ip, icmp) or layer4 (tcp, udp)
-. <code>port</code>: a tcp or udp port number to/from which traffic needs to be permitted/denied
-. <code>ip-address</code>: it can specify a masked IP address pool, which can be used to specify
-a rules to/from the address pool. It is often useful to specify these rules to/from
-non-container workloads
+<li><code>match criteria</code>: Specified using <code>protocol</code> and optionally a <code>port</code>. If match
+criteria are not specified then the rule matches all traffic If only <code>protocol</code> is
+specified but <code>port</code> is omitted, then the traffic matches all ports.
+
+<ul>
+<li><a name="protocol"/><a href="#protocol"><code>protocol</code></a>: Layer3 (IP, ICMP) or Layer4 (TCP, UDP).
 </li>
-<li><a name="direction"/><a href="#direction"><code>direction</code></a>: direction can be <code>inbound</code> or <code>outbound</code>. Semantically direction is
-inbound or outbound from container application&#39;s point of view. An <code>inbound</code> rule
-is applicable for the traffic going towards the containers, whereas <code>outbound</code> rule
-is applicable for the traffic going out from the container.
+<li><a name="port"/><a href="#port"><code>port</code></a>: a TCP or UDP port number to or from which to permit or deny traffic.
 </li>
-<li><a name="action"/><a href="#action"><code>action</code></a>: a <code>permit</code> or a <code>deny</code> action on the traffic that matches the rule. A
-white-list set of rules are typically a set of <code>permit</code> action followed by a <code>deny</code>
-the rest.
-</li>
-<li><a name="priority"/><a href="#priority"><code>priority</code></a>: this allows rules to be ordered and provides a predictable behavior
-for a set of arbitrary rules.
-</li>
-<li><a name="from_group"/><a href="#from_group"><code>from-group</code></a>: this can be used to <code>permit</code> or <code>deny</code> traffic to/from a
-specific group of containers, identified as a group
+<li><a name="ip_address"/><a href="#ip_address"><code>ip-address</code></a>: Can specify a masked IP address pool, which can be used to specify
+a rules to or from the address pool. It is often useful to specify these rules to and from
+non-container workloads.
 </li>
 </ul>
-<p>For example, if a policy rule needs to specify an inbound set of rules that allows
-<code>tcp/80</code> and <code>tcp/443</code> and deny rest of the traffic, the commands can look like:</p>
+</li>
+<li><a name="direction"/><a href="#direction"><code>direction</code></a>: Can be <code>inbound</code> or <code>outbound</code>, from the container 
+application&#39;s point of view. An <code>inbound</code> rule is applicable to the traffic coming in 
+<em>to</em> the containers; an <code>outbound</code> rule is applicable to the traffic 
+going out <em>from</em> the container.
+</li>
+<li><a name="action"/><a href="#action"><code>action</code></a>: A <code>permit</code> or <code>deny</code> action on the traffic that matches the rule. A
+<em>white-list</em> set of rules is typically a set of <code>permit</code> actions followed by a 
+rule to <code>deny</code> the rest.
+</li>
+<li><a name="priority"/><a href="#priority"><code>priority</code></a>: Determines the execution order of the rules, producing a predictable behavior
+for a set of arbitrary rules.
+</li>
+<li><a name="from_group"/><a href="#from_group"><code>from-group</code></a>: Used to <code>permit</code> or <code>deny</code> traffic to or from specific containers, 
+identified as a group.
+</li>
+</ul>
+<p>For example, A policy to allow inbound access to <code>tcp/80</code> and <code>tcp/443</code> and deny all other traffic 
+looks like this:</p>
 <pre class="highlight plaintext"><code>netctl policy rule-add web-policy 1 -direction=in -protocol=tcp -action=deny
 netctl policy rule-add web-policy 2 -direction=in -protocol=tcp -port=80 -action=allow -priority=10
 netctl policy rule-add web-policy 3 -direction=in -protocol=tcp -port=443 -action=allow -priority=10
 </code></pre>
 
-<h4>Associating a network isolation policy to a group</h4>
-<p>After having define a security policy like mentioned above, one can associate it
-with a group to an existing network <code>contiv-net</code> as follows:</p>
+<h3>Associating a Network Isolation Policy to a Group</h3>
+<p>After defining a security policy, you associate it with a group 
+on an existing network <code>contiv-net</code> as follows:</p>
 <pre class="highlight plaintext"><code>netctl group create contiv-net web-group -policy=web-policy
 </code></pre>
-<p>The way to run containers to be associated with <code>web-group</code> is done as follows:</p>
-
-<ul>
-<li>Docker/Swarm:
-</li>
-</ul>
+<p>You run containers to be associated with <code>web-group</code> as follows:</p>
+<p>For Docker or Swarm:</p>
 <pre class="highlight plaintext"><code>docker run -itd --net=web-group alpine /bin/sh
 </code></pre>
-
-<ul>
-<li>Kubernetes: specify group association as a label <a name="io_contiv_net_group"/><a href="#io_contiv_net_group"><code>io.contiv.net-group</code></a>
-For example in a service (or pod) spec, it could look like:
-</li>
-</ul>
+<p>For Kubernetes: Specify the group association as a label <code>io.contiv.net-group</code>.
+For example, a service (or pod) specification might look like:</p>
 <pre class="highlight plaintext"><code>apiVersion: v1
 kind: ReplicationController
 metadata:
@@ -369,22 +372,23 @@ spec:
         command:
           - /bin/sh
 </code></pre>
-<p>Kubernetes offers richer option for selection criteria because of <code>selector</code> concept,
-which can allow arbitrary collection of lables to to be selected to form a dynamic
-<code>group</code>. For example a collection of {&#39;prod&#39;, &#39;web&#39;} can be an implicit group, where
-as {&#39;stage&#39;, &#39;db&#39;, &#39;low-latency&#39;} can be another implicit group. To use this feature
-Kubernete&#39;s native policy object must be used, available in Kubernetes 1.3 release onwards.</p>
+<p>Kubernetes offers richer options for selection criteria because of the <code>selector</code> concept,
+which allows arbitrary selection of collections of labels to form a dynamic
+<code>group</code>. For example, a collection of {&#39;prod&#39;, &#39;web&#39;} ond {&#39;stage&#39;, &#39;db&#39;, &#39;low-latency&#39;} 
+can both be implicit groups .</p>
+<p>To use this feature, Kubernete&#39;s native policy object must be used, available in 
+Kubernetes Release 1.3 and later.</p>
 
-<h4>Reading, Updating, and Deleting an network isolation policy</h4>
-<p><code>netctl</code> or equivalent REST APIs can be used to perform other operations on the policy.
-For example to list all the policies we can use</p>
+<h3>Reading, Updating, and Deleting a Network Isolation Policy</h3>
+<p>The <code>netctl</code> utility or the equivalent REST APIs can be used to perform other operations on the policy.
+For example, the following lists all of the usable policies:</p>
 <pre class="highlight plaintext"><code>$ netctl policy ls
 Tenant   Policy
 ------   ------
 default  web-policy
 
 </code></pre>
-<p>And to list all the rules in the policy, we can use:</p>
+<p>The followign lists all the rules in the policy:</p>
 <pre class="highlight plaintext"><code>$ netctl policy rule-ls web-policy
 Incoming Rules:
 Rule  Priority  From EndpointGroup  From Network  From IpAddress  Protocol  Port  Action
@@ -395,7 +399,7 @@ Rule  Priority  From EndpointGroup  From Network  From IpAddress  Protocol  Port
 Outgoing Rules:
 
 </code></pre>
-<p>In order to add a new rule to an existing policy, we can use:</p>
+<p>To add a new rule to an existing policy, use:</p>
 <pre class="highlight plaintext"><code>$ netctl policy rule-add web-policy 4 -direction=in -protocol=tcp -port=8080 -action=allow -priority 10
 
 $ netctl policy rule-ls web-policy
@@ -411,41 +415,40 @@ Rule  Priority  To EndpointGroup  To Network  To IpAddress  Protocol  Port  Acti
 ----  --------  ----------------  ----------  ---------     --------  ----  ------
 
 </code></pre>
-<p>Or to delete an existing rule we can use the <code>rule-id</code> specified in the <code>rule-delete</code>
+<p>To delete an existing rule, use the <code>rule-id</code> specified in the <code>rule-delete</code>
 command:</p>
 <pre class="highlight plaintext"><code>netctl policy rule-rm web-policy 4
 </code></pre>
-<p>Finally, to delete a policy, we can use <code>delete</code> verb on the policy:</p>
+<p>Finally, to delete a policy, use the <code>delete</code> verb on the policy:</p>
 <pre class="highlight plaintext"><code>netctl policy delete web-policy
 </code></pre>
 
-<h4>Deleting, Updating a group</h4>
-<p><code>netctl</code> or equivalen REST APIs can be use to perform CRUD operations on <code>group</code> object.
-For example to delete a group, we can use:</p>
+<h3>Deleting or Updating a Group</h3>
+<p>The <code>netctl</code> utility or equivalen REST APIs can be use to perform CRUD operations on a <code>group</code> object.
+For example, to delete a group, use:</p>
 <pre class="highlight plaintext"><code>netctl group delete web-group
 </code></pre>
-<p>Note however that above command would fail if there are containers belonging to the
-group, or if there are policies associated with the group. Therefore one must delete
-various containers and policies associated with the group before deleting a group.</p>
-<p>Updating a group to use a different policy can be done using the <code>create</code> verb:</p>
+<p><em>Note</em>: You must delete containers and policies associated with a group before deleting
+the group. The <code>netctl group delete</code> command fails if any containers still belong to the
+group or if any policies are still associated with the group.</p>
+<p>Use the <code>create</code> verb to update a group to use a different policy:</p>
 <pre class="highlight plaintext"><code>netctl group create contiv-net web-group -policy=new-web-policy
 </code></pre>
 
-<h4>Associating multiple policies to a group</h4>
-<p>The policy system is dynamic with respect to:</p>
+<h3>Associating Multiple Policies with a Group</h3>
+<p>The policy system is dynamic in the following two ways:</p>
 
 <ul>
-<li>Rules are expected to be altered after the policy is defined
+<li>Policy rules can be altered after the policy is defined.
 </li>
-<li>Policy association to a group of containers can be added or removed as desired
-In the above section we observed how rules can be added and deleted to an existing policy.
-This section we will examine specifying a category of rules to be defined as atomic
-units of policies that can be manipulated and applied across a group of containers
-in a flexible manner, and also be updated after the group is defined and created.
+<li>Policy associations can be added to or removed from a group of containers at any time.
 </li>
 </ul>
-<p>Say we crate a <code>staging-web-group</code> that is expected to open up not only the web ports
-but also some ports for diagnostics purposes. For this use case we can define two policies
+<p>This section examines specifying a category of rules to be defined as atomic
+units of policy that can be manipulated and applied across a group of containers
+in a flexible manner, and also be updated after the group is defined and created.</p>
+<p>Consider the creation of a <code>staging-web-group</code> that exposes not only the web ports
+but also some ports for diagnostics purposes. For this use case, define two policies
 called <code>allow-web</code> and <code>allow-diags</code> as follows:</p>
 <pre class="highlight plaintext"><code>$ netctl policy create allow-web
 $ netctl policy rule-add allow-web 1 -direction=in -protocol=tcp -action=deny
@@ -467,8 +470,7 @@ Rule  Priority  From EndpointGroup  From Network  From IpAddress  Protocol  Port
 ----  --------  ------------------  ------------  ---------       --------  ----  ------
 1     1                                                           icmp      0     allow
 </code></pre>
-<p>Now we can associate both of these policies to a group we are calling <code>staging-web-group</code>
-using:</p>
+<p>Now associate both of these policies to a group called <code>staging-web-group</code>:</p>
 <pre class="highlight plaintext"><code>$ netctl group create contiv-net stage-web-group -policy=web-policy -policy=allow-diags
 
 $ netctl group ls
@@ -476,12 +478,12 @@ Tenant   Group            Network     Policies
 ------   -----            -------     --------
 default  stage-web-group  contiv-net  web-policy,allow-diags
 </code></pre>
-<p>At this point we can run a container that belongs to <code>stage-web-group</code> as following and
-can expect a combination of the policies be applied towards any traffic to the container(s)</p>
+<p>You can now run a container that belongs to <code>stage-web-group</code> as following and
+expect both of the policies be applied to any traffic to the container(s):</p>
 <pre class="highlight plaintext"><code>$ docker run -itd --net=stage-web-group --name=c1 alpine /bin/sh
 </code></pre>
-<p>And if we decide to withdraw the allow-diags policy, all rules corresponding to the policy
-will be withdrawn automatically. The withdrawl of a policy is done by providing the updated
+<p>If you withdraw the <code>allow-diags</code> policy, all rules corresponding to the policy
+are withdrawn automatically. The withdrawl of a policy is done by providing the updated
 list of new policies associated with a group, for example:</p>
 <pre class="highlight plaintext"><code>$ netctl group create contiv-net stage-web-group -policy=web-policy
 $ netctl group ls
@@ -490,9 +492,9 @@ Tenant   Group            Network     Policies
 default  stage-web-group  contiv-net  web-policy
 </code></pre>
 
-<h4>Associating a policy to multiple groups</h4>
-<p>A policy can be applied to multiple groups i.e. policy is reusable across groups.
-For example <code>allow-diags</code> can be used by <code>dev-web-group</code> or <code>staging-web-group</code> both
+<h3>Associating a Policy with Multiple Groups</h3>
+<p>A policy can be applied to multiple groups. In other words, a policy is reusable across groups.
+For example, <code>allow-diags</code> can be used by <code>dev-web-group</code> or <code>staging-web-group</code> or both
 as follows:</p>
 <pre class="highlight plaintext"><code>$ netctl group create contiv-net dev-web-group -policy=allow-diags
 $ netctl group ls
@@ -501,59 +503,56 @@ Tenant   Group            Network     Policies
 default  stage-web-group  contiv-net  web-policy,allow-diags
 default  dev-web-group    contiv-net  allow-diags
 </code></pre>
-<p>Any update to the policy rules, will be applied to all the groups a policy is associated with. This allows a structured way of creating a block of policies that can be reused, reassigned
+<p>Any update to the policy rules is applied to all the groups a policy is associated with. 
+This allows a structured way of creating a block of policies that can be reused, reassigned
 and repurposed dynamically.</p>
 
-<h3>Network Bandwidth Limiting</h3>
-<p>Network Bandwidth Policies allows specifying the bandwidth limits on a container
-that belongs to a specific group. This policy is useful in limiting the bandwidth
-usage by any of the containers belonging to a specific group.</p>
-<p>Policies, like network isolation, is applied between two groups, where as other policies
-like <code>network bandwidth</code> allocation, etc. are applied on a group, or containers within
-a group.</p>
-<p>A <code>netwrok-profile</code> describes various attributes that can be applied to a group, for example
+<h2>Network Bandwidth Limiting</h2>
+<p>Network bandwidth policies specify the bandwidth limits on all containers
+that belong to a group. These policies &quot;throttle&quot; the bandwidth of every
+container belonging to a specific group.</p>
+<p>Policies like network isolation apply between two groups, whereas other policies,
+including network bandwidth allocation, affect a group or containers within a group.</p>
+<p>A <code>netwrok-profile</code> describes various attributes that apply to a group, for example
 network bandwidth limits. A <code>network-profile</code> can be created as follows:</p>
 <pre class="highlight plaintext"><code>$ netctl netprofile create -b 1Mbps -dscp 3 dev-net-profile
-Name                            Tenant      Bandwidth       DSCP
-----                            ------    ---------     ----
-dev-net-profile     default     1Mbps               3
+Name            Tenant      Bandwidth   DSCP
+----            ------      ---------   ----
+dev-net-profile     default     1Mbps       3
 </code></pre>
-<p>The above mentioned network profile allows associated containers to be capped with
-a network bandwidth of 1Mbps and set their DSCP (Differentiated Services Code Point,
-or Type of Service) Bits in the IP header.</p>
-<p>After having created a network profile, a profile can be associated with a group.</p>
+<p>This network profile limits associated containers to a network bandwidth of 1Mbps and 
+sets their DSCP (Differentiated Services Code Point, or type of service) bits in the IP header.</p>
+<p>After creation, a profile can be associated with a group:</p>
 <pre class="highlight plaintext"><code>$ netctl group create contiv-net dev-web-group -policy=allow-diags -networkprofile=dev-net-profile
 $ netctl group ls
-Tenant   Group            Network     Policies                          Network Profile
-------   -----            -------     --------                          ---------------
+Tenant   Group            Network     Policies          Network Profile
+------   -----            -------     --------          ---------------
 default  stage-web-group  contiv-net  web-policy,allow-diags    default
-default  dev-web-group    contiv-net  allow-diags                       dev-net-profile
+default  dev-web-group    contiv-net  allow-diags       dev-net-profile
 </code></pre>
-<p>At this point all one can expect the bandwidth policy to be in action.</p>
+<p>At this point the bandwidth policy is in force on the <code>dev-web-group</code>.</p>
 
-<h4>Using Traffic Prioritization for network wide application behavior</h4>
-<p>TL;DR (for networking experts only)
-If a physical network is configured with the classes of traffic identified with DSCP, then
+<h3>Using Traffic Prioritization for Network-Wide Application Behavior</h3>
+<p><em>Note</em>: This section is for more advanced network administrators and engineers.</p>
+<p>If a physical network is configured with the classes of traffic identified with DSCP, then
 a DSCP marking can achieve an end to end application behavior. For example, most of the
 physical network switching vendors, like Cisco, provide a way to allow use of network
 bandwidth and traffic scheduling based on DSCP. Configuring physical network devices is
-out of scope for this document, however it is worth noting that these features provide:</p>
+out of scope for this document; however, it is worth noting that these features provide:</p>
 
 <ul>
-<li>Bandwidth allocation: specify how much packet buffers (aka buffering) are allocated
-to a given class of service (CoS)
+<li>Bandwidth allocation: Specify how much packet buffering is allocated to a given class of service (CoS).
 </li>
-<li>Bandwidth rate lmiting: Rate limiting the traffic belonging to a class, that can specify
-the rules of traffic precedence during a bursts or during contention. This can provide
-network predictability to classes of traffic
+<li>Bandwidth rate limiting: Rate-limit the traffic belonging to a class and specify
+the rules of traffic precedence during bursts or contention. This can provide
+network predictability to classes of traffic.
 </li>
-<li>Traffic Scheduling: Usually the default scheduling policy on a switch is to round-robin
-the traffic towards a destination. However in cases of contention, a more sophisticated
-prioritized scheduling can be defineed to allow preference to schedule traffic with a
-specific DSCP.
+<li>Traffic scheduling: Usually the default scheduling policy on a switch is to round-robin
+the traffic towards different destinations. In cases of contention, however, a more sophisticated
+scheduling policy can be defined based on DSCP.
 </li>
 </ul>
-<p>The integration of DSCP/prioritization with application can bring a predictable network
+<p>The integration of DSCP prioritization with an application can contribute to predictable 
 behavior for network and/or storage traffic.</p>
 
 

@@ -11,7 +11,7 @@
 							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
 								<li<%= sidebar_current("getting-started-networking-vagrant") %>>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
 									<ul class="subnav">
 										<li<%= sidebar_current("getting-started-networking-vagrant-swarm") %>>
 												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
@@ -28,7 +28,7 @@
 									</ul>
 								</li>
 								<li<%= sidebar_current("getting-started-networking-installation") %>>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
 									<ul class="subnav">
 										<li<%= sidebar_current("getting-started-networking-installation-swarm") %>>
 												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
@@ -53,10 +53,10 @@
 							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
 								<li<%= sidebar_current("getting-started-cluster-vagrant") %>>
-										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Single Machine</a>
 								</li>
 								<li<%= sidebar_current("getting-started-cluster-baremetal") %>>
-										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Multiple Servers</a>
 								</li>
 							</ul>
 						</li>
@@ -65,6 +65,9 @@
 				<li<%= sidebar_current("networking") %>>
 					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
+						<li<%= sidebar_current("features") %>>
+								<a href="/documents/networking/features.html">Features</a>
+						</li>
 						<li<%= sidebar_current("networking-concepts") %>>
 								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
 						</li>
@@ -72,7 +75,7 @@
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
 						<li<%= sidebar_current("networking-services") %>>
-								<a href="/documents/networking/services.html">Service Routing</a>
+								<a href="/documents/networking/services.html">Service Loadbalancing</a>
 						</li>
 						<li<%= sidebar_current("networking-physical") %>>
 								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
@@ -106,7 +109,7 @@
 								<a href="/documents/storage/configuration.html">Configuration</a>
 						</li>
 						<li<%= sidebar_current("storage-containers") %>>
-								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+								<a href="/documents/storage/containers.html">Creating a Container with a Volume</a>
 						</li>
 						<li<%= sidebar_current("storage-volcli") %>>
 								<a href="/documents/storage/volcli.html">Volcli Reference</a>

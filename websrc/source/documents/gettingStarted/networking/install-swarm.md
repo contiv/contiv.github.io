@@ -8,49 +8,41 @@ description: |-
 
 # Installing Contiv Network with Docker Swarm
 
-### Pre-requisites
-1. You need Ubuntu 15 or Centos 7 on each of your servers used for the Contiv cluster
+This page describes how to set up a Contiv cluster using Docker Swarm.
 
-2. Do `export CLUSTER_NODE_IPS=ips of all nodes in cluster`, and `export no_proxy=ips of all nodes in cluster,127.0.0.1,localhost,netmaster` in your shell
+<a name="Prerequisites"/>
+## Prerequisites
 
-3. If your servers are behind an http proxy (usually the case in many cisco labs...), you need
-   to do `export http_proxy=<proxy url>` and  `export https_proxy=<proxy_url>` in your shell
+1. Install Ubuntu 15 or Centos 7.2 on all servers used for the Contiv cluster.
+2. Ensure that each server has at least two, and preferably three, interfaces.
+3. Choose a server that is on the management network. Run the install procedure below on this node. This *install node* manages the installation in addition to being part of your cluster.
+4. In a command shell, use the following commands to set two environment variables:
+`export CLUSTER_NODE_IPS=<node_ips> and `export no_proxy=<node_ips>,127.0.0.1,localhost,netmaster`,
+where `<node_ip>` is a list of the IP addresses of all nodes in your cluster.
+5. If your servers are behind an http proxy, use the following commands to set the proxies on the install node: `export http_proxy=<proxy url>` and  `export https_proxy=<proxy_url>`. 
+6. Verify Python is installed on the target machines
+7. The setup scripts use the Python module *netaddr* and the Linux utility *bzip2*. If these are not installed on the machine where you are executing these steps, you must install them before proceeding. (You can use the following commands: `yum install bzip2; pip install netaddr`.)
+8. (Optional but recommeded): Enable passwordless SSH access from the installation server to all the other servers in the cluster. An example is [here](http://www.linuxproblem.org/art_9.html).
+9. (Optional but recommeded): Enable passwordless sudo on all servers.  An example is
+[here](http://askubuntu.com/questions/192050/how-to-run-sudo-command-with-no-password).
+10. Make a note of the IP addresses (or DNS names) of all the servers, and of the network
+interfaces on which these IP addresses are configured.
 
-4. You will select and use on server to initiate installation on all servers in the cluster.
-   Please refrain from running install from multiple servers. Instead, stick to the same server to initiate
-   installation.
-
-5. It is recommended that you enable passwordless SSH access from the selected server to all
-   the other servers in the cluster.
-   An example of how to set this up is [here](http://www.linuxproblem.org/art_9.html)
-
-6. It is recommended that you enable passwordless sudo on all servers as well.
-   Example set up instructions can be found [here](http://askubuntu.com/questions/192050/how-to-run-sudo-command-with-no-password)
-
-7. Get the IP addresses (DNS names work as well) of all the servers and the network interface on which this IP address is configured
-
-8. Verify Python is installed on the target machines
-
-### Step 1: Download the installer script
-Log into one of the servers and download the installer script using the following command:
+<a name="Download"/>
+## Step 1: Download the Installer Script
+Log into the install server and download the installer script using the following command:
 
 ```
 wget https://raw.githubusercontent.com/contiv/demo/master/net/net_demo_installer
 ```
 
-Note that if you are behind a proxy, you may need to set `https_proxy` environment variable
-for it to work.
+## Step 2: Create the Configuration File
+Create the configuration file, `cfg.yml`, and provide connection information for each server.
 
-### Step 2: Setup cfg.yml
-Create the configuration file and provide information about each server's reachability.
-Sample configuration file can be found here: [sample_cfg.yml](extras/sample_cfg.yml)
+In the configuration file, `CONNECTION_INFO` is a mandatory section that provides access 
+information for all server nodes in the setup.
 
-#### Information in cfg.yml
-
-`CONNECTION_INFO`:
-    This is a mandatory option that provides the access information to all server-nodes in the setup.
-
-For every server in the setup, provide the IP/DNS and the control, data interface
+For every server in the setup, provide the IP/DNS and the control, data interface:
 
 ```
     CONNECTION_INFO:
@@ -62,48 +54,58 @@ For every server in the setup, provide the IP/DNS and the control, data interfac
             data: <interface used to send data packets>
 ```
 
-### Step 3: Provide executable privileges and run installer script
+A sample configuration file can be found here: [sample_cfg.yml](/extras/sample_cfg.yml).
 
-Run net_demo_installer script.
+## Step 3: Run the Installer Script
+
+Set execute privileges on and run the installer script as follows:
 
 ```
     chmod +x net_demo_installer
     ./net_demo_installer
 ```
 
-##### NOTE:
-- To restart the services already deployed, run the installer with -r option. This ensures that the services are restarted in a clean state.
+*Note*: To restart the services already deployed, run the installer with -r option. This ensures that the services are restarted in a clean state.
 
 ```
             ./net_demo_installer -r
 ```
 
-- The installer script will ask for username/password if passwordless ssh is not set during the installation
-- Running the installer with '-c' option clears up any files that are auto-generated by the script
+- The installer script requests username and password if passwordless ssh is not set during the installation.
+- Running the installer with '-c' ("clean") removes any files that are auto-generated by the script.
 
-### Step 4: Use netctl commands to demo Contiv networking
-Follow steps in [docs.contiv.io](http://docs.contiv.io) netplugin section for details on using netctl to explore various features of Contiv networking
-
-### Under the hoods
 The installer script performs the following actions:
-- performs preliminary checks to verify that the supported version of OS is installed on the servers
-- verifies that access to the servers can be established
-- creates the ansible inventory file
-- establishes variables necessary for the servers to be provisioned in the appropriate mode
-- runs the ansible playbook which installs necessary packages and brings up the services
+- Verifies that a supported operating system is installed on the servers.
+- Verifies network access to the servers. 
+- Creates the Ansible inventory file.
+- Sets server provisioning variables that determine the installation mode.
+- Runs the Ansible playbook which installs necessary packages and starts the services.
 
-### Troubleshooting
-The current limitations of the script are as follows:
-- The installer script is assumed to run from one of the server nodes in the cluster. This approach ensures that the required packages are installed only on the necessary nodes.
-- Connections to the servers are assumed to be on the default ssh port and the default username used is the local hostname
+## What to Do Next
+
+Use the Contiv `netctl` commands are used to create and manipulate networks, endpoint groups, and policies.
+
+See the small-scale Vagrant demo [here](swarm.html) to get started.
+
+See the [Tutorials](/documents/tutorials/index.html) section for extended examples of setting up policy-based networks.
+
+See the [Examples](/documents/samples/index.html) section for details on using `netctl` to explore various features of Contiv networking.
+
+## Troubleshooting
+Current limitations of the script include the following:
+
+- The installer script must run from one of the server nodes in the cluster. 
+- Connections to the servers must be on the default ssh port.
+- The default username used is the local hostname.
 
 The script generates many files for bookkeeping during the installation procedure.
-These files can be found under .gen folder in your installer directory.
-If you need to clear these files and start from a clean slate, use could use the following command:
+These files can be found under `.gen` folder in your installer directory.
+To remove these files and start from a clean slate, use the `-c` option as follows:
 
 ```
         ./net_demo_installer -c
 ```
-This will list the files that will be cleared up and prompt you for confirmation to proceed.
 
-If you find any other issues or have suggestions for improvement, please feel free to suggest/contribute.
+With this option, the script lists the files to remove and prompt you for confirmation to proceed.
+
+If you find any other issues or have suggestions for improvement, please feel free to suggest or contribute.

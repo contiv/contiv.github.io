@@ -6,7 +6,7 @@ description: |-
   Getting Started
 ---
 
-# Getting started with Contiv Cluster
+# Getting Started with Contiv Cluster
 
-- [Try out Contiv cluster in Vagrant environment](/documents/gettingStarted/cluster/vagrant.html)
-- [Baremetal Server or Virtual Machine Installation](/documents/gettingStarted/cluster/baremetal.html)
+- [Use our Vagrant scripts to set up a virtual environment on a single machine](/documents/gettingStarted/cluster/vagrant.html)
+- [Instal Contiv Cluster on two or more bare-metal or virtual servers](/documents/gettingStarted/cluster/baremetal.html)

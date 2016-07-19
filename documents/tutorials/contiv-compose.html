@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-255d50a1.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-ccddc50c.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -106,7 +106,7 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/vagrant.html">Vagrant try out</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
@@ -123,7 +123,7 @@ GitHub</a></li>
 									</ul>
 								</li>
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/installation.html">Netplugin Installation</a>
+									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
 									<ul class="subnav">
 										<li>
 												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
@@ -148,10 +148,10 @@ GitHub</a></li>
 							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
 							<ul class="subnav">
 								<li>
-										<a href="/documents/gettingStarted/cluster/vagrant.html">Vagrant Try out</a>
+										<a href="/documents/gettingStarted/cluster/vagrant.html">Single Machine</a>
 								</li>
 								<li>
-										<a href="/documents/gettingStarted/cluster/baremetal.html">Baremetal or VM installation</a>
+										<a href="/documents/gettingStarted/cluster/baremetal.html">Multiple Servers</a>
 								</li>
 							</ul>
 						</li>
@@ -161,13 +161,16 @@ GitHub</a></li>
 					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
 						<li>
+								<a href="/documents/networking/features.html">Features</a>
+						</li>
+						<li>
 								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
 						</li>
 						<li>
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
 						<li>
-								<a href="/documents/networking/services.html">Service Routing</a>
+								<a href="/documents/networking/services.html">Service Loadbalancing</a>
 						</li>
 						<li>
 								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
@@ -201,7 +204,7 @@ GitHub</a></li>
 								<a href="/documents/storage/configuration.html">Configuration</a>
 						</li>
 						<li>
-								<a href="/documents/storage/containers.html">Creating a container with a volume</a>
+								<a href="/documents/storage/containers.html">Creating a Container with a Volume</a>
 						</li>
 						<li>
 								<a href="/documents/storage/volcli.html">Volcli Reference</a>
@@ -276,12 +279,24 @@ GitHub</a></li>
 			<div class="bs-docs-section">
 				
 	<h1>Policies with Networking</h1>
-<p>This tutorial utilizes modified libcompose to apply network policies on an application composition.</p>
+<p>This tutorial shows how to use a modified <em>libcompose</em> utility to apply network policies on a Docker application composition.</p>
+<p><em>Note</em>: The demonstrations on this page use the Vagrant utility to set up a VM environment. This environment is for demonstrating automation and integration with Contiv Networking and is not meant to be used in production.</p>
 
-<h2>How to try it out</h2>
+<h2>Getting Started</h2>
+<p>The following steps describe how to set up a demo application and apply policies to it.</p>
 
-<h3>1. Get netplugin vagrant setup:</h3>
-<p>Bring up Contiv Vagrant setup as in <a href="https://github.com/contiv/netplugin/README.md">Step 1. Contiv Netplugin</a>.</p>
+<h3>Prerequisites</h3>
+<p>Before starting, install the following tools on your Linux or OS X machine:</p>
+
+<ul>
+<li>Make
+</li>
+<li>Git
+</li>
+</ul>
+
+<h3>Step 1: Start the Vagrant Environment</h3>
+<p>Use the following commands to start a Contiv Vagrant setup.</p>
 <pre class="highlight plaintext"><code>$ cd $HOME; mkdir -p deploy/src/github.com/contiv
 $ export GOPATH=$HOME/deploy
 $ cd deploy/src/github.com/contiv/
@@ -289,7 +304,8 @@ $ git clone https://github.com/contiv/netplugin
 $ cd netplugin; make demo
 </code></pre>
 
-<h3>2. Get libcompose and enter VM</h3>
+<h3>2. Download the Software</h3>
+<p>Get <code>libcompose</code> and log into a VM using the following commands:</p>
 <pre class="highlight plaintext"><code>$ mkdir -p $GOPATH/src/github.com/docker
 $ cd $GOPATH/src/github.com/docker
 $ git clone https://github.com/jainvipin/libcompose
@@ -297,41 +313,44 @@ $ cd $GOPATH/src/github.com/contiv/netplugin
 $ make ssh
 </code></pre>
 
-<h3>3. Inside the VM, compile libcompose</h3>
+<h3>3. Compile the Software</h3>
+<p>While logged into the VM, do the following to compile <em>libcompose</em>:</p>
 <pre class="highlight plaintext"><code>$ cd $GOPATH/src/github.com/docker/libcompose
 $ git checkout deploy
 $ make binary
 $ ln -s $GOPATH/src/github.com/docker/libcompose/bundles/libcompose-cli /opt/gopath/bin/contiv-compose
 </code></pre>
 
-<h3>4. Build or Get container images</h3>
-<p>You can either build your own images or download prebuilt sample images needed. For if you choose to use the
-standard docker images, you can:</p>
+<h3>4. Build or Get Container Images</h3>
+<p>You can either build your own container images or download pre-built standard Docker images.</p>
+<p>You need two images, the <em>web</em> image and the <em>database</em> or <em>DB</em> image.</p>
+<p>To build the web image, use the following commands:</p>
 <pre class="highlight plaintext"><code>$ cd $GOPATH/src/github.com/docker/libcompose/deploy/example/app
 $ docker build -t web .
 </code></pre>
-<p>or</p>
+<p>To use the pre-built web images from the Docker repository, do the following instead:</p>
 <pre class="highlight plaintext"><code>$ docker pull jainvipin/web
 $ docker tag -f web web
 </code></pre>
-<p>Similarly build the db image</p>
+<p>Next, build or download the database image.</p>
+<p>To build the database image:</p>
 <pre class="highlight plaintext"><code>$ cd $GOPATH/src/github.com/docker/libcompose/deploy/example/db
 $ docker build -t redis -f Dockerfile.redis .
 </code></pre>
-<p>or</p>
+<p>To download the database image:</p>
 <pre class="highlight plaintext"><code>$ docker pull jainvipin/redis
 $ docker tag -f redis redis
 </code></pre>
 
-<h3>5. Run contiv-compose and see the policies working</h3>
-<p>Before we run the composition, we must create a few networks, which can be easily accomplished using:</p>
+<h3>5. Build Networks and Create Policies</h3>
+<p>To demo the policies, first create a network as follows:</p>
 <pre class="highlight plaintext"><code>netctl net create -s 10.11.1.0/24 dev
 </code></pre>
-<p>Now we can fire up the example composition</p>
+<p>Run <code>contiv-compose</code> to create a policy, as follows:</p>
 <pre class="highlight plaintext"><code>$ cd $GOPATH/src/github.com/docker/libcompose/deploy/example
 $ contiv-compose up -d
 </code></pre>
-<p>You&#39;ll see something like, which is an indication that the composition is up and running</p>
+<p>The system displays notifications similar to the following:</p>
 <pre class="highlight plaintext"><code>WARN[0000] Note: This is an experimental alternate implementation of the Compose CLI (https://github.com/docker/compose)
 INFO[0000] Creating policy contract from 'web' -&gt; 'redis'
 INFO[0000] Using default policy 'TrustApp'...           
@@ -344,12 +363,15 @@ INFO[0000] [0/2] [redis]: Starting
 INFO[0000] [1/2] [redis]: Started                       
 INFO[0001] [2/2] [web]: Started        
 </code></pre>
-<p>What just happened was that for user <code>vagrant</code> contiv-compose picked up the default policy of <code>TrustApp</code>
-This policy can be found in <code>ops.json</code> file, which is a modifiable ops policy in the same directory.
-As per ops.json TrustApp policy permits all ports allowed by the application therefore in the above
-run we observed that contiv-compose attempts to fetch the port information from the redis image and
-applies inbound set of rules to it</p>
-<p>Now, let&#39;s try to verify whether the isolation policy is working as expected</p>
+<p>Observe the following:</p>
+
+<ul>
+<li>For user <a name="vagrant"/><a href="#vagrant"><code>vagrant</code></a>, <code>contiv-compose</code> assigned the default policy, named <code>TrustApp</code>. The <code>TrustApp</code> policy can be found in the <code>ops.json</code> file, which is a modifiable ops policy in the example directory where you ran the <code>contiv-compose</code> command.
+</li>
+<li>As defined in <a name="ops_json"/><a href="#ops_json"><code>ops.json</code></a>, the TrustApp policy permits all ports allowed by the application. The notification messages show that <code>contiv-compose</code> tries to fetch the port information from the redis image and applies an inbound set of rules to it.
+</li>
+</ul>
+<p>Now, verify that the isolation policy is working as expected:</p>
 <pre class="highlight plaintext"><code>$ docker exec -it example_web_1 /bin/bash
 &lt; ** inside container ** &gt;
 $ nc -zvw 1 example-redis 6375-6380
@@ -364,21 +386,22 @@ $ exit
 &lt; ** back to linux prompt ** &gt;
 </code></pre>
 
-<h3>6. Tear down the composition</h3>
-<p>Let us tear down the composition and associated policies we started earlier</p>
+<h3>6. Stop the Composition</h3>
+<p>Stop the composition and associated policies with the following commands:</p>
 <pre class="highlight plaintext"><code>$ cd $GOPATH/src/github.com/docker/libcompose/deploy/example
 $ contiv-compose stop
 </code></pre>
 
-<h2>Playing with a few more interesting cases</h2>
+<h2>Going Further</h2>
+<p>Below are some more cases that you can demo using this Vagrant setup.</p>
 
-<h3>1. Trying to scale an application tier</h3>
-<p>One can scale any application tier and expect that the policy be applied to the group of containers belonging to
-a tier/service/group. To follow up with previous example, if we try to scale web tier as follows:</p>
+<h3>1. Scaling an Application Tier</h3>
+<p>You can scale any application tier. A policy belonging to a tier, service, or group is applied correctly as you scale the tier.</p>
+<p>1. Start the previous example, then use the following commands to scale the web tier:</p>
 <pre class="highlight plaintext"><code>$ contiv-compose up -d
 $ contiv-compose scale web=5
 </code></pre>
-<p>With this now we can go into any of the web tier container and experiment our policy verification. For example:</p>
+<p>2. Log into any container in the web tier and verify the policy is being enforced. For example:</p>
 <pre class="highlight plaintext"><code>$ docker exec -it example_web_3 /bin/bash
 &lt; ** inside container ** &gt;
 $ nc -zvw 1 example-redis 6375-6380
@@ -395,11 +418,12 @@ $ contiv-compose stop
 $ contiv-compose rm -f
 </code></pre>
 
-<h3>2. Changing the default network which</h3>
-<p>Create a new <code>test</code> network first</p>
+<h3>2. Changing the Default Network</h3>
+<p>You can change the default network. The default policy is still applied.</p>
+<p>1. Create a new network called <code>test</code>:</p>
 <pre class="highlight plaintext"><code>netctl net create -s 10.22.1.0/24 test
 </code></pre>
-<p>Then start a composition in the new network. For this we&#39;ll edit the docker-compose.yml to look like following:</p>
+<p>2. Start a composition in the new network. To do so, edit the <code>docker-compose.yml</code> file to look like the following:</p>
 <pre class="highlight plaintext"><code>web:
   image: web
   ports:
@@ -411,16 +435,29 @@ redis:
   image: redis
   net: test
 </code></pre>
-<p>And fire up the composition using</p>
+<p>3. Start the composition:</p>
 <pre class="highlight plaintext"><code>$ contiv-compose up -d
 </code></pre>
-<p>The new composition is started in the <code>test</code> network as specified in the composition. We can of course veify the policy, etc. between the containers now and bring the composition down using</p>
+<p>The new composition runs in the <code>test</code> network as specified in the config file.</p>
+<p>4. Verify the policy between the containers as before:</p>
+<pre class="highlight plaintext"><code>$ docker exec -it example_web_3 /bin/bash
+&lt; ** inside container ** &gt;
+$ nc -zvw 1 example-redis 6375-6380
+example_redis.test.default [10.11.1.21] 6380 (?) : Connection timed out
+example_redis.test.default [10.11.1.21] 6379 (?) open
+example_redis.test.default [10.11.1.21] 6378 (?) : Connection timed out
+example_redis.test.default [10.11.1.21] 6377 (?) : Connection timed out
+example_redis.test.default [10.11.1.21] 6376 (?) : Connection timed out
+example_redis.test.default [10.11.1.21] 6375 (?) : Connection timed out
+</code></pre>
+<p>To quit, stop the composition:</p>
 <pre class="highlight plaintext"><code>$ contiv-compose stop
 </code></pre>
 
-<h3>3. Specfying an override policy</h3>
-<p>Should there be a need to specify an override policy for a service tier, we can use a policy label to do so as
-in the following modified yml</p>
+<h3>3. Specfying an Override Policy</h3>
+<p>You can override the default policy.</p>
+<p>1. Use a <em>policy label</em> to specify an override policy for a service tier.</p>
+<p>The following composition file has been modified to override the default policy:</p>
 <pre class="highlight plaintext"><code>web:
   image: web
   ports:        
@@ -434,8 +471,9 @@ redis:
   labels:         
    io.contiv.policy: "RedisDefault"
 </code></pre>
-<p>You would note that override policies for various users is specified outside the application composition, and
-in operational policy file (ops.json), which states that vagrant user is allowed to use following policies:</p>
+<p>Override policies for various users are specified outside the application composition in an 
+operational policy file (ops.json), which states that vagrant user is allowed to use the policies <em>TrustApp</em>,
+<em>RedisDefault</em>, and <em>WebDefault</em>:</p>
 <pre class="highlight json"><code><span class="w">                </span><span class="p">{</span><span class="w"> </span><span class="nt">"User"</span><span class="p">:</span><span class="s2">"vagrant"</span><span class="p">,</span><span class="w">
                   </span><span class="nt">"DefaultTenant"</span><span class="p">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span><span class="w">
                   </span><span class="nt">"Networks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test,dev"</span><span class="p">,</span><span class="w">
@@ -443,11 +481,11 @@ in operational policy file (ops.json), which states that vagrant user is allowed
                   </span><span class="nt">"NetworkPolicies"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"TrustApp,RedisDefault,WebDefault"</span><span class="p">,</span><span class="w">
                   </span><span class="nt">"DefaultNetworkPolicy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TrustApp"</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>More over the override policy called <code>RedisDefault</code> is later defined as</p>
+<p>The override policy called <code>RedisDefault</code> is defined later in the file as:</p>
 <pre class="highlight json"><code><span class="w">                </span><span class="p">{</span><span class="w"> </span><span class="nt">"Name"</span><span class="p">:</span><span class="s2">"RedisDefault"</span><span class="p">,</span><span class="w">
                   </span><span class="nt">"Rules"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"permit tcp/6379"</span><span class="p">,</span><span class="w"> </span><span class="s2">"permit tcp/6378"</span><span class="p">,</span><span class="w"> </span><span class="s2">"permit tcp/6377"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
 </span></code></pre>
-<p>So, at this point we can go ahead and fire up the composition and verify that appropriate ports are open</p>
+<p>2. Start the composition and verify that appropriate ports are open:`</p>
 <pre class="highlight plaintext"><code>$ contiv-compose up -d
 
 $ docker exec -it example_web_1 /bin/bash
@@ -458,15 +496,15 @@ example_redis.test.default [10.22.1.26] 6379 (?) open
 example_redis.test.default [10.22.1.26] 6376 (?) : Connection timed out
 example_redis.test.default [10.22.1.26] 6375 (?) : Connection timed out
 </code></pre>
-<p>Note that in above output, ports 6377-6379 are not <code>Connection timed out</code>, which means that network is
-not dropping the packet towards target example_redis service</p>
-<p>Let&#39;s cleanup/stop the composition, before moving to other things</p>
+<p>Note that ports 6377-6379 are <code>open</code>, which means that network is
+not dropping packets sent to the target <code>example_redis</code> service.</p>
+<p>3. Stop and clean up the demo environment:</p>
 <pre class="highlight plaintext"><code>$ contiv-compose stop
 </code></pre>
 
-<h3>4. Verifying that only allowed networks are permitted</h3>
-<p>For a composition that attempts to speicfy a network that is not permitted for it, contiv-compose will error out.
-For this we&#39;ll create a production network.</p>
+<h3>4. Verifying Network Policy</h3>
+<p>If a composition attempts to specify a network forbidden to it, contiv-compose produces an error.</p>
+<p>1. Create a &quot;production&quot; network:</p>
 <pre class="highlight plaintext"><code>$ netctl net create -s 10.33.1.0/24 production
 
 $ cat docker-compose.yml
@@ -480,15 +518,16 @@ web:
 redis:
   image: redis
   net: production
-
-$ contiv-compose up -d
+</code></pre>
+<p>2. Start the composition and note the error message produced because of the unauthorized network:</p>
+<pre class="highlight plaintext"><code>$ contiv-compose up -d
 WARN[0000] Note: This is an experimental alternate implementation of the Compose CLI (https://github.com/docker/compose)
 ERRO[0000] User 'vagrant' not allowed on network 'production'
 </code></pre>
 
-<h3>5. Verifying that only allowed policies are permitted</h3>
-<p>For a composition that attempts to speicfy a disallowed policy, contiv-compose will error out.
-For this we&#39;ll specify <code>AllPriviliges</code> policy for the user&#39;s vagrant, and as expected we get errored out as follows:</p>
+<h3>5. Verifying Allowed Policies</h3>
+<p>If a composition attempts to specify a disallowed policy, contiv-compose produces an error.</p>
+<p>1. Specify an <code>AllPriviliges</code> policy for the vagrant user. The expected error results:</p>
 <pre class="highlight plaintext"><code>$ cat docker-compose.yml
 web:
   image: web
@@ -510,15 +549,14 @@ ERRO[0000] Failed to apply in-policy for service 'redis': Deny disallowed policy
 FATA[0000] Failed to Create Network Config: Deny disallowed policy
 </code></pre>
 
-<h3>6. Specifying a override tenant (non default)</h3>
-<p>We can use contiv-compose yml to specify a non default tenant to run the applications in a different tenant.
-While users are typically not allowed to specify the tenancy, rather it is picked up from the user&#39;s context,
-this example is kept here just for illustration:</p>
-<p>For this let&#39;s create a new tenant <code>blue</code> and specify a network <code>dev</code> in <code>blue</code> tenant</p>
+<h3>6. Specifying an Override Tenant</h3>
+<p>You can use contiv-compose to run the applications in a non-default tenant.</p>
+<p><em>Note</em>: This example is for illustration only. The tenant identity is typically retrieved from the user&#39;s context, and users are not allowed to specify the tenant.</p>
+<p>1. Create a new tenant called <code>blue</code> and specify a network called <code>dev</code> in the <code>blue</code> tenant:</p>
 <pre class="highlight plaintext"><code>netctl tenant create blue
 netctl net create -t blue -s 10.11.2.0/24 dev
 </code></pre>
-<p>Now if we create a composition that states the tenancy, we can use it as follows:</p>
+<p>2. Create a composition that states the tenancy as follows:</p>
 <pre class="highlight plaintext"><code>$ cat docker-compose.yml
 web:
   image: web
@@ -534,8 +572,9 @@ redis:
    io.contiv.tenant: "blue"
 
 $ contiv-compose up -d
-
-$ docker inspect example_web_1 | grep \"IPAddress\"
+</code></pre>
+<p>3. Examine the compositions:</p>
+<pre class="highlight plaintext"><code>$ docker inspect example_web_1 | grep \"IPAddress\"
         "IPAddress": "",
                 "IPAddress": "10.11.2.6",
 
@@ -544,20 +583,18 @@ $ docker inspect example_redis_1 | grep \"IPAddress\"
                 "IPAddress": "10.11.2.5",
 
 </code></pre>
-<p>Note that it allocated an IP from blue tenant&#39;s IP pool</p>
+<p>Note that the allocated an IP address from the <code>blue</code> tenant&#39;s IP pool.</p>
 
 <h3>Some Notes and Comments</h3>
 
 <ul>
-<li>This tool is used to demonstration the automation and integration with Contiv Networking and is not meant to
-be used in production.
+<li>The demonstrations on this page use the Vagrant utility to set up a VM environment. This environment is for demonstrating automation and integration with Contiv Networking and is not meant to be used in production.
 </li>
-<li>The user based authentication is expected to keep the operational policy <a name="ops_json"/><a href="#ops_json"><code>ops.json</code></a> as docker&#39;s authorization
-plugin to permit only authenticated users to specify certain operations
+<li>User-based authentication uses the operational policy in <a name="ops_json"/><a href="#ops_json"><code>ops.json</code></a> as Docker&#39;s authorization
+plugin, to permit only authenticated users to specify certain operations.
 </li>
-<li>Hacking on contiv&#39;s libcompose version is welcome! Please make sure you run unit/sanity tests before
-submitting a PR. It could be easily done by <a name="make_test_deploy"/><a href="#make_test_deploy"><code>make test-deploy</code></a> and &#39;make test-unit` - if both succeed
-you are good
+<li>Contributing to or Modifying Contiv&#39;s <em>libcompose</em> variant is welcome! Please make run unit and sanity tests before
+submitting a pull request. Running <a name="make_test_deploy"/><a href="#make_test_deploy"><code>make test-deploy</code></a> and &#39;make test-unit` from the repository should be sufficient. 
 </li>
 </ul>
 
