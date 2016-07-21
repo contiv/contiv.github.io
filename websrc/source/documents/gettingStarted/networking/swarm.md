@@ -44,20 +44,24 @@ netplugin-node1$ netctl net create contiv-net --subnet=20.1.1.0/24 --gateway=20.
 Start a Docker container on the node you just logged into:
 
 ```
-netplugin-node1$ docker run -itd --name=web --net=contiv-net ubuntu /bin/bash
+netplugin-node1$ docker run -itd --name=web --net=contiv-net alpine /bin/sh
+Note: "alpine" docker image has all network debugging utilities
+      such as ping, ip, ifconfig etc...
+      Its possible to use any custom image as well.
+      The standard "ubuntu" image does not come with debug utilities.
 ```
 
 In another shell window, log into the second VM and start another Docker container:
 
 ```
-$ vagrant ssh netplugin-node1
-netplugin-node2$ docker run -itd --name=db --net=contiv-net ubuntu /bin/bash
+$ vagrant ssh netplugin-node2
+netplugin-node2$ docker run -itd --name=db --net=contiv-net alpine /bin/sh
 ```
 
 On node 1, log into the container and ping the container on node 2:
 
 ```
-netplugin-node1$ docker exec -it web /bin/bash
+netplugin-node1$ docker exec -it web /bin/sh
 < inside the container >
 root@f90e7fd409c4:/# ping db
 PING db (20.1.1.3) 56(84) bytes of data.
@@ -100,7 +104,7 @@ The following command runs a Docker container and attaches it to the `web` EPG
 in the `contiv-net` network.
 
 ```
-$ docker run -itd --net web.contiv-net ubuntu bash
+$ docker run -itd --net web.contiv-net alpine sh
 ```
 
 ## Using Netplugin with Docker Swarm
@@ -121,28 +125,29 @@ The Swarm cluster should now be visible.
 Type the following to see information about the Swarm cluster:
 
 ```
-$ docker info
-Containers: 0
-Images: 5
-Engine Version:
+docker info
+Containers: 3
+Images: 4
 Role: primary
 Strategy: spread
-Filters: affinity, health, constraint, port, dependency
+Filters: health, port, dependency, affinity, constraint
 Nodes: 2
  netplugin-node1: 192.168.2.10:2385
-  └ Containers: 0
+  └ Containers: 2
   └ Reserved CPUs: 0 / 4
   └ Reserved Memory: 0 B / 2.051 GiB
-  └ Labels: executiondriver=native-0.2, kernelversion=4.0.0-040000-generic, operatingsystem=Ubuntu 15.04, storagedriver=devicemapper
+  └ Labels: executiondriver=native-0.2, kernelversion=4.3.0-1.el7.elrepo.x86_64, operatingsystem=CentOS Linux 7 (Core), storagedriver=overlay
  netplugin-node2: 192.168.2.11:2385
-  └ Containers: 0
+  └ Containers: 1
   └ Reserved CPUs: 0 / 4
   └ Reserved Memory: 0 B / 2.051 GiB
-  └ Labels: executiondriver=native-0.2, kernelversion=4.0.0-040000-generic, operatingsystem=Ubuntu 15.04, storagedriver=devicemapper
+  └ Labels: executiondriver=native-0.2, kernelversion=4.3.0-1.el7.elrepo.x86_64, operatingsystem=CentOS Linux 7 (Core), storagedriver=overlay
 CPUs: 8
-Total Memory: 4.103 GiB
+Total Memory: 4.101 GiB
 Name: netplugin-node1
-No Proxy: 192.168.0.0/16,localhost,127.0.0.0/8
+No Proxy: 192.168.2.10,192.168.2.11,127.0.0.1,localhost,netmaster
+
+Note: The above output may vary based on container image used
 ```
 
 Next, you can see if there are any containers running in the cluster:
@@ -150,7 +155,7 @@ Next, you can see if there are any containers running in the cluster:
 ```
 $ docker ps
 CONTAINER ID        IMAGE                          COMMAND             CREATED             STATUS              PORTS               NAMES
-4dd09bc36875        ubuntu                         "bash"              52 minutes ago      Up 52 minutes                           netplugin-node1/reverent_allen
+4dd09bc36875        alpine                         "/bin/sh"           52 minutes ago      Up 52 minutes                           netplugin-node1/reverent_allen
 18bdc2cde778        skynetservices/skydns:latest   "/skydns"           3 hours ago         Up 3 hours          53/udp, 53/tcp      netplugin-node1/defaultdns
 
 ```
@@ -158,7 +163,7 @@ CONTAINER ID        IMAGE                          COMMAND             CREATED  
 You can run containers and attach them to Contiv networks or endpoint groups just like before.
 
 ```
-$ docker run -itd --net web.contiv-net ubuntu bash
+$ docker run -itd --net web.contiv-net alpine sh
 f291e269b45a5877f6fc952317feb329e12a99bda3a44a740b4c3307ef87954c
 ```
 Here, `docker run` executes against the swarm cluster. Swarm schedules the 
