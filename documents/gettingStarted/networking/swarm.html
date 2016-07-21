@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-ccddc50c.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -313,14 +313,18 @@ you into one of the VMs.</p>
 
 <h2>Step 3: Run Containers on Two Hosts</h2>
 <p>Start a Docker container on the node you just logged into:</p>
-<pre class="highlight plaintext"><code>netplugin-node1$ docker run -itd --name=web --net=contiv-net ubuntu /bin/bash
+<pre class="highlight plaintext"><code>netplugin-node1$ docker run -itd --name=web --net=contiv-net alpine /bin/sh
+Note: "alpine" docker image has all network debugging utilities
+      such as ping, ip, ifconfig etc...
+      Its possible to use any custom image as well.
+      The standard "ubuntu" image does not come with debug utilities.
 </code></pre>
 <p>In another shell window, log into the second VM and start another Docker container:</p>
-<pre class="highlight plaintext"><code>$ vagrant ssh netplugin-node1
-netplugin-node2$ docker run -itd --name=db --net=contiv-net ubuntu /bin/bash
+<pre class="highlight plaintext"><code>$ vagrant ssh netplugin-node2
+netplugin-node2$ docker run -itd --name=db --net=contiv-net alpine /bin/sh
 </code></pre>
 <p>On node 1, log into the container and ping the container on node 2:</p>
-<pre class="highlight plaintext"><code>netplugin-node1$ docker exec -it web /bin/bash
+<pre class="highlight plaintext"><code>netplugin-node1$ docker exec -it web /bin/sh
 &lt; inside the container &gt;
 root@f90e7fd409c4:/# ping db
 PING db (20.1.1.3) 56(84) bytes of data.
@@ -355,7 +359,7 @@ You can attach containers to these endpoint groups using the <code>--net</code> 
 <p>Next, run a container and attach it to the endpoint group.
 The following command runs a Docker container and attaches it to the <code>web</code> EPG
 in the <code>contiv-net</code> network.</p>
-<pre class="highlight plaintext"><code>$ docker run -itd --net web.contiv-net ubuntu bash
+<pre class="highlight plaintext"><code>$ docker run -itd --net web.contiv-net alpine sh
 </code></pre>
 
 <h2>Using Netplugin with Docker Swarm</h2>
@@ -370,38 +374,39 @@ Set the following environment variable to make the Docker client communicate wit
 </code></pre>
 <p>The Swarm cluster should now be visible.
 Type the following to see information about the Swarm cluster:</p>
-<pre class="highlight plaintext"><code>$ docker info
-Containers: 0
-Images: 5
-Engine Version:
+<pre class="highlight plaintext"><code>docker info
+Containers: 3
+Images: 4
 Role: primary
 Strategy: spread
-Filters: affinity, health, constraint, port, dependency
+Filters: health, port, dependency, affinity, constraint
 Nodes: 2
  netplugin-node1: 192.168.2.10:2385
-  └ Containers: 0
+  └ Containers: 2
   └ Reserved CPUs: 0 / 4
   └ Reserved Memory: 0 B / 2.051 GiB
-  └ Labels: executiondriver=native-0.2, kernelversion=4.0.0-040000-generic, operatingsystem=Ubuntu 15.04, storagedriver=devicemapper
+  └ Labels: executiondriver=native-0.2, kernelversion=4.3.0-1.el7.elrepo.x86_64, operatingsystem=CentOS Linux 7 (Core), storagedriver=overlay
  netplugin-node2: 192.168.2.11:2385
-  └ Containers: 0
+  └ Containers: 1
   └ Reserved CPUs: 0 / 4
   └ Reserved Memory: 0 B / 2.051 GiB
-  └ Labels: executiondriver=native-0.2, kernelversion=4.0.0-040000-generic, operatingsystem=Ubuntu 15.04, storagedriver=devicemapper
+  └ Labels: executiondriver=native-0.2, kernelversion=4.3.0-1.el7.elrepo.x86_64, operatingsystem=CentOS Linux 7 (Core), storagedriver=overlay
 CPUs: 8
-Total Memory: 4.103 GiB
+Total Memory: 4.101 GiB
 Name: netplugin-node1
-No Proxy: 192.168.0.0/16,localhost,127.0.0.0/8
+No Proxy: 192.168.2.10,192.168.2.11,127.0.0.1,localhost,netmaster
+
+Note: The above output may vary based on container image used
 </code></pre>
 <p>Next, you can see if there are any containers running in the cluster:</p>
 <pre class="highlight plaintext"><code>$ docker ps
 CONTAINER ID        IMAGE                          COMMAND             CREATED             STATUS              PORTS               NAMES
-4dd09bc36875        ubuntu                         "bash"              52 minutes ago      Up 52 minutes                           netplugin-node1/reverent_allen
+4dd09bc36875        alpine                         "/bin/sh"           52 minutes ago      Up 52 minutes                           netplugin-node1/reverent_allen
 18bdc2cde778        skynetservices/skydns:latest   "/skydns"           3 hours ago         Up 3 hours          53/udp, 53/tcp      netplugin-node1/defaultdns
 
 </code></pre>
 <p>You can run containers and attach them to Contiv networks or endpoint groups just like before.</p>
-<pre class="highlight plaintext"><code>$ docker run -itd --net web.contiv-net ubuntu bash
+<pre class="highlight plaintext"><code>$ docker run -itd --net web.contiv-net alpine sh
 f291e269b45a5877f6fc952317feb329e12a99bda3a44a740b4c3307ef87954c
 </code></pre>
 <p>Here, <code>docker run</code> executes against the swarm cluster. Swarm schedules the 

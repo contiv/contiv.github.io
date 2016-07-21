@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-ccddc50c.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -337,8 +337,21 @@ information for all server nodes in the setup.</p>
 <pre class="highlight plaintext"><code>    chmod +x net_demo_installer
     ./net_demo_installer
 </code></pre>
+<p>set the environment variable contiv_network_version if a different version of Contiv network is needed.</p>
+<pre class="highlight plaintext"><code>export contiv_network_version="v0.1-06-17-2016.08-42-14.UTC"
+</code></pre>
+<p>contiv network version can be obtained from: <a href="https://github.com/contiv/netplugin/releases">https://github.com/contiv/netplugin/releases</a></p>
+<p>&quot;aci_gw_image&quot; specifies the docker image used for the aci-gw. This defaults to &quot;contiv/aci-gw:latest&quot;.</p>
+<p>If your setup requires a different image, just set this &quot;aci_gw_image&quot; environment variable to the &quot;image-name:version&quot;.</p>
+<p>e.g:</p>
+<pre class="highlight plaintext"><code>export aci_gw_image="contiv/aci-gw:v2"
+</code></pre>
+<p>Will fetch container aci-gw of contiv user from docker hub registry with v2 tag.</p>
+<p>Run net_demo_installer script.</p>
+<pre class="highlight plaintext"><code>./net_demo_installer
+</code></pre>
 <p><em>Note</em>: To restart the services already deployed, run the installer with -r option. This ensures that the services are restarted in a clean state.</p>
-<pre class="highlight plaintext"><code>            ./net_demo_installer -r
+<pre class="highlight plaintext"><code>./net_demo_installer -r
 </code></pre>
 
 <ul>
