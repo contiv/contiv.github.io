@@ -8,7 +8,23 @@ description: |-
 
 # Getting Started with Contiv Storage
 
-This page describes setting up a test environment with three VMs. 
+### Prerequisites
+
+* Docker 1.11
+* Working ceph installation on the host
+
+### Installation
+
+Run these commands on your docker host:
+
+```
+docker run -it -v /var/run/docker.sock:/var/run/docker.sock contiv/volplugin-autorun
+```
+
+This will configure all the services in your docker with the latest
+contiv/volplugin release.
+
+## Development Instructions
 
 ## Prerequisites
 Your machine must have 12GB of free RAM. (Ceph is memory intensive.)

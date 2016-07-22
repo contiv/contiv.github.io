@@ -82,8 +82,6 @@ For example:
       "keep": 20
     },
     "rate-limit": {
-      "write-iops": 1000,
-      "read-iops": 1000,
       "write-bps": 100000000,
       "read-bps": 100000000
     }
@@ -98,47 +96,41 @@ For example:
 
 The parameters described by the JSON are:
 
-- `unlocked`: Removes the exclusive locks between mounts for a given volume.
-  - This is a protective measure and is *not needed* to use NFS, so this flag
+* `unlocked`: Removes the exclusive locks between mounts for a given volume.
+  * This is a protective measure and is *not needed* to use NFS, so this flag
     turns it off (by setting it to true) if desired for a given policy.
-- `filesystems`: A policy-level map of filesystem *name* to *mkfs* command.
-  - Commands are run when the filesystem is specified and the volume has not
+* `filesystems`: A policy-level map of filesystem *name* to *mkfs* command.
+  * Commands are run when the filesystem is specified and the volume has not
     been created already.
-  - Commands run in a POSIX (not bash or zsh) shell.
-  - If the `filesystems` block is omitted, `mkfs.ext4 -m0 %` is applied to
+  * Commands run in a POSIX (not bash or zsh) shell.
+  * If the `filesystems` block is omitted, `mkfs.ext4 -m0 %` is applied to
     all volumes within this policy.
-	- Referred to by the volume create-time parameter `filesystem`. A
-	  `%` is replaced with the device to format.
-- `backends`: The storage backends to use for different operations. Not all 
-  drivers are compatible with each other. Ceph and NFS are supported as `mount` options.
-  The `crud` and `snapshot` operations require Ceph. Both driver names are lower-case.
-  - `crud`: Create-Delete operations driver name.
-  - `mount`: Mount operations driver name.
-  - `snapshot`: Snapshot operations.
-- `driver`: Driver-specific options.
-  - `pool`: The Ceph pool to use.
-- `create`: Create-time options.
-  - `size`: The size of the volume.
-  - `filesystem`: The filesystem to use. See the `filesystems` parameter.
-- `runtime`: Runtime options. These options can be changed and the changes are
-  applied to mounted volumes almost immediately.
-  - `snapshots`: Use the snapshots feature.
-  - `snapshot`: Map of the following parameters:
-    - `frequencyr: The amount of time between taking snapshots.
-    - `keep`: The number of snapshots to keep. The oldest snapshots are deleted first.
-  - `rate-limit`: Map of the following rate-limiting parameters:
-    - `write-iops`: Write I/O weight.
-    - `read-iops`: Read I/O weight.
-    - `write-bps`: Write bytes/s.
-    - `read-bps`: Read bytes/s.
+	* Referred to by the volume create-time parameter `filesystem`. Note that you
+	  can use a `%` to be replaced with the device to format.
+* `backends`: the storage backends to use for different operations. Note that
+  not all drivers are compatible with each other. This is still an area with
+  work being done on it. Ceph and NFS are supported as `mount` options, `crud`
+  and `snapshot` operations require Ceph for now. Both driver names are lower-case.
+  * `crud`: Create/Delete operations driver name
+  * `mount`: Mount operations driver name
+  * `snapshot`: Snapshot operations
+* `driver`: driver-specific options.
+	* `pool`: the ceph pool to use
+* `create`: create-time options.
+	* `size`: the size of the volume
+  * `filesystem`: the filesystem to use, see `filesystems` above.
+* `runtime`: runtime options. These options can be changed and the changes will
+  be applied to mounted volumes almost immediately.
+  * `snapshots`: use the snapshots feature
+  * `snapshot`: map of the following parameters:
+    * `frequency`: the amount of time between taking snapshots.
+    * `keep`: the number of snapshots to keep. the oldest ones will be deleted first.
+  * `rate-limit`: map of the following rate-limiting parameters:
+    * `write-bps`: Write bytes/s
+    * `read-bps`: Read bytes/s
 
-You supply the parameters with the following command:
-
-```
-volcli policy upload <policy name>
-```
-
-The JSON itself is provided in standard input. For example, if your file is `policy2.json`:
+You supply them with `volcli policy upload <policy name>`. The JSON itself is
+provided via standard input, so for example if your file is `policy2.json`:
 
 ```
 $ volcli policy upload myTenant < policy2.json
@@ -165,8 +157,6 @@ The options are as follows:
 * `snapshots.keep`: The number of snapshots to keep.
 * `filesystem`: The named filesystem to create. See the JSON Configuration
   section for more information on this.
-* `rate-limit.write.iops`: Write IOPS
-* `rate-limit.read.iops`: Read IOPS
 * `rate-limit.read.bps`: Read b/s
 * `rate-limit.write.bps`: Write b/s
 
