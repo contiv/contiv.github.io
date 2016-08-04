@@ -30,7 +30,7 @@ $ cd netplugin; make demo
 $ vagrant ssh netplugin-node1
 ```
 
-These commands start a cluster of two VMs running Docker and Contiv Network, and log
+These commands start a cluster of three VMs running Docker and Contiv Network, and log
 you into one of the VMs.
 
 ## Step 2: Create a Network
