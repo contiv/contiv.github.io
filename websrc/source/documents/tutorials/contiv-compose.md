@@ -21,7 +21,7 @@ Before starting, install the following tools on your Linux or OS X machine:
 - Make
 - Git
 
-### Step 1: Start the Vagrant Environment
+### 1. Start the Vagrant Environment
 Use the following commands to start a Contiv Vagrant setup.
 
 ```
@@ -51,7 +51,7 @@ While logged into the VM, do the following to compile *libcompose*:
 $ cd $GOPATH/src/github.com/docker/libcompose
 $ git checkout deploy
 $ make binary
-$ ln -s $GOPATH/src/github.com/docker/libcompose/bundles/libcompose-cli /opt/gopath/bin/contiv-compose
+$ sudo cp $GOPATH/src/github.com/docker/libcompose/bundles/libcompose-cli /usr/bin/contiv-compose
 ```
 
 ### 4. Build or Get Container Images
@@ -70,7 +70,7 @@ To use the pre-built web images from the Docker repository, do the following ins
 
 ```
 $ docker pull jainvipin/web
-$ docker tag -f web web
+$ docker tag jainvipin/web web
 ```
 
 Next, build or download the database image.
@@ -86,7 +86,7 @@ To download the database image:
 
 ```
 $ docker pull jainvipin/redis
-$ docker tag -f redis redis
+$ docker tag jainvipin/redis redis
 ```
 
 ### 5. Build Networks and Create Policies
@@ -212,12 +212,13 @@ redis:
 $ contiv-compose up -d
 ```
 
-The new composition runs in the `test` network as specified in the config file. 
+The new composition runs in the `test` network as specified in the config file, while
+policies are instantiated between the containers in test network
 
 4\. Verify the policy between the containers as before:
 
 ```
-$ docker exec -it example_web_3 /bin/bash
+$ docker exec -it example_web_1 /bin/bash
 < ** inside container ** >
 $ nc -zvw 1 example-redis 6375-6380
 example_redis.test.default [10.11.1.21] 6380 (?) : Connection timed out
@@ -290,8 +291,9 @@ example_redis.test.default [10.22.1.26] 6376 (?) : Connection timed out
 example_redis.test.default [10.22.1.26] 6375 (?) : Connection timed out
 ```
 
-Note that ports 6377-6379 are `open`, which means that network is
-not dropping packets sent to the target `example_redis` service.
+Note that ports 6377-6379 are not `timing out`, which means that network is
+not dropping packets sent to the target `example_redis` service. The reason
+only `6379` shows open is because redis container is listening on the port.
 
 3\. Stop and clean up the demo environment:
 
@@ -299,7 +301,7 @@ not dropping packets sent to the target `example_redis` service.
 $ contiv-compose stop
 ```
 
-### 4. Verifying Network Policy
+### 4. Verifying Role Based Access to Disallow Network Access
 
 If a composition attempts to specify a network forbidden to it, contiv-compose produces an error.
 
@@ -329,7 +331,7 @@ WARN[0000] Note: This is an experimental alternate implementation of the Compose
 ERRO[0000] User 'vagrant' not allowed on network 'production'
 ```
 
-### 5. Verifying Allowed Policies
+### 5. Verifying Role Based Access to Disallow a Network Policy
 
 If a composition attempts to specify a disallowed policy, contiv-compose produces an error.
 
@@ -357,7 +359,7 @@ ERRO[0000] Failed to apply in-policy for service 'redis': Deny disallowed policy
 FATA[0000] Failed to Create Network Config: Deny disallowed policy
 ```
 
-### 6. Specifying an Override Tenant
+### 6. Specifying an Override Tenant for applications to run in
 
 You can use contiv-compose to run the applications in a non-default tenant.
 
@@ -404,6 +406,13 @@ $ docker inspect example_redis_1 | grep \"IPAddress\"
 ```
 
 Note that the allocated an IP address from the `blue` tenant's IP pool.
+
+### 7. Done playing with it all - Clean up
+Exit the VM and use the following command to destroy the VMs crated for this tutorial
+
+```
+$ vagrant destroy -f
+```
 
 
 ### Some Notes and Comments
