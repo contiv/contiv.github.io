@@ -295,7 +295,7 @@ GitHub</a></li>
 </li>
 </ul>
 
-<h3>Step 1: Start the Vagrant Environment</h3>
+<h3>1. Start the Vagrant Environment</h3>
 <p>Use the following commands to start a Contiv Vagrant setup.</p>
 <pre class="highlight plaintext"><code>$ cd $HOME; mkdir -p deploy/src/github.com/contiv
 $ export GOPATH=$HOME/deploy
@@ -318,7 +318,7 @@ $ make ssh
 <pre class="highlight plaintext"><code>$ cd $GOPATH/src/github.com/docker/libcompose
 $ git checkout deploy
 $ make binary
-$ ln -s $GOPATH/src/github.com/docker/libcompose/bundles/libcompose-cli /opt/gopath/bin/contiv-compose
+$ sudo cp $GOPATH/src/github.com/docker/libcompose/bundles/libcompose-cli /usr/bin/contiv-compose
 </code></pre>
 
 <h3>4. Build or Get Container Images</h3>
@@ -330,7 +330,7 @@ $ docker build -t web .
 </code></pre>
 <p>To use the pre-built web images from the Docker repository, do the following instead:</p>
 <pre class="highlight plaintext"><code>$ docker pull jainvipin/web
-$ docker tag -f web web
+$ docker tag jainvipin/web web
 </code></pre>
 <p>Next, build or download the database image.</p>
 <p>To build the database image:</p>
@@ -339,7 +339,7 @@ $ docker build -t redis -f Dockerfile.redis .
 </code></pre>
 <p>To download the database image:</p>
 <pre class="highlight plaintext"><code>$ docker pull jainvipin/redis
-$ docker tag -f redis redis
+$ docker tag jainvipin/redis redis
 </code></pre>
 
 <h3>5. Build Networks and Create Policies</h3>
@@ -438,9 +438,10 @@ redis:
 <p>3. Start the composition:</p>
 <pre class="highlight plaintext"><code>$ contiv-compose up -d
 </code></pre>
-<p>The new composition runs in the <code>test</code> network as specified in the config file.</p>
+<p>The new composition runs in the <code>test</code> network as specified in the config file, while
+policies are instantiated between the containers in test network</p>
 <p>4. Verify the policy between the containers as before:</p>
-<pre class="highlight plaintext"><code>$ docker exec -it example_web_3 /bin/bash
+<pre class="highlight plaintext"><code>$ docker exec -it example_web_1 /bin/bash
 &lt; ** inside container ** &gt;
 $ nc -zvw 1 example-redis 6375-6380
 example_redis.test.default [10.11.1.21] 6380 (?) : Connection timed out
@@ -496,13 +497,14 @@ example_redis.test.default [10.22.1.26] 6379 (?) open
 example_redis.test.default [10.22.1.26] 6376 (?) : Connection timed out
 example_redis.test.default [10.22.1.26] 6375 (?) : Connection timed out
 </code></pre>
-<p>Note that ports 6377-6379 are <code>open</code>, which means that network is
-not dropping packets sent to the target <code>example_redis</code> service.</p>
+<p>Note that ports 6377-6379 are not <code>timing out</code>, which means that network is
+not dropping packets sent to the target <code>example_redis</code> service. The reason
+only <code>6379</code> shows open is because redis container is listening on the port.</p>
 <p>3. Stop and clean up the demo environment:</p>
 <pre class="highlight plaintext"><code>$ contiv-compose stop
 </code></pre>
 
-<h3>4. Verifying Network Policy</h3>
+<h3>4. Verifying Role Based Access to Disallow Network Access</h3>
 <p>If a composition attempts to specify a network forbidden to it, contiv-compose produces an error.</p>
 <p>1. Create a &quot;production&quot; network:</p>
 <pre class="highlight plaintext"><code>$ netctl net create -s 10.33.1.0/24 production
@@ -525,7 +527,7 @@ WARN[0000] Note: This is an experimental alternate implementation of the Compose
 ERRO[0000] User 'vagrant' not allowed on network 'production'
 </code></pre>
 
-<h3>5. Verifying Allowed Policies</h3>
+<h3>5. Verifying Role Based Access to Disallow a Network Policy</h3>
 <p>If a composition attempts to specify a disallowed policy, contiv-compose produces an error.</p>
 <p>1. Specify an <code>AllPriviliges</code> policy for the vagrant user. The expected error results:</p>
 <pre class="highlight plaintext"><code>$ cat docker-compose.yml
@@ -549,7 +551,7 @@ ERRO[0000] Failed to apply in-policy for service 'redis': Deny disallowed policy
 FATA[0000] Failed to Create Network Config: Deny disallowed policy
 </code></pre>
 
-<h3>6. Specifying an Override Tenant</h3>
+<h3>6. Specifying an Override Tenant for applications to run in</h3>
 <p>You can use contiv-compose to run the applications in a non-default tenant.</p>
 <p><em>Note</em>: This example is for illustration only. The tenant identity is typically retrieved from the user&#39;s context, and users are not allowed to specify the tenant.</p>
 <p>1. Create a new tenant called <code>blue</code> and specify a network called <code>dev</code> in the <code>blue</code> tenant:</p>
@@ -584,6 +586,11 @@ $ docker inspect example_redis_1 | grep \"IPAddress\"
 
 </code></pre>
 <p>Note that the allocated an IP address from the <code>blue</code> tenant&#39;s IP pool.</p>
+
+<h3>7. Done playing with it all - Clean up</h3>
+<p>Exit the VM and use the following command to destroy the VMs crated for this tutorial</p>
+<pre class="highlight plaintext"><code>$ vagrant destroy -f
+</code></pre>
 
 <h3>Some Notes and Comments</h3>
 
