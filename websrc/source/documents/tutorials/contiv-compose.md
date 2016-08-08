@@ -89,6 +89,15 @@ $ docker pull jainvipin/redis
 $ docker tag jainvipin/redis redis
 ```
 
+(Optional) Run Contiv-UI
+Contiv UI allows visual way of creating and monitoring Contiv network and storage policies.
+To run contiv UI, run the following container, after which the container can be accessed on
+port `80` inside the VM or on a mapped port like `9998` in the Vagrant environment
+
+```
+docker run --net=host --name contiv-ui -d contiv/contiv-ui
+```
+
 ### 5. Build Networks and Create Policies
 To demo the policies, first create a network as follows:
 
@@ -129,7 +138,7 @@ Now, verify that the isolation policy is working as expected:
 ```
 $ docker exec -it example_web_1 /bin/bash
 < ** inside container ** >
-$ nc -zvw 1 example-redis 6375-6380
+# nc -zvw 1 example-redis 6375-6380
 example_redis.dev.default [10.11.1.21] 6380 (?) : Connection timed out
 example_redis.dev.default [10.11.1.21] 6379 (?) open
 example_redis.dev.default [10.11.1.21] 6378 (?) : Connection timed out
@@ -137,7 +146,7 @@ example_redis.dev.default [10.11.1.21] 6377 (?) : Connection timed out
 example_redis.dev.default [10.11.1.21] 6376 (?) : Connection timed out
 example_redis.dev.default [10.11.1.21] 6375 (?) : Connection timed out
 
-$ exit
+# exit
 < ** back to linux prompt ** >
 ```
 
@@ -168,7 +177,7 @@ $ contiv-compose scale web=5
 ```
 $ docker exec -it example_web_3 /bin/bash
 < ** inside container ** >
-$ nc -zvw 1 example-redis 6375-6380
+# nc -zvw 1 example-redis 6375-6380
 example_redis.dev.default [10.11.1.21] 6380 (?) : Connection timed out
 example_redis.dev.default [10.11.1.21] 6379 (?) open
 example_redis.dev.default [10.11.1.21] 6378 (?) : Connection timed out
@@ -176,7 +185,7 @@ example_redis.dev.default [10.11.1.21] 6377 (?) : Connection timed out
 example_redis.dev.default [10.11.1.21] 6376 (?) : Connection timed out
 example_redis.dev.default [10.11.1.21] 6375 (?) : Connection timed out
 
-$ exit
+# exit
 
 $ contiv-compose stop
 $ contiv-compose rm -f
@@ -208,6 +217,9 @@ redis:
 
 3\. Start the composition:
 
+Please note that the yaml file is sensitve to the extra whitespaces, and with improper alignment, `contiv-compose` would fail. To
+avoid this please make sure the yaml file has exact same alignment as the code shown above.
+
 ```
 $ contiv-compose up -d
 ```
@@ -220,13 +232,15 @@ policies are instantiated between the containers in test network
 ```
 $ docker exec -it example_web_1 /bin/bash
 < ** inside container ** >
-$ nc -zvw 1 example-redis 6375-6380
+# nc -zvw 1 example-redis 6375-6380
 example_redis.test.default [10.11.1.21] 6380 (?) : Connection timed out
 example_redis.test.default [10.11.1.21] 6379 (?) open
 example_redis.test.default [10.11.1.21] 6378 (?) : Connection timed out
 example_redis.test.default [10.11.1.21] 6377 (?) : Connection timed out
 example_redis.test.default [10.11.1.21] 6376 (?) : Connection timed out
 example_redis.test.default [10.11.1.21] 6375 (?) : Connection timed out
+# exit
+$
 ```
 
 To quit, stop the composition:
@@ -284,11 +298,13 @@ $ contiv-compose up -d
 
 $ docker exec -it example_web_1 /bin/bash
 < ** inside container ** >
-$ nc -zvw 1 example-redis 6375-6380
+# nc -zvw 1 example-redis 6375-6380
 example_redis.test.default [10.22.1.26] 6380 (?) : Connection timed out
 example_redis.test.default [10.22.1.26] 6379 (?) open
 example_redis.test.default [10.22.1.26] 6376 (?) : Connection timed out
 example_redis.test.default [10.22.1.26] 6375 (?) : Connection timed out
+# exit
+$
 ```
 
 Note that ports 6377-6379 are not `timing out`, which means that network is
