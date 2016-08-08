@@ -341,6 +341,12 @@ $ docker build -t redis -f Dockerfile.redis .
 <pre class="highlight plaintext"><code>$ docker pull jainvipin/redis
 $ docker tag jainvipin/redis redis
 </code></pre>
+<p>(Optional) Run Contiv-UI
+Contiv UI allows visual way of creating and monitoring Contiv network and storage policies.
+To run contiv UI, run the following container, after which the container can be accessed on
+port <code>80</code> inside the VM or on a mapped port like <code>9998</code> in the Vagrant environment</p>
+<pre class="highlight plaintext"><code>docker run --net=host --name contiv-ui -d contiv/contiv-ui
+</code></pre>
 
 <h3>5. Build Networks and Create Policies</h3>
 <p>To demo the policies, first create a network as follows:</p>
@@ -436,7 +442,8 @@ redis:
   net: test
 </code></pre>
 <p>3. Start the composition:</p>
-<p>Contiv compose will fail if the yaml file has incorrect alignment. Make sure the yaml file has exact same alignment as the code shown above.</p>
+<p>Please note that the yaml file is sensitve to the extra whitespaces, and with improper alignment, <code>contiv-compose</code> would fail. To
+avoid this please make sure the yaml file has exact same alignment as the code shown above.</p>
 <pre class="highlight plaintext"><code>$ contiv-compose up -d
 </code></pre>
 <p>The new composition runs in the <code>test</code> network as specified in the config file, while
@@ -451,8 +458,8 @@ example_redis.test.default [10.11.1.21] 6378 (?) : Connection timed out
 example_redis.test.default [10.11.1.21] 6377 (?) : Connection timed out
 example_redis.test.default [10.11.1.21] 6376 (?) : Connection timed out
 example_redis.test.default [10.11.1.21] 6375 (?) : Connection timed out
-
 # exit
+$
 </code></pre>
 <p>To quit, stop the composition:</p>
 <pre class="highlight plaintext"><code>$ contiv-compose stop
@@ -499,10 +506,9 @@ example_redis.test.default [10.22.1.26] 6380 (?) : Connection timed out
 example_redis.test.default [10.22.1.26] 6379 (?) open
 example_redis.test.default [10.22.1.26] 6376 (?) : Connection timed out
 example_redis.test.default [10.22.1.26] 6375 (?) : Connection timed out
-
-exit
+# exit
+$
 </code></pre>
-
 <p>Note that ports 6377-6379 are not <code>timing out</code>, which means that network is
 not dropping packets sent to the target <code>example_redis</code> service. The reason
 only <code>6379</code> shows open is because redis container is listening on the port.</p>
