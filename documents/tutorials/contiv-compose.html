@@ -374,7 +374,7 @@ INFO[0001] [2/2] [web]: Started
 <p>Now, verify that the isolation policy is working as expected:</p>
 <pre class="highlight plaintext"><code>$ docker exec -it example_web_1 /bin/bash
 &lt; ** inside container ** &gt;
-$ nc -zvw 1 example-redis 6375-6380
+# nc -zvw 1 example-redis 6375-6380
 example_redis.dev.default [10.11.1.21] 6380 (?) : Connection timed out
 example_redis.dev.default [10.11.1.21] 6379 (?) open
 example_redis.dev.default [10.11.1.21] 6378 (?) : Connection timed out
@@ -382,7 +382,7 @@ example_redis.dev.default [10.11.1.21] 6377 (?) : Connection timed out
 example_redis.dev.default [10.11.1.21] 6376 (?) : Connection timed out
 example_redis.dev.default [10.11.1.21] 6375 (?) : Connection timed out
 
-$ exit
+# exit
 &lt; ** back to linux prompt ** &gt;
 </code></pre>
 
@@ -404,7 +404,7 @@ $ contiv-compose scale web=5
 <p>2. Log into any container in the web tier and verify the policy is being enforced. For example:</p>
 <pre class="highlight plaintext"><code>$ docker exec -it example_web_3 /bin/bash
 &lt; ** inside container ** &gt;
-$ nc -zvw 1 example-redis 6375-6380
+# nc -zvw 1 example-redis 6375-6380
 example_redis.dev.default [10.11.1.21] 6380 (?) : Connection timed out
 example_redis.dev.default [10.11.1.21] 6379 (?) open
 example_redis.dev.default [10.11.1.21] 6378 (?) : Connection timed out
@@ -412,7 +412,7 @@ example_redis.dev.default [10.11.1.21] 6377 (?) : Connection timed out
 example_redis.dev.default [10.11.1.21] 6376 (?) : Connection timed out
 example_redis.dev.default [10.11.1.21] 6375 (?) : Connection timed out
 
-$ exit
+# exit
 
 $ contiv-compose stop
 $ contiv-compose rm -f
@@ -436,6 +436,7 @@ redis:
   net: test
 </code></pre>
 <p>3. Start the composition:</p>
+<p>Contiv compose will fail if the yaml file has incorrect alignment. Make sure the yaml file has exact same alignment as the code shown above.</p>
 <pre class="highlight plaintext"><code>$ contiv-compose up -d
 </code></pre>
 <p>The new composition runs in the <code>test</code> network as specified in the config file, while
@@ -443,13 +444,15 @@ policies are instantiated between the containers in test network</p>
 <p>4. Verify the policy between the containers as before:</p>
 <pre class="highlight plaintext"><code>$ docker exec -it example_web_1 /bin/bash
 &lt; ** inside container ** &gt;
-$ nc -zvw 1 example-redis 6375-6380
+# nc -zvw 1 example-redis 6375-6380
 example_redis.test.default [10.11.1.21] 6380 (?) : Connection timed out
 example_redis.test.default [10.11.1.21] 6379 (?) open
 example_redis.test.default [10.11.1.21] 6378 (?) : Connection timed out
 example_redis.test.default [10.11.1.21] 6377 (?) : Connection timed out
 example_redis.test.default [10.11.1.21] 6376 (?) : Connection timed out
 example_redis.test.default [10.11.1.21] 6375 (?) : Connection timed out
+
+# exit
 </code></pre>
 <p>To quit, stop the composition:</p>
 <pre class="highlight plaintext"><code>$ contiv-compose stop
@@ -491,12 +494,15 @@ operational policy file (ops.json), which states that vagrant user is allowed to
 
 $ docker exec -it example_web_1 /bin/bash
 &lt; ** inside container ** &gt;
-$ nc -zvw 1 example-redis 6375-6380
+# nc -zvw 1 example-redis 6375-6380
 example_redis.test.default [10.22.1.26] 6380 (?) : Connection timed out
 example_redis.test.default [10.22.1.26] 6379 (?) open
 example_redis.test.default [10.22.1.26] 6376 (?) : Connection timed out
 example_redis.test.default [10.22.1.26] 6375 (?) : Connection timed out
+
+exit
 </code></pre>
+
 <p>Note that ports 6377-6379 are not <code>timing out</code>, which means that network is
 not dropping packets sent to the target <code>example_redis</code> service. The reason
 only <code>6379</code> shows open is because redis container is listening on the port.</p>
