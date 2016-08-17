@@ -29,6 +29,14 @@ $ git clone https://github.com/contiv/netplugin
 $ cd netplugin; make demo
 $ vagrant ssh netplugin-node1
 ```
+You need to set this exact DOCKER_HOST variable on all 3 nodes before you proceed to next steps.
+
+```
+export DOCKER_HOST=192.168.2.10:2375
+```
+This will make sure that everytime when someone is executing docker / netctl commands,
+It will contact docker demon running on 192.168.2.10 node and will not contact local
+docker deamon.
 
 These commands start a cluster of three VMs running Docker and Contiv Network, and log
 you into one of the VMs.
