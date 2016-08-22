@@ -10,6 +10,7 @@
 ## However, you need to be consistent as the installer tries match
 ## what you enter here against what you pass to net_demo_installer
 ## on the command line.
+##yml file is tab sensitive. Make sure to provide space bar instead of tab.
 #CONNECTION_INFO:
 #      <server1-ip-or-dns>:
 #        control: eth1
@@ -17,3 +18,14 @@
 #      <server2-ip-or-dns>:
 #        control: eth7
 #        data: eth2
+#
+## For Eg: 
+#CONNECTION_INFO:
+# 10.193.231.174:
+#  control: enp1s0f0
+#  data: enp6s0f0
+#
+# 10.193.231.172:
+#  control: enp1s0f0
+#  data: enp6s0f0
+
