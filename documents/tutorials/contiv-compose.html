@@ -452,12 +452,12 @@ policies are instantiated between the containers in test network</p>
 <pre class="highlight plaintext"><code>$ docker exec -it example_web_1 /bin/bash
 &lt; ** inside container ** &gt;
 # nc -zvw 1 example-redis 6375-6380
-example_redis.test.default [10.11.1.21] 6380 (?) : Connection timed out
-example_redis.test.default [10.11.1.21] 6379 (?) open
-example_redis.test.default [10.11.1.21] 6378 (?) : Connection timed out
-example_redis.test.default [10.11.1.21] 6377 (?) : Connection timed out
-example_redis.test.default [10.11.1.21] 6376 (?) : Connection timed out
-example_redis.test.default [10.11.1.21] 6375 (?) : Connection timed out
+example_redis.test.default [10.22.1.21] 6380 (?) : Connection timed out
+example_redis.test.default [10.22.1.21] 6379 (?) open
+example_redis.test.default [10.22.1.21] 6378 (?) : Connection timed out
+example_redis.test.default [10.22.1.21] 6377 (?) : Connection timed out
+example_redis.test.default [10.22.1.21] 6376 (?) : Connection timed out
+example_redis.test.default [10.22.1.21] 6375 (?) : Connection timed out
 # exit
 $
 </code></pre>
@@ -598,8 +598,170 @@ $ docker inspect example_redis_1 | grep \"IPAddress\"
 
 </code></pre>
 <p>Note that the allocated an IP address from the <code>blue</code> tenant&#39;s IP pool.</p>
+<p>3. Clean up the composition for the tenant</p>
+<pre class="highlight plaintext"><code>$ contiv-compose stop
+$ contiv-compose rm -f
+</code></pre>
 
-<h3>7. Done playing with it all - Clean up</h3>
+<h3>7. Trying all this in a cluster of nodes</h3>
+<p>The cluster of nodes were already brought up during initiatization when we did <code>make demo</code>.
+Now we start to issue the application bringup at cluster level.</p>
+<p>1. Enable docker-client to use swarm cluster by setting DOCKER_HOST to point to swarm master</p>
+<pre class="highlight plaintext"><code>$ export DOCKER_HOST=tcp://netplugin-node1:2375
+$ docker info
+Containers: 8
+ Running: 8
+ Paused: 0
+ Stopped: 0
+Images: 11
+Server Version: swarm/1.2.0
+Role: primary
+Strategy: spread
+Filters: health, port, dependency, affinity, constraint
+Nodes: 3
+ netplugin-node1: 192.168.2.10:2385
+  └ Status: Healthy
+  └ Containers: 4
+  └ Reserved CPUs: 0 / 4
+  └ Reserved Memory: 0 B / 1.886 GiB
+  └ Labels: executiondriver=, kernelversion=3.10.0-327.22.2.el7.x86_64, operatingsystem=CentOS Linux 7 (Core), storagedriver=overlay
+  └ Error: (none)
+  └ UpdatedAt: 2016-08-23T21:45:27Z
+  └ ServerVersion: 1.11.1
+ netplugin-node2: 192.168.2.11:2385
+  └ Status: Healthy
+  └ Containers: 2
+  └ Reserved CPUs: 0 / 4
+  └ Reserved Memory: 0 B / 1.886 GiB
+  └ Labels: executiondriver=, kernelversion=3.10.0-327.22.2.el7.x86_64, operatingsystem=CentOS Linux 7 (Core), storagedriver=overlay
+  └ Error: (none)
+  └ UpdatedAt: 2016-08-23T21:45:18Z
+  └ ServerVersion: 1.11.1
+ netplugin-node3: 192.168.2.12:2385
+  └ Status: Healthy
+  └ Containers: 2
+  └ Reserved CPUs: 0 / 4
+  └ Reserved Memory: 0 B / 1.886 GiB
+  └ Labels: executiondriver=, kernelversion=3.10.0-327.22.2.el7.x86_64, operatingsystem=CentOS Linux 7 (Core), storagedriver=overlay
+  └ Error: (none)
+  └ UpdatedAt: 2016-08-23T21:45:24Z
+  └ ServerVersion: 1.11.1
+Plugins: 
+ Volume: 
+ Network: 
+Kernel Version: 3.10.0-327.22.2.el7.x86_64
+Operating System: linux
+Architecture: amd64
+CPUs: 12
+Total Memory: 5.659 GiB
+Name: 036770dba1db
+Docker Root Dir: 
+Debug mode (client): false
+Debug mode (server): false
+WARNING: No kernel memory limit support
+</code></pre>
+<p>Note above that we see three nodes with their respective IP addresses and status. If the status
+is <code>healthy</code> we can proceed with running containers in the clusters.</p>
+<p>2. Start a composition within a cluster and scale web tier</p>
+<pre class="highlight plaintext"><code>$ cd $GOPATH/src/github.com/docker/libcompose/deploy/example
+$ contiv-compose up -d
+WARN[0000] Note: This is an experimental alternate implementation of the Compose CLI (https://github.com/docker/compose) 
+INFO[0003] Creating policy contract from 'web' -&gt; 'redis' 
+INFO[0003] Using default policy 'TrustApp'...           
+INFO[0003] User 'vagrant': applying 'TrustApp' to service 'redis' 
+INFO[0003]   Fetched port/protocol) = tcp/5001 from image 
+INFO[0003]   Fetched port/protocol) = tcp/6379 from image 
+INFO[0004] [0/2] [web]: Starting                        
+INFO[0004] [0/2] [redis]: Starting                      
+INFO[0012] [1/2] [web]: Started         
+
+$ contiv-compose scale web=5
+WARN[0000] Note: This is an experimental alternate implementation of the Compose CLI (https://github.com/docker/compose) 
+INFO[0000] Applying labels based policies               
+INFO[0000] Setting scale web=5...      
+
+$ docker ps
+CONTAINER ID        IMAGE                          COMMAND                  CREATED              STATUS                  PORTS               NAMES
+c85185333297        web                            "/bin/sh -c 'python a"   8 seconds ago        Up Less than a second                       netplugin-node1/example_web_5
+3e6a763d3397        web                            "/bin/sh -c 'python a"   15 seconds ago       Up 4 seconds                                netplugin-node1/example_web_4
+9f3cb9d250a0        web                            "/bin/sh -c 'python a"   18 seconds ago       Up Less than a second                       netplugin-node1/example_web_3
+b35131e3c9cc        web                            "/bin/sh -c 'python a"   22 seconds ago       Up Less than a second                       netplugin-node1/example_web_2
+cffe972e91ec        redis                          "docker-entrypoint.sh"   27 seconds ago       Up 23 seconds           6379/tcp            netplugin-node3/example_redis_1
+785ae44298a2        web                            "/bin/sh -c 'python a"   About a minute ago   Up About a minute                           netplugin-node1/example_web_1
+28e0a339db96        skynetservices/skydns:latest   "/skydns"                13 minutes ago       Up 13 minutes           53/tcp, 53/udp      netplugin-node1/bluedns
+4a5269013f09        skynetservices/skydns:latest   "/skydns"                3 hours ago          Up 3 hours              53/tcp, 53/udp      netplugin-node1/defaultdns
+</code></pre>
+<p>3. Verify that policies work between containers running on different hosts</p>
+<pre class="highlight plaintext"><code>$ docker exec -it example_web_1 /bin/bash
+&lt; ** inside container ** &gt;
+# nc -zvw 1 example-redis 6375-6380                                                                                                                   
+Warning: inverse host lookup failed for 10.11.2.3: Unknown host
+example-redis.blue [10.11.2.3] 6380 (?) : Connection timed out
+example-redis.blue [10.11.2.3] 6379 (?) open
+example-redis.blue [10.11.2.3] 6378 (?) : Connection timed out
+example-redis.blue [10.11.2.3] 6377 (?) : Connection timed out
+example-redis.blue [10.11.2.3] 6376 (?) : Connection timed out
+example-redis.blue [10.11.2.3] 6375 (?) : Connection timed out
+# exit
+</code></pre>
+<p>Note that in the above mentioned run, <code>example_redis_1</code> and <code>example_web_1</code>
+are running on <code>node3</code> and <code>node</code> respectively.</p>
+<p>4. Start another composition as <code>test</code> project</p>
+<p>Let&#39;s start another composition using the same template but a different project</p>
+<pre class="highlight plaintext"><code>$ contiv-compose -p test up -d
+WARN[0000] Note: This is an experimental alternate implementation of the Compose CLI (https://github.com/docker/compose) 
+INFO[0005] Creating policy contract from 'web' -&gt; 'redis' 
+INFO[0005] Using default policy 'TrustApp'...           
+INFO[0005] User 'vagrant': applying 'TrustApp' to service 'redis' 
+INFO[0005]   Fetched port/protocol) = tcp/5001 from image 
+INFO[0005]   Fetched port/protocol) = tcp/6379 from image 
+INFO[0006] [0/2] [web]: Starting                        
+INFO[0006] [0/2] [redis]: Starting                      
+INFO[0012] [1/2] [redis]: Started                       
+INFO[0014] [2/2] [web]: Started          
+
+$ docker ps
+er ps
+CONTAINER ID        IMAGE                          COMMAND                  CREATED             STATUS              PORTS               NAMES
+805f7fefa1bc        web                            "/bin/sh -c 'python a"   40 seconds ago      Up 34 seconds                           netplugin-node1/test_web_1
+65a5ee71ac03        redis                          "docker-entrypoint.sh"   42 seconds ago      Up 36 seconds       6379/tcp            netplugin-node2/test_redis_1
+c85185333297        web                            "/bin/sh -c 'python a"   2 minutes ago       Up 2 minutes                            netplugin-node1/example_web_5
+3e6a763d3397        web                            "/bin/sh -c 'python a"   2 minutes ago       Up 2 minutes                            netplugin-node1/example_web_4
+9f3cb9d250a0        web                            "/bin/sh -c 'python a"   2 minutes ago       Up 2 minutes                            netplugin-node1/example_web_3
+b35131e3c9cc        web                            "/bin/sh -c 'python a"   2 minutes ago       Up 2 minutes                            netplugin-node1/example_web_2
+cffe972e91ec        redis                          "docker-entrypoint.sh"   2 minutes ago       Up 2 minutes        6379/tcp            netplugin-node3/example_redis_1
+785ae44298a2        web                            "/bin/sh -c 'python a"   3 minutes ago       Up 3 minutes                            netplugin-node1/example_web_1
+28e0a339db96        skynetservices/skydns:latest   "/skydns"                15 minutes ago      Up 15 minutes       53/tcp, 53/udp      netplugin-node1/bluedns
+4a5269013f09        skynetservices/skydns:latest   "/skydns"                3 hours ago         Up 3 hours          53/tcp, 53/udp      netplugin-node1/defaultdns
+
+$ docker exec -it test_web_1 /bin/bash
+&lt; ** inside container ** &gt;
+# nc -zvw 1 example-redis 6375-6380   
+Warning: inverse host lookup failed for 10.11.2.3: Unknown host
+example-redis.blue [10.11.2.3] 6380 (?) : Connection timed out
+example-redis.blue [10.11.2.3] 6379 (?) : Connection timed out
+example-redis.blue [10.11.2.3] 6378 (?) : Connection timed out
+example-redis.blue [10.11.2.3] 6377 (?) : Connection timed out
+example-redis.blue [10.11.2.3] 6376 (?) : Connection timed out
+example-redis.blue [10.11.2.3] 6375 (?) : Connection timed out
+</code></pre>
+<p>Note that the policies are enforced between respective compositions i.e. <code>test_web_1</code>
+is unable to access <code>example_redis_1</code> database. However if we try to access <code>test_redis_1</code>
+from it, that would be allowed on the specified ports.</p>
+<pre class="highlight plaintext"><code># nc -zvw 1 teste-redis 6375-6380   
+Warning: inverse host lookup failed for 10.11.2.8: Unknown host
+test-redis.blue [10.11.2.8] 6380 (?) : Connection timed out
+test-redis.blue [10.11.2.8] 6379 (?) open
+test-redis.blue [10.11.2.8] 6378 (?) : Connection timed out
+test-redis.blue [10.11.2.8] 6377 (?) : Connection timed out
+test-redis.blue [10.11.2.8] 6376 (?) : Connection timed out
+test-redis.blue [10.11.2.8] 6375 (?) : Connection timed out
+
+# exit
+</code></pre>
+<p>This concludes the multi-host network isolation policy examples with Contiv.</p>
+
+<h3>8. Done playing with it all - Clean up</h3>
 <p>Exit the VM and use the following command to destroy the VMs crated for this tutorial</p>
 <pre class="highlight plaintext"><code>$ vagrant destroy -f
 </code></pre>
