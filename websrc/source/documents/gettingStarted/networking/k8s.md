@@ -21,7 +21,7 @@ cluster with Contiv networking and applying policy between pods.
 
 - VirtualBox 5.0.2 or later
 - Vagrant 1.7.4
-- Make
+- make, git and bzip2
 
 2\. Set http/https proxies if your network requires it.
 *Note*: Set `https_proxy` to point to an `http://`
