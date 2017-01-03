@@ -24,7 +24,7 @@ When you are ready to submit the changes run `cd websrc; make build`. This will 
 
 ## Directory Structure
 
-Directory structure for this website follows typical middleman project structure. See https://middlemanapp.com for details.
+Directory structure for the Contiv website follows the typical middleman project structure. See https://middlemanapp.com for details.
 
 - Top level directory contains the compiled static HTML webpages for contiv.github.io website
 - `websrc` directory contains the source files used to build the static HTML website
