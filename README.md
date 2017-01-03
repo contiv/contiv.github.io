@@ -1,11 +1,12 @@
-# Contiv Website
+Editing the Contiv Website
 
-This repo contains the source of contiv website
+This repo contains the Contiv website source files. If you want to make changes to the Contiv public website, you will make changes to the files in /source.
+
+Note: The following intstructions were tested on Mac OSX. If you are using a Windows environment, you will have to make adjustments.
 
 ## Prerequisits
-Note: Currently, this works only on OsX(Mac)
 
-- Ruby 2.0 or higher. Ruby comes preinstalled in OsX. you can install it using ""xcode-select --install" command if it doesnt)
+- Ruby 2.2.0 or higher. Ruby comes preinstalled with OSX. If you have Xcode installed on your Mac, you can install Ruby using "xcode-select --install" command if it isn't there already.
 - Bundler 1.11 or higher ("sudo gem install bundler")
 - Middleman 3.4 or higher ("sudo gem install middleman")
 
@@ -17,14 +18,13 @@ Running the site locally is simple. Clone this repo and run `cd websrc; make dev
 Then open up `http://localhost:4567`.
 
 
-## Submitting changes
+## Submitting Changes
 Make the changes locally on your machine and test it using above instructions.
-When you are ready to submit the changes run `cd websrc; make build`. This will build a static website and copy the files to correct location. After this, you can commit the code and submit pull request
+When you are ready to submit the changes run `cd websrc; make build`. This will build a static website and copy the files to correct locations. After this, you can commit the code and submit a pull request.
 
-## Directory structure
+## Directory Structure
 
-Directory structure for this website follows typical middleman project structure.
-please see https://middlemanapp.com for more details
+Directory structure for this website follows typical middleman project structure. See https://middlemanapp.com for details.
 
 - Top level directory contains the compiled static HTML webpages for contiv.github.io website
 - `websrc` directory contains the source files used to build the static HTML website
