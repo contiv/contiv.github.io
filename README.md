@@ -1,6 +1,6 @@
 Editing the Contiv Website
 
-This repo contains the Contiv website source files. If you want to make changes to the Contiv public website, you will make changes to the files in /source.
+This repo contains the Contiv website source files and build scripts. If you want to make changes to the Contiv public website, make changes to the source files here and follow the instructions below.
 
 Note: The following intstructions were tested on Mac OSX. If you are using a Windows environment, you will have to make adjustments.
 
