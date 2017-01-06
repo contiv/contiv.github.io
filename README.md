@@ -19,7 +19,8 @@ Then open up `http://localhost:4567`.
 
 
 ## Submitting Changes
-Make the changes locally on your machine and test it using above instructions.
+
+Make the changes locally on your machine and test it using the above instructions.
 When you are ready to submit the changes run `cd websrc; make build`. This will build a static website and copy the files to correct locations. After this, you can commit the code and submit a pull request.
 
 ## Directory Structure
