@@ -1,10 +1,10 @@
-Editing the Contiv Website
+# Editing the Contiv Website
 
 This repo contains the Contiv website source files and build scripts. If you want to make changes to the Contiv public website, make changes to the source files here and follow the instructions below.
 
 Note: The following intstructions were tested on Mac OSX. If you are using a Windows environment, you will have to make adjustments.
 
-## Prerequisits
+## Prerequisites
 
 - Ruby 2.2.0 or higher. Ruby comes preinstalled with OSX. If you have Xcode installed on your Mac, you can install Ruby using "xcode-select --install" command if it isn't there already.
 - Bundler 1.11 or higher ("sudo gem install bundler")
