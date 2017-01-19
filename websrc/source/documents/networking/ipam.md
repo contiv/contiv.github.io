@@ -15,7 +15,7 @@ You can specify the IP address pool to be used for a network using the `-subnet`
 In the following example, `contiv-net` has an IP address pool that is a subset of the CIDR range from address `10.1.1.50` to `10.1.1.100`.
 
 ```
-$ netctl net create contiv-net -subnet 10.1.1.50-100/24
+$ netctl net create contiv-net -subnet 10.1.1.50-10.1.1.100/24
 ```
 
 When you start a container in `contiv-net`, it will get an IP address from this smaller IP address pool:
