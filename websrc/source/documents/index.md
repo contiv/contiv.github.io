@@ -34,4 +34,4 @@ Some short but practical implementations to help you get started.
 ## Support
 Where to find help for the open source Contiv project.
 
-- <a href="https://contiv-slack.herokuapp.com" target="_blank"> Log into the Contiv Slack channel.</a>
+- <a href="https://contiv.herokuapp.com" target="_blank"> Log into the Contiv Slack channel.</a>
