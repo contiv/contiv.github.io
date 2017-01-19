@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-65a8779a.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -41,7 +41,7 @@
                         GitHub
                         <i class="fa fa-github fa-lg"></i>
                         </a></li>
-                    <li class="li-under"><a href="https://contiv-slack.herokuapp.com" target="_blank">
+                    <li class="li-under"><a href="https://contiv.herokuapp.com" target="_blank">
                         Slack
                         <i class="fa fa-slack fa-lg"></i>
                         </a></li>
@@ -352,13 +352,12 @@ group, then assign nodes to it.</p>
 <code>prod-web</code> policy to it.</p>
 <pre class="highlight plaintext"><code>$ netctl group create contiv-net web -policy=prod-web
 </code></pre>
-<p><em>Note</em>: Every endpoint group creates a seperate Docker network of the form <code>&lt;endpoint-group-name&gt;.&lt;network-name&gt;</code>.
+<p><em>Note</em>: Every endpoint group creates a seperate Docker network which has name of endpoint group.
 You can attach containers to these endpoint groups using the <code>--net</code> option in the <code>docker run</code> command.</p>
 
 <h2>Step 7: Attach a Container</h2>
 <p>Next, run a container and attach it to the endpoint group.
-The following command runs a Docker container and attaches it to the <code>web</code> EPG
-in the <code>contiv-net</code> network.</p>
+The following command runs a Docker container and attaches to the <code>contiv-net</code> network.</p>
 <p>You can get network name using <code>docker network ls</code> command. Look for netplugin as a driver.</p>
 <pre class="highlight plaintext"><code>$ docker run -itd --net contiv-net alpine sh
 </code></pre>

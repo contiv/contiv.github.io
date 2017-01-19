@@ -1,0 +1,1 @@
+!function(e){e.prototype.substitute||(e.prototype.substitute=function(t,n){return e(this).replace(n||/\\?\{([^{}]+)\}/g,function(e,n){return"\\"==e.charAt(0)?e.slice(1):null!==t[n]?t[n]:""})})}(String);
