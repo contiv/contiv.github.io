@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-65a8779a.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -41,7 +41,7 @@
                         GitHub
                         <i class="fa fa-github fa-lg"></i>
                         </a></li>
-                    <li class="li-under"><a href="https://contiv-slack.herokuapp.com" target="_blank">
+                    <li class="li-under"><a href="https://contiv.herokuapp.com" target="_blank">
                         Slack
                         <i class="fa fa-slack fa-lg"></i>
                         </a></li>
@@ -284,7 +284,7 @@ GitHub</a></li>
 <h2>Subnet IP Pool</h2>
 <p>You can specify the IP address pool to be used for a network using the <code>-subnet</code> argument while creating the network. You can specify the entire CIDR range or a smaller range.</p>
 <p>In the following example, <code>contiv-net</code> has an IP address pool that is a subset of the CIDR range from address <code>10.1.1.50</code> to <code>10.1.1.100</code>.</p>
-<pre class="highlight plaintext"><code>$ netctl net create contiv-net -subnet 10.1.1.50-10.1.1.100/24
+<pre class="highlight plaintext"><code>$ netctl net create contiv-net -subnet 10.1.1.50-100/24
 </code></pre>
 <p>When you start a container in <code>contiv-net</code>, it will get an IP address from this smaller IP address pool:</p>
 <pre class="highlight plaintext"><code>$ docker run -itd --net contiv-net --name app1 alpine sh
