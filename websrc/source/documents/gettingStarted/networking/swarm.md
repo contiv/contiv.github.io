@@ -119,7 +119,7 @@ The `netplugin` Vagrant setup comes pre-installed with Docker Swarm.
 Set the following environment variable to make the Docker client communicate with Swarm.
 
 ```
-export DOCKER_HOST=tcp://192.168.2.10:2375
+export DOCKER_HOST=tcp://192.168.2.10:3375
 ```
 
 The Swarm cluster should now be visible.
