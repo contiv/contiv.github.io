@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-65a8779a.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -141,20 +141,7 @@ GitHub</a></li>
 								</li>
 							</ul>
 						</li>
-						<li>
-							<a href="/documents/gettingStarted/storage/storage.html">Storage </a>
-						</li>
-						<li>
-							<a class="hasChildren" href="/documents/gettingStarted/cluster/index.html">Cluster </a>
-							<ul class="subnav">
-								<li>
-										<a href="/documents/gettingStarted/cluster/vagrant.html">Single Machine</a>
-								</li>
-								<li>
-										<a href="/documents/gettingStarted/cluster/baremetal.html">Multiple Servers</a>
-								</li>
-							</ul>
-						</li>
+						
 					</ul>
 				</li>
 				<li>
@@ -194,34 +181,8 @@ GitHub</a></li>
 						</li>
 					</ul>
 				</li>
-				<li>
-					<a href="/documents/storage/index.html">Storage</a>
-					<ul class="nav">
-						<li>
-								<a href="/documents/storage/architecture.html">Architecture</a>
-						</li>
-						<li>
-								<a href="/documents/storage/configuration.html">Configuration</a>
-						</li>
-						<li>
-								<a href="/documents/storage/containers.html">Creating a Container with a Volume</a>
-						</li>
-						<li>
-								<a href="/documents/storage/volcli.html">Volcli Reference</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a href="/documents/cluster/index.html">Cluster</a>
-					<ul class="nav">
-						<li>
-								<a href="/documents/cluster/concepts.html">Concepts and Terminology</a>
-						</li>
-						<li>
-								<a href="/documents/cluster/node-lifecycle.html">Node Lifecycle Management</a>
-						</li>
-					</ul>
-				</li>
+				
+				
 			</ul>
 			<hr><p>
 			<h3>Tutorials and Talks</h3>
@@ -267,8 +228,7 @@ GitHub</a></li>
 				<ul class="nav docs-sidenav">
 					<ul class="subnav">
 						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Network API Reference</a><br></li>
-						<li><a href="https://godoc.org/github.com/contiv/volplugin/config" target="_blank">Storage API Reference</a><br></li>
-						<li><a href="https://godoc.org/github.com/contiv/cluster" target="_blank">Cluster API Reference</a><br></li>
+						
 					</ul>
 				</ul>
 			<hr><p>
@@ -370,7 +330,7 @@ a powerful combination.</p>
 <h3>Using Swarm</h3>
 <p>The <code>netplugin</code> Vagrant setup comes pre-installed with Docker Swarm.
 Set the following environment variable to make the Docker client communicate with Swarm.</p>
-<pre class="highlight plaintext"><code>export DOCKER_HOST=tcp://192.168.2.10:2375
+<pre class="highlight plaintext"><code>export DOCKER_HOST=tcp://192.168.2.10:3375
 </code></pre>
 <p>The Swarm cluster should now be visible.
 Type the following to see information about the Swarm cluster:</p>
