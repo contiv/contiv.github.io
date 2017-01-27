@@ -14,8 +14,3 @@ or clustering tools.
 Set up a development environment or a cluster of servers using different clustering systems.
 
 
-## [Storage](/documents/gettingStarted/storage/storage.html)
-Get started with Contiv Storage.
-
-## [Cluster](/documents/gettingStarted/cluster)
-Try out contiv cluster in Vagrant environment.
