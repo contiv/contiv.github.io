@@ -37,9 +37,3 @@ description: |-
 ### Contiv Bandwidth Policy Demonstration
 <iframe width="600" height="400" src="https://www.youtube.com/embed/25OZHQ_t3nY" frameborder="0" allowfullscreen></iframe>
 
-## Cluster
-
-### Cluster Demo Video
-<iframe width="600" height="400" src="https://www.youtube.com/embed/-6NpTMnhH1A" frameborder="0" allowfullscreen></iframe>
-
-## Storage

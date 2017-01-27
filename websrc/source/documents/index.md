@@ -13,8 +13,6 @@ guides.
 
 - [Getting Started](/documents/gettingStarted)
 - [Networking](/documents/networking)
-- [Storage](/documents/storage)
-- [Cluster](/documents/cluster)
 
 ## Tutorials and Talks
 - [Tutorials](/documents/tutorials)
