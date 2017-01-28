@@ -193,12 +193,6 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://contiv.io/documents/talks/</loc>
-    <lastmod>2017-01-27T00:00:00-08:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>http://contiv.io/documents/tutorials/container-101.html</loc>
     <lastmod>2017-01-27T00:00:00-08:00</lastmod>
     <changefreq>monthly</changefreq>
@@ -223,7 +217,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://contiv.io/documents/samples/nomad.html</loc>
+    <loc>http://contiv.io/documents/talks/</loc>
     <lastmod>2017-01-27T00:00:00-08:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

@@ -7,8 +7,7 @@ description: |-
 ---
 
 # Getting Started
-Begin using Contiv right away. Separately set up Contiv's networking, storage, 
-or clustering tools.
+Begin using Contiv right away.  
 
 ## [Networking](/documents/gettingStarted/networking)
 Set up a development environment or a cluster of servers using different clustering systems.

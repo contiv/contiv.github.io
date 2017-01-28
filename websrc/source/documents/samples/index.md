@@ -9,4 +9,3 @@ description: |-
 # Examples
 
 - [Multicast Example](/documents/samples/mcast.html)
-- [Contiv with Nomad Example](/documents/samples/nomad.html)
