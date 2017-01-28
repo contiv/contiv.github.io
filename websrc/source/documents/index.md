@@ -26,7 +26,6 @@ Some short but practical implementations to help you get started.
 - [Docker Compose Examples](/documents/samples)
 - [Kubernetes Examples](/documents/samples)
 - [Multicast Examples](/documents/samples)
-- [Nomad Examples](/documents/samples)
 
 
 ## Support
