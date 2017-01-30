@@ -31,4 +31,4 @@ To learn about container networking basics, read our self-guided hands-on
 [Tutorial](/documents/tutorials/container-101.html). The tutorial discusses
 libnetwork's CNM and CoreOS's CNI model. Contiv supports both networking models,
 and therefore supports a pluggable networking alternative to built-in Docker, Kubernetes,
-Mesos, and Nomad ecosystems.
+and Mesos ecosystems.
