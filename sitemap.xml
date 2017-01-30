@@ -26,7 +26,6 @@
   </url>
   <url>
     <loc>http://contiv.io/documents/demos/</loc>
-
     <lastmod>2017-01-30T00:00:00-08:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -81,12 +80,6 @@
   </url>
   <url>
     <loc>http://contiv.io/documents/gettingStarted/networking/mesos.html</loc>
-    <lastmod>2017-01-30T00:00:00-08:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://contiv.io/documents/gettingStarted/networking/nomad.html</loc>
     <lastmod>2017-01-30T00:00:00-08:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -188,7 +181,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://contiv.io/documents/samples/mcast.html</loc>
+    <loc>http://contiv.io/documents/talks/</loc>
     <lastmod>2017-01-30T00:00:00-08:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -218,7 +211,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://contiv.io/documents/talks/</loc>
+    <loc>http://contiv.io/documents/samples/mcast.html</loc>
     <lastmod>2017-01-30T00:00:00-08:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
