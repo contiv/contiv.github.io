@@ -20,7 +20,6 @@ Vagrant is a utility for quickly and consistently setting up virtual machines (V
 
 - [Try out Contiv Network with Docker Swarm](/documents/gettingStarted/networking/swarm.html).
 - [Try out Contiv Network with Kubernetes](/documents/gettingStarted/networking/k8s.html).
-- [Try out Contiv Network with Mesos](/documents/gettingStarted/networking/mesos.html).
 
 <a name="WithNetworkedServers"/>
 ## On Multiple Servers

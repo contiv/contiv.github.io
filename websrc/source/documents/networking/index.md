@@ -13,8 +13,7 @@ Contiv Networking supports both major networking models:
 - The libnetwork CNM model 
 - The CoreOS CNI model
 
-Contiv Network provides a pluggable networking alternative to built-in Docker, Kubernetes,
-and Mesos ecosystems.
+Contiv Network provides a pluggable networking alternative to built-in Docker and Kubernetes ecosystems.
 
 To learn about container networking basics, including descriptions of both models, 
 read our self-guided hands-on [Tutorial](/documents/tutorials/container-101.html).
@@ -38,12 +37,12 @@ Other learning resources on this site, designed to help you get up to speed on C
 
 Contiv supports the networking modes and schedulers shown in the table below. To learn about and try the various combinations, see the Contiv Network [Getting Started](/documents/gettingStarted/networking/index.html) page.
 
-|Fabric  | Kubernetes | Docker Swarm | Mesos | 
-|--------+------------+--------------+-------+
-| **Layer 2** | <i class="fa fa-check fa-2x"></i>| <i class="fa fa-check fa-2x"></i> | <i class="fa fa-check fa-2x"></i> |
-| **Layer 3** | <i class="fa fa-check fa-2x"></i>| <i class="fa fa-check fa-2x"></i> | <i class="fa fa-check fa-2x"></i> | 
-| **Overlay (cloud)** | <i class="fa fa-check fa-2x"></i>| <i class="fa fa-check fa-2x"></i> | <i class="fa fa-check fa-2x"></i> | 
-| **ACI**     | <i class="fa fa-check fa-2x"></i>| <i class="fa fa-check fa-2x"></i> | <i class="fa fa-check fa-2x"></i> | 
+|Fabric  | Kubernetes | Docker Swarm | 
+|--------+------------+--------------+
+| **Layer 2** | <i class="fa fa-check fa-2x"></i>| <i class="fa fa-check fa-2x"></i> | 
+| **Layer 3** | <i class="fa fa-check fa-2x"></i>| <i class="fa fa-check fa-2x"></i> |  
+| **Overlay (cloud)** | <i class="fa fa-check fa-2x"></i>| <i class="fa fa-check fa-2x"></i> |  
+| **ACI**     | <i class="fa fa-check fa-2x"></i>| <i class="fa fa-check fa-2x"></i> |  
 
 Please [submit an issue](https://github.com/contiv/netplugin/issues) if you
 would like to suggest a feature or enhancement to be addressed by Contiv developers and contributors.
