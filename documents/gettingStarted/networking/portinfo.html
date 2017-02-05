@@ -19,7 +19,7 @@
     
   </head>
 
-  <body id="page-home" class=" page-home layout-article">
+  <body id="page-home" class=" page-home layout-">
 
   <div class="navbar-jumbotron">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -83,54 +83,116 @@ GitHub</a></li>
 </aside>
 
 
-<div class="container">
-	<div class="row">
-		<div class="col-md-3 col-sm-3 col-xs-12">
-			<div class="docs-sidebar hidden-print affix-top" role="complementary">
-				<ul class="nav docs-sidenav">
-					<li class="active">
-						<a href="/articles/index.html">Articles</a>
-						<ul class="nav nav-visible">
-								<li>
-								  <a href="/articles/2016/07/13/dockercon-talk.html">Dockercon'16 - Enalibing Container Applications in Production - Now Online</a>
-							  </li>
-								<li>
-								  <a href="/articles/2016/05/17/onug-contiv-award.html">ONUG selects Contiv as Best Software-Managed Infrastructure Innovation</a>
-							  </li>
-								<li>
-								  <a href="/articles/2016/03/06/scaling-microservices.html">Scaling Microservices with Contiv</a>
-							  </li>
-						</ul>
-					</li>
-				</ul>
-			</div>		</div>  
-		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
-			<div class="bs-docs-section">
-				<div class="blog-author">  </div>
-				<div class="blog-date">  </div>
-				  <article>
+<h1>Contiv and ecosystem related port information</h1>
 
-    <h1>Dockercon'16 - Enabling Container Applications in Production - Now Online</h1>
-<p>4000 attendees at Dockercon last month was a great proof that more and more customers are considering containers and microservices architecture for future cloud native applications...</p>
-
-    <a href="/articles/2016/07/13/dockercon-talk.html">Read more</a>
-  </article>
-  <article>
-
-    <h1>ONUG selects Contiv as the Best Software-Managed Infrastructure Innovation</h1>
-<p>We are excited to annouce that last week Open Networking User Group (ONUG) selected Project Contiv as the Best Software-Managed Infrastructure Innovation. ONUG also declared...</p>
-
-    <a href="/articles/2016/05/17/onug-contiv-award.html">Read more</a>
-  </article>
-  <article>
-
-    <h1>Scaling Microservices with Contiv</h1>
-<p>Enterprises are moving their applications from monolithic architectures to Microservices architectures. When they are thinking about Microservices, they are also considering containerizing their applications. In this...</p>
-
-    <a href="/articles/2016/03/06/scaling-microservices.html">Read more</a>
-  </article>
-
-			</div>
-		</div>
-	</div>
-</div>
+<table><thead>
+<tr>
+<th>Software</th>
+<th style="text-align: center">Port Number</th>
+<th style="text-align: right">Protocol</th>
+<th style="text-align: center">Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Contiv</td>
+<td style="text-align: center">9001</td>
+<td style="text-align: right">TCP</td>
+<td style="text-align: center">Communication between OVS and Contiv</td>
+</tr>
+<tr>
+<td>Contiv</td>
+<td style="text-align: center">9002</td>
+<td style="text-align: right">TCP</td>
+<td style="text-align: center">Communication between OVS and Contiv</td>
+</tr>
+<tr>
+<td>Contiv</td>
+<td style="text-align: center">9003</td>
+<td style="text-align: right">TCP</td>
+<td style="text-align: center">Communication between OVS and Contiv</td>
+</tr>
+<tr>
+<td>Contiv</td>
+<td style="text-align: center">9999</td>
+<td style="text-align: right">TCP</td>
+<td style="text-align: center">Netmaster port</td>
+</tr>
+<tr>
+<td>BGP Port</td>
+<td style="text-align: center">179</td>
+<td style="text-align: right">TCP</td>
+<td style="text-align: center">Contiv in L3 mode will require this</td>
+</tr>
+<tr>
+<td>VXLAN</td>
+<td style="text-align: center">4789</td>
+<td style="text-align: right">UDP</td>
+<td style="text-align: center">Contiv in VXLAN network will use this port</td>
+</tr>
+<tr>
+<td>Docker API</td>
+<td style="text-align: center">2385</td>
+<td style="text-align: right">TCP</td>
+<td style="text-align: center">Docker related</td>
+</tr>
+<tr>
+<td>Docker Swarm</td>
+<td style="text-align: center">2375</td>
+<td style="text-align: right">TCP</td>
+<td style="text-align: center">Docker swarm related</td>
+</tr>
+<tr>
+<td>Consul</td>
+<td style="text-align: center">8300</td>
+<td style="text-align: right">TCP,UDP</td>
+<td style="text-align: center">Consul KV store related</td>
+</tr>
+<tr>
+<td>Consul</td>
+<td style="text-align: center">8301</td>
+<td style="text-align: right">TCP,UDP</td>
+<td style="text-align: center">Consul KV store related</td>
+</tr>
+<tr>
+<td>Consul</td>
+<td style="text-align: center">8500</td>
+<td style="text-align: right">TCP,UDP</td>
+<td style="text-align: center">Consul KV store related</td>
+</tr>
+<tr>
+<td>Consul</td>
+<td style="text-align: center">8400</td>
+<td style="text-align: right">TCP,UDP</td>
+<td style="text-align: center">Consul KV store related</td>
+</tr>
+<tr>
+<td>etcd</td>
+<td style="text-align: center">2379</td>
+<td style="text-align: right">TCP</td>
+<td style="text-align: center">etcd KV store related</td>
+</tr>
+<tr>
+<td>etcd</td>
+<td style="text-align: center">2380</td>
+<td style="text-align: right">TCP</td>
+<td style="text-align: center">etcd KV store related</td>
+</tr>
+<tr>
+<td>etcd</td>
+<td style="text-align: center">4001</td>
+<td style="text-align: right">TCP</td>
+<td style="text-align: center">etcd KV store related</td>
+</tr>
+<tr>
+<td>etcd</td>
+<td style="text-align: center">7001</td>
+<td style="text-align: right">TCP</td>
+<td style="text-align: center">etcd KV store related</td>
+</tr>
+<tr>
+<td>auth_proxy</td>
+<td style="text-align: center">10000</td>
+<td style="text-align: right">TCP</td>
+<td style="text-align: center">Contiv auth_proxy</td>
+</tr>
+</tbody></table>

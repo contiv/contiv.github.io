@@ -3,59 +3,50 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Installing Mesos">
+    <meta name="description" content="February 6, 2017">
 
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <title>Installing Mesos - Contiv</title>
+    <title>Beta Release Notes - Contiv</title>
 
-    <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
+    <link href="/assets/stylesheets/application-0a61a110.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
 
-  <body id="page-Installing Mesos" class=" page-Installing Mesos layout-documents page-sub">
+  <body id="page-Beta Release Notes" class=" page-Beta Release Notes layout-documents page-sub">
 
-<div id="header" class="navbar-static-top">
-  <div class="container">
-    <div class="row">
-      
+  <div class="navbar-jumbotron">
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+      <div class="container">
         <div class="navbar-header">
-          <div class="navbar-brand">
-              <a class="logo" href="/">Contiv</a>
-            </a>
-          </div>
-          
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/" style="color:$white"> Contiv </a>
         </div>
-        <div class="buttons hidden-xs">
-          <nav role="navigation">
-            <ul class="main-links nav navbar-nav navbar-left">
-              <li class="first li-under"><a href="/documents/index.html">Documentation</a></li>
-              <li class="li-under"><a href="/articles/index.html">Articles</a></li>
-              <li class="li-under"><a href="https://github.com/contiv" target="_blank">
-                        GitHub
-                        <i class="fa fa-github fa-lg"></i>
-                        </a></li>
-                    <li class="li-under"><a href="https://contiv.herokuapp.com" target="_blank">
-                        Slack
-                        <i class="fa fa-slack fa-lg"></i>
-                        </a></li>
-                    <li><a href="https://twitter.com/projectcontiv" target="_blank">
-                        Twitter
-                        <i class="fa fa-twitter fa-lg"></i>
-                        </a></li>
-            </ul>
-          </nav>
+        <div class="collapse navbar-collapse" id="navbar">
+          <ul class="nav navbar-nav navbar-right main-nav">
+            <li><a href="/documents/">Docs</a></li>
+            <li><a href="https://github.com/contiv/install">Download</a></li>
+             <li><a href="/documents/support/support.html">Support</a></li>
+            <li><a href="http://blogs.cisco.com/contiv">Blog</a></li>
+            
+            <li><a href="https://github.com/contiv"><i class="fa fa-github"></i></a></li>
+            <li><a href="https://contiv.herokuapp.com/"><i class="fa fa-slack"></i></a></li>
+          </ul>
         </div>
-      
-    </div>
+      </div>
+    </nav>
   </div>
-</div>
 
 
 <div class="sidebar-overlay"></div>
@@ -97,15 +88,49 @@ GitHub</a></li>
 		<div class="col-md-3 col-sm-3 col-xs-12">
 					<div class="docs-sidebar hidden-print affix-top" role="complementary">
 			<hr>
+			<h3>Release Notes</h3>
+			<ul class="nav">
+				<li>
+					<a href="/documents/releasenotes/beta.html">Beta</a>
+				</li>
+			</ul>
+			<hr>
+			<h3>Admin Guide</h3>
+			<ul class="nav">
+				<li>
+					<a href="/documents/admin/index.html">Intro</a>
+				</li>
+				<li>
+				    <a href="/documents/admin/createTenant.html">Managing Tenants</a>
+				</li>
+				<li>
+				    <a href="/documents/admin/manageUsers.html">Managing Users</a>
+			    </li>		
+			    <li>
+				    <a href="/documents/admin/manageAuthorizations.html">Managing Authorizations</a>
+			    </li>
+			    <li>
+				    <a href="/documents/admin/createNodes.html">Managing Nodes</a>
+			    </li>
+			     <li>
+				    <a href="/documents/admin/manageNetworks.html">Managing Networks</a>
+			    </li>
+			    <li>
+				    <a href="/documents/admin/manageLDAP.html">Managing LDAP</a>
+			    </li>
+			</ul>
+				</li>
+			</ul>
+			<hr>
 			<h3>User Guide</h3>
 			<ul class="nav docs-sidenav">
-				<li class="active">
+				<li>
 					<a href="/documents/gettingStarted/index.html">Getting Started</a>
 					<ul class="nav">
-						<li class="active">
+						<li>
 							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
 							<ul class="nav">
-								<li class="active">
+								<li>
 									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
 									<ul class="subnav">
 										<li>
@@ -113,12 +138,6 @@ GitHub</a></li>
 										</li>
 										<li>
 												<a href="/documents/gettingStarted/networking/k8s.html">Kubernetes</a>
-										</li>
-										<li class="active">
-												<a href="/documents/gettingStarted/networking/mesos.html">Mesos</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/nomad.html">Nomad</a>
 										</li>
 									</ul>
 								</li>
@@ -218,104 +237,69 @@ GitHub</a></li>
 						<li>
 							<a href="/documents/samples/mcast.html">Multicast Examples</a>
 						</li>
-						<li>
-							<a href="/documents/samples/nomad.html">Nomad Examples</a>
-						</li>
 					</ul>
 				</ul>
 			<hr><p>
 			<h3>Reference</h3>
 				<ul class="nav docs-sidenav">
 					<ul class="subnav">
-						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Network API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">API Reference</a><br></li>
 						
 					</ul>
 				</ul>
 			<hr><p>
+			<h3>Support</h3>
+				<ul class="nav">
+				<li>
+				 <a href="/documents/support/index.html">Contiv Support Contacts</a>
+				</li>
 		</div>
 
 		</div>  
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h1>Contiv Network with Mesos and Marathon</h1>
-<p>Contiv Network supports Docker containerizer with Mesos and Marathon. 
-This page explains how to get started using Contiv Network with Mesos and Marathon.</p>
+	<h1>Beta Release Notes</h1>
+<p>Welcome to the Beta release of Contiv 1.0.0. Contiv is the most powerful open source container networking platform available.</p>
 
-<h2>Prerequisites</h2>
-<p>Download and install the following packages onto your Linux or OS X machine:</p>
+<h2>Features</h2>
+<p>This release includes:</p>
 
 <ul>
-<li>Virtualbox 5.0.2 or later
+<li>Support for Contiv auth_proxy, allowing you to secure your container network, check user authorizations, and establish LDAP. 
 </li>
-<li>Vagrant 1.7.4 or later
+<li>Contiv UI, the first UI available for administrators and users of Contiv. 
 </li>
-<li>Ansible 1.9.4 or later
+<li><a href="https://github.com/contiv/install">Contiv Installer</a> Install Contiv on your Docker Swarm or Kubernetes 1.4+ system.
 </li>
 </ul>
 
-<h2>Step 1: Start the Virtual Environment</h2>
-<p>The following three commands are all you need to clone the repository and start the VMs:</p>
-<pre class="highlight plaintext"><code>$ git clone https://github.com/contiv/netplugin
-$ cd netplugin
-$ make mesos-docker-demo
-</code></pre>
-<p>These commands start a two-node Vagrant setup with Mesos, Marathon and Docker.</p>
-<p>Because the script needs to download the VM images and the Mesos and Marathon binaries,
-starting the Vagrant VMs and provisioning them can take few minutes to complete.</p>
-<p>The script also builds Contiv Network binaries and starts them on both VMs.</p>
+<h2>Support</h2>
+<p>Host OS
+- CentOS7</p>
+<p>Container schedulers / orchestrators
+- Kubernetes 1.4 
+- Docker 1.12
+- Docker Swarm 1.2.5</p>
+<p>Infrastructure Support
+- Bare metal
+- vSphere
+- AWS</p>
+<p>Networking Models
+- L2 (VLAN)
+- L2 Overlay (VXLAN)
+- L3
+- ACI</p>
+<p>Forwarding plane / method
+- Open vSwitch
+- Openflow</p>
 
-<h2>Step 2: Log Into a VM and Create a Network</h2>
-<p>The following command creates a network called <code>contiv</code> on one of the Vagrant nodes:</p>
-<pre class="highlight plaintext"><code>$ cd demo/mesos-docker; vagrant ssh node1
-&lt;Inside vagrant VM&gt;
-$ netctl net create contiv -subnet 10.1.1.0/24
-</code></pre>
-<p>You can launch in the <code>contiv</code> network.</p>
+<h2>Known Issues</h2>
 
-<h2>Step 3: Launch Containers</h2>
-<p>The <code>docker.json</code> file in the <code>mgmtfn/mesos-docker</code> directory has an example 
-Marathon app definition like the following:</p>
-<pre class="highlight plaintext"><code>  "container": {
-    "type": "DOCKER",
-    "docker": {
-      "image": "libmesos/ubuntu",
-      "parameters": [ { "key": "net", "value": "contiv" } ]
-    }
-  },
-  "id": "ubuntu",
-  "instances": 2,
-  "constraints": [ ["hostname", "UNIQUE", ""] ],
-  "cpus": 1,
-  "mem": 128,
-  "uris": [],
-  "cmd": "while sleep 10; do date -u +%T; done"
-}
-</code></pre>
-<p>This example application definition launches two Ubuntu containers with a 
-constraint that the containers be deployed on different hosts.
-Note that there is a special <code>net</code> parameter used in the specification&#39;s <code>&quot;parameters&quot;</code>:</p>
-<p><code>[ { &quot;key&quot;: &quot;net&quot;, &quot;value&quot;: &quot;contiv&quot; } ]</code>.</p>
-<p>This parameter instructs Docker to launch the application in the Contiv network that you created in Step 3.</p>
-<p>You can launch the application using the following command:</p>
-<pre class="highlight plaintext"><code>$ ./launch.sh docker.json
-</code></pre>
-<p>Downloading the container image can take few minutes.</p>
-<p>Once the application is launched, examine the containers as follows:</p>
-<pre class="highlight plaintext"><code>$ docker ps
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
-2a68fed77d5a        libmesos/ubuntu     "/bin/sh -c 'while sl"   About an hour ago   Up About an hour                       mesos-cce1c91f-65fb-457d-99af-5fdd4af14f16-S1.da634e3c-1fde-479a-b100-c61a498bcbe7
-</code></pre>
-
-<h2>Notes</h2>
-
-<ol>
-<li>Mesos and Marathon ports are port-mapped from the Vagrant VMs to your host machine. 
-You can access them by logging into localhost:5050 and localhost:8080 respectively.
+<ul>
+<li><strong>auth_proxy</strong> Set SELinux to permissive mode before building Contiv. SELinux cannot be in enforcing mode, you must disable SELinux to build Contiv.<br>
 </li>
-<li>The <a name="netmaster"/><a href="#netmaster"><code>netmaster</code></a> REST API is port-mapped to port 9090 on the host machine.
-</li>
-</ol>
+</ul>
 
 
 			</div>

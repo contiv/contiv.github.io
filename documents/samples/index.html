@@ -12,7 +12,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <title>Examples - Contiv</title>
 
-    <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
+    <link href="/assets/stylesheets/application-0a61a110.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
@@ -21,41 +21,32 @@
 
   <body id="page-Examples" class=" page-Examples layout-documents page-sub">
 
-<div id="header" class="navbar-static-top">
-  <div class="container">
-    <div class="row">
-      
+  <div class="navbar-jumbotron">
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+      <div class="container">
         <div class="navbar-header">
-          <div class="navbar-brand">
-              <a class="logo" href="/">Contiv</a>
-            </a>
-          </div>
-          
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/" style="color:$white"> Contiv </a>
         </div>
-        <div class="buttons hidden-xs">
-          <nav role="navigation">
-            <ul class="main-links nav navbar-nav navbar-left">
-              <li class="first li-under"><a href="/documents/index.html">Documentation</a></li>
-              <li class="li-under"><a href="/articles/index.html">Articles</a></li>
-              <li class="li-under"><a href="https://github.com/contiv" target="_blank">
-                        GitHub
-                        <i class="fa fa-github fa-lg"></i>
-                        </a></li>
-                    <li class="li-under"><a href="https://contiv.herokuapp.com" target="_blank">
-                        Slack
-                        <i class="fa fa-slack fa-lg"></i>
-                        </a></li>
-                    <li><a href="https://twitter.com/projectcontiv" target="_blank">
-                        Twitter
-                        <i class="fa fa-twitter fa-lg"></i>
-                        </a></li>
-            </ul>
-          </nav>
+        <div class="collapse navbar-collapse" id="navbar">
+          <ul class="nav navbar-nav navbar-right main-nav">
+            <li><a href="/documents/">Docs</a></li>
+            <li><a href="https://github.com/contiv/install">Download</a></li>
+             <li><a href="/documents/support/support.html">Support</a></li>
+            <li><a href="http://blogs.cisco.com/contiv">Blog</a></li>
+            
+            <li><a href="https://github.com/contiv"><i class="fa fa-github"></i></a></li>
+            <li><a href="https://contiv.herokuapp.com/"><i class="fa fa-slack"></i></a></li>
+          </ul>
         </div>
-      
-    </div>
+      </div>
+    </nav>
   </div>
-</div>
 
 
 <div class="sidebar-overlay"></div>
@@ -97,6 +88,40 @@ GitHub</a></li>
 		<div class="col-md-3 col-sm-3 col-xs-12">
 					<div class="docs-sidebar hidden-print affix-top" role="complementary">
 			<hr>
+			<h3>Release Notes</h3>
+			<ul class="nav">
+				<li>
+					<a href="/documents/releasenotes/beta.html">Beta</a>
+				</li>
+			</ul>
+			<hr>
+			<h3>Admin Guide</h3>
+			<ul class="nav">
+				<li>
+					<a href="/documents/admin/index.html">Intro</a>
+				</li>
+				<li>
+				    <a href="/documents/admin/createTenant.html">Managing Tenants</a>
+				</li>
+				<li>
+				    <a href="/documents/admin/manageUsers.html">Managing Users</a>
+			    </li>		
+			    <li>
+				    <a href="/documents/admin/manageAuthorizations.html">Managing Authorizations</a>
+			    </li>
+			    <li>
+				    <a href="/documents/admin/createNodes.html">Managing Nodes</a>
+			    </li>
+			     <li>
+				    <a href="/documents/admin/manageNetworks.html">Managing Networks</a>
+			    </li>
+			    <li>
+				    <a href="/documents/admin/manageLDAP.html">Managing LDAP</a>
+			    </li>
+			</ul>
+				</li>
+			</ul>
+			<hr>
 			<h3>User Guide</h3>
 			<ul class="nav docs-sidenav">
 				<li>
@@ -113,12 +138,6 @@ GitHub</a></li>
 										</li>
 										<li>
 												<a href="/documents/gettingStarted/networking/k8s.html">Kubernetes</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/mesos.html">Mesos</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/nomad.html">Nomad</a>
 										</li>
 									</ul>
 								</li>
@@ -218,20 +237,22 @@ GitHub</a></li>
 						<li>
 							<a href="/documents/samples/mcast.html">Multicast Examples</a>
 						</li>
-						<li>
-							<a href="/documents/samples/nomad.html">Nomad Examples</a>
-						</li>
 					</ul>
 				</ul>
 			<hr><p>
 			<h3>Reference</h3>
 				<ul class="nav docs-sidenav">
 					<ul class="subnav">
-						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Network API Reference</a><br></li>
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">API Reference</a><br></li>
 						
 					</ul>
 				</ul>
 			<hr><p>
+			<h3>Support</h3>
+				<ul class="nav">
+				<li>
+				 <a href="/documents/support/index.html">Contiv Support Contacts</a>
+				</li>
 		</div>
 
 		</div>  
@@ -242,8 +263,6 @@ GitHub</a></li>
 
 <ul>
 <li><a href="/documents/samples/mcast.html">Multicast Example</a>
-</li>
-<li><a href="/documents/samples/nomad.html">Contiv with Nomad Example</a>
 </li>
 </ul>
 

@@ -12,7 +12,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <title>Contiv</title>
 
-    <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
+    <link href="/assets/stylesheets/application-0a61a110.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
@@ -21,41 +21,32 @@
 
   <body id="page-home" class=" page-home layout-">
 
-<div id="header" class="navbar-static-top">
-  <div class="container">
-    <div class="row">
-      
+  <div class="navbar-jumbotron">
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+      <div class="container">
         <div class="navbar-header">
-          <div class="navbar-brand">
-              <a class="logo" href="/">Contiv</a>
-            </a>
-          </div>
-          
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/" style="color:$white"> Contiv </a>
         </div>
-        <div class="buttons hidden-xs">
-          <nav role="navigation">
-            <ul class="main-links nav navbar-nav navbar-left">
-              <li class="first li-under"><a href="/documents/index.html">Documentation</a></li>
-              <li class="li-under"><a href="/articles/index.html">Articles</a></li>
-              <li class="li-under"><a href="https://github.com/contiv" target="_blank">
-                        GitHub
-                        <i class="fa fa-github fa-lg"></i>
-                        </a></li>
-                    <li class="li-under"><a href="https://contiv.herokuapp.com" target="_blank">
-                        Slack
-                        <i class="fa fa-slack fa-lg"></i>
-                        </a></li>
-                    <li><a href="https://twitter.com/projectcontiv" target="_blank">
-                        Twitter
-                        <i class="fa fa-twitter fa-lg"></i>
-                        </a></li>
-            </ul>
-          </nav>
+        <div class="collapse navbar-collapse" id="navbar">
+          <ul class="nav navbar-nav navbar-right main-nav">
+            <li><a href="/documents/">Docs</a></li>
+            <li><a href="https://github.com/contiv/install">Download</a></li>
+             <li><a href="/documents/support/support.html">Support</a></li>
+            <li><a href="http://blogs.cisco.com/contiv">Blog</a></li>
+            
+            <li><a href="https://github.com/contiv"><i class="fa fa-github"></i></a></li>
+            <li><a href="https://contiv.herokuapp.com/"><i class="fa fa-slack"></i></a></li>
+          </ul>
         </div>
-      
-    </div>
+      </div>
+    </nav>
   </div>
-</div>
 
 
 <div class="sidebar-overlay"></div>
@@ -92,188 +83,136 @@ GitHub</a></li>
 </aside>
 
 
-
-
-<div id="hero">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6">
-				<div id="hero-text">
-					
-					
-					
-					
-		  <div id="myCarousel" class="carousel slide" data-ride="carousel">
-			    
-			    
-			    
-				<div class="carousel-inner" role="listbox">
-					<div class="item active">
-					<h1><i>Policy based Infrastructure for Containers</i></h1>
-					</div>
-					<div class="item">
-					<h1><i>Sign up for a <br> Beta Evaluation</h1>
-					</div>
-					<div class="item">
-					<h1>Join the mailing list <br> to get the latest updates! </i></h1>
-					</div>
-				</div>
-
-			    
-			    
-		  </div>
-			
-			
-				</div>
-
-			</div>
-			<div> </div> <p>
-			<iframe width="560" height="315" src="https://www.youtube.com/embed/AzrTRp-6R48" frameborder="0" allowfullscreen></iframe>
-		</div>
-	</div>
+<div class="jumbotron">
+  <div class="container">
+    <h1><img src="/assets/images/contivlogo-0b7b3847.svg" height="100px" width="100px" alt="Contiv logo">Contiv</h1>
+    <p class="subtitle"><b>The Most Powerful Open Source Container Networking Platform</b></p>
+    <p>
+      <a class="btn btn-default btn-lg" href="/documents/gettingStarted/index.html" role="button">Tutorials</a>
+      <a class="btn btn-default btn-lg" href="https://github.com/contiv/install" role="button">Download</a>
+    </p>
+  </div>
 </div>
 
+<div class="container">
+  <div class="row quote">
+    <div class="col-md-12">
+    <br>
+    <br>
+      <h4 class="quote-text" style="color:#0047ab">
+     <i>"Contiv enables us to avoid container silo. We are running production applications and containers, virtual machines, and bare metal. All powered by Contiv and Cisco ACI providing us the unified networking across heterogeneous environments."<i>
+      </h4>
+      <br>
+      <br>
+    </div>
+  </div>
+  </div>
 
 <div id="content">
 	<div id="modules" class="feature">
 		<div class="partner-logos">
 			
 				<div class="col-md-4">
-					<a class="h-btn green lrg" href="#networking-hdr">
+					
 						<div class="module-logo">
-							<h2>Networking</h2>
-							<div class="fa fa-cloud fa-3x"></div>
-						</div>
-					</a>
+							<div class="fa fa-sitemap fa-4x"></div>
+							<h2>Rich Policy Framework</h2>
+												</div>
+					
 				</div>
 				<div class="col-md-4">
-					<a class="h-btn green lrg" href="#storage-hdr">
+					
 						<div class="module-logo">
-							<h2>Storage</h2>
-							<div class="fa fa-database fa-3x"></div>
+							<div class="fa fa-database fa-4x"></div>
+							<h2>Multi-Platforms</h2>
 						</div>
-					</a>
+					
 				</div>
 				<div class="col-md-4">
-					<a class="h-btn green lrg" href="#clustering-hdr">
+					
 						<div class="module-logo">
-							<h2>Cluster</h2>
-							<div class="fa fa-cubes fa-3x"></div>
+							<div class="fa fa-server fa-4x"></div>
+							<h2>Multi-Infrastructure</h2>
 						</div>
-					</a>
+					
 				</div>
 
 			
+			<div class="col-md-4">
+					
+						<div class="module-logo">
+							<div class="fa fa-industry fa-4x"></div>
+							<h2>Enterprise Grade</h2>
+						</div>
+					
+				</div>
+				<div class="col-md-4">
+					
+						<div class="module-logo">
+							<div class="fa fa-signal fa-4x"></div>
+							<h2>Networking Support</h2>
+						</div>
+					
+				</div>
+				<div class="col-md-4">
+					
+						<div class="module-logo">
+							<div class="fa fa-github fa-4x"></div>
+							<h2>Open Source</h2>
+						</div>
+					
+				</div>
 		</div>
+		<hr>
 	</div>
+	
+
+
+
+
 	<div class="container">
-
-
-
-
-
-
-
-
-		<div class="row">
-			<div class=" col-md-12">
-				<h2 id="networking-hdr" class="feature-section-title">Networking</h2>
-
-				<div id="networking-concepts" class="feature">
-					<div class="feature-header">
-						<a href="/documents/networking/"> <h3>Networking for Microservices</h3></a>
-                        <p>
-                        Contiv provides a higher level of networking abstraction for microservices.
-						Contiv secures your application using a rich policy framework.
-						It provides built-in service discovery and service routing for scale out services.
-						</p>
-                        	
-					</div>
-					<div class="feature-graphic"></div>
-				</div> 
-				<div id="networking-sched" class="feature">
-					<div class="feature-header">
-						<h3>Scheduler Integration</h3>
-						<p>
-						Contiv works with major container schedulers like Docker Swarm, Kubernetes, Mesos and Nomad.
-						</p>
-					</div>
-					<div class="partner-logos">
-						<div class="row">
-							<div class="col-md-3 cloud-wrap clearfix">
-								<h3>Docker Swarm</h3>
-								<span class="partner-logo swarm-logo"></span>
-							</div>
-							<div class="col-md-3 cloud-wrap clearfix">
-								<h3>Kubernetes</h3>
-								<span class="partner-logo kubernetes-logo"></span>
-							</div>
-							<div class="col-md-3 cloud-wrap clearfix">
-								<h3>Mesos</h3>
-								<span class="partner-logo mesos-logo"></span>
-							</div>
-							<div class="col-md-3 cloud-wrap clearfix">
-								<h3>Nomad</h3>
-								<span class="partner-logo nomad-logo"></span>
-							</div>
-						</div>
-					</div>
-				</div> 
-				<div id="networking-map" class="feature">
-					<div class="feature-header">
-						<h3>Rich Networking Options</h3>
-						<p>
-						Contiv provides IP address per container and eliminates the need for host-based port NAT.
-						It works with different kinds of networks like pure layer 3 networks, overlay networks, and layer 2 networks, and it provides the same virtual network view to containers regardless of the underlying technology.
-						</p>
-                        	
-
-					</div>
-					<div class="feature-graphic"></div>
-				</div> 
-
-				<h2 id="storage-hdr"class="feature-section-title">Storage</h2>
-				<div id="storage" class="feature">
-					<div class="feature-header">
-						<a href="/documents/storage/"> <h3 class="">Distributed Storage</h3> </a>
-                        <p>
-                        Contiv Storage pools storage resources across a cluster of nodes and provides persistent volumes to stateful containers.
-						With Contiv Storage, you can treat storage as just another schedulable resource in the cluster.
-						</p>
-                        	
-					</div>
-					<div class="feature-graphic"></div>
-				</div> 
-
-				<h2 id="clustering-hdr" class="feature-section-title">Cluster</h2>
-
-				<div id="clustering" class="feature">
-					<div class="feature-header">
-						<a href="/documents/cluster/"> <h3>Contiv Cluster</h3> </a>
-                        <p>
-                        Contiv Cluster provisions and manages a large number of physical nodes.
-                        <p>
-					</div>
-                    <div class="feature-graphic"></div>
-				</div> 
-
- 				<center>
-					<a class="h-btn green lrg" href="mailto:contiv-beta@cisco.com?Subject=Contiv%20Beta%20Evaluation">
-						<div class="module-logo">
-							<h3>Beta Evaluations</h3>
-							<div class="fa fa-envelope fa-3x"></div>
-						</div>
-					</a>
-					<a class="h-btn green lrg" href="mailto:contiv-update@external.cisco.com?Subject=Email%20Signup">
-						<div class="module-logo">
-							<h3>Email Updates</h3>
-							<div class="fa fa-envelope fa-3x"></div>
-						</div>
-					</a>
-				</center>
-		</div>
-	</div>
-			</div> 
-		</div> 
-	</div> 
+  <div class="row quote">
+    <div class="col-md-12">
+    <br>
+    <br>
+      <h4 class="quote-text" style="color:#0047ab">
+     <i>"Contiv enables us to avoid container silo. We are running production applications and containers, virtual machines, and bare metal. All powered by Contiv and Cisco ACI providing us the unified networking across heterogeneous environments."<i>
+      </h4>
+      <br>
+      <br>
+      <p class="quote-source" style="text-align: center">
+      <b>--John Mitchell, Chief Architect at SAP</b>
+    </div>
+  </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6" style="background:#29AFD8">
+    <h2 style="text-align: center"><strong><font color="white">Learn and Try Now</font><strong></h2>
+   <p style="text-align: center"> <img src="/assets/images/contivlogo-0b7b3847.svg" height="100px" width="100px" alt="Contiv logo"></p>
+<p style="text-align: center"><strong><font color="white">Start by deploying a containerized application on Contiv</font></strong></p>
+<p style="text-align: center"><strong><font color="white">with our guided walkthrough and step-by-step tutorials</font></strong></p>
+<p style="text-align: center"><a class="btn btn-default btn-lg" href="/documents/tutorials/index.html" role="button">Get Started</a></p>
+    </div>
+ <div class="col-md-6" style="background:#A9A9A9">
+    <h3 style="text-align: center"><strong><font color="white">Join our Webinars</font></strong></h3>
+    <p></p>
+    <p style="text-align: center"><strong><font color="white">Talk to experts in the Contiv Community about your issues.</font></strong></p>
+    <form action="mailto:contiv-webinars@external.cisco.com?subject=webinar subscription" method="post" enctype="text/plain">
+<strong><font color="white">Name:</font></strong><br>
+<input  name="name"><br>
+<strong><font color="white">Company or Project:</font></strong><br>
+<input  name="company"><br>
+<strong><font color="white">E-mail:</font></strong><br>
+<input  name="mail"><br>
+<strong><font color="white">Phone:</font></strong><br>
+<input  name="phone"><br>
+<strong><font color="white">Country:</font></strong><br>
+<input  name="country"><br>
+<strong><font color="white">Comment:</font></strong><br>
+<input  name="comment" size="50"><br><br>
+<input type="submit" value="Send">
+<input type="reset" value="Reset">
+</form>
+<br>
+  </div>
 </div>

@@ -19,7 +19,7 @@
     
   </head>
 
-  <body id="page-home" class=" page-home layout-article">
+  <body id="page-home" class=" page-home layout-">
 
   <div class="navbar-jumbotron">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -83,54 +83,29 @@ GitHub</a></li>
 </aside>
 
 
-<div class="container">
-	<div class="row">
-		<div class="col-md-3 col-sm-3 col-xs-12">
-			<div class="docs-sidebar hidden-print affix-top" role="complementary">
-				<ul class="nav docs-sidenav">
-					<li class="active">
-						<a href="/articles/index.html">Articles</a>
-						<ul class="nav nav-visible">
-								<li>
-								  <a href="/articles/2016/07/13/dockercon-talk.html">Dockercon'16 - Enalibing Container Applications in Production - Now Online</a>
-							  </li>
-								<li>
-								  <a href="/articles/2016/05/17/onug-contiv-award.html">ONUG selects Contiv as Best Software-Managed Infrastructure Innovation</a>
-							  </li>
-								<li>
-								  <a href="/articles/2016/03/06/scaling-microservices.html">Scaling Microservices with Contiv</a>
-							  </li>
-						</ul>
-					</li>
-				</ul>
-			</div>		</div>  
-		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
-			<div class="bs-docs-section">
-				<div class="blog-author">  </div>
-				<div class="blog-date">  </div>
-				  <article>
+<p>--
+layout: &quot;documents&quot;
+page_title: &quot;Network Defaults&quot;
+sidebar_current: &quot;admin-setting-network-defaults&quot;
+description: |-</p>
 
-    <h1>Dockercon'16 - Enabling Container Applications in Production - Now Online</h1>
-<p>4000 attendees at Dockercon last month was a great proof that more and more customers are considering containers and microservices architecture for future cloud native applications...</p>
+<h2>  Setting Network Defaults</h2>
 
-    <a href="/articles/2016/07/13/dockercon-talk.html">Read more</a>
-  </article>
-  <article>
+<h1>Setting Network Defaults</h1>
+<p>To set the network defaults.</p>
 
-    <h1>ONUG selects Contiv as the Best Software-Managed Infrastructure Innovation</h1>
-<p>We are excited to annouce that last week Open Networking User Group (ONUG) selected Project Contiv as the Best Software-Managed Infrastructure Innovation. ONUG also declared...</p>
-
-    <a href="/articles/2016/05/17/onug-contiv-award.html">Read more</a>
-  </article>
-  <article>
-
-    <h1>Scaling Microservices with Contiv</h1>
-<p>Enterprises are moving their applications from monolithic architectures to Microservices architectures. When they are thinking about Microservices, they are also considering containerizing their applications. In this...</p>
-
-    <a href="/articles/2016/03/06/scaling-microservices.html">Read more</a>
-  </article>
-
-			</div>
-		</div>
-	</div>
-</div>
+<ol>
+<li>Select <strong>Settings &gt; Network Defaults</strong>.
+</li>
+<li>Choose your network infrastructure type. If you are using Cisco ACI, choose ACI, otherwise leave as default.
+</li>
+<li>Enter your VLAN range.
+</li>
+<li>Enter your VXLAN range. 
+</li>
+<li>Select your forwarding mode <strong>bridge</strong> or <strong>routing</strong>.
+</li>
+<li>Click Update Network Settings. 
+You recieve a confirmation message confirming the update to your global settings.<br>
+</li>
+</ol>
