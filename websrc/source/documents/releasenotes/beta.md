@@ -39,7 +39,7 @@ Networking Models
 - L2 (VLAN)
 - L2 Overlay (VXLAN)
 - L3
--  ACI
+- ACI
 
 Forwarding plane / method
 - Open vSwitch
