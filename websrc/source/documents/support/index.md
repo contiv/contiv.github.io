@@ -1,7 +1,7 @@
-___
+---
 layout: "documents"
 page_title: "Contiv Support"
-sidebar_current: "Support"
+sidebar_current: "support"
 description: |-
   Contacting Contiv Support
 ---
