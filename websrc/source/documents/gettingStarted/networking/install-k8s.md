@@ -19,7 +19,7 @@ This page describes how to set up a Contiv cluster using Kubernetes.
 5. The setup scripts use the Python module *netaddr* and the Linux utility *bzip2*. If these are not installed on the machine where you are executing these steps, you must install them before proceeding. (You can use the following commands: `yum install bzip2; pip install netaddr`.)
 5. Enable passwordless SSH access from the installation server to all the other servers in the cluster. 
 An example is [here](http://www.linuxproblem.org/art_9.html).
-6. Enable passwordless sudo on all servers.  An example is 
+6. Enable passwordless sudo on all servers.  For example:
 [here](http://askubuntu.com/questions/192050/how-to-run-sudo-command-with-no-password).
 7. Make a note of the IP addresses (or DNS names) of all the servers, and of the network
 interfaces on which these IP addresses are configured.

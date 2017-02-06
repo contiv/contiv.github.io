@@ -6,13 +6,13 @@ description: |-
   Setting up nodes.
 ---
 
-# Setting up Nodes for BGP
+# Setting up Nodes
 
-To allow your containters to talk to one another, you will need an external gateway protocol. The Border Gateway Protocol (BGP) is the routing protocol that can alow your containers to contact eachother over large subnets or even more than one ISP. 
+To allow your containters to talk to one another over the network, you need an external gateway protocol. The Border Gateway Protocol (BGP) is the routing protocol that can alow your containers to contact eachother over large subnets or even more than one ISP. 
 
 BGP is the protocol that internet servers use to communicate to each other about which way to go, and how they should update their routing tables.
 
-Note: You will need some basic information on your BGP setup. Run _show ip bgp_ and _show ip bgp neighbors_ in order to obtain the neighbor IP address.
+Note: You will need some basic information on your BGP setup. Run _show ip bgp_ and _show ip bgp neighbors_ to obtain the neighbor IP address.
 
 To set up nodes:
 
