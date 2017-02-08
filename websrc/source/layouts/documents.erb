@@ -10,10 +10,7 @@
 			</ul>
 			<hr>
 			<h3>Getting Started</h3>
-					<ul class="nav">
-						<li<%= sidebar_current("getting-started-networking") %>>
-							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
-							<ul class="nav">
+							<ul class="nav docs-sidenav">
 								<li<%= sidebar_current("getting-started-networking-vagrant") %>>
 									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
 									<ul class="subnav">
@@ -25,6 +22,8 @@
 										</li>
 									</ul>
 								</li>
+								</ul>
+								<ul class="nav docs-sidenav">
 								<li<%= sidebar_current("getting-started-networking-installation") %>>
 									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
 									<ul class="subnav">
@@ -41,6 +40,9 @@
 												<a href="/documents/gettingStarted/networking/aci.html">Cisco ACI</a>
 										</li>
 									</ul>
+									</li>
+								</ul>
+									<hr>
 			<h3>Admin Guide</h3>
 			<ul class="nav">
 				<li<%= sidebar_current("admin") %>>
@@ -83,10 +85,6 @@
 								</li>
 							</ul>
 						</li-->
-					</ul>
-				</li>
-				<li<%= sidebar_current("networking") %>>
-					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
 						<li<%= sidebar_current("features") %>>
 								<a href="/documents/networking/features.html">Features</a>
@@ -200,7 +198,7 @@
 			<h3>Support</h3>
 				<ul class="nav">
 				<li<%= sidebar_current("support") %>>
-				 <a href="/documents/support/index.html">Contiv Support Contacts</a>
+				 <a href="/documents/support/index.html">Contact Support</a>
 				</li>
 		</div>
 	<% end %>

@@ -1,9 +1,9 @@
 ---
 layout: "documents"
-page_title: "Create Nodes (BGP)"
-sidebar_current: "admin-createnodes"
+page\_title: "Create Nodes (BGP)"
+sidebar\_current: "admin-createnodes"
 description: |-
-  Setting up nodes.
+  Setting up nodes
 ---
 
 # Setting up Nodes

@@ -15,33 +15,42 @@ Welcome to the Beta release of Contiv 1.0.0. Contiv is the most powerful open so
 
 This release includes:
 
-- Support for Contiv auth_proxy, allowing you to secure your container network, check user authorizations, and establish LDAP. 
+- Contiv auth_proxy, allowing you to:
+	- Establish role-based access for your container network
+	- Check user authorizations
+	- Authenticate using LDAP
+	- Set up BGP Nodes 
 - Contiv UI, the first UI available for administrators and users of Contiv. 
-- [Contiv Installer] (https://github.com/contiv/install) Install Contiv on your Docker Swarm or Kubernetes 1.4+ system.
+- [Contiv Installer](https://github.com/contiv/install) Install Contiv on your existing Docker Swarm or Kubernetes 1.4+ system.
 
 
 ## Support
 
 Host OS
+
 - CentOS7
 
 Container schedulers / orchestrators
+
 - Kubernetes 1.4 
 - Docker 1.12
 - Docker Swarm 1.2.5
 
 Infrastructure Support
+
 - Bare metal
 - vSphere
 - AWS
 
 Networking Models
+
 - L2 (VLAN)
 - L2 Overlay (VXLAN)
 - L3
 - ACI
 
 Forwarding plane / method
+
 - Open vSwitch
 - Openflow
 

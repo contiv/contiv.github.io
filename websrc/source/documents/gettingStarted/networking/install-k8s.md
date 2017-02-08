@@ -6,11 +6,13 @@ description: |-
   Setting up Kubernetes cluster
 ---
 
-# Installing Contiv Network with Kubernetes
+# Installing Contiv with Kubernetes
 
-This page describes how to set up a Contiv cluster using Kubernetes.
+You can set up a Contiv cluster using Kubernetes. 
 
-## Prerequisites
+## Before You Begin
+
+These preliminary steps must be performed before you install Contiv.
 
 1. Install Centos 7.2 on all servers used for the Contiv cluster.
 2. Ensure that each server has at least two, and preferably three, interfaces.
@@ -24,7 +26,7 @@ An example is [here](http://www.linuxproblem.org/art_9.html).
 7. Make a note of the IP addresses (or DNS names) of all the servers, and of the network
 interfaces on which these IP addresses are configured.
 
-## Step 1: Clone the Repository
+## Step 1: Clone the Demo Repository
 
 Clone the GitHub repository containing the Contiv files:  
 
