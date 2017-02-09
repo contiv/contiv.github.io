@@ -3,34 +3,35 @@ layout: "documents"
 page_title: "Beta Release Notes"
 sidebar_current: "release-notes-beta"
 description: |-
-  February 6, 2017
+  February 10, 2017
 ---
 
 # Beta Release Notes
 
-Welcome to the Beta release of Contiv 1.0.0. Contiv is the most powerful open source container networking platform available. 
+Welcome to the release of Contiv 1.0.0-beta. Contiv offers the most powerful open source container networking available. 
 
 
 ## Features
 
 This release includes:
 
+- [Contiv Installer](https://github.com/contiv/install) Install Contiv on your existing Docker Swarm or Kubernetes 1.4+ system.
 - Contiv auth_proxy, allowing you to:
 	- Establish role-based access for your container network
 	- Check user authorizations
 	- Authenticate using LDAP
 	- Set up BGP Nodes 
-- Contiv UI, the first UI available for administrators and users of Contiv. 
-- [Contiv Installer](https://github.com/contiv/install) Install Contiv on your existing Docker Swarm or Kubernetes 1.4+ system.
+- Contiv UI, the first user interface available for administrators and users of Contiv. 
+
 
 
 ## Support
 
 Host OS
 
-- CentOS7
+- CentOS 7
 
-Container schedulers / orchestrators
+Container Schedulers / Orchestrators
 
 - Kubernetes 1.4 
 - Docker 1.12
@@ -49,7 +50,7 @@ Networking Models
 - L3
 - ACI
 
-Forwarding plane / method
+Forwarding Plane / Method
 
 - Open vSwitch
 - Openflow
@@ -57,5 +58,5 @@ Forwarding plane / method
 
 ## Known Issues
 
-- **auth_proxy** Set SELinux to permissive mode before building Contiv. SELinux cannot be in enforcing mode, you must disable SELinux to build Contiv.  
+- **auth_proxy** Set SELinux to permissive mode before building Contiv. SELinux cannot be in enforcing mode, you must set SELinux to permissive mode to build Contiv.  
 
