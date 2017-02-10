@@ -10,32 +10,36 @@ description: |-
 
 Welcome to the release of Contiv 1.0.0-beta. Contiv offers the most powerful open source container networking available. 
 
+This is a fully-featured release ready for users to test and give us feedback through our [Slack channel](https://contiv.slack.com) and Github.
+
+A generally available version will release in the coming weeks with the option of commercial support.
+
 
 ## Features
 
 This release includes:
 
-- [Contiv Installer](https://github.com/contiv/install) Install Contiv on your existing Docker Swarm or Kubernetes 1.4+ system.
-- Contiv auth_proxy, allowing you to:
-	- Establish role-based access for your container network
-	- Check user authorizations
-	- Authenticate using LDAP
-	- Set up BGP Nodes 
-- Contiv UI, the first user interface available for administrators and users of Contiv. 
+- [Installer](https://github.com/contiv/install) Install Contiv on your existing Docker Swarm or Kubernetes 1.4+ system.
+- Security features - Authorization and authentication available to system administrators.
+- Networking Support
+	- L2 (VLAN)
+	- L2 Overlay (VXLAN)
+	- L3
+	- ACI
+- [Contiv UI](https://github.com/contiv/contiv-ui), the first user interface available for administrators and users of Contiv. 
 
+![ui](/assets/images/Dashboard.png)
 
-
-## Support
+## Supported Versions
 
 Host OS
 
-- CentOS 7
+- CentOS 7.x
 
 Container Schedulers / Orchestrators
 
 - Kubernetes 1.4 
-- Docker 1.12
-- Docker Swarm 1.2.5
+- Docker 1.12 + Docker Swarm 1.2.5
 
 Infrastructure Support
 
@@ -43,20 +47,10 @@ Infrastructure Support
 - vSphere
 - AWS
 
-Networking Models
 
-- L2 (VLAN)
-- L2 Overlay (VXLAN)
-- L3
-- ACI
+## Limitations
 
-Forwarding Plane / Method
-
-- Open vSwitch
-- Openflow
-
-
-## Known Issues
-
-- **auth_proxy** Set SELinux to permissive mode before building Contiv. SELinux cannot be in enforcing mode, you must set SELinux to permissive mode to build Contiv.  
-
+- Health checks unavailable on VXLAN.
+- VLAN mode requires external router support.
+- nodeport configuration for Kubernetes is local-host only.  
+ 

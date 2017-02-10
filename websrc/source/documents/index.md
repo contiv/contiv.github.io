@@ -7,20 +7,31 @@ description: |-
 ---
 # Contiv Documentation
 
-## User Guides
-Information about Contiv design, archtecture, and components, as well as getting-started
-guides.
+Contiv provides documentation to help you through every stage of the Container networking process. 
+
+
+### Guides
+Information on getting started and using Contiv for Container networking:
 
 - [Getting Started](/documents/gettingStarted)
-- [Networking](/documents/networking)
+- [Administrator Guide](/documents/admin)
+- [User Guide](/documents/networking)
 
-## Tutorials and Talks
+### Reference 
+
+- [API](/documents/api/)
+
+### Tutorials and Talks
 - [Tutorials](/documents/tutorials)
 - [Demostration Videos](/documents/demos)
 - [Community Talks](/documents/talks)
 
+### Troubleshooting
 
-## Examples
+- [Troubleshooting](/documents/troubleshooting)
+
+
+### Examples
 Some short but practical implementations to help you get started.
 
 - [Docker Compose Examples](/documents/samples)
@@ -28,7 +39,7 @@ Some short but practical implementations to help you get started.
 - [Multicast Examples](/documents/samples)
 
 
-## Support
+### Support
 Where to find help for the open source Contiv project.
 
 - <a href="https://contiv.herokuapp.com" target="_blank"> Log into the Contiv Slack channel.</a>
