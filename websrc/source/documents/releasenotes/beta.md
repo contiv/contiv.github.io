@@ -10,7 +10,7 @@ description: |-
 
 Welcome to the release of Contiv 1.0.0-beta. Contiv offers the most powerful open source container networking available. 
 
-This is a fully-featured release ready for users to test and give us feedback through our [Slack channel](https://contiv.slack.com) and Github.
+  feedback through our [Slack channel](https://contiv.slack.com) and Github .
 
 A generally available version will release in the coming weeks with the option of commercial support.
 
@@ -27,8 +27,8 @@ This release includes:
 	- L3
 	- ACI
 - [Contiv UI](https://github.com/contiv/contiv-ui), the first user interface available for administrators and users of Contiv. 
-
 ![ui](/assets/images/Dashboard.png)
+
 
 ## Supported Versions
 
@@ -51,6 +51,5 @@ Infrastructure Support
 ## Limitations
 
 - Health checks unavailable on VXLAN.
-- VLAN mode requires external router support.
 - nodeport configuration for Kubernetes is local-host only.  
  

@@ -14,6 +14,12 @@ apply policies that govern the security, bandwidth, priority, and other paramete
 applications. Following are some concepts and terminoilogy required to understand
 Contiv's policy framework.
 
+## Containers vs. VMs
+
+![ContivVms](/assets/images/ContvsVM.png)
+
+Containers are a more efficient use of resources than Virtual Machines(VMs). VMs isolate resources at the operating system level. Containers share a single Operating System and kernel between isolated tenants, reducing time spent in patching and updating several operating systems.
+
 ## Groups
 A *group* (or an *application group*) identifies a policy domain for a *container*
 or a *pod*.  The grouping is an arbitrary

@@ -6,7 +6,9 @@ description: |-
   Contiv Ports
 ---
 
-# Contiv uses the following ports. Make sure they are open and available in your Contiv-related containers:
+# Ports
+
+Contiv uses the following ports. Make sure they are open and available in your Contiv-related containers:
 
 | Software   |      Port Number      |  Protocol | Notes |
 |----------|:-------------:|------:|:-----------:
