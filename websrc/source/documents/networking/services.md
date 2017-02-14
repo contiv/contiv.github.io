@@ -6,74 +6,57 @@ description: |-
   Service Routing
 ---
 
-# Service Loadbalancing
+# Service Load Balancing
 
-If you want service load balancing support for Docker, you can configure it using Contiv.
+A service provides network connection on a set of ports to a cluster of  containers matching the service label selector. 
 
-A service is an abstraction providing a network connection on a set of ports to a cluster of 
-containers matching the service label selector. 
-Services have several advantages:
+Services offer:
 
-- Easy to scale 
-- Provide for efficient load balancing
-- Result in minimal downtime
+- Easy scaling up and down. 
+- Efficient load balancing.
+- Minimal downtime.
 
-A service provider is one or more containers with the matching label for those services.
+A provider is one or more containers that match the label selector associated with the services.
 
 ## Defining Services
 
-After you have created service networks for Contiv, you can define a service in the UI, using the `netctl` command line interface (CLI), or with the Contiv Network REST APIs. Services must be able to attach to an existing network. 
+After you create your network, you can define services using the UI, the `netctl` command line interface (CLI), or the Contiv Network REST APIs, but it is recommended
+to use the UI or API to take advantage of the authentication and authorization options in those interfaces.
 
-Services require *selectors*. Selectors are key-value pairs that group providers with matching labels. Without a selector, a service cannot run in a container.
+Note: Service requirements are defined by *selectors*. Selectors are key-value pairs 
+that group providers with matching labels. 
 
-To define a service using the UI:
+To create a Service Load Balancer using the UI:
+1. From *Service Load Balancer*, click *Create Service Load Balanacer*. 
+![service](documents/assets/images/ServiceLoadBalancer1.png)
+   The Create Service Load Balancer page displays.
+![createservice](documents/assets/images/CreateServiceLoadBalancer.png)   
+2. Choose a name for the service load balancer.
+3. Select the tenant.
+4. Select the network. 
+5. Enter the *Service IP* address.
+6. Under *Label Selectors* choose you label name and value.
+7. Choose your *Service* and *Provider* ports and your *Protocol*.
+8. Click *Create*.
 
-1. 
-2.
-3.
 
-To define a service in the CLI:
+To create a Service Load Balancer, using the CLI, run:
 
-1. Run netctl and use the *net create* command to define your service network:
-   For example:
 ```
-   netctl net create contiv-srv-net -s 100.1.1.0/24
+netctl net create [$SERVICE_NAME] -s [$SERVICE_IP_ADDRESS]
 
-```   
-2. Run netctl and create a service attached to your network. Choose your selectors
-
-For example, this command creates a network with 
+netctl service create [$APP_SERVICE_NAME] --network [$NETWORK_NAME] --tenant [$TENANT_NAME] selector=[$selector1] --selector=[$selector2] --selector=[$selector3] --port [$SERVICE_PORT]:[$PROVIDER_PORT]:[$PROTOCOL]
 ```
+
+For example, to create a web service in a web tier for which providers must be stable and production-ready:
+
+```
+netctl net create contiv-srv-net -s 100.1.1.0/24
+
 netctl service create app-svc --network contiv-srv-net --tenant default --selector=tier=web --selector=release=stable --selector=environment=prod --port 8080:80:TCP
 ```
-3.
 
-
-
-## How to Add Providers to a Service
-
-Providers are associated with a service by starting the containers with matching labels. 
-
-The following example shows the creation of a network called `contiv-net` which is used by the four providers created with labels matching the service selector:
-
-```
-netctl net create contiv-net -s 10.1.1.0/24 -g 10.1.1.254
-
-docker run -itd --net=contiv-net --label=tier=web --label=release=stable --label=environment=prod --label=version=1.0 alpine sh
-2c30b978c87bad64ced1f8158b72d17abf7748889464023d4e23a4bd24ae2d28
-
-docker run -itd --net=contiv-net --label=tier=web --label=release=stable --label=environment=prod --label=version=1.0 alpine sh
-3a23aa2d5891153999871544362b881fcd461e46021007453e0e6e7edf06b348
-
-docker run -itd --net=contiv-net --label=tier=web --label=release=stable --label=environment=prod --label=version=1.0 alpine sh
-ef6691ebb26ea54749242606ec23be01903f886f58382e346ec61369aab39073
-
-docker run -itd --net=contiv-net --label=tier=web --label=release=stable --label=environment=prod --label=version=1.0 alpine sh
-2a3ac3917e54775081e2afc40ce6d718e7871d4814a6fd387ecf4eca16fc2474
-
-```
-
-## Reaching a Service from the Client Containers
+## Demonstration of Reachability to a Service from the Client Containers
 
 The following example uses the *netcat* (`nc`) command to start listeners on each of the providers:
 
