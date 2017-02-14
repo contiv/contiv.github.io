@@ -12,7 +12,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <title>Networking concepts - Contiv</title>
 
-    <link href="/assets/stylesheets/application-0a61a110.css" rel="stylesheet"/>
+    <link href="/assets/stylesheets/application-8b7a6c5c.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
@@ -36,9 +36,9 @@
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="nav navbar-nav navbar-right main-nav">
             <li><a href="/documents/">Docs</a></li>
-            <li><a href="https://github.com/contiv/install">Download</a></li>
-             <li><a href="/documents/support/support.html">Support</a></li>
-            <li><a href="http://blogs.cisco.com/contiv">Blog</a></li>
+            <li><a href="https://github.com/contiv/install/releases">Download</a></li>
+             <li><a href="/documents/support/index.html">Support</a></li>
+            <li><a href="http://blogs.cisco.com/tag/contiv">Blog</a></li>
             
             <li><a href="https://github.com/contiv"><i class="fa fa-github"></i></a></li>
             <li><a href="https://contiv.herokuapp.com/"><i class="fa fa-slack"></i></a></li>
@@ -95,6 +95,22 @@ GitHub</a></li>
 				</li>
 			</ul>
 			<hr>
+			<h3>Getting Started</h3>
+							<ul class="nav">
+							<li>
+								<a href="/documents/networking/features.html">Features</a>
+						    </li>
+						    <li>
+								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
+						    </li>
+								<li>
+									<a href="/documents/gettingStarted/networking/quickstart.html">Quick Start</a>
+								</li>
+								<li>
+									<a href="https://github.com/contiv/install/releases">Install Contiv on Your Existing Container</a>
+									</li>
+								</ul>
+									<hr>
 			<h3>Admin Guide</h3>
 			<ul class="nav">
 				<li>
@@ -123,55 +139,8 @@ GitHub</a></li>
 			</ul>
 			<hr>
 			<h3>User Guide</h3>
-			<ul class="nav docs-sidenav">
-				<li>
-					<a href="/documents/gettingStarted/index.html">Getting Started</a>
-					<ul class="nav">
-						<li>
-							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
-							<ul class="nav">
-								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
-									<ul class="subnav">
-										<li>
-												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/k8s.html">Kubernetes</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
-									<ul class="subnav">
-										<li>
-												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/install-k8s.html">Kubernetes</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/bgp.html">BGP</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/aci.html">Cisco ACI</a>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
 						
-					</ul>
-				</li>
-				<li class="active">
-					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
-						<li>
-								<a href="/documents/networking/features.html">Features</a>
-						</li>
-						<li class="active">
-								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
-						</li>
 						<li>
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
@@ -243,52 +212,58 @@ GitHub</a></li>
 			<h3>Reference</h3>
 				<ul class="nav docs-sidenav">
 					<ul class="subnav">
-						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">API Reference</a><br></li>
+					    <li><a href="/documents/api/contiv.html" target="_blank">API Reference</a><br></li> 
+					    <li><a href="/documents/reference/netctlcli.html" target="_blank">CLI Reference</a><br></li> 
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Contiv Model Client Library</a><br></li>
 						
 					</ul>
 				</ul>
 			<hr><p>
-			<h3>Support</h3>
-				<ul class="nav">
-				<li>
-				 <a href="/documents/support/index.html">Contiv Support Contacts</a>
-				</li>
 		</div>
 
 		</div>  
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h1>Concepts and Terminology</h1>
-<p>Using container networking with Contiv is as easy as creating networks
-and assigning containers to the networks. Contiv&#39;s real power, however, is the ability to 
-apply policies that govern the security, bandwidth, priority, and other parameters for container
-applications. Following are some concepts and terminoilogy required to understand
-Contiv&#39;s policy framework.</p>
+	<h1>Concepts</h1>
+<p>Container networking with Contiv is as easy as creating networks
+and assigning containers to the networks. The advantage of Contiv is that you can 
+apply policies to govern the security, bandwidth, priority, and other parameters for container
+applications.</p>
+
+<h2>Containers vs. VMs</h2>
+<p>Containers are a more efficient use of resources than Virtual Machines(VMs). VMs isolate resources at the operating system level. Containers share a single Operating System and kernel between isolated tenants, reducing time spent in patching and updating several operating systems.</p>
+<p><img alt="ContivVms" src="/assets/images/ContvsVM-57a85991.png"/></p>
 
 <h2>Groups</h2>
 <p>A <em>group</em> (or an <em>application group</em>) identifies a policy domain for a <em>container</em>
 or a <em>pod</em>.  The grouping is an arbitrary
 collection of containers that share a specific application domain, for example
 all <em>production,frontend</em> containers, or <em>backup,long-running</em> containers.
-This association is often done by specifying <code>label</code> in <code>kubernetes pod spec</code></p>
+This association is often done by specifying a label for the group.</p>
 <p>Most notably, an application group or tier in Contiv has no one-to-one mapping
 to a network or an IP subnet of a network. This encourages you to group
-applications based on their roles and functions, and enables you to have many such application
+applications based on their roles and functions, and have many application
 groups belong to one network or an IP subnet.</p>
 
 <h2>Policies</h2>
 <p>A <em>policy</em> describes an operational behavior on a <em>group</em> of containers. The operational
 behavior can be enforcement, allocation, prioritation, traffic redirection,
-stats collection, or other action on the group on which the policy is applied. For
-example, an inbound security policy on a database tier can specify the allowed ports
-on the containers belonging to the group.</p>
-<p>A group can be associated with more than one policy. In such cases all policies are
-applied to a container belonging to the group. For example, a bandwidth policy
-could specify a limit on bandwidth consumption, while a security policy specifies
+stats collection, or other action on the group on which the policy is applied.</p>
+<p>Contiv supports two types of policies:</p>
+
+<ul>
+<li>Bandwidth - limiting the overall resource use of a group
+</li>
+<li>Isolation - limiting the access of a group
+</li>
+</ul>
+<p>A group can be associated with more than one policy and in this case all policies are
+applied to the group. For example, a bandwidth policy
+could specify a limit on bandwidth consumption, while an isolation policy specifies
 from which addresses the container can be accessed. When a container is scheduled
 in this group, both policies are applied to it.</p>
-<p>Policies follows the container independent of where it gets scheduled. Therefore, policy
+<p>Policies follow the container independent of where it is scheduled. Therefore, policy
 is specified for a given cluster, but enforcement done on the host where container is
 scheduled.</p>
 
@@ -298,33 +273,39 @@ example, a network can map to a subnet <code>10.1.1.0/24</code> that has a defau
 of <code>10.1.1.1</code>.</p>
 <p>Application developers usually don&#39;t care which network an application belongs to.
 The network association of an application becomes relevant when the application
-must be exposed to an external network, possibly allowing non-container workloads
+must be exposed to an external network, to allow non-container workloads
 or clients to communicate with it.</p>
-<p><em>Note</em>: The following two paragraphs are intended for more advanced network users.</p>
-<p>Contiv allows you to define two types of networks: An <em>application network</em> and
-an <em>infrastructure network</em>. An application network is used by container workloads,
-whereas the purpose of an <em>infrastructure network</em> is to create a virtual network
-in the host namespace. For example, infrastructure networkws are used by the virtual 
-layer of host-resident infrastructure services such as monitoring, storage, or cluster stores.</p>
-<p>Network encapsulation <em>type</em> determines if a network is a <em>routed</em> network or a <em>bridged</em>
-network. A routed network is useful in <em>overlay</em> topology and <em>L3-routed BGP</em> topology,
-while a <em>bridged</em> network is useful in connecting to a <em>layer2 VLAN</em> network.</p>
+
+<h3>Networks in Contiv</h3>
+<p>Contiv allows you to define two types of networks:</p>
+
+<ul>
+<li>application network - Network used by container workloads
+</li>
+<li>infrastructure network - Create a virtual network in the host namespace. For example, infrastructure networks are used by the virtual 
+layer of host-resident infrastructure services such as monitoring.
+</li>
+</ul>
+
+<h3>Network Encapsulation</h3>
+<p>There are two types of network encapsulation in Contiv:</p>
+
+<ul>
+<li>Routed - useful for <em>overlay</em> topology and <em>L3-routed BGP</em> topology
+</li>
+<li>Bridged - useful for connecting to a <em>layer2 VLAN</em> network
+</li>
+</ul>
 
 <h2>Tenant</h2>
-<p><em>Tenants</em> provides namespace isolation for networks. A tenant can have many <em>networks</em>,
-each with its own subnet address, among other information. A user can create
-networks with arbtrary subnet addresses within a tenant namespace, possibly reusing
-subnet IP addresses in other tenants. This provides complete freedom to a tenant
-user to specify the network names and their subnets within a tenant.</p>
-<p><em>Note</em>: The following two paragraphs are intended for more advanced network users.</p>
+<p><em>Tenants</em> provide the namespace isolation for Contiv. A tenant can have many <em>networks</em>,
+each with its own subnet address. A user within that tenant namespace can create
+networks with arbtrary subnet addresses, and re-use subnet IP addresses in other tenants.</p>
 <p>A <em>tenant</em> in the physical network is called virtual routing and forwarding (VRF).
 Depending on the mode of external connectivity (layer2, layer3, or
 Cisco ACI), the Contiv forwarding layer communicates the <em>tenant</em> to the external network
 using a <em>VLAN</em> or <em>VXLAN</em> ID. The Contiv routing plane (like BGP) is
-used to communicate the VRF-ID to rest of the network. See the documentation
-on layer3 BGP network configuraiton to learn more about configuration and usage.</p>
-<p>Note that for <em>overlay</em> networks, the need to communicate the tenant to the external network
-is not applicable.</p>
+used to communicate the VRF-ID to rest of the network.</p>
 
 
 			</div>

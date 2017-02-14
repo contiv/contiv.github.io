@@ -36,10 +36,10 @@ Creating policies for the UI or CLI requires knowing your tenant ahead of time.
 
 Policy creation starts with a name for the Isolation Policy and a tenant. After these choices have been made, you can edit the isolation policy to meet your needs.
 
-1\. From *Network Policies* > *Isolation Policies* click *Create*.
-![CreateIsolation](CreateIsolationPolicy.png)
-2\. Select the tenant.
-3\. Click Create. 
+1\. From *Network Policies* > *Isolation Policies* click *Create*. <br>
+![CreateIsolation](CreateIsolationPolicy.png)<br>
+2\. Select the tenant.<br>
+3\. Click Create. <br>
 
 #### Creating a Policy Using the CLI
 You can create a policy using the `create` operation on a `policy` object. During creation, 
@@ -303,12 +303,12 @@ container belonging to a specific group.
 
 Policy creation starts with a name for the Bandwidth Policy and a tenant. After these choices have been made, you can edit the isolation policy to meet your needs.
 
-1\. From *Network Policies* > *Bandwidth Policies* click *Create*.
-![CreateIsolation](CreateBandiwdthPolicy.png)
-2\. Select the tenant.
-3\. Click Create. 
+1\. From *Network Policies* > *Bandwidth Policies* click *Create*.<br>
+![CreateIsolation](CreateBandwidthPolicy.png)<br>
+2\. Select the tenant.<br>
+3\. Click Create. <br>
 4\. Now that you have the policy created, you can set the bandwidth limitation in Mbps. 
-    Note: You must choose a burst greater than 1500 bytes.
+    Note: You must choose a burst greater than 1500 bytes.<br>
 
 ###Creating a Bandwidth Policy using the CLI
 

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="February 6, 2017">
+    <meta name="description" content="February 10, 2017">
 
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -12,7 +12,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <title>Beta Release Notes - Contiv</title>
 
-    <link href="/assets/stylesheets/application-0a61a110.css" rel="stylesheet"/>
+    <link href="/assets/stylesheets/application-8b7a6c5c.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
@@ -36,9 +36,9 @@
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="nav navbar-nav navbar-right main-nav">
             <li><a href="/documents/">Docs</a></li>
-            <li><a href="https://github.com/contiv/install">Download</a></li>
-             <li><a href="/documents/support/support.html">Support</a></li>
-            <li><a href="http://blogs.cisco.com/contiv">Blog</a></li>
+            <li><a href="https://github.com/contiv/install/releases">Download</a></li>
+             <li><a href="/documents/support/index.html">Support</a></li>
+            <li><a href="http://blogs.cisco.com/tag/contiv">Blog</a></li>
             
             <li><a href="https://github.com/contiv"><i class="fa fa-github"></i></a></li>
             <li><a href="https://contiv.herokuapp.com/"><i class="fa fa-slack"></i></a></li>
@@ -95,6 +95,22 @@ GitHub</a></li>
 				</li>
 			</ul>
 			<hr>
+			<h3>Getting Started</h3>
+							<ul class="nav">
+							<li>
+								<a href="/documents/networking/features.html">Features</a>
+						    </li>
+						    <li>
+								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
+						    </li>
+								<li>
+									<a href="/documents/gettingStarted/networking/quickstart.html">Quick Start</a>
+								</li>
+								<li>
+									<a href="https://github.com/contiv/install/releases">Install Contiv on Your Existing Container</a>
+									</li>
+								</ul>
+									<hr>
 			<h3>Admin Guide</h3>
 			<ul class="nav">
 				<li>
@@ -123,55 +139,8 @@ GitHub</a></li>
 			</ul>
 			<hr>
 			<h3>User Guide</h3>
-			<ul class="nav docs-sidenav">
-				<li>
-					<a href="/documents/gettingStarted/index.html">Getting Started</a>
-					<ul class="nav">
-						<li>
-							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
-							<ul class="nav">
-								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
-									<ul class="subnav">
-										<li>
-												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/k8s.html">Kubernetes</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
-									<ul class="subnav">
-										<li>
-												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/install-k8s.html">Kubernetes</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/bgp.html">BGP</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/aci.html">Cisco ACI</a>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
 						
-					</ul>
-				</li>
-				<li>
-					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
-						<li>
-								<a href="/documents/networking/features.html">Features</a>
-						</li>
-						<li>
-								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
-						</li>
 						<li>
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
@@ -243,16 +212,13 @@ GitHub</a></li>
 			<h3>Reference</h3>
 				<ul class="nav docs-sidenav">
 					<ul class="subnav">
-						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">API Reference</a><br></li>
+					    <li><a href="/documents/api/contiv.html" target="_blank">API Reference</a><br></li> 
+					    <li><a href="/documents/reference/netctlcli.html" target="_blank">CLI Reference</a><br></li> 
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Contiv Model Client Library</a><br></li>
 						
 					</ul>
 				</ul>
 			<hr><p>
-			<h3>Support</h3>
-				<ul class="nav">
-				<li>
-				 <a href="/documents/support/index.html">Contiv Support Contacts</a>
-				</li>
 		</div>
 
 		</div>  
@@ -260,44 +226,68 @@ GitHub</a></li>
 			<div class="bs-docs-section">
 				
 	<h1>Beta Release Notes</h1>
-<p>Welcome to the Beta release of Contiv 1.0.0. Contiv is the most powerful open source container networking platform available.</p>
+<p>Welcome to the release of Contiv 1.0.0-beta. Contiv offers the most powerful open source container networking available.</p>
+<p>feedback through our <a href="https://contiv.slack.com">Slack channel</a> and Github .</p>
+<p>A generally available version will release in the coming weeks with the option of commercial support.</p>
 
 <h2>Features</h2>
 <p>This release includes:</p>
 
 <ul>
-<li>Support for Contiv auth_proxy, allowing you to secure your container network, check user authorizations, and establish LDAP. 
+<li><a href="https://github.com/contiv/install">Installer</a> Install Contiv on your existing Docker Swarm or Kubernetes 1.4+ system.
 </li>
-<li>Contiv UI, the first UI available for administrators and users of Contiv. 
+<li>Security features - Authorization and authentication available to system administrators.
 </li>
-<li><a href="https://github.com/contiv/install">Contiv Installer</a> Install Contiv on your Docker Swarm or Kubernetes 1.4+ system.
+<li>Networking Support
+
+<ul>
+<li>L2 (VLAN)
+</li>
+<li>L2 Overlay (VXLAN)
+</li>
+<li>L3
+</li>
+<li>ACI
+</li>
+</ul>
+</li>
+<li><a href="https://github.com/contiv/contiv-ui">Contiv UI</a>, the first user interface available for administrators and users of Contiv. 
+<img alt="ui" src="/assets/images/Dashboard-67fcd56f.png"/>
 </li>
 </ul>
 
-<h2>Support</h2>
-<p>Host OS
-- CentOS7</p>
-<p>Container schedulers / orchestrators
-- Kubernetes 1.4 
-- Docker 1.12
-- Docker Swarm 1.2.5</p>
-<p>Infrastructure Support
-- Bare metal
-- vSphere
-- AWS</p>
-<p>Networking Models
-- L2 (VLAN)
-- L2 Overlay (VXLAN)
-- L3
-- ACI</p>
-<p>Forwarding plane / method
-- Open vSwitch
-- Openflow</p>
-
-<h2>Known Issues</h2>
+<h2>Supported Versions</h2>
+<p>Host OS</p>
 
 <ul>
-<li><strong>auth_proxy</strong> Set SELinux to permissive mode before building Contiv. SELinux cannot be in enforcing mode, you must disable SELinux to build Contiv.<br>
+<li>CentOS 7.x
+</li>
+</ul>
+<p>Container Schedulers / Orchestrators</p>
+
+<ul>
+<li>Kubernetes 1.4 
+</li>
+<li>Docker 1.12 + Docker Swarm 1.2.5
+</li>
+</ul>
+<p>Infrastructure Support</p>
+
+<ul>
+<li>Bare metal
+</li>
+<li>vSphere
+</li>
+<li>AWS
+</li>
+</ul>
+
+<h2>Limitations</h2>
+
+<ul>
+<li>Health checks unavailable on VXLAN.
+</li>
+<li>nodeport configuration for Kubernetes is local-host only.<br>
 </li>
 </ul>
 

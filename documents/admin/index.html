@@ -10,16 +10,16 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <title>Getting Started - Contiv</title>
+    <title>Getting Started with Network Administration - Contiv</title>
 
-    <link href="/assets/stylesheets/application-0a61a110.css" rel="stylesheet"/>
+    <link href="/assets/stylesheets/application-8b7a6c5c.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
 
-  <body id="page-Getting Started" class=" page-Getting Started layout-documents page-sub">
+  <body id="page-Getting Started with Network Administration" class=" page-Getting Started with Network Administration layout-documents page-sub">
 
   <div class="navbar-jumbotron">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -36,9 +36,9 @@
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="nav navbar-nav navbar-right main-nav">
             <li><a href="/documents/">Docs</a></li>
-            <li><a href="https://github.com/contiv/install">Download</a></li>
-             <li><a href="/documents/support/support.html">Support</a></li>
-            <li><a href="http://blogs.cisco.com/contiv">Blog</a></li>
+            <li><a href="https://github.com/contiv/install/releases">Download</a></li>
+             <li><a href="/documents/support/index.html">Support</a></li>
+            <li><a href="http://blogs.cisco.com/tag/contiv">Blog</a></li>
             
             <li><a href="https://github.com/contiv"><i class="fa fa-github"></i></a></li>
             <li><a href="https://contiv.herokuapp.com/"><i class="fa fa-slack"></i></a></li>
@@ -95,6 +95,22 @@ GitHub</a></li>
 				</li>
 			</ul>
 			<hr>
+			<h3>Getting Started</h3>
+							<ul class="nav">
+							<li>
+								<a href="/documents/networking/features.html">Features</a>
+						    </li>
+						    <li>
+								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
+						    </li>
+								<li>
+									<a href="/documents/gettingStarted/networking/quickstart.html">Quick Start</a>
+								</li>
+								<li>
+									<a href="https://github.com/contiv/install/releases">Install Contiv on Your Existing Container</a>
+									</li>
+								</ul>
+									<hr>
 			<h3>Admin Guide</h3>
 			<ul class="nav">
 				<li class="active">
@@ -123,55 +139,8 @@ GitHub</a></li>
 			</ul>
 			<hr>
 			<h3>User Guide</h3>
-			<ul class="nav docs-sidenav">
-				<li>
-					<a href="/documents/gettingStarted/index.html">Getting Started</a>
-					<ul class="nav">
-						<li>
-							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
-							<ul class="nav">
-								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
-									<ul class="subnav">
-										<li>
-												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/k8s.html">Kubernetes</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
-									<ul class="subnav">
-										<li>
-												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/install-k8s.html">Kubernetes</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/bgp.html">BGP</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/aci.html">Cisco ACI</a>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
 						
-					</ul>
-				</li>
-				<li>
-					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
-						<li>
-								<a href="/documents/networking/features.html">Features</a>
-						</li>
-						<li>
-								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
-						</li>
 						<li>
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
@@ -243,16 +212,13 @@ GitHub</a></li>
 			<h3>Reference</h3>
 				<ul class="nav docs-sidenav">
 					<ul class="subnav">
-						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">API Reference</a><br></li>
+					    <li><a href="/documents/api/contiv.html" target="_blank">API Reference</a><br></li> 
+					    <li><a href="/documents/reference/netctlcli.html" target="_blank">CLI Reference</a><br></li> 
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Contiv Model Client Library</a><br></li>
 						
 					</ul>
 				</ul>
 			<hr><p>
-			<h3>Support</h3>
-				<ul class="nav">
-				<li>
-				 <a href="/documents/support/index.html">Contiv Support Contacts</a>
-				</li>
 		</div>
 
 		</div>  
@@ -260,20 +226,25 @@ GitHub</a></li>
 			<div class="bs-docs-section">
 				
 	<h1>Administering Contiv</h1>
-<p>To help you administer your Container networks, Contiv provides the user management, authentication, role-based access control.</p>
+<p>Before your users begin creating network policies for their tenants, establish the appropriate role-based access for each user. Contiv provides the ability to authenticate your users
+through your existing LDAP, or to create them locally if you are working on a proof of concept or other small project.</p>
+<p>As a system administrator for Contiv, you can begin:</p>
 
 <ul>
-<li>Managing tenants
+<li><a href="/documents/admin/createTenant.html">Managing tenants</a>
 </li>
-<li>Managing users
+<li><a href="/documents/admin/manageUsers.html">Managing users</a>
 </li>
-<li>Managing authorizations
+<li><a href="/documents/admin/manageAuthorizations.html">Managing authorizations</a>
 </li>
-<li>Managing nodes
+<li><a href="/documents/admin/createNodes.html">Managing nodes</a>
 </li>
-<li>Managing LDAP
+<li><a href="/documents/admin/manageLDAP.html">Managing LDAP</a>
+</li>
+<li><a href="/documents/admin/manageNetworks.html">Managing networks</a>
 </li>
 </ul>
+<p>These tasks are all available to you in the <a href="https://github.com/contiv/contiv-ui">Contiv UI</a> but you can also work with the [REST API]s(documents/api/contiv.html).</p>
 
 
 			</div>

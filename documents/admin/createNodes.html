@@ -3,23 +3,23 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Setting up nodes.">
+    <meta name="description" content="Setting up nodes">
 
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <title>Create Nodes (BGP) - Contiv</title>
+    <title>Contiv</title>
 
-    <link href="/assets/stylesheets/application-0a61a110.css" rel="stylesheet"/>
+    <link href="/assets/stylesheets/application-8b7a6c5c.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
 
-  <body id="page-Create Nodes (BGP)" class=" page-Create Nodes (BGP) layout-documents page-sub">
+  <body id="page-home" class=" page-home layout-documents">
 
   <div class="navbar-jumbotron">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -36,9 +36,9 @@
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="nav navbar-nav navbar-right main-nav">
             <li><a href="/documents/">Docs</a></li>
-            <li><a href="https://github.com/contiv/install">Download</a></li>
-             <li><a href="/documents/support/support.html">Support</a></li>
-            <li><a href="http://blogs.cisco.com/contiv">Blog</a></li>
+            <li><a href="https://github.com/contiv/install/releases">Download</a></li>
+             <li><a href="/documents/support/index.html">Support</a></li>
+            <li><a href="http://blogs.cisco.com/tag/contiv">Blog</a></li>
             
             <li><a href="https://github.com/contiv"><i class="fa fa-github"></i></a></li>
             <li><a href="https://contiv.herokuapp.com/"><i class="fa fa-slack"></i></a></li>
@@ -95,27 +95,43 @@ GitHub</a></li>
 				</li>
 			</ul>
 			<hr>
+			<h3>Getting Started</h3>
+							<ul class="nav">
+							<li>
+								<a href="/documents/networking/features.html">Features</a>
+						    </li>
+						    <li>
+								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
+						    </li>
+								<li>
+									<a href="/documents/gettingStarted/networking/quickstart.html">Quick Start</a>
+								</li>
+								<li>
+									<a href="https://github.com/contiv/install/releases">Install Contiv on Your Existing Container</a>
+									</li>
+								</ul>
+									<hr>
 			<h3>Admin Guide</h3>
 			<ul class="nav">
-				<li class="active">
+				<li>
 					<a href="/documents/admin/index.html">Intro</a>
 				</li>
-				<li class="active">
+				<li>
 				    <a href="/documents/admin/createTenant.html">Managing Tenants</a>
 				</li>
-				<li class="active">
+				<li>
 				    <a href="/documents/admin/manageUsers.html">Managing Users</a>
 			    </li>		
-			    <li class="active">
+			    <li>
 				    <a href="/documents/admin/manageAuthorizations.html">Managing Authorizations</a>
 			    </li>
-			    <li class="active">
+			    <li>
 				    <a href="/documents/admin/createNodes.html">Managing Nodes</a>
 			    </li>
-			     <li class="active">
+			     <li>
 				    <a href="/documents/admin/manageNetworks.html">Managing Networks</a>
 			    </li>
-			    <li class="active">
+			    <li>
 				    <a href="/documents/admin/manageLDAP.html">Managing LDAP</a>
 			    </li>
 			</ul>
@@ -123,55 +139,8 @@ GitHub</a></li>
 			</ul>
 			<hr>
 			<h3>User Guide</h3>
-			<ul class="nav docs-sidenav">
-				<li>
-					<a href="/documents/gettingStarted/index.html">Getting Started</a>
-					<ul class="nav">
-						<li>
-							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
-							<ul class="nav">
-								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
-									<ul class="subnav">
-										<li>
-												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/k8s.html">Kubernetes</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
-									<ul class="subnav">
-										<li>
-												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/install-k8s.html">Kubernetes</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/bgp.html">BGP</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/aci.html">Cisco ACI</a>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
 						
-					</ul>
-				</li>
-				<li>
-					<a href="/documents/networking/index.html">Networking</a>
 					<ul class="nav">
-						<li>
-								<a href="/documents/networking/features.html">Features</a>
-						</li>
-						<li>
-								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
-						</li>
 						<li>
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
@@ -243,26 +212,23 @@ GitHub</a></li>
 			<h3>Reference</h3>
 				<ul class="nav docs-sidenav">
 					<ul class="subnav">
-						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">API Reference</a><br></li>
+					    <li><a href="/documents/api/contiv.html" target="_blank">API Reference</a><br></li> 
+					    <li><a href="/documents/reference/netctlcli.html" target="_blank">CLI Reference</a><br></li> 
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Contiv Model Client Library</a><br></li>
 						
 					</ul>
 				</ul>
 			<hr><p>
-			<h3>Support</h3>
-				<ul class="nav">
-				<li>
-				 <a href="/documents/support/index.html">Contiv Support Contacts</a>
-				</li>
 		</div>
 
 		</div>  
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h1>Setting up Nodes for BGP</h1>
-<p>To allow your containters to talk to one another, you will need an external gateway protocol. The Border Gateway Protocol (BGP) is the routing protocol that can alow your containers to contact eachother over large subnets or even more than one ISP.</p>
+	<h1>Setting up Nodes</h1>
+<p>To allow your containters to talk to one another over the network, you need an external gateway protocol. The Border Gateway Protocol (BGP) is the routing protocol that can alow your containers to contact eachother over large subnets or even more than one ISP.</p>
 <p>BGP is the protocol that internet servers use to communicate to each other about which way to go, and how they should update their routing tables.</p>
-<p>Note: You will need some basic information on your BGP setup. Run <em>show ip bgp</em> and <em>show ip bgp neighbors</em> in order to obtain the neighbor IP address.</p>
+<p>Note: You will need some basic information on your BGP setup. Run <em>show ip bgp</em> and <em>show ip bgp neighbors</em> to obtain the neighbor IP address.</p>
 <p>To set up nodes:</p>
 
 <ol>
