@@ -19,7 +19,7 @@ Information on getting started and using Contiv for Container networking:
 
 ### Reference 
 
-- [API](/documents/api/)
+- [API](/documents/api/contiv.html)
 - [CLI](/documents/reference/netctlcli.html)
 - [ContivModel Client] (https://godoc.org/github.com/contiv/contivmodel/client)
 
