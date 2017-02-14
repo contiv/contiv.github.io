@@ -27,17 +27,18 @@ Note: Service requirements are defined by *selectors*. Selectors are key-value p
 that group providers with matching labels. 
 
 To create a Service Load Balancer using the UI:
-1. From *Service Load Balancer*, click *Create Service Load Balanacer*. 
-![service](documents/assets/images/ServiceLoadBalancer1.png)
-   The Create Service Load Balancer page displays.
-![createservice](documents/assets/images/CreateServiceLoadBalancer.png)   
-2. Choose a name for the service load balancer.
-3. Select the tenant.
-4. Select the network. 
-5. Enter the *Service IP* address.
-6. Under *Label Selectors* choose you label name and value.
-7. Choose your *Service* and *Provider* ports and your *Protocol*.
-8. Click *Create*.
+
+1\. From *Service Load Balancer*, click *Create Service Load Balanacer*. 
+![service](CreateServiceLoadBalancer.png)<br>
+   The Create Service Load Balancer page displays.<br>
+![createservice](CreateServiceLoadBalancer.png)   
+2\. Choose a name for the service load balancer. <br>
+3\. Select the tenant.<br>
+4\. Select the network. <br>
+5\. Enter the *Service IP* address.<br>
+6\. Under *Label Selectors* choose you label name and value.<br>
+7\. Choose your *Service* and *Provider* ports and your *Protocol*.<br>
+8\. Click *Create*.<br>
 
 
 To create a Service Load Balancer, using the CLI, run:
@@ -56,7 +57,7 @@ netctl net create contiv-srv-net -s 100.1.1.0/24
 netctl service create app-svc --network contiv-srv-net --tenant default --selector=tier=web --selector=release=stable --selector=environment=prod --port 8080:80:TCP
 ```
 
-## Demonstration of Reachability to a Service from the Client Containers
+<!--## Demonstration of Reachability to a Service from the Client Containers
 
 The following example uses the *netcat* (`nc`) command to start listeners on each of the providers:
 
@@ -92,3 +93,4 @@ docker exec -it 9e6842a59369ba67d6224c1502ab0e68360fe7aaa0949a04462a9ae0bdbc6830
 ```
 
 *Note*: The service IP can also be a preferred IP address. This can be enforced while creating the service configuration with the `-ip` option.
+-->

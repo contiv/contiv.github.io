@@ -1,7 +1,7 @@
 ---
 layout: "documents"
 page_title: "Quick Start Guide"
-sidebar_current: "getting-started-networking-quick-start-guide"
+sidebar_current: "quickstartguide"
 description: |-
   Quick Start Guide
 ---
