@@ -8,9 +8,9 @@ description: |-
 
 # Contiv in L3 Mode
 
-This page describes how to use Contiv in L3 mode. 
 
-In a Contiv container infrastructure, L3 capability enables the following:
+
+Contiv supports L3, to enable:
 
 -  Communication between containers on different hosts natively using VLAN encapsulation.
 -  Communication between containers and non-containers.
