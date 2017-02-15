@@ -12,7 +12,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <title>Service Routing - Contiv</title>
 
-    <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
+    <link href="/assets/stylesheets/application-8b7a6c5c.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
@@ -21,41 +21,32 @@
 
   <body id="page-Service Routing" class=" page-Service Routing layout-documents page-sub">
 
-<div id="header" class="navbar-static-top">
-  <div class="container">
-    <div class="row">
-      
+  <div class="navbar-jumbotron">
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+      <div class="container">
         <div class="navbar-header">
-          <div class="navbar-brand">
-              <a class="logo" href="/">Contiv</a>
-            </a>
-          </div>
-          
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/" style="color:$white"> Contiv </a>
         </div>
-        <div class="buttons hidden-xs">
-          <nav role="navigation">
-            <ul class="main-links nav navbar-nav navbar-left">
-              <li class="first li-under"><a href="/documents/index.html">Documentation</a></li>
-              <li class="li-under"><a href="/articles/index.html">Articles</a></li>
-              <li class="li-under"><a href="https://github.com/contiv" target="_blank">
-                        GitHub
-                        <i class="fa fa-github fa-lg"></i>
-                        </a></li>
-                    <li class="li-under"><a href="https://contiv.herokuapp.com" target="_blank">
-                        Slack
-                        <i class="fa fa-slack fa-lg"></i>
-                        </a></li>
-                    <li><a href="https://twitter.com/projectcontiv" target="_blank">
-                        Twitter
-                        <i class="fa fa-twitter fa-lg"></i>
-                        </a></li>
-            </ul>
-          </nav>
+        <div class="collapse navbar-collapse" id="navbar">
+          <ul class="nav navbar-nav navbar-right main-nav">
+            <li><a href="/documents/">Docs</a></li>
+            <li><a href="https://github.com/contiv/install/releases">Download</a></li>
+             <li><a href="/documents/support/index.html">Support</a></li>
+            <li><a href="http://blogs.cisco.com/tag/contiv">Blog</a></li>
+            
+            <li><a href="https://github.com/contiv"><i class="fa fa-github"></i></a></li>
+            <li><a href="https://contiv.herokuapp.com/"><i class="fa fa-slack"></i></a></li>
+          </ul>
         </div>
-      
-    </div>
+      </div>
+    </nav>
   </div>
-</div>
 
 
 <div class="sidebar-overlay"></div>
@@ -97,59 +88,59 @@ GitHub</a></li>
 		<div class="col-md-3 col-sm-3 col-xs-12">
 					<div class="docs-sidebar hidden-print affix-top" role="complementary">
 			<hr>
-			<h3>User Guide</h3>
-			<ul class="nav docs-sidenav">
+			<h3>Release Notes</h3>
+			<ul class="nav">
 				<li>
-					<a href="/documents/gettingStarted/index.html">Getting Started</a>
-					<ul class="nav">
-						<li>
-							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
-							<ul class="nav">
-								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
-									<ul class="subnav">
-										<li>
-												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/k8s.html">Kubernetes</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/mesos.html">Mesos</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
-									<ul class="subnav">
-										<li>
-												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/install-k8s.html">Kubernetes</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/bgp.html">BGP</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/aci.html">Cisco ACI</a>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-						
-					</ul>
+					<a href="/documents/releasenotes/beta.html">Beta</a>
 				</li>
-				<li class="active">
-					<a href="/documents/networking/index.html">Networking</a>
-					<ul class="nav">
-						<li>
+			</ul>
+			<hr>
+			<h3>Getting Started</h3>
+							<ul class="nav">
+							<li>
 								<a href="/documents/networking/features.html">Features</a>
-						</li>
-						<li>
+						    </li>
+						    <li>
 								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
-						</li>
+						    </li>
+								<li>
+									<a href="/documents/gettingStarted/networking/quickstart.html">Quick Start</a>
+								</li>
+								<li>
+									<a href="https://github.com/contiv/install/releases">Install Contiv on Your Existing Container</a>
+									</li>
+								</ul>
+									<hr>
+			<h3>Admin Guide</h3>
+			<ul class="nav">
+				<li>
+					<a href="/documents/admin/index.html">Intro</a>
+				</li>
+				<li>
+				    <a href="/documents/admin/createTenant.html">Managing Tenants</a>
+				</li>
+				<li>
+				    <a href="/documents/admin/manageUsers.html">Managing Users</a>
+			    </li>		
+			    <li>
+				    <a href="/documents/admin/manageAuthorizations.html">Managing Authorizations</a>
+			    </li>
+			    <li>
+				    <a href="/documents/admin/createNodes.html">Managing Nodes</a>
+			    </li>
+			     <li>
+				    <a href="/documents/admin/manageNetworks.html">Managing Networks</a>
+			    </li>
+			    <li>
+				    <a href="/documents/admin/manageLDAP.html">Managing LDAP</a>
+			    </li>
+			</ul>
+				</li>
+			</ul>
+			<hr>
+			<h3>User Guide</h3>
+						
+					<ul class="nav">
 						<li>
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
@@ -215,14 +206,15 @@ GitHub</a></li>
 						<li>
 							<a href="/documents/samples/mcast.html">Multicast Examples</a>
 						</li>
-						
 					</ul>
 				</ul>
 			<hr><p>
 			<h3>Reference</h3>
 				<ul class="nav docs-sidenav">
 					<ul class="subnav">
-						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Network API Reference</a><br></li>
+					    <li><a href="/documents/api/contiv.html" target="_blank">API Reference</a><br></li> 
+					    <li><a href="/documents/reference/netctlcli.html" target="_blank">CLI Reference</a><br></li> 
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Contiv Model Client Library</a><br></li>
 						
 					</ul>
 				</ul>
@@ -233,91 +225,48 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h1>Service Loadbalancing</h1>
-<p>This page describes the implementation of service loadblancer support for Docker.</p>
-
-<h2>What is a Service?</h2>
-<p>A service is an abstraction providing a network connection on a set of ports to a cluster of 
-containers matching the service label selector. 
-Services have several advantages. They:</p>
+	<h1>Service Load Balancing</h1>
+<p>A service provides network connection on a set of ports to a cluster of  containers matching the service label selector.</p>
+<p>Services offer:</p>
 
 <ul>
-<li>Are easy to scale up and down. 
+<li>Easy scaling up and down. 
 </li>
-<li>Provide for efficient loadbalancing.
+<li>Efficient load balancing.
 </li>
-<li>Result in minimal downtime.
+<li>Minimal downtime.
 </li>
 </ul>
-
-<h2>What are Providers for a Service?</h2>
 <p>A provider is one or more containers that match the label selector associated with the services.</p>
 
-<h2>How is a Service Defined?</h2>
-<p>Services are defined using the <code>netctl</code> command line interface (CLI) or the Contiv Network REST APIs. 
-Services must be created in an existing service network, so you first create a service network, then attach 
-the service. Requirements for services are defined in the form of <em>selectors</em>. Selectors are key-value pairs 
+<h2>Defining Services</h2>
+<p>After you create your network, you can define services using the UI, the <code>netctl</code> command line interface (CLI), or the Contiv Network REST APIs, but it is recommended
+to use the UI or API to take advantage of the authentication and authorization options in those interfaces.</p>
+<p>Note: Service requirements are defined by <em>selectors</em>. Selectors are key-value pairs 
 that group providers with matching labels.</p>
-<p>The following example shows the creation of a web service in a 
-web tier for which providers must be stable and production-ready:</p>
+<p>To create a Service Load Balancer using the UI:</p>
+<p>1. From <em>Service Load Balancer</em>, click <em>Create Service Load Balanacer</em>. 
+<img alt="service" src="/documents/networking/CreateServiceLoadBalancer-22ae2b28.png"/><br>
+   The Create Service Load Balancer page displays.<br>
+<img alt="createservice" src="/documents/networking/CreateServiceLoadBalancer-22ae2b28.png"/><br>
+2. Choose a name for the service load balancer. <br>
+3. Select the tenant.<br>
+4. Select the network. <br>
+5. Enter the <em>Service IP</em> address.<br>
+6. Under <em>Label Selectors</em> choose you label name and value.<br>
+7. Choose your <em>Service</em> and <em>Provider</em> ports and your <em>Protocol</em>.<br>
+8. Click <em>Create</em>.<br></p>
+<p>To create a Service Load Balancer, using the CLI, run:</p>
+<pre class="highlight plaintext"><code>netctl net create [$SERVICE_NAME] -s [$SERVICE_IP_ADDRESS]
+
+netctl service create [$APP_SERVICE_NAME] --network [$NETWORK_NAME] --tenant [$TENANT_NAME] selector=[$selector1] --selector=[$selector2] --selector=[$selector3] --port [$SERVICE_PORT]:[$PROVIDER_PORT]:[$PROTOCOL]
+</code></pre>
+<p>For example, to create a web service in a web tier for which providers must be stable and production-ready:</p>
 <pre class="highlight plaintext"><code>netctl net create contiv-srv-net -s 100.1.1.0/24
 
 netctl service create app-svc --network contiv-srv-net --tenant default --selector=tier=web --selector=release=stable --selector=environment=prod --port 8080:80:TCP
 </code></pre>
 
-<h2>How to Add Providers to a Service</h2>
-<p>Providers are associated with a service by starting the containers with matching labels.</p>
-<p>The following example shows the creation of a network called <code>contiv-net</code> which is used by the four providers created with labels matching the service selector:</p>
-<pre class="highlight plaintext"><code>netctl net create contiv-net -s 10.1.1.0/24 -g 10.1.1.254
-
-docker run -itd --net=contiv-net --label=tier=web --label=release=stable --label=environment=prod --label=version=1.0 alpine sh
-2c30b978c87bad64ced1f8158b72d17abf7748889464023d4e23a4bd24ae2d28
-
-docker run -itd --net=contiv-net --label=tier=web --label=release=stable --label=environment=prod --label=version=1.0 alpine sh
-3a23aa2d5891153999871544362b881fcd461e46021007453e0e6e7edf06b348
-
-docker run -itd --net=contiv-net --label=tier=web --label=release=stable --label=environment=prod --label=version=1.0 alpine sh
-ef6691ebb26ea54749242606ec23be01903f886f58382e346ec61369aab39073
-
-docker run -itd --net=contiv-net --label=tier=web --label=release=stable --label=environment=prod --label=version=1.0 alpine sh
-2a3ac3917e54775081e2afc40ce6d718e7871d4814a6fd387ecf4eca16fc2474
-
-</code></pre>
-
-<h2>Demonstration of Reachability to a Service from the Client Containers</h2>
-<p>The followin example uses the <em>netcat</em> (<code>nc</code>) command to start listeners on each of the providers:</p>
-<pre class="highlight plaintext"><code>docker exec -it 2c30b978c87bad64ced1f8158b72d17abf7748889464023d4e23a4bd24ae2d28 sh
-#nc -l -p 80 &amp;
-
-docker exec -it 3a23aa2d5891153999871544362b881fcd461e46021007453e0e6e7edf06b348 sh
-#nc -l -p 80 &amp;
-
-docker exec -it ef6691ebb26ea54749242606ec23be01903f886f58382e346ec61369aab39073 sh
-#nc -l -p 80 &amp;
-
-docker exec -it 2a3ac3917e54775081e2afc40ce6d718e7871d4814a6fd387ecf4eca16fc2474 sh
-#nc -l -p 80 &amp;
-</code></pre>
-<p>Finally, the following example does three things:</p>
-
-<ul>
-<li>Creates a network for a client (consumer of the service). 
-</li>
-<li>Starts the client container. 
-</li>
-<li>Uses netcat to attempt to reach the service IP (service IP allocated in our example is 100.1.1.3) on the service port.
-</li>
-</ul>
-<pre class="highlight plaintext"><code>netctl net create client-net -s 11.1.1.0/24 -g 11.1.1.254
-
-docker run -itd --net=client-net  alpine sh
-9e6842a59369ba67d6224c1502ab0e68360fe7aaa0949a04462a9ae0bdbc6830
-
-docker exec -it 9e6842a59369ba67d6224c1502ab0e68360fe7aaa0949a04462a9ae0bdbc6830 sh
-# nc -znvw 1 100.1.1.3 8080
-100.1.1.3 (100.1.1.3:8080) open
-</code></pre>
-<p><em>Note</em>: The service IP can also be a preferred IP address. This can be enforced while creating the service configuration with the <code>-ip</code> option.</p>
 
 
 			</div>

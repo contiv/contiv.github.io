@@ -12,7 +12,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <title>Kubernetes cluster - Contiv</title>
 
-    <link href="/assets/stylesheets/application-2b39eabd.css" rel="stylesheet"/>
+    <link href="/assets/stylesheets/application-8b7a6c5c.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
@@ -21,41 +21,32 @@
 
   <body id="page-Kubernetes cluster" class=" page-Kubernetes cluster layout-documents page-sub">
 
-<div id="header" class="navbar-static-top">
-  <div class="container">
-    <div class="row">
-      
+  <div class="navbar-jumbotron">
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+      <div class="container">
         <div class="navbar-header">
-          <div class="navbar-brand">
-              <a class="logo" href="/">Contiv</a>
-            </a>
-          </div>
-          
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/" style="color:$white"> Contiv </a>
         </div>
-        <div class="buttons hidden-xs">
-          <nav role="navigation">
-            <ul class="main-links nav navbar-nav navbar-left">
-              <li class="first li-under"><a href="/documents/index.html">Documentation</a></li>
-              <li class="li-under"><a href="/articles/index.html">Articles</a></li>
-              <li class="li-under"><a href="https://github.com/contiv" target="_blank">
-                        GitHub
-                        <i class="fa fa-github fa-lg"></i>
-                        </a></li>
-                    <li class="li-under"><a href="https://contiv.herokuapp.com" target="_blank">
-                        Slack
-                        <i class="fa fa-slack fa-lg"></i>
-                        </a></li>
-                    <li><a href="https://twitter.com/projectcontiv" target="_blank">
-                        Twitter
-                        <i class="fa fa-twitter fa-lg"></i>
-                        </a></li>
-            </ul>
-          </nav>
+        <div class="collapse navbar-collapse" id="navbar">
+          <ul class="nav navbar-nav navbar-right main-nav">
+            <li><a href="/documents/">Docs</a></li>
+            <li><a href="https://github.com/contiv/install/releases">Download</a></li>
+             <li><a href="/documents/support/index.html">Support</a></li>
+            <li><a href="http://blogs.cisco.com/tag/contiv">Blog</a></li>
+            
+            <li><a href="https://github.com/contiv"><i class="fa fa-github"></i></a></li>
+            <li><a href="https://contiv.herokuapp.com/"><i class="fa fa-slack"></i></a></li>
+          </ul>
         </div>
-      
-    </div>
+      </div>
+    </nav>
   </div>
-</div>
 
 
 <div class="sidebar-overlay"></div>
@@ -97,59 +88,59 @@ GitHub</a></li>
 		<div class="col-md-3 col-sm-3 col-xs-12">
 					<div class="docs-sidebar hidden-print affix-top" role="complementary">
 			<hr>
-			<h3>User Guide</h3>
-			<ul class="nav docs-sidenav">
-				<li class="active">
-					<a href="/documents/gettingStarted/index.html">Getting Started</a>
-					<ul class="nav">
-						<li class="active">
-							<a class="hasChildren" href="/documents/gettingStarted/networking/index.html">Networking</a>
+			<h3>Release Notes</h3>
+			<ul class="nav">
+				<li>
+					<a href="/documents/releasenotes/beta.html">Beta</a>
+				</li>
+			</ul>
+			<hr>
+			<h3>Getting Started</h3>
 							<ul class="nav">
-								<li class="active">
-									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#UsingVagrant">Single Machine</a>
-									<ul class="subnav">
-										<li>
-												<a href="/documents/gettingStarted/networking/swarm.html">Docker Swarm</a>
-										</li>
-										<li class="active">
-												<a href="/documents/gettingStarted/networking/k8s.html">Kubernetes</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/mesos.html">Mesos</a>
-										</li>
-									</ul>
+							<li>
+								<a href="/documents/networking/features.html">Features</a>
+						    </li>
+						    <li>
+								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
+						    </li>
+								<li>
+									<a href="/documents/gettingStarted/networking/quickstart.html">Quick Start</a>
 								</li>
 								<li>
-									<a class="hasChildren" href="/documents/gettingStarted/networking/index.html#WithNetworkedServers">Multiple Servers</a>
-									<ul class="subnav">
-										<li>
-												<a href="/documents/gettingStarted/networking/install-swarm.html">Docker Swarm</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/install-k8s.html">Kubernetes</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/bgp.html">BGP</a>
-										</li>
-										<li>
-												<a href="/documents/gettingStarted/networking/aci.html">Cisco ACI</a>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-						
-					</ul>
+									<a href="https://github.com/contiv/install/releases">Install Contiv on Your Existing Container</a>
+									</li>
+								</ul>
+									<hr>
+			<h3>Admin Guide</h3>
+			<ul class="nav">
+				<li>
+					<a href="/documents/admin/index.html">Intro</a>
 				</li>
 				<li>
-					<a href="/documents/networking/index.html">Networking</a>
+				    <a href="/documents/admin/createTenant.html">Managing Tenants</a>
+				</li>
+				<li>
+				    <a href="/documents/admin/manageUsers.html">Managing Users</a>
+			    </li>		
+			    <li>
+				    <a href="/documents/admin/manageAuthorizations.html">Managing Authorizations</a>
+			    </li>
+			    <li>
+				    <a href="/documents/admin/createNodes.html">Managing Nodes</a>
+			    </li>
+			     <li>
+				    <a href="/documents/admin/manageNetworks.html">Managing Networks</a>
+			    </li>
+			    <li>
+				    <a href="/documents/admin/manageLDAP.html">Managing LDAP</a>
+			    </li>
+			</ul>
+				</li>
+			</ul>
+			<hr>
+			<h3>User Guide</h3>
+						
 					<ul class="nav">
-						<li>
-								<a href="/documents/networking/features.html">Features</a>
-						</li>
-						<li>
-								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
-						</li>
 						<li>
 								<a href="/documents/networking/policies.html">Policies</a>
 						</li>
@@ -215,14 +206,15 @@ GitHub</a></li>
 						<li>
 							<a href="/documents/samples/mcast.html">Multicast Examples</a>
 						</li>
-						
 					</ul>
 				</ul>
 			<hr><p>
 			<h3>Reference</h3>
 				<ul class="nav docs-sidenav">
 					<ul class="subnav">
-						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Network API Reference</a><br></li>
+					    <li><a href="/documents/api/contiv.html" target="_blank">API Reference</a><br></li> 
+					    <li><a href="/documents/reference/netctlcli.html" target="_blank">CLI Reference</a><br></li> 
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Contiv Model Client Library</a><br></li>
 						
 					</ul>
 				</ul>
@@ -412,7 +404,7 @@ defaultnet-busybox2   1/1       Running   0          35m
 this epg in the pod specification and verify that the policy is enforced.</p>
 <p>Examine <code>policy.sh</code>. This file contains Contiv commands to create a simple 
 ICMP deny rule, add the rule to a policy, and attach the policy to an EPG.</p>
-<p>Excute this script to create the network objects:</p>
+<p>Execute this script to create the network objects:</p>
 <pre class="highlight plaintext"><code>[root@k8master shared]# ./policy.sh
 
 [root@k8master shared]# netctl group list
@@ -470,14 +462,20 @@ PING 21.1.1.4 (21.1.1.4): 56 data bytes
 21.1.1.4 [21.1.1.4] 6379 (6379) open
 
 </code></pre>
-<p>Notice that: 
-1. <code>busybox-poc-net</code> is unable to ping <code>annoyed-busybox</code>
-2. <code>busybox-poc-net</code> is able to ping <code>sportive-busybox</code>, 
-to which no policy was applied. 
-3. <code>busybox-poc-net</code> is able to exchange TCP with <code>annoyed-busybox</code>, 
-consistent with the applied policy. You can try other combinations as 
+<p>Note:</p>
+
+<ol>
+<li><p>The <a name="busybox_poc_net"/><a href="#busybox_poc_net"><code>busybox-poc-net</code></a> node cannot ping <code>annoyed-busybox</code>.</p>
+</li>
+<li><p>The <a name="busybox_poc_net"/><a href="#busybox_poc_net"><code>busybox-poc-net</code></a> can ping <code>sportive-busybox</code>, 
+because no policy applies.</p>
+</li>
+<li><p>The<a name="busybox_poc_net"/><a href="#busybox_poc_net"><code>busybox-poc-net</code></a> is able to exchange using TCP with <code>annoyed-busybox</code>, 
+which is consistent with the applied policy. You can try other combinations as 
 well, for example applying  ping and nc between <code>annoyed-busybox</code> and <code>sportive-busybox</code>.
 You can also create your own policy and pod spec and try.</p>
+</li>
+</ol>
 
 
 			</div>

@@ -11,20 +11,37 @@ description: |-
 Network policies describe rules for network resource usage, isolation rules, 
 prioritization, and other network behavior on a group of containers.
 
+There are two types of network policies you can create with Contiv:
+
+* Bandwidth - limiting the overall resource use of a group
+* Isolation - limiting the access of a group
+
+This section covers how to create, update, and delete these policies.
+
 ## Network Isolation Policies
 
 Network isolation policies enable white-list or black-list access control rules
 to or from an application. Network isolation policies are particularly useful in 
-securing an application tier. A group on which an inbound policy is applied can 
-be a service tier or some other logical collection of containers that must be part of
+securing an application tier. A group where an inbound policy is applied can 
+be a service tier or another logical collection of containers that must be part of
 a policy domain.
 
-The following sections describe how to use the Contiv Network CLI to manipulate
-(create, read, update, delete, or CRUD) a network isolation policy. The same 
-effect can be achieved with the Contiv Network REST API, which has the same functionality 
-as the CLI.
+The following sections describe how to use UI or the Contiv Network CLI perform create, read, update, delete (CRUD) operations a network isolation policy. These actions can also be done with the Contiv Network REST API, which like the UI supports user authentication.
 
 ### Creating a Network Isolation Policy
+
+Creating policies for the UI or CLI requires knowing your tenant ahead of time.  
+
+####Creating an Isolation Policy Using the UI
+
+Policy creation starts with a name for the Isolation Policy and a tenant. After these choices have been made, you can edit the isolation policy to meet your needs.
+
+1\. From *Network Policies* > *Isolation Policies* click *Create*. <br>
+![CreateIsolation](CreateIsolationPolicy.png)<br>
+2\. Select the tenant.<br>
+3\. Click Create. <br>
+
+#### Creating a Policy Using the CLI
 You can create a policy using the `create` operation on a `policy` object. During creation, 
 the policy must be supplied with a unique name in the `tenant` namespace.
 
@@ -127,7 +144,7 @@ default  web-policy
 
 ```
 
-The followign lists all the rules in the policy:
+The following lists all the rules in the policy:
 
 ```
 $ netctl policy rule-ls web-policy
@@ -280,6 +297,20 @@ and repurposed dynamically.
 Network bandwidth policies specify the bandwidth limits on all containers
 that belong to a group. These policies "throttle" the bandwidth of every
 container belonging to a specific group.
+
+
+###Creating a Bandwidth Policy using the UI
+
+Policy creation starts with a name for the Bandwidth Policy and a tenant. After these choices have been made, you can edit the isolation policy to meet your needs.
+
+1\. From *Network Policies* > *Bandwidth Policies* click *Create*.<br>
+![CreateIsolation](CreateBandwidthPolicy.png)<br>
+2\. Select the tenant.<br>
+3\. Click Create. <br>
+4\. Now that you have the policy created, you can set the bandwidth limitation in Mbps. 
+    Note: You must choose a burst greater than 1500 bytes.<br>
+
+###Creating a Bandwidth Policy using the CLI
 
 Policies like network isolation apply between two groups, whereas other policies,
 including network bandwidth allocation, affect a group or containers within a group.

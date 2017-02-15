@@ -5,20 +5,20 @@
 // --------------------------------------------------
 
 #header {
-  background-color: $hdr-light-gray;
+  background-color: $black;
 
   .navbar-brand {
     .logo{
-      color: #205081;
+      color: #FFF;
       font-family: $font-family-blanc;
-      font-size: 38px;
-      margin-right: 30px;
+      font-size: 25px;
+      margin-right: 25px;
       background: image-url('logo3.png') 0 0 no-repeat;
       @include img-retina("logo3.png", "logo3.png", $project-logo-width, $project-logo-height);
       background-position: 0 center;
 
       &:hover{
-        color: $medium-green;
+        color: $white;
       }
     }
 
@@ -26,7 +26,7 @@
       &:hover{
         svg{
           .svg-bg-line{
-            fill: $medium-green;
+            fill: $white;
           }
         }
       }
@@ -40,12 +40,12 @@
       li {
         &:hover{
           svg path{
-            fill: $black;
+            fill: $white;
           }
         }
 
         svg path{
-          fill: $blue-light;
+          fill: $white;
         }
       }
     }
@@ -64,7 +64,7 @@
     .navbar-brand {
       .logo{
         padding-left: 42px;
-        font-size: 36px;
+        font-size: 25px;
         @include img-retina("logo3.png", "logo3.png", $project-logo-width * .75, $project-logo-height * .75);
       }
     }

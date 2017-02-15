@@ -8,7 +8,7 @@ Do export CLUSTER_NODE_IPS=ips of all nodes in cluster, and export no_proxy=ips 
 
 If your servers are behind an http proxy (usually the case in many cisco labs...), you need to do export http_proxy=<proxy url> and export https_proxy=<proxy_url> in your shell
 
-Select and use on server to initiate installation on all servers in the cluster. Do not run install from multiple servers. Instead, stick to the same server to initiate installation.
+You will select and use on server to initiate installation on all servers in the cluster. Please refrain from running install from multiple servers. Instead, stick to the same server to initiate installation.
 
 It is recommended that you enable passwordless SSH access from the selected server to all the other servers in the cluster. An example of how to set this up is here
 

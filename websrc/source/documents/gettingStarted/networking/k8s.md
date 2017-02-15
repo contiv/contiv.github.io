@@ -222,7 +222,7 @@ this epg in the pod specification and verify that the policy is enforced.
 Examine `policy.sh`. This file contains Contiv commands to create a simple 
 ICMP deny rule, add the rule to a policy, and attach the policy to an EPG. 
 
-Excute this script to create the network objects:
+Execute this script to create the network objects:
 
 ```
 [root@k8master shared]# ./policy.sh
@@ -290,11 +290,14 @@ PING 21.1.1.4 (21.1.1.4): 56 data bytes
 
 ```
 
-Notice that: 
-1. `busybox-poc-net` is unable to ping `annoyed-busybox`
-2. `busybox-poc-net` is able to ping `sportive-busybox`, 
-to which no policy was applied. 
-3. `busybox-poc-net` is able to exchange TCP with `annoyed-busybox`, 
-consistent with the applied policy. You can try other combinations as 
+Note: 
+
+1. The `busybox-poc-net` node cannot ping `annoyed-busybox`.
+
+2. The `busybox-poc-net` can ping `sportive-busybox`, 
+because no policy applies. 
+
+3. The`busybox-poc-net` is able to exchange using TCP with `annoyed-busybox`, 
+which is consistent with the applied policy. You can try other combinations as 
 well, for example applying  ping and nc between `annoyed-busybox` and `sportive-busybox`.
 You can also create your own policy and pod spec and try.
