@@ -20,4 +20,4 @@ As a system administrator for Contiv, you can begin:
 * [Managing LDAP](/documents/admin/manageLDAP.html)
 * [Managing networks](/documents/admin/manageNetworks.html)
 
-These tasks are all available to you in the [Contiv UI](https://github.com/contiv/contiv-ui) but you can also work with the [REST API]s(documents/api/contiv.html).  
+These tasks are all available to you in the [Contiv UI](https://github.com/contiv/contiv-ui) but you can also work with the [REST APIs](/documents/api/contiv.html).  
