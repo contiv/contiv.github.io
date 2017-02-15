@@ -10,9 +10,9 @@ description: |-
 
 Welcome to the release of Contiv 1.0.0-beta. Contiv offers the most powerful open source container networking available. 
 
-  feedback through our [Slack channel](https://contiv.slack.com) and Github .
+For any questions on Beta, you can ask on our [Slack channel](https://contiv.slack.com) and file any issues you find on our [Github](https://github.com/contiv).
 
-A generally available version will release in the coming weeks with the option of commercial support.
+Note: A generally available version will release in the coming weeks with the option of commercial support.
 
 
 ## Features
