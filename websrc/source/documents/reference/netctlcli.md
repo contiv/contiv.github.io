@@ -9,6 +9,8 @@ description: |-
 #Command-Line Interface
 Contiv uses the netctl command-line interface (CLI) to configure networks, policies, and service load balancers.
 
+**Note:** netctl directly talks to netmaster, bypassing Contiv authentication and authorization. If you want to use this utility, set it up on a separate cluster node.
+
 ##USAGE:
    `./netctl [global options] command [command options] [arguments...]`
    
