@@ -8,7 +8,7 @@ description: |-
 
 # Setting up Nodes
 
-To allow your containters to talk to one another over the network, you need an external gateway protocol. The Border Gateway Protocol (BGP) is the routing protocol that can alow your containers to contact eachother over large subnets or even more than one ISP. 
+To allow your containers to talk to one another over the network, you need an external gateway protocol. The Border Gateway Protocol (BGP) is the routing protocol that can allow your containers to contact each other over large subnets or even more than one ISP. 
 
 BGP is the protocol that internet servers use to communicate to each other about which way to go, and how they should update their routing tables.
 
