@@ -223,6 +223,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>http://contiv.io/documents/networking/portinfo.html</loc>
+    <lastmod>2017-02-15T00:00:00-08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>http://contiv.io/documents/networking/services.html</loc>
     <lastmod>2017-02-15T00:00:00-08:00</lastmod>
     <changefreq>monthly</changefreq>
@@ -284,12 +290,6 @@
   </url>
   <url>
     <loc>http://contiv.io/</loc>
-    <lastmod>2017-02-15T00:00:00-08:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://contiv.io/documents/networking/portinfo.html</loc>
     <lastmod>2017-02-15T00:00:00-08:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
