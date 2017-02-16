@@ -14,6 +14,7 @@ through your existing LDAP, or to create them locally if you are working on a pr
 As a system administrator for Contiv, you can begin:
 
 * [Managing tenants](/documents/admin/createTenant.html)
+* [Manage ports](/documents/admin/portinfo.html)
 * [Managing users](/documents/admin/manageUsers.html)
 * [Managing authorizations](/documents/admin/manageAuthorizations.html)
 * [Managing nodes](/documents/admin/createNodes.html)
