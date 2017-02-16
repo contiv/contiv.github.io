@@ -202,9 +202,14 @@ GitHub</a></li>
 			<hr><p>
 			<h3>Reference</h3>
 				<ul class="nav">
-					    <li><a href="/documents/api/contiv.html" target="_blank">API Reference</a><br></li> 
-					    <li><a href="/documents/reference/netctlcli.html" target="_blank">CLI Reference</a><br></li> 
-						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Contiv Model Client Library</a><br></li>
+					    <li>
+					    <a href="/documents/api/contiv.html" target="_blank">API Reference</a>
+					    </li> 
+					    <li>
+					    <a href="/documents/reference/netctlcli.html" target="_blank">CLI Reference</a>
+					    </li> 
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Contiv Model Client Library</a>
+						</li>
 						
 				</ul>
 			<hr><p>
@@ -216,6 +221,7 @@ GitHub</a></li>
 				
 	<h1>Command-Line Interface</h1>
 <p>Contiv uses the netctl command-line interface (CLI) to configure networks, policies, and service load balancers.</p>
+<p><strong>Note:</strong> netctl directly talks to netmaster, bypassing Contiv authentication and authorization. If you want to use this utility, set it up on a separate cluster node.</p>
 
 <h2>USAGE:</h2>
 <p><code>./netctl [global options] command [command options] [arguments...]</code></p>
