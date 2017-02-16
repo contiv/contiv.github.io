@@ -1,12 +1,12 @@
 ---
 layout: "documents"
-page_title: "Physical network integration"
+page_title: "Managing Ports"
 sidebar_current: "networking-portinfo"
 description: |-
   Contiv Ports
 ---
 
-# Ports
+# Managing Ports
 
 Contiv uses the following ports. Make sure they are open and available in your Contiv-related containers:
 
