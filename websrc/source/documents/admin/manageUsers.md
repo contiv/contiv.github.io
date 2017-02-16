@@ -8,9 +8,9 @@ description: |-
 
 # Managing Users
 
-By default, Contiv provides an admin user to provide access to the administrator funtionality.  You can work from this account or create your own accounts.  
+By default, Contiv provides an admin user to provide access to the administrator functionality.  You can work from this account or create your own accounts.  
 
-You can create additional administrators for Contiv or your network users locally with Contiv or set up LDAP authentication for your cantainer Network access. Forsmall projects, you can use local users, but as your networking needs grow, an outdside authentication method that supports group authentication is more practical.
+You can create additional administrators for Contiv or your network users locally with Contiv or set up LDAP authentication for your container Network access. For small projects, you can use local users, but as your networking needs grow, an outside authentication method that supports group authentication is more practical.
 
 ## Creating a Local User
 
@@ -18,7 +18,7 @@ Create local users for small or proof of concept projects. For larger projects, 
 
 To create a local user:
 
-1. From _Settings_ > _User Management_, click Create User.
+1. From **Settings >  User Management**, click **Create User**.
 2. Enter a unique username. Avoid using <, >, {, or }.
 3. Enter a unique password.
 4. If you plan to have multiple local users, include a First and Last name to help clarify the users later.
@@ -47,7 +47,7 @@ Any local user you create can be removed from Contiv. The admin user, provided t
 
 To remove a local user:
 
-1. From Settings > User Mangement, select the user you want to remove.
+1. From Settings > User Management, select the user you want to remove.
    The user record displays.
 2. Click Remove.
 3. Click Yes to confirm you want to remove the user.
