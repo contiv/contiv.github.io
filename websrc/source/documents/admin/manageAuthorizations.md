@@ -19,9 +19,9 @@ Note: Limit the number of Admin users you create to ensure that passwords and ac
 
 ## Authorizing Users
 
-If you are authorizing a user for a particular tenant, make sure you've created the tenant before you begin. 
+If you are authorizing a DevOps user, you will select the specific tenant as part of the authorization. Make sure you've created the tenant you want before you begin these steps.
 
-**Note:** If you have set up LDAP authentication and are authorizing users through their Active Directory (AD) groups, be aware that Contiv cannot authorize users based on their primary AD group. There is no straight-froward mechanism to retrieve user's primary group from AD and authorize it. Authorize them against another group. 
+If you have set up LDAP authentication and are authorizing users through their Active Directory (AD) groups, be aware that Contiv cannot authorize users based on their primary AD group. There is no straight-froward mechanism to retrieve a user's primary group from AD and authorize it. Authorize users against another group. 
 
 To authorize a user:
 
