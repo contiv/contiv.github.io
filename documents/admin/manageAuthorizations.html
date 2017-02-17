@@ -224,34 +224,35 @@ GitHub</a></li>
 <p>Contiv provides two roles:</p>
 
 <ul>
-<li><em>Admin</em> - Superuser able to access any tenant and modify user access to any tenant.
+<li><strong>Admin</strong> - Superuser able to access any tenant and modify user access to any tenant.
 </li>
-<li><em>DevOps</em> - Able to create and set network policies, service load balancers, application groups and network policies within the tenant or tenants assigned to them.
+<li><strong>DevOps</strong> - Able to create and set network policies, service load balancers, application groups and network policies within the tenant or tenants assigned to them.
 </li>
 </ul>
-<p>Limit the number of Admin users you create to ensure that passwords and access to tenants remains secure.</p>
+<p>Note: Limit the number of Admin users you create to ensure that passwords and access to tenants remains secure.</p>
 
 <h2>Authorizing Users</h2>
-<p>If you are authorizing a user for a particular tenant, make sure you&#39;ve created the tenant before you begin.</p>
+<p>If you are authorizing a DevOps user, you will select the specific tenant as part of the authorization. Make sure you&#39;ve created the tenant you want before you begin these steps.</p>
+<p>If you have set up Active Directory (AD) authentication and are authorizing users through their AD groups, be aware that Contiv cannot authorize users based on their primary AD group. There is no straight-froward mechanism to retrieve a user&#39;s primary group from AD and authorize it. Authorize users against another group. For more information on this issue, see this <a href="http://lists.freeradius.org/pipermail/freeradius-users/2012-August/062055.html">thread</a>.</p>
 <p>To authorize a user:</p>
 
 <ol>
 <li>From <strong>Settings &gt; Authorizations</strong> click <strong>Create Authorization</strong>.
 </li>
-<li>Choose whether you are authorizing a Local User or an LDAP Group.
+<li>Choose whether you are authorizing a <strong>Local User</strong> or an <strong>LDAP Group</strong>.
 </li>
-<li>Select Role. 
-If this user or group will receive Admin privileges, select <strong>Admin</strong> and <strong>Save</strong> to complete the authorization.
-If this user or group will receive DevOps privileges, select <strong>DevOps</strong>, the tenant, and <strong>Save</strong> to complete the authorization.
+<li>Select <strong>Role</strong>.<br>
+If this user or group will receive Admin privileges, select <strong>Admin</strong> and <strong>Save</strong> to complete the authorization.<br>
+If this user or group will receive DevOps privileges, select <strong>DevOps</strong>, the tenant, and <strong>Save</strong> to complete the authorization.<br>
 </li>
 </ol>
 
 <h2>Removing Authorizations</h2>
 <p>Authorizations cannot be modified. You can remove authorizations and create new ones as needed.</p>
-<p>To remove an Authorization:</p>
+<p>To remove an authorization:</p>
 
 <ol>
-<li>From <strong>Settings &gt; Authorizations</strong> click the name of the authorization you want to remove.
+<li>From <strong>Settings &gt; Authorizations</strong> click the name of the authorization you want to remove.<br>
 If you have a long list of authorizations, you can filter by username, role, or tenant name.
 </li>
 <li>Click <strong>Remove</strong>.
