@@ -21,7 +21,7 @@ Note: Limit the number of Admin users you create to ensure that passwords and ac
 
 If you are authorizing a DevOps user, you will select the specific tenant as part of the authorization. Make sure you've created the tenant you want before you begin these steps.
 
-If you have set up LDAP authentication and are authorizing users through their Active Directory (AD) groups, be aware that Contiv cannot authorize users based on their primary AD group. There is no straight-froward mechanism to retrieve a user's primary group from AD and authorize it. Authorize users against another group. 
+If you have set up Active Directory (AD) authentication and are authorizing users through their AD groups, be aware that Contiv cannot authorize users based on their primary AD group. There is no straight-froward mechanism to retrieve a user's primary group from AD and authorize it. Authorize users against another group. For more information on this issue, see this [thread](http://lists.freeradius.org/pipermail/freeradius-users/2012-August/062055.html).
 
 To authorize a user:
 
