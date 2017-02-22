@@ -10,7 +10,7 @@ description: |-
 
 This tutorial shows how to use a modified *libcompose* utility to apply network policies on a Docker application composition.
 
-*Note*: The demonstrations on this page use the Vagrant utility to set up a VM environment. This environment is for demonstrating automation and integration with Contiv Networking and is not meant to be used in production.
+**Note:** The demonstrations on this page use the Vagrant utility to set up a VM environment. This environment is for demonstrating automation and integration with Contiv and is not meant to be used in production.
 
 ## Getting Started
 The following steps describe how to set up a demo application and apply policies to it.
@@ -29,7 +29,7 @@ $ cd $HOME; mkdir -p deploy/src/github.com/contiv
 $ export GOPATH=$HOME/deploy
 $ cd deploy/src/github.com/contiv/
 $ git clone https://github.com/contiv/netplugin
-$ cd netplugin; make demo
+$ cd netplugin; make demo-swarm
 ```
 
 ### 2. Download the Software
@@ -53,6 +53,7 @@ $ git checkout deploy
 $ make binary
 $ sudo cp $GOPATH/src/github.com/docker/libcompose/bundles/libcompose-cli /usr/bin/contiv-compose
 ```
+**Note:** These commands work only on a Linux host. 
 
 ### 4. Build or Get Container Images
 You can either build your own container images or download pre-built standard Docker images. 
@@ -88,31 +89,23 @@ To download the database image:
 $ docker pull jainvipin/redis
 $ docker tag jainvipin/redis redis
 ```
-
-(Optional) Run Contiv-UI
-Contiv UI allows visual way of creating and monitoring Contiv network and storage policies.
-To run contiv UI, run the following container, after which the container can be accessed on
-port `80` inside the VM or on a mapped port like `9998` in the Vagrant environment
-
-```
-docker run --net=host --name contiv-ui -d contiv/contiv-ui
-```
+**Note:** In the next step we'll use the command-line to create sample networks and policies. If you want to set up authentication and authorization, you can use contiv-ui instead.
 
 ### 5. Build Networks and Create Policies
-To demo the policies, first create a network as follows:
+To demo the policies, first create a network:
 
 ```
 netctl net create -s 10.11.1.0/24 dev
 ```
 
-Run `contiv-compose` to create a policy, as follows:
+Run `contiv-compose` to create a policy:
 
 ```
 $ cd $GOPATH/src/github.com/docker/libcompose/deploy/example
 $ contiv-compose up -d
 ```
 
-The system displays notifications similar to the following:
+You should see system notifications similar to the following example:
 
 ```
 WARN[0000] Note: This is an experimental alternate implementation of the Compose CLI (https://github.com/docker/compose)
@@ -128,9 +121,9 @@ INFO[0000] [1/2] [redis]: Started
 INFO[0001] [2/2] [web]: Started        
 ```
 
-Observe the following:
+**Note:**
 
-- For user `vagrant`, `contiv-compose` assigned the default policy, named `TrustApp`. The `TrustApp` policy can be found in the `ops.json` file, which is a modifiable ops policy in the example directory where you ran the `contiv-compose` command.
+- For the `vagrant` user, `contiv-compose` assigned the default policy, named `TrustApp`. The `TrustApp` policy can be found in the `ops.json` file, which is a modifiable ops policy in the example directory where you ran the `contiv-compose` command.
 - As defined in `ops.json`, the TrustApp policy permits all ports allowed by the application. The notification messages show that `contiv-compose` tries to fetch the port information from the redis image and applies an inbound set of rules to it.
 
 Now, verify that the isolation policy is working as expected:
@@ -217,8 +210,7 @@ redis:
 
 3\. Start the composition:
 
-Please note that the yaml file is sensitve to the extra whitespaces, and with improper alignment, `contiv-compose` would fail. To
-avoid this please make sure the yaml file has exact same alignment as the code shown above.
+**Note:** The yaml file is sensitve to the extra whitespaces, and can fail with improper alignment. Make sure the yaml file has the exact same alignment as the code shown above.
 
 ```
 $ contiv-compose up -d
@@ -379,7 +371,7 @@ FATA[0000] Failed to Create Network Config: Deny disallowed policy
 
 You can use contiv-compose to run the applications in a non-default tenant.
 
-*Note*: This example is for illustration only. The tenant identity is typically retrieved from the user's context, and users are not allowed to specify the tenant.
+**Note:** This example is for the demo. The tenant identity is typically retrieved from the user's context, users are not allowed to specify the tenant.
 
 1\. Create a new tenant called `blue` and specify a network called `dev` in the `blue` tenant:
 
@@ -388,7 +380,7 @@ netctl tenant create blue
 netctl net create -t blue -s 10.11.2.0/24 dev
 ```
 
-2\. Create a composition that states the tenancy as follows:
+2\. Create a composition that states the tenancy as:
 
 ```
 $ cat docker-compose.yml
@@ -421,9 +413,9 @@ $ docker inspect example_redis_1 | grep \"IPAddress\"
 
 ```
 
-Note that the allocated an IP address from the `blue` tenant's IP pool.
+**Note:** The allocated an IP address from the `blue` tenant's IP pool.
 
-3\. Clean up the composition for the tenant
+3\. Clean up the composition for the tenant:
 
 ```
 $ contiv-compose stop
@@ -435,7 +427,7 @@ $ contiv-compose rm -f
 The cluster of nodes were already brought up during initiatization when we did `make demo`.
 Now we start to issue the application bringup at cluster level.
 
-1\. Enable docker-client to use swarm cluster by setting DOCKER_HOST to point to swarm master
+1\. Enable docker-client to use swarm cluster by setting DOCKER_HOST to point to swarm master:
 
 ```
 $ export DOCKER_HOST=tcp://netplugin-node1:2375
@@ -495,7 +487,7 @@ WARNING: No kernel memory limit support
 Note above that we see three nodes with their respective IP addresses and status. If the status
 is `healthy` we can proceed with running containers in the clusters.
 
-2\. Start a composition within a cluster and scale web tier
+2\. Start a composition within a cluster and scale web tier:
 
 ```
 $ cd $GOPATH/src/github.com/docker/libcompose/deploy/example
@@ -527,7 +519,7 @@ cffe972e91ec        redis                          "docker-entrypoint.sh"   27 s
 4a5269013f09        skynetservices/skydns:latest   "/skydns"                3 hours ago          Up 3 hours              53/tcp, 53/udp      netplugin-node1/defaultdns
 ```
 
-3\. Verify that policies work between containers running on different hosts
+3\. Verify that policies work between containers running on different hosts:
 
 ```
 $ docker exec -it example_web_1 /bin/bash
@@ -543,12 +535,10 @@ example-redis.blue [10.11.2.3] 6375 (?) : Connection timed out
 # exit
 ```
 
-Note that in the above mentioned run, `example_redis_1` and `example_web_1`
+**Note:** `example_redis_1` and `example_web_1`
 are running on `node3` and `node` respectively.
 
-4\. Start another composition as `test` project
-
-Let's start another composition using the same template but a different project
+4\. Start another composition as `test` project, using the same template but a different project:
 
 ```
 $ contiv-compose -p test up -d
@@ -589,7 +579,7 @@ example-redis.blue [10.11.2.3] 6376 (?) : Connection timed out
 example-redis.blue [10.11.2.3] 6375 (?) : Connection timed out
 ```
 
-Note that the policies are enforced between respective compositions i.e. `test_web_1`
+**Note:** Policies are enforced between respective compositions i.e. `test_web_1`
 is unable to access `example_redis_1` database. However if we try to access `test_redis_1`
 from it, that would be allowed on the specified ports.
 
@@ -616,11 +606,11 @@ $ vagrant destroy -f
 ```
 
 
-### Some Notes and Comments
+### Additional Information
 
 - The demonstrations on this page use the Vagrant utility to set up a VM environment. This environment is for demonstrating automation and integration with Contiv Networking and is not meant to be used in production.
 - User-based authentication uses the operational policy in `ops.json` as Docker's authorization
 plugin, to permit only authenticated users to specify certain operations.
-- Contributing to or Modifying Contiv's *libcompose* variant is welcome! Please make run unit and sanity tests before
-submitting a pull request. Running `make test-deploy` and 'make test-unit` from the repository should be sufficient. 
+- Contributing to Contiv's *libcompose* variant is welcome! Run our provided unit and sanity tests before
+submitting a pull request. Running `make test-deploy` and 'make test-unit` from the repository is sufficient. 
 

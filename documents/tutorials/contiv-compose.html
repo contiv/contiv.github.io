@@ -221,7 +221,7 @@ GitHub</a></li>
 				
 	<h1>Policies with Networking</h1>
 <p>This tutorial shows how to use a modified <em>libcompose</em> utility to apply network policies on a Docker application composition.</p>
-<p><em>Note</em>: The demonstrations on this page use the Vagrant utility to set up a VM environment. This environment is for demonstrating automation and integration with Contiv Networking and is not meant to be used in production.</p>
+<p><strong>Note:</strong> The demonstrations on this page use the Vagrant utility to set up a VM environment. This environment is for demonstrating automation and integration with Contiv and is not meant to be used in production.</p>
 
 <h2>Getting Started</h2>
 <p>The following steps describe how to set up a demo application and apply policies to it.</p>
@@ -242,7 +242,7 @@ GitHub</a></li>
 $ export GOPATH=$HOME/deploy
 $ cd deploy/src/github.com/contiv/
 $ git clone https://github.com/contiv/netplugin
-$ cd netplugin; make demo
+$ cd netplugin; make demo-swarm
 </code></pre>
 
 <h3>2. Download the Software</h3>
@@ -261,6 +261,7 @@ $ git checkout deploy
 $ make binary
 $ sudo cp $GOPATH/src/github.com/docker/libcompose/bundles/libcompose-cli /usr/bin/contiv-compose
 </code></pre>
+<p><strong>Note:</strong> These commands work only on a Linux host.</p>
 
 <h3>4. Build or Get Container Images</h3>
 <p>You can either build your own container images or download pre-built standard Docker images.</p>
@@ -282,22 +283,17 @@ $ docker build -t redis -f Dockerfile.redis .
 <pre class="highlight plaintext"><code>$ docker pull jainvipin/redis
 $ docker tag jainvipin/redis redis
 </code></pre>
-<p>(Optional) Run Contiv-UI
-Contiv UI allows visual way of creating and monitoring Contiv network and storage policies.
-To run contiv UI, run the following container, after which the container can be accessed on
-port <code>80</code> inside the VM or on a mapped port like <code>9998</code> in the Vagrant environment</p>
-<pre class="highlight plaintext"><code>docker run --net=host --name contiv-ui -d contiv/contiv-ui
-</code></pre>
+<p><strong>Note:</strong> In the next step we&#39;ll use the command-line to create sample networks and policies. If you want to set up authentication and authorization, you can use contiv-ui instead.</p>
 
 <h3>5. Build Networks and Create Policies</h3>
-<p>To demo the policies, first create a network as follows:</p>
+<p>To demo the policies, first create a network:</p>
 <pre class="highlight plaintext"><code>netctl net create -s 10.11.1.0/24 dev
 </code></pre>
-<p>Run <code>contiv-compose</code> to create a policy, as follows:</p>
+<p>Run <code>contiv-compose</code> to create a policy:</p>
 <pre class="highlight plaintext"><code>$ cd $GOPATH/src/github.com/docker/libcompose/deploy/example
 $ contiv-compose up -d
 </code></pre>
-<p>The system displays notifications similar to the following:</p>
+<p>You should see system notifications similar to the following example:</p>
 <pre class="highlight plaintext"><code>WARN[0000] Note: This is an experimental alternate implementation of the Compose CLI (https://github.com/docker/compose)
 INFO[0000] Creating policy contract from 'web' -&gt; 'redis'
 INFO[0000] Using default policy 'TrustApp'...           
@@ -310,10 +306,10 @@ INFO[0000] [0/2] [redis]: Starting
 INFO[0000] [1/2] [redis]: Started                       
 INFO[0001] [2/2] [web]: Started        
 </code></pre>
-<p>Observe the following:</p>
+<p><strong>Note:</strong></p>
 
 <ul>
-<li>For user <a name="vagrant"/><a href="#vagrant"><code>vagrant</code></a>, <code>contiv-compose</code> assigned the default policy, named <code>TrustApp</code>. The <code>TrustApp</code> policy can be found in the <code>ops.json</code> file, which is a modifiable ops policy in the example directory where you ran the <code>contiv-compose</code> command.
+<li>For the <a name="vagrant"/><a href="#vagrant"><code>vagrant</code></a> user, <code>contiv-compose</code> assigned the default policy, named <code>TrustApp</code>. The <code>TrustApp</code> policy can be found in the <code>ops.json</code> file, which is a modifiable ops policy in the example directory where you ran the <code>contiv-compose</code> command.
 </li>
 <li>As defined in <a name="ops_json"/><a href="#ops_json"><code>ops.json</code></a>, the TrustApp policy permits all ports allowed by the application. The notification messages show that <code>contiv-compose</code> tries to fetch the port information from the redis image and applies an inbound set of rules to it.
 </li>
@@ -383,8 +379,7 @@ redis:
   net: test
 </code></pre>
 <p>3. Start the composition:</p>
-<p>Please note that the yaml file is sensitve to the extra whitespaces, and with improper alignment, <code>contiv-compose</code> would fail. To
-avoid this please make sure the yaml file has exact same alignment as the code shown above.</p>
+<p><strong>Note:</strong> The yaml file is sensitve to the extra whitespaces, and can fail with improper alignment. Make sure the yaml file has the exact same alignment as the code shown above.</p>
 <pre class="highlight plaintext"><code>$ contiv-compose up -d
 </code></pre>
 <p>The new composition runs in the <code>test</code> network as specified in the config file, while
@@ -506,12 +501,12 @@ FATA[0000] Failed to Create Network Config: Deny disallowed policy
 
 <h3>6. Specifying an Override Tenant for applications to run in</h3>
 <p>You can use contiv-compose to run the applications in a non-default tenant.</p>
-<p><em>Note</em>: This example is for illustration only. The tenant identity is typically retrieved from the user&#39;s context, and users are not allowed to specify the tenant.</p>
+<p><strong>Note:</strong> This example is for the demo. The tenant identity is typically retrieved from the user&#39;s context, users are not allowed to specify the tenant.</p>
 <p>1. Create a new tenant called <code>blue</code> and specify a network called <code>dev</code> in the <code>blue</code> tenant:</p>
 <pre class="highlight plaintext"><code>netctl tenant create blue
 netctl net create -t blue -s 10.11.2.0/24 dev
 </code></pre>
-<p>2. Create a composition that states the tenancy as follows:</p>
+<p>2. Create a composition that states the tenancy as:</p>
 <pre class="highlight plaintext"><code>$ cat docker-compose.yml
 web:
   image: web
@@ -538,8 +533,8 @@ $ docker inspect example_redis_1 | grep \"IPAddress\"
                 "IPAddress": "10.11.2.5",
 
 </code></pre>
-<p>Note that the allocated an IP address from the <code>blue</code> tenant&#39;s IP pool.</p>
-<p>3. Clean up the composition for the tenant</p>
+<p><strong>Note:</strong> The allocated an IP address from the <code>blue</code> tenant&#39;s IP pool.</p>
+<p>3. Clean up the composition for the tenant:</p>
 <pre class="highlight plaintext"><code>$ contiv-compose stop
 $ contiv-compose rm -f
 </code></pre>
@@ -547,7 +542,7 @@ $ contiv-compose rm -f
 <h3>7. Trying all this in a cluster of nodes</h3>
 <p>The cluster of nodes were already brought up during initiatization when we did <code>make demo</code>.
 Now we start to issue the application bringup at cluster level.</p>
-<p>1. Enable docker-client to use swarm cluster by setting DOCKER_HOST to point to swarm master</p>
+<p>1. Enable docker-client to use swarm cluster by setting DOCKER_HOST to point to swarm master:</p>
 <pre class="highlight plaintext"><code>$ export DOCKER_HOST=tcp://netplugin-node1:2375
 $ docker info
 Containers: 8
@@ -603,7 +598,7 @@ WARNING: No kernel memory limit support
 </code></pre>
 <p>Note above that we see three nodes with their respective IP addresses and status. If the status
 is <code>healthy</code> we can proceed with running containers in the clusters.</p>
-<p>2. Start a composition within a cluster and scale web tier</p>
+<p>2. Start a composition within a cluster and scale web tier:</p>
 <pre class="highlight plaintext"><code>$ cd $GOPATH/src/github.com/docker/libcompose/deploy/example
 $ contiv-compose up -d
 WARN[0000] Note: This is an experimental alternate implementation of the Compose CLI (https://github.com/docker/compose) 
@@ -632,7 +627,7 @@ cffe972e91ec        redis                          "docker-entrypoint.sh"   27 s
 28e0a339db96        skynetservices/skydns:latest   "/skydns"                13 minutes ago       Up 13 minutes           53/tcp, 53/udp      netplugin-node1/bluedns
 4a5269013f09        skynetservices/skydns:latest   "/skydns"                3 hours ago          Up 3 hours              53/tcp, 53/udp      netplugin-node1/defaultdns
 </code></pre>
-<p>3. Verify that policies work between containers running on different hosts</p>
+<p>3. Verify that policies work between containers running on different hosts:</p>
 <pre class="highlight plaintext"><code>$ docker exec -it example_web_1 /bin/bash
 &lt; ** inside container ** &gt;
 # nc -zvw 1 example-redis 6375-6380                                                                                                                   
@@ -645,10 +640,9 @@ example-redis.blue [10.11.2.3] 6376 (?) : Connection timed out
 example-redis.blue [10.11.2.3] 6375 (?) : Connection timed out
 # exit
 </code></pre>
-<p>Note that in the above mentioned run, <code>example_redis_1</code> and <code>example_web_1</code>
+<p><strong>Note:</strong> <code>example_redis_1</code> and <code>example_web_1</code>
 are running on <code>node3</code> and <code>node</code> respectively.</p>
-<p>4. Start another composition as <code>test</code> project</p>
-<p>Let&#39;s start another composition using the same template but a different project</p>
+<p>4. Start another composition as <code>test</code> project, using the same template but a different project:</p>
 <pre class="highlight plaintext"><code>$ contiv-compose -p test up -d
 WARN[0000] Note: This is an experimental alternate implementation of the Compose CLI (https://github.com/docker/compose) 
 INFO[0005] Creating policy contract from 'web' -&gt; 'redis' 
@@ -686,7 +680,7 @@ example-redis.blue [10.11.2.3] 6377 (?) : Connection timed out
 example-redis.blue [10.11.2.3] 6376 (?) : Connection timed out
 example-redis.blue [10.11.2.3] 6375 (?) : Connection timed out
 </code></pre>
-<p>Note that the policies are enforced between respective compositions i.e. <code>test_web_1</code>
+<p><strong>Note:</strong> Policies are enforced between respective compositions i.e. <code>test_web_1</code>
 is unable to access <code>example_redis_1</code> database. However if we try to access <code>test_redis_1</code>
 from it, that would be allowed on the specified ports.</p>
 <pre class="highlight plaintext"><code># nc -zvw 1 teste-redis 6375-6380   
@@ -707,7 +701,7 @@ test-redis.blue [10.11.2.8] 6375 (?) : Connection timed out
 <pre class="highlight plaintext"><code>$ vagrant destroy -f
 </code></pre>
 
-<h3>Some Notes and Comments</h3>
+<h3>Additional Information</h3>
 
 <ul>
 <li>The demonstrations on this page use the Vagrant utility to set up a VM environment. This environment is for demonstrating automation and integration with Contiv Networking and is not meant to be used in production.
@@ -715,8 +709,8 @@ test-redis.blue [10.11.2.8] 6375 (?) : Connection timed out
 <li>User-based authentication uses the operational policy in <a name="ops_json"/><a href="#ops_json"><code>ops.json</code></a> as Docker&#39;s authorization
 plugin, to permit only authenticated users to specify certain operations.
 </li>
-<li>Contributing to or Modifying Contiv&#39;s <em>libcompose</em> variant is welcome! Please make run unit and sanity tests before
-submitting a pull request. Running <a name="make_test_deploy"/><a href="#make_test_deploy"><code>make test-deploy</code></a> and &#39;make test-unit` from the repository should be sufficient. 
+<li>Contributing to Contiv&#39;s <em>libcompose</em> variant is welcome! Run our provided unit and sanity tests before
+submitting a pull request. Running <a name="make_test_deploy"/><a href="#make_test_deploy"><code>make test-deploy</code></a> and &#39;make test-unit` from the repository is sufficient. 
 </li>
 </ul>
 
