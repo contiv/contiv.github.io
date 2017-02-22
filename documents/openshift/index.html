@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Setting up an L3 BGP setup">
+    <meta name="description" content="Contiv and OpenShift">
 
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <title>L3 BGP setup - Contiv</title>
+    <title>Contiv and Openshift - Contiv</title>
 
     <link href="/assets/stylesheets/application-6a6e73b2.css" rel="stylesheet"/>
 
@@ -19,7 +19,7 @@
     
   </head>
 
-  <body id="page-L3 BGP setup" class=" page-L3 BGP setup layout-documents page-sub">
+  <body id="page-Contiv and Openshift" class=" page-Contiv and Openshift layout-documents page-sub">
 
   <div class="navbar-jumbotron">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -104,7 +104,7 @@ GitHub</a></li>
 								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
 						    </li>
 								
-								<li class="active">
+								<li>
 									<a href="https://github.com/contiv/install/blob/master/README.md">Installation</a>
 									</li>
 								</ul>
@@ -226,42 +226,14 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h1>Installing Contiv in a BGP L3 Setup</h1>
-<p>This page describes how to configure the Contiv infrastructure in L3 native VLAN mode.</p>
-<p>The following figure shows a Contiv cluster with routing capabilites:</p>
-<p><img alt="bgp" src="/documents/gettingStarted/networking/bgp_arch-f61447e6.png"/></p>
+	<h1>Contiv Works with OpenShift</h1>
+<p>Contiv is happy to announce that <a href="https://www.openshift.com/">OpenShift</a> supports Contiv as a network-plugin module. OpenShift is RedHat&#39;s open-source Platform as a Service (PaaS) solution.</p>
 
-<h2>Prerequisites</h2>
-<p>Follow the <a href="/documents/gettingStarted/networking/install-swarm.html#Prerequisites">Prerequisites</a> and <a href="/documents/gettingStarted/networking/install-swarm.html#Download">Download</a>
-steps on the <a href="/documents/gettingStarted/networking/install-swarm.html">Swarm Cluster</a> installation page. 
-These steps install all of the required packages and binaries needed to start the Contiv infrastrure services.</p>
+<h2>Using Contiv and OpenShift</h2>
+<p>Instructions on setting up Contiv with OpenShift will be available soon.</p>
 
-<h2>Step 1: Run the Installer Script</h2>
-<p>Use the following command to run the installer script:</p>
-<pre class="highlight plaintext"><code>$chmod +x net_demo_installer
-$./net_demo_installer -l
-</code></pre>
-<p>The <code>net_demo_installer</code> creates a <code>cfg.yaml</code> template file on the first run.</p>
-
-<h2>Step 2: Specify the Configuration</h2>
-<p>Edit the <code>cfg.yaml</code> file to specify the interfaces and IP addresses of your cluster nodes.</p>
-<p>The configuration file for a simple demo topology is shown below. A sample configuration file can be 
-downloaded <a href="extras/sample_cfg.yml">here</a>.</p>
-<pre class="highlight plaintext"><code>CONNECTION_INFO:
-      172.29.205.224:
-        control: eth1
-        data: eth7
-      172.29.205.255:
-        control: eth1
-        data: eth6
-</code></pre>
-<p><em>Note</em>: As shown in the topology diagram, the server&#39;s data interface,
-not the management interface, should be the uplink interface.</p>
-
-<h2>Step 3: Rerun the Installer</h2>
-<p>Rerun the installer after editing the <code>cfg.yaml</code> file.</p>
-<pre class="highlight plaintext"><code>./net_demo_installer -l
-</code></pre>
+<h2>Additional Information</h2>
+<p>For additional information, see the OpenShift <a href="https://docs.openshift.org/latest/architecture/additional_concepts/contiv.html">Contiv page</a>.</p>
 
 
 			</div>
