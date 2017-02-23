@@ -22,8 +22,8 @@ $green-dark:            #449b82;
 $green-light:           #9bdb9c;
 $green-faint:           #E3F5E3;
 $blue-dark:             #4e5859;
-$blue-light:            #89999A;
-$blue:                  #00BFE0;
+$blue-light:            #5c5d61;
+$blue:                 #5c5d61;
 $blue-faint:            #E0E8E8;
 $light-black:           #242424;
 $orange:                #e78c5b;
@@ -32,14 +32,14 @@ $gray:                  #777;
 $gray-light:            #939393;
 $gray-lighter:          #979797;
 $red:                   #dd4e58;
-$red-dark:              #c5454e;
+$red-dark:              #036e97;
 $purple:                #822ff7;
 $light-purple:          #f7f3f9;
 $btn-color:             #4592C5;
-$medium-black:          #205081; // Header links
+$medium-black:          #5c5d61; // Header links
 $medium-gray:           rgba(0,0,0,.6);
-$medium-green:          #205081;  // Everything else
-$medium-blue:           #55acee;
+$medium-green:          #5c5d61;  // Everything else
+$medium-blue:           #036e97;
 $hdr-light-gray:        rgba(0,0,0,.03);
 
 // Scaffolding
@@ -50,7 +50,7 @@ $text-color:            $medium-black;
 // Links
 // -------------------------
 $link-color:            $red-dark;
-$link-hover-color:      darken($link-color, 15%);
+$link-hover-color:      darken($link-color, 50%);
 
 // Typography
 // -------------------------
