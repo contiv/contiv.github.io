@@ -235,6 +235,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>http://contiv.io/documents/openshift/</loc>
+    <lastmod>2017-02-22T00:00:00-08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>http://contiv.io/documents/reference/netctlcli.html</loc>
     <lastmod>2017-02-22T00:00:00-08:00</lastmod>
     <changefreq>monthly</changefreq>
