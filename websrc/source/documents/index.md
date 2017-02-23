@@ -3,7 +3,7 @@ layout: "documents"
 page_title: "Documentation"
 sidebar_current: "docs-home"
 description: |-
-  Welcome to the Contiv documentation!
+  Welcome to the Contiv Documentation!
 ---
 # Contiv Documentation
 
