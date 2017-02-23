@@ -8,9 +8,9 @@ description: |-
 
 #Contiv Works with OpenShift
 
-Contiv is happy to announce that [OpenShift Origin (v1.3)] (https://www.openshift.com/) supports Contiv as a network-plugin module. Openshift is Red Hat's container platform solution that includes both open source (OpenShift Origin) and commercial (OpenShift Enterprise/ Container platform) versions.
+Contiv is happy to announce that [OpenShift Origin (v1.3)] (https://www.openshift.com/) supports Contiv as a network-plugin module. Openshift is Red Hat's container platform solution that includes both open source (OpenShift Origin) and commercial (OpenShift Enterprise/Container platform) versions.
 
-**Note:** This 
+**Note:** This feature is currently in Beta.
 
 ##Using Contiv and OpenShift
 
