@@ -12,7 +12,7 @@ Welcome to the release of Contiv 1.0.0-beta. Contiv offers the most powerful ope
 
 For any questions on Beta, you can [sign up for Slack](https://contiv.herokuapp.com/) and ask us on our [Slack channel](https://contiv.slack.com). File any issues you find on our [Github](https://github.com/contiv).
 
-*Note:* A generally available version will release in the coming weeks with the option of commercial support.
+**Note:** A generally available version will release in the coming weeks with the option of commercial support.
 
 
 ## Features
