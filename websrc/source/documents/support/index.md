@@ -9,3 +9,6 @@
 - For the latest on Contiv development, follow our [blog](http://blogs.cisco.com/tag/contiv).
 
 - Interested in commercial support? Reach out [to us](mailto:contiv-support@external.cisco.com) and we can discuss your options.
+
+<hr>
+Copyright &copy; 2017 Cisco and/or its affiliates. All rights reserved.
