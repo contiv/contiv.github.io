@@ -7,7 +7,7 @@ description: |-
 ---
 
 # IP Address Management
-Contiv Network allocates a unique IP address for every container. An IP address allocated to a container is not bound to an application group or microservice tier. Every container simply gets an IP address from the subnet pool. Unlike some of the container networking solutions that require a subnet per host, the Contiv solution does not have such limitations. This also makes Contiv truly multi-tenant. You can have overlapping IP addresses across tenants.
+Contiv allocates a unique IP address for every container. An IP address allocated to a container is not bound to an application group or microservice tier. Every container simply gets an IP address from the subnet pool. Unlike some of the container networking solutions that require a subnet per host, the Contiv solution does not have such limitations. This also makes Contiv truly multi-tenant. You can have overlapping IP addresses across tenants.
 
 ## Subnet IP Pool
 You can specify the IP address pool to be used for a network using the `-subnet` argument while creating the network. You can specify the entire CIDR range or a smaller range.
@@ -15,7 +15,7 @@ You can specify the IP address pool to be used for a network using the `-subnet`
 In the following example, `contiv-net` has an IP address pool that is a subset of the CIDR range from address `10.1.1.50` to `10.1.1.100`.
 
 ```
-$ netctl net create contiv-net -subnet 10.1.1.50-100/24
+netctl net create contiv-net -subnet 10.1.1.50-10.1.1.100/24
 ```
 
 When you start a container in `contiv-net`, it will get an IP address from this smaller IP address pool:
@@ -39,7 +39,7 @@ eth0      Link encap:Ethernet  HWaddr 02:02:0A:01:01:34
 
 ## Service Discovery
 
-Contiv Network provides built-in service discovery for all containers in the network. Unlike traditional service discovery tools which require applications to query external key-value stores for container IP and port information, Contiv service discovery uses standard DNS protocol and requires no changes to the application.
+Contiv provides built-in service discovery for all containers in the network. Unlike traditional service discovery tools which require applications to query external key-value stores for container IP and port information, Contiv service discovery uses standard DNS protocol and requires no changes to the application.
 
 When a container is attached to an endpoint group (EPG), it automatically becomes reachable by DNS name. For example, consider a container attached to the `production-web` EPG. This container becomes available by DNS name `production-web` for all other containers in the same tenant. If there are multiple containers in the same EPG, all of them are available by the same DNS service name. DNS queries are load-balanced across all containers in the group.
 
