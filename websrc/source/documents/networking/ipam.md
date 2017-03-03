@@ -6,7 +6,7 @@ description: |-
   Networking IPAM
 ---
 
-# IP Address Management
+# IP Address Management (IPAM) 
 Contiv allocates a unique IP address for every container. An IP address allocated to a container is not bound to an application group or microservice tier. Every container simply gets an IP address from the subnet pool. Unlike some of the container networking solutions that require a subnet per host, the Contiv solution does not have such limitations. This also makes Contiv truly multi-tenant. You can have overlapping IP addresses across tenants.
 
 ## Subnet IP Pool
