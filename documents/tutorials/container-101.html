@@ -590,7 +590,7 @@ fb822eda9916        alpine                         "/bin/sh"           23 minute
 2cf083c0a4de        alpine                         "/bin/sh"           48 minutes ago      Up 48 minutes                           vanilla-c
 ab353464b4e2        skynetservices/skydns:latest   "/skydns"           53 minutes ago      Up 53 minutes       53/udp, 53/tcp      defaultdns
 </code></pre>
-<p>Let us run a couple of more containers in the host <code>tutorial-node2</code> that belong to the tenatn <code>blue</code></p>
+<p>Let us run a couple of more containers in the host <code>tutorial-node2</code> that belong to the tenant <code>blue</code></p>
 <pre class="highlight plaintext"><code>vagrant@tutorial-node2:~$ docker run -itd --name=contiv-blue-c2 --net=contiv-net/blue alpine /bin/sh
 521abe19d6b5b3557de6ee4654cc504af0c497a64683f737ffb6f8238ddd6454
 vagrant@tutorial-node2:~$ docker run -itd --name=contiv-blue-c3 --net=contiv-net/blue alpine /bin/sh
@@ -998,9 +998,9 @@ round-trip min/avg/max = 38.867/41.202/43.537 ms
 </code></pre>
 
 <h4>Chapter 6: Docker Overlay multi-host networking</h4>
-<p>As we learned earlier that use vxlan port conflict can prevent us from using
+<p>As we learned earlier, vxlan port conflict can prevent us from using
 Docker <code>overlay</code> network. For us to experiment with this, we&#39;d go ahead
-and terminat <code>contiv</code> driver first on both nodes i.e. <code>tutorial-node1</code> and
+and terminate <code>contiv</code> driver first on both nodes i.e. <code>tutorial-node1</code> and
 <code>tutorial-node2</code></p>
 <pre class="highlight plaintext"><code>[vagrant@tutorial-node2 ~]$ ps aux | grep "/opt/bin/netplugin"
 vagrant   4227  0.0  0.0 113124  1592 ?        Ss   10:51   0:00 bash -c sudo /opt/bin/netplugin -plugin-mode docker -vlan-if eth2 -cluster-store etcd://localhost:2379 &gt; /tmp/netplugin.log 2&gt;&amp;1
