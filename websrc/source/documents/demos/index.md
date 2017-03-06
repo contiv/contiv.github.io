@@ -10,15 +10,27 @@ description: |-
 
 ## Introduction
 
-### Contiv Introduction and Demo
+### Contiv Introduction and Demo 
+Introduction to Contiv by Kiran Kamity. (8 minutes)
 <iframe width="560" height="315" src="https://www.youtube.com/embed/GwqHu5ZQu6U" frameborder="0" allowfullscreen></iframe>
 
 ## Cisco ACI
 
 ### Contiv and Cisco ACI Demonstration 
+A Cisco Live demonstration of Contiv and ACI by Rohit Agarwalla. (28 minutes)
 <iframe width="560" height="315" src="https://www.youtube.com/embed/dUXPkLyufVc" frameborder="0" allowfullscreen></iframe>
 
-##Archive
+### Contiv and Cisco ACI with External Contracts (Docker Swarm) 
+A quick introduction to Contiv and Cisco ACI and a (silent) demonstration on setting up Contiv and ACI on Docker Swarm with existing external contracts. (6 minutes)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/AHH1ACCMrm0" frameborder="0" allowfullscreen></iframe>
+
+### Contiv and Cisco ACI with External Contracts (Kubernetes) 
+A quick introduction to Contiv and Cisco ACI and a (silent) demonstration on setting up Contiv and ACI on Kubernetes with existing external contracts. (4 minutes)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Eebq8KNo_XU" frameborder="0" allowfullscreen></iframe>
+
+##Archive of Older Videos
+
+These videos are from previous versions of Contiv and are now considered archive material. 
 
 ### Getting Started
 
