@@ -227,7 +227,7 @@ GitHub</a></li>
 			<div class="bs-docs-section">
 				
 	<h2>Containers Tutorial</h2>
-<p>Walks through container networking and concepts step by step</p>
+<p>Walks through container networking and concepts step by step.</p>
 
 <h3>Prerequisites</h3>
 
@@ -253,7 +253,7 @@ documented <a href="http://www.mediacollege.com/microsoft/windows/extension-chan
 
 <h4>Step 2: Create resolv.conf file in the current directory, where you have copied the Vagrantfile.</h4>
 <p>This is used by the VMs to access outside network for downloading docker images in
-rest of tuorial. The next steps will fail if this is not specified correctly.
+rest of tutorial. The next steps will fail if this is not specified correctly.
 On <code>Mac</code> or <code>Linux</code> based systems you may copy <code>/etc/resolv.conf</code> to current directory.</p>
 <pre class="highlight plaintext"><code>$ cp /etc/resolv.conf .
 
@@ -275,7 +275,7 @@ Bringing machine 'tutorial-node2' up with 'virtualbox' provider...
 $
 </code></pre>
 
-<h4>Step 4: Log into one of the VMs, confirm all looks good</h4>
+<h4>Step 4: Log into one of the VMs, verify the installation.</h4>
 <p><strong>Note</strong>:
 - On Windows, you will need a ssh client to be installed like putty, cygwin etc.
 - The username/password for the VMs is vagrant/vagrant</p>
@@ -351,11 +351,11 @@ that schedules regular docker containers e.g. Nomad or Mesos docker containerize
 
 <h4>CoreOS CNI - Container Network Interface (CNI)</h4>
 <p>CNI (Container Network Interface) CoreOS&#39;s network model for containers
-- Allows specifying container id (uuid) for which network interface is being created
-- Provide Container Create/Delete events
+- Allows container id (uuid) specification for the network interface you create
+- Provides Container Create/Delete events
 - Provides access to network namespace to the driver to plumb networking
 - No separate IPAM Driver: Container Create returns the IAPM information along with other data
-- Used by Kubernetes and thus supported by various kubernet network plugins, including Contiv</p>
+- Used by Kubernetes and thus supported by various Kubernetes network plugins, including Contiv</p>
 <p>Using Contiv with CNI/Kubernetes can be found <a href="https://github.com/contiv/netplugin/tree/master/mgmtfn/k8splugin">here</a>.
 The rest of the tutorial walks through the docker examples, which implements CNM APIs</p>
 
@@ -465,9 +465,10 @@ MASQUERADE rule for outbound traffic for <code>172.17.0.0/16</code></p>
 </code></pre>
 
 <h3>Chapter 2: Multi-host networking</h3>
-<p>There are many solutions, like Contiv, Calico, Weave, Openshift, OpenContrail, Nuage,
-VMWare, Docker, Kubernetes, Openstack that provide solutions to multi-host
-container networking. In this section we examine Contiv and Docker overlay solutions.</p>
+<p>There are many solutions like Contiv such as Calico, Weave, OpenShift, OpenContrail, Nuage,
+VMWare, Docker, Kubernetes, OpenStack that provide solutions to multi-host
+container networking.</p>
+<p>In this section, let&#39;s examine Contiv and Docker overlay solutions.</p>
 
 <h4>Multi-host networking with Contiv</h4>
 <p>Let&#39;s use the same example as above to spin up two containers on the two different hosts</p>
@@ -517,7 +518,7 @@ vagrant@tutorial-node1:~$ docker network inspect contiv-net
     }
 ]
 </code></pre>
-<p>We can now run a new container belonging to <code>contiv-net</code> network that we created just now</p>
+<p>You can now run a new container belonging to <code>contiv-net</code> network:</p>
 <pre class="highlight plaintext"><code>vagrant@tutorial-node1:~$ docker run -itd --name=contiv-c1 --net=contiv-net alpine /bin/sh
 46e619b0b418107114e93f9814963d5c351835624e8da54100b0707582c69549
 </code></pre>
@@ -590,7 +591,7 @@ fb822eda9916        alpine                         "/bin/sh"           23 minute
 2cf083c0a4de        alpine                         "/bin/sh"           48 minutes ago      Up 48 minutes                           vanilla-c
 ab353464b4e2        skynetservices/skydns:latest   "/skydns"           53 minutes ago      Up 53 minutes       53/udp, 53/tcp      defaultdns
 </code></pre>
-<p>Let us run a couple of more containers in the host <code>tutorial-node2</code> that belong to the tenatn <code>blue</code></p>
+<p>Let us run a couple of more containers in the host <code>tutorial-node2</code> that belong to the tenant <code>blue</code>:</p>
 <pre class="highlight plaintext"><code>vagrant@tutorial-node2:~$ docker run -itd --name=contiv-blue-c2 --net=contiv-net/blue alpine /bin/sh
 521abe19d6b5b3557de6ee4654cc504af0c497a64683f737ffb6f8238ddd6454
 vagrant@tutorial-node2:~$ docker run -itd --name=contiv-blue-c3 --net=contiv-net/blue alpine /bin/sh
@@ -805,10 +806,10 @@ Tenant   Network         Nw Type  Encap type  Packet tag  Subnet       Gateway
 default  contiv-net      data     vxlan       0           10.1.2.0/24  
 default  contiv-vlan     data     vlan        112         10.1.3.0/24  
 </code></pre>
-<p>The allocated vlan can be used to connect any workload in vlan 112 in the network infrstructure.
+<p>The allocated vlan can be used to connect any workload in vlan 112 in the network infrastructure.
 The interface that connects to the outside network needs to be specified during netplugin
 start, for this VM configuration it is set as <code>eth2</code></p>
-<p>Let&#39;s run some containers to belong to this network, one on each node. Firs one on 
+<p>Let&#39;s run some containers to belong to this network, one on each node. First one on 
 <code>tutorial-node1</code></p>
 <pre class="highlight plaintext"><code>vagrant@tutorial-node1:~$ docker run -itd --name=contiv-vlan-c1 --net=contiv-vlan alpine /bin/sh
 4bf58874c937e242b4fc2fd8bfd6896a7719fd10475af96e065a83a2e80e9e48
@@ -828,8 +829,8 @@ PING contiv-vlan-c1 (10.1.3.4): 56 data bytes
 64 bytes from 10.1.3.4: seq=4 ttl=64 time=1.119 ms
 . . .
 </code></pre>
-<p>While this is going on <code>tutorial-node2</code>, let&#39;s run run tcpdump on eth2 on <code>tutorial-node</code>
-and confirm how rx/tx packets look like on it</p>
+<p>While this is going on <code>tutorial-node2</code>, let&#39;s run tcpdump on eth2 on <code>tutorial-node</code>
+and confirm how rx/tx packets look on it:</p>
 <pre class="highlight plaintext"><code>vagrant@tutorial-node1:~$ sudo tcpdump -e -i eth2 icmp
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth2, link-type EN10MB (Ethernet), capture size 262144 bytes
@@ -841,7 +842,7 @@ listening on eth2, link-type EN10MB (Ethernet), capture size 262144 bytes
 ^C
 5 packets captured
 </code></pre>
-<p>Note that the vlan shown in tcpdump is same (i.e. <code>112</code>) as what we configured in the VLAN. After verifying this, feel free to stop the ping that is still running on 
+<p>Note: The vlan shown in tcpdump is same (i.e. <code>112</code>) as what we configured in the VLAN. After verifying this, feel free to stop the ping that is still running on 
 <code>contiv-vlan-c2</code> container.</p>
 
 <h3>Chapter 5: Applying policies between containers with Contiv</h3>
@@ -859,7 +860,7 @@ Tenant   Policy
 ------   ------
 default  db-policy
 </code></pre>
-<p>Next we create some rules that are part of the policy</p>
+<p>Next we create some rules that are part of the policy:</p>
 <pre class="highlight plaintext"><code>vagrant@tutorial-node1:~$ netctl policy rule-add db-policy 1 -direction=in -protocol=tcp -action=deny
 vagrant@tutorial-node1:~$ netctl policy rule-add db-policy 2 -direction=in -protocol=tcp -port=8888 -action=allow -priority=10
 vagrant@tutorial-node1:~$ netctl policy rule-ls db-policy
@@ -873,7 +874,7 @@ Rule  Priority  To EndpointGroup  To Network  To IpAddress  Protocol  Port  Acti
 ----  --------  ----------------  ----------  ---------     --------  ----  ------
 </code></pre>
 <p>Finally, we associate the policy with a group (a group is an arbitrary collection of 
-containers) and run some containers that belong to <code>db</code> group</p>
+containers) and run some containers that belong to <code>db</code> group:</p>
 <pre class="highlight plaintext"><code>vagrant@tutorial-node1:~$ netctl group create contiv-net db-group -policy=db-policy
 [vagrant@tutorial-node1 ~]$ netctl group ls
 Tenant   Group     Network     Policies   Network profile
@@ -907,17 +908,17 @@ nc: 10.1.2.7 (10.1.2.5:8889): Operation timed out
 / # nc -nzvw 1 10.1.2.5 8888
 / #
 </code></pre>
-<p>Note that the last scan on port <code>8888</code> using <code>nc -nzvw 1 10.1.2.5 8888</code> returned
+<p>Note: The last scan on port <code>8888</code> using <code>nc -nzvw 1 10.1.2.5 8888</code> returned
 without any <code>Operation timed out</code> message, which means web tier application is able
 to reach the database application&#39;s TCP/IP stack.
-At this point you can add/delete rules to the policy dynamically</p>
+At this point you can add/delete rules to the policy dynamically.</p>
 
 <h3>Chapter 6: Running containers in a swarm cluster</h3>
 <p>We can bring in swarm scheduler by redirecting our requests to an already provision
 swarm cluster. To do so, we can set <code>DOCKER_HOST</code> as follows:</p>
 <pre class="highlight plaintext"><code>vagrant@tutorial-node1:~$ export DOCKER_HOST=tcp://192.168.2.10:2375
 </code></pre>
-<p>Let&#39;s look at the status of various hosts using <code>docker info</code></p>
+<p>Let&#39;s look at the status of various hosts using <code>docker info</code>:</p>
 <pre class="highlight plaintext"><code>vagrant@tutorial-node1:~$ docker info
 Containers: 16
 Images: 3
@@ -974,7 +975,7 @@ fb822eda9916        alpine                         "/bin/sh"           2 hours a
 ab353464b4e2        skynetservices/skydns:latest   "/skydns"           2 hours ago         Up 2 hours              53/tcp, 53/udp                tutorial-node1/defaultdns
 </code></pre>
 <p>Let us conclude this section by checking the inter-container connectivity and external 
-connectivity for the containers scheduled across multiple hosts</p>
+connectivity for the containers scheduled across multiple hosts.</p>
 <pre class="highlight plaintext"><code>agrant@tutorial-node1:~$ docker exec -it contiv-cluster-c1 /bin/sh
 / # 
 / # 
@@ -998,10 +999,10 @@ round-trip min/avg/max = 38.867/41.202/43.537 ms
 </code></pre>
 
 <h4>Chapter 6: Docker Overlay multi-host networking</h4>
-<p>As we learned earlier that use vxlan port conflict can prevent us from using
+<p>As we learned earlier that using the vxlan port conflict can prevent us from using
 Docker <code>overlay</code> network. For us to experiment with this, we&#39;d go ahead
-and terminat <code>contiv</code> driver first on both nodes i.e. <code>tutorial-node1</code> and
-<code>tutorial-node2</code></p>
+and terminate <code>contiv</code> driver first on both nodes: <code>tutorial-node1</code> and
+<code>tutorial-node2</code>:</p>
 <pre class="highlight plaintext"><code>[vagrant@tutorial-node2 ~]$ ps aux | grep "/opt/bin/netplugin"
 vagrant   4227  0.0  0.0 113124  1592 ?        Ss   10:51   0:00 bash -c sudo /opt/bin/netplugin -plugin-mode docker -vlan-if eth2 -cluster-store etcd://localhost:2379 &gt; /tmp/netplugin.log 2&gt;&amp;1
 root      4238  0.0  0.1 193436  2784 ?        S    10:51   0:00 sudo /opt/bin/netplugin -plugin-mode docker -vlan-if eth2 -cluster-store etcd://localhost:2379
@@ -1088,7 +1089,7 @@ to the IP address of <code>overlay-c1</code> container and be able to reach anot
 across using a vxlan overlay.</p>
 
 <h3>Cleanup: <strong>after all play is done</strong></h3>
-<p>To cleanup the setup, after doing all the experiments, exit the VM destroy VMs</p>
+<p>To cleanup the setup, after doing all the experiments, exit the VM destroy VMs:</p>
 <pre class="highlight plaintext"><code>$ vagrant destroy -f
 ==&gt; tutorial-node2: Forcing shutdown of VM...
 ==&gt; tutorial-node2: Destroying VM and associated drives...
@@ -1111,7 +1112,7 @@ across using a vxlan overlay.</p>
 
 <h3>Improvements or Comments</h3>
 <p>This tutorial was developed by Contiv engineers. Thank you for trying out this tutorial.
-Please file a github issue if you see an issue with the tutorial, or if you prefer
+Please file a GitHub issue if you see an issue with the tutorial, or if you prefer
 improving some text, feel free to send a pull request.</p>
 
 	<hr>
