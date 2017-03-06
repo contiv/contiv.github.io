@@ -8,7 +8,7 @@ description: |-
 
 
 ## Containers Tutorial
-Walks through container networking and concepts step by step
+Walks through container networking and concepts step by step.
 
 ### Prerequisites 
 1. [Download Vagrant](https://www.vagrantup.com/downloads.html)
@@ -32,7 +32,7 @@ documented [here](http://www.mediacollege.com/microsoft/windows/extension-change
 
 #### Step 2: Create resolv.conf file in the current directory, where you have copied the Vagrantfile.
 This is used by the VMs to access outside network for downloading docker images in
-rest of tuorial. The next steps will fail if this is not specified correctly.
+rest of tutorial. The next steps will fail if this is not specified correctly.
 On `Mac` or `Linux` based systems you may copy `/etc/resolv.conf` to current directory.
 
 ```
@@ -58,7 +58,7 @@ Bringing machine 'tutorial-node2' up with 'virtualbox' provider...
 $
 ```
 
-#### Step 4: Log into one of the VMs, confirm all looks good
+#### Step 4: Log into one of the VMs, verify the installation.
 
 **Note**:
 - On Windows, you will need a ssh client to be installed like putty, cygwin etc.
@@ -147,11 +147,11 @@ that schedules regular docker containers e.g. Nomad or Mesos docker containerize
 
 #### CoreOS CNI - Container Network Interface (CNI)
 CNI (Container Network Interface) CoreOS's network model for containers
-- Allows specifying container id (uuid) for which network interface is being created
-- Provide Container Create/Delete events
+- Allows container id (uuid) specification for the network interface you create
+- Provides Container Create/Delete events
 - Provides access to network namespace to the driver to plumb networking
 - No separate IPAM Driver: Container Create returns the IAPM information along with other data
-- Used by Kubernetes and thus supported by various kubernet network plugins, including Contiv
+- Used by Kubernetes and thus supported by various Kubernetes network plugins, including Contiv
 
 Using Contiv with CNI/Kubernetes can be found [here](https://github.com/contiv/netplugin/tree/master/mgmtfn/k8splugin).
 The rest of the tutorial walks through the docker examples, which implements CNM APIs
@@ -275,9 +275,11 @@ $ vagrant@tutorial-node1:~$ sudo iptables -t nat -L -n
 
 ### Chapter 2: Multi-host networking
 
-There are many solutions, like Contiv, Calico, Weave, Openshift, OpenContrail, Nuage,
-VMWare, Docker, Kubernetes, Openstack that provide solutions to multi-host
-container networking. In this section we examine Contiv and Docker overlay solutions.
+There are many solutions like Contiv such as Calico, Weave, OpenShift, OpenContrail, Nuage,
+VMWare, Docker, Kubernetes, OpenStack that provide solutions to multi-host
+container networking. 
+
+In this section, let's examine Contiv and Docker overlay solutions.
 
 #### Multi-host networking with Contiv
 Let's use the same example as above to spin up two containers on the two different hosts
@@ -330,7 +332,7 @@ vagrant@tutorial-node1:~$ docker network inspect contiv-net
 ]
 ```
 
-We can now run a new container belonging to `contiv-net` network that we created just now
+You can now run a new container belonging to `contiv-net` network:
 
 ```
 vagrant@tutorial-node1:~$ docker run -itd --name=contiv-c1 --net=contiv-net alpine /bin/sh
@@ -421,7 +423,7 @@ fb822eda9916        alpine                         "/bin/sh"           23 minute
 ab353464b4e2        skynetservices/skydns:latest   "/skydns"           53 minutes ago      Up 53 minutes       53/udp, 53/tcp      defaultdns
 ```
 
-Let us run a couple of more containers in the host `tutorial-node2` that belong to the tenatn `blue`
+Let us run a couple of more containers in the host `tutorial-node2` that belong to the tenant `blue`:
 
 ```
 vagrant@tutorial-node2:~$ docker run -itd --name=contiv-blue-c2 --net=contiv-net/blue alpine /bin/sh
@@ -660,11 +662,11 @@ default  contiv-net      data     vxlan       0           10.1.2.0/24
 default  contiv-vlan     data     vlan        112         10.1.3.0/24  
 ```
 
-The allocated vlan can be used to connect any workload in vlan 112 in the network infrstructure.
+The allocated vlan can be used to connect any workload in vlan 112 in the network infrastructure.
 The interface that connects to the outside network needs to be specified during netplugin
 start, for this VM configuration it is set as `eth2`
 
-Let's run some containers to belong to this network, one on each node. Firs one on 
+Let's run some containers to belong to this network, one on each node. First one on 
 `tutorial-node1`
 
 ```
@@ -690,8 +692,8 @@ PING contiv-vlan-c1 (10.1.3.4): 56 data bytes
 . . .
 ```
 
-While this is going on `tutorial-node2`, let's run run tcpdump on eth2 on `tutorial-node`
-and confirm how rx/tx packets look like on it
+While this is going on `tutorial-node2`, let's run tcpdump on eth2 on `tutorial-node`
+and confirm how rx/tx packets look on it:
 
 ```
 vagrant@tutorial-node1:~$ sudo tcpdump -e -i eth2 icmp
@@ -706,7 +708,7 @@ listening on eth2, link-type EN10MB (Ethernet), capture size 262144 bytes
 5 packets captured
 ```
 
-Note that the vlan shown in tcpdump is same (i.e. `112`) as what we configured in the VLAN. After verifying this, feel free to stop the ping that is still running on 
+Note: The vlan shown in tcpdump is same (i.e. `112`) as what we configured in the VLAN. After verifying this, feel free to stop the ping that is still running on 
 `contiv-vlan-c2` container.
 
 ### Chapter 5: Applying policies between containers with Contiv
@@ -732,7 +734,7 @@ Tenant   Policy
 default  db-policy
 ```
 
-Next we create some rules that are part of the policy
+Next we create some rules that are part of the policy:
 
 ```
 vagrant@tutorial-node1:~$ netctl policy rule-add db-policy 1 -direction=in -protocol=tcp -action=deny
@@ -749,7 +751,7 @@ Rule  Priority  To EndpointGroup  To Network  To IpAddress  Protocol  Port  Acti
 ```
 
 Finally, we associate the policy with a group (a group is an arbitrary collection of 
-containers) and run some containers that belong to `db` group
+containers) and run some containers that belong to `db` group:
 
 ```
 vagrant@tutorial-node1:~$ netctl group create contiv-net db-group -policy=db-policy
@@ -792,10 +794,10 @@ nc: 10.1.2.7 (10.1.2.5:8889): Operation timed out
 / #
 ```
 
-Note that the last scan on port `8888` using `nc -nzvw 1 10.1.2.5 8888` returned
+Note: The last scan on port `8888` using `nc -nzvw 1 10.1.2.5 8888` returned
 without any `Operation timed out` message, which means web tier application is able
 to reach the database application's TCP/IP stack.
-At this point you can add/delete rules to the policy dynamically
+At this point you can add/delete rules to the policy dynamically.
 
 
 ### Chapter 6: Running containers in a swarm cluster
@@ -807,7 +809,7 @@ swarm cluster. To do so, we can set `DOCKER_HOST` as follows:
 vagrant@tutorial-node1:~$ export DOCKER_HOST=tcp://192.168.2.10:2375
 ```
 
-Let's look at the status of various hosts using `docker info`
+Let's look at the status of various hosts using `docker info`:
 
 ```
 vagrant@tutorial-node1:~$ docker info
@@ -874,7 +876,7 @@ ab353464b4e2        skynetservices/skydns:latest   "/skydns"           2 hours a
 ```
 
 Let us conclude this section by checking the inter-container connectivity and external 
-connectivity for the containers scheduled across multiple hosts
+connectivity for the containers scheduled across multiple hosts.
 
 ```
 agrant@tutorial-node1:~$ docker exec -it contiv-cluster-c1 /bin/sh
@@ -901,10 +903,10 @@ round-trip min/avg/max = 38.867/41.202/43.537 ms
 
 #### Chapter 6: Docker Overlay multi-host networking
 
-As we learned earlier that use vxlan port conflict can prevent us from using
+As we learned earlier that using the vxlan port conflict can prevent us from using
 Docker `overlay` network. For us to experiment with this, we'd go ahead
-and terminat `contiv` driver first on both nodes i.e. `tutorial-node1` and
-`tutorial-node2`
+and terminate `contiv` driver first on both nodes: `tutorial-node1` and
+`tutorial-node2`:
 
 ```
 [vagrant@tutorial-node2 ~]$ ps aux | grep "/opt/bin/netplugin"
@@ -1000,7 +1002,7 @@ to the IP address of `overlay-c1` container and be able to reach another contain
 across using a vxlan overlay.
 
 ### Cleanup: **after all play is done**
-To cleanup the setup, after doing all the experiments, exit the VM destroy VMs
+To cleanup the setup, after doing all the experiments, exit the VM destroy VMs:
 
 ```
 $ vagrant destroy -f
@@ -1019,5 +1021,5 @@ $ vagrant destroy -f
 
 ### Improvements or Comments
 This tutorial was developed by Contiv engineers. Thank you for trying out this tutorial.
-Please file a github issue if you see an issue with the tutorial, or if you prefer
+Please file a GitHub issue if you see an issue with the tutorial, or if you prefer
 improving some text, feel free to send a pull request.
