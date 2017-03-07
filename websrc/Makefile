@@ -1,21 +1,22 @@
 all: build
 
 init:
-	bundle
+	docker build -t contiv.github.io_build -f ../Dockerfile ..
 
-dev: init
-	bundle exec middleman server
+# dev launches the live-reloading development server on port 4567
+dev:
+	@bash ./scripts/dev.sh
 
 clean:
 	rm -rf ../documents
 	rm -rf ../assets
 	rm -rf ../articles
 	rm -rf ../extras
-	rm ../404.html || true
-	rm ../index.html || true
-	rm ../robots.txt || true
-	rm ../sitemap.xml || true
-	rm ../favicon* || true
+	rm -f ../404.html
+	rm -f ../index.html
+	rm -f ../robots.txt
+	rm -f ../sitemap.xml
+	rm -f ../favicon*
 
 deploy:
 	mv ./build/documents ../
@@ -28,6 +29,5 @@ deploy:
 	mv ./build/robots.txt ../
 	mv ./build/sitemap.xml ../
 
-build: init clean
-	bundle exec middleman build
-	make deploy
+build: clean
+	@bash ./scripts/build.sh

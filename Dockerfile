@@ -7,7 +7,8 @@ RUN apt-get update && apt-get install -y git-core openssh-client curl wget \
 RUN curl -L https://get.rvm.io | bash -s stable
 RUN /bin/bash -l -c "rvm requirements"
 RUN echo "gem: --no-document" >~/.gemrc
-RUN /bin/bash -l -c "rvm install 2.0.0-p0"
+RUN /bin/bash -l -c "rvm install 2.0.0-p648"
 RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
 COPY . /sources
-RUN cd /sources/websrc && bash -l -c "make init"
+RUN cd /sources/websrc && bash -l -c "bundle"
+WORKDIR /sources/websrc
