@@ -692,7 +692,7 @@ PING contiv-vlan-c1 (10.1.3.4): 56 data bytes
 . . .
 ```
 
-While this is going on `tutorial-node2`, let's run tcpdump on eth2 on `tutorial-node`
+While this is going on `tutorial-node2`, let's run tcpdump on eth2 on `tutorial-node1`
 and confirm how rx/tx packets look on it:
 
 ```
