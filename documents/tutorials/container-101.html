@@ -829,7 +829,7 @@ PING contiv-vlan-c1 (10.1.3.4): 56 data bytes
 64 bytes from 10.1.3.4: seq=4 ttl=64 time=1.119 ms
 . . .
 </code></pre>
-<p>While this is going on <code>tutorial-node2</code>, let&#39;s run tcpdump on eth2 on <code>tutorial-node</code>
+<p>While this is going on <code>tutorial-node2</code>, let&#39;s run tcpdump on eth2 on <code>tutorial-node1</code>
 and confirm how rx/tx packets look on it:</p>
 <pre class="highlight plaintext"><code>vagrant@tutorial-node1:~$ sudo tcpdump -e -i eth2 icmp
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
