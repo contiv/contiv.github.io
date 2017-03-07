@@ -380,7 +380,7 @@ vagrant@tutorial-node1:~$ ifconfig
 <p>In the <code>ifconfig</code> output, you will see that it would have created a veth <code>virtual 
 ethernet interface</code> that could look like <code>veth......</code> towards the end. More 
 importantly it is allocated an IP address from default docker bridge <code>docker0</code>, 
-likely <code>172.17.0.3</code> in this setup, and can be examined using</p>
+likely <code>172.17.0.5</code> in this setup, and can be examined using</p>
 <pre class="highlight plaintext"><code>$ docker network inspect bridge
 [
     {
@@ -449,7 +449,7 @@ vagrant@tutorial-node1:~$ docker inspect --format '{{.NetworkSettings.IPAddress}
 <pre class="highlight plaintext"><code>vagrant@tutorial-node1:~$ docker exec -it vanilla-c /bin/sh
 / # ifconfig eth0
 eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:03  
-          inet addr:172.17.0.3  Bcast:0.0.0.0  Mask:255.255.0.0
+          inet addr:172.17.0.5  Bcast:0.0.0.0  Mask:255.255.0.0
           inet6 addr: fe80::42:acff:fe11:3%32577/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:8 errors:0 dropped:0 overruns:0 frame:0
