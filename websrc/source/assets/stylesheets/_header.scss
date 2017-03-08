@@ -11,8 +11,8 @@
     .logo{
       color: #FFF;
       font-family: $font-family-blanc;
-      font-size: 25px;
-      margin-right: 25px;
+      font-size: 20px;
+      margin-right: 20px;
       background: image-url('logo3.png') 0 0 no-repeat;
       @include img-retina("logo3.png", "logo3.png", $project-logo-width, $project-logo-height);
       background-position: 0 center;
@@ -64,7 +64,7 @@
     .navbar-brand {
       .logo{
         padding-left: 42px;
-        font-size: 25px;
+        font-size: 30px;
         @include img-retina("logo3.png", "logo3.png", $project-logo-width * .75, $project-logo-height * .75);
       }
     }

@@ -20,7 +20,7 @@ To create tenants:
 2. Click on **Create Tenants**.
    The Create Tenant tab displays.
    ![tenant](CreateTenant2.png)
-3. Enter a tenant name and click **Create**.
+3. Enter a tenant name and click **Create**. <br>
    Note: Use numbers and letters. Capitals are okay. Do NOT use special characters or white spaces.
 
 ## Delete Tenants
