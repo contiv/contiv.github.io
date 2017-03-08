@@ -28,6 +28,7 @@ deploy:
 	mv ./build/404.html ../
 	mv ./build/robots.txt ../
 	mv ./build/sitemap.xml ../
+	touch "../documents/DO NOT EDIT THE HTML OR OTHER OUTPUT DIRECTLY. ALWAYS EDIT FROM THE SOURCE DIRECTORY." 
 
 build: clean
 	@bash ./scripts/build.sh
