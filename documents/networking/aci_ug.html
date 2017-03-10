@@ -98,6 +98,9 @@ GitHub</a></li>
 			<h3>Getting Started</h3>
 							<ul class="nav">
 							<li>
+								<a href="/documents/gettingStarted/">Intro</a>
+						    </li>
+							<li>
 								<a href="/documents/networking/features.html">Features</a>
 						    </li>
 						    <li>
@@ -230,20 +233,25 @@ GitHub</a></li>
 			<div class="bs-docs-section">
 				
 	<h1>Contiv in ACI Mode</h1>
-<p>When used in Cisco Application Centric Infrastructure (ACI) mode, Contiv uses ACI features for policy enforcement and connectivity. At the same time, Contiv maintains a consistent interface with the container ecosystem. Contiv interacts with the APIC via an ACI gateway (ACI-GW) to create the objects and associations that enable containers to communicate according to the policy intent.</p>
+<p>Contiv works with Cisco Application Centric Infrastructure (ACI) for policy enforcement and connectivity. At the same time, Contiv maintains a consistent interface with the container ecosystem. Contiv interacts with the APIC via an ACI gateway (ACI-GW) to create the objects and associations that enable containers to communicate according to the policy intent.</p>
+<p><img alt="ACI" src="/assets/images/aci-integration-69edd79c.png"/></p>
 
-<h2>Configuration</h2>
+<h2>UI Configuration</h2>
+<p>As a Contiv admin, you can set up ACI as your network default.</p>
+<p>See <a href="/documents/admin/manageNetworks.html">Managing Networks</a>.</p>
+
+<h2>CLI Configuration</h2>
 <p>Configuration in ACI mode can be split into the following three categories:</p>
-<p>1. Network resource allocation for Contiv Cluster
-2. External policy configuration
-3. Application policy configuration</p>
+<p>1. Network resource allocation for your Contiv cluster<br>
+2. External policy configuration<br>
+3. Application policy configuration<br></p>
 
-<h3>Network Resource Allocation for Contiv Cluster</h3>
-<p>Contiv uses the static VLAN binding mechanism to integrate with ACI. This mechanism requires a physDom, VLAN pool and some associated objects. For a step-by-step guide to this configuration see <a href="/documents/gettingStarted/networking/aci.html">Installing Contiv Network with Cisco ACI</a>.</p>
+<h3>Network Resource Allocation for Your Contiv Cluster</h3>
+<p>Contiv uses the static VLAN binding mechanism to integrate with ACI. This mechanism requires a physDom, VLAN pool, and some associated objects. For a step-by-step guide to this configuration see <a href="/documents/gettingStarted/networking/aci.html">Installing Contiv Network with Cisco ACI</a>.</p>
 <p>After the ACI is configured, Contiv must be configured using the <code>netctl</code> command as follows:</p>
 <pre class="highlight plaintext"><code>netctl global set --fabric-mode aci --vlan-range 400-500
 </code></pre>
-<p>The VLAN range must match the VLAN pool you create in APIC. in this example the range is 400-500.</p>
+<p>Note: The VLAN range must match the VLAN pool you create in APIC. The range in this example is 400-500.</p>
 
 <h3>External Policy Configuration</h3>
 <p>External policy configuration determines how containers in the cluster communicate with endpoints that are outside the container cluster. These endpoints may include VMs, physical servers or endpoints external to the fabric itself. The main ACI objects of interest from this perspective are: tenants, bridge domains (BDs), and contracts.</p>
@@ -295,9 +303,9 @@ netctl external-contracts  create -t MixedTenant -p -a "uni/tn-MixedTenant/brc-a
 netctl group create -t MixedTenant -e ToConsume -e ToProvide -p app2db net1 app
 </code></pre>
 
-<h4>Add rules to the policy</h4>
+<h4>Add Rules to the Policy</h4>
 <p>Specify policy between tiers by adding rules to the policy you created. You can add multiple rules to the same policy.</p>
-<p>For example, the follwing rule opens TCP port 6379 from <em>app</em> to <em>db</em>.</p>
+<p>For example, the following rule opens TCP port 6379 from <em>app</em> to <em>db</em>.</p>
 <pre class="highlight plaintext"><code>netctl policy rule-add -t MixedTenant -d in --protocol tcp --port 6379 --from-group app --action allow app2db 1
 </code></pre>
 
@@ -308,7 +316,7 @@ netctl group create -t MixedTenant -e ToConsume -e ToProvide -p app2db net1 app
 </code></pre>
 
 <h3>Create Containers</h3>
-<p>You can now use Docker commands (or other orchestration tools) to create containers. If using Docker, use the <code>--net</code> option to specify the Docker network name that corresponds to the application tier (use <code>docker network ls | grep app</code> to find the network name that corresponds to <code>app</code> in the example). If using Kubernetes, specify the tenant, network, and endpoint group using the <code>io.contiv.tenant</code>, <code>io.contiv.network</code>, and <code>io.contiv.net-group</code> labels respectively.</p>
+<p>You can now use Docker commands (or other orchestration tools) to create containers. If you are using Docker, use the <code>--net</code> option to specify the Docker network name that corresponds to the application tier (use <code>docker network ls | grep app</code> to find the network name that corresponds to <code>app</code> in the example). For Kubernetes, specify the tenant, network, and endpoint group using the <code>io.contiv.tenant</code>, <code>io.contiv.network</code>, and <code>io.contiv.net-group</code> labels respectively.</p>
 
 	<hr>
   <div class="container">

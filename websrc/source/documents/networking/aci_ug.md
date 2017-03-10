@@ -8,19 +8,27 @@ description: |-
 
 # Contiv in ACI Mode
 
-When used in Cisco Application Centric Infrastructure (ACI) mode, Contiv uses ACI features for policy enforcement and connectivity. At the same time, Contiv maintains a consistent interface with the container ecosystem. Contiv interacts with the APIC via an ACI gateway (ACI-GW) to create the objects and associations that enable containers to communicate according to the policy intent.
+Contiv works with Cisco Application Centric Infrastructure (ACI) for policy enforcement and connectivity. At the same time, Contiv maintains a consistent interface with the container ecosystem. Contiv interacts with the APIC via an ACI gateway (ACI-GW) to create the objects and associations that enable containers to communicate according to the policy intent.
 
-## Configuration
+![ACI](/assets/images/aci-integration.png)
+
+## UI Configuration
+
+As a Contiv admin, you can set up ACI as your network default.
+
+See [Managing Networks](/documents/admin/manageNetworks.html).
+
+## CLI Configuration
 
 Configuration in ACI mode can be split into the following three categories:
 
-1\. Network resource allocation for Contiv Cluster
-2\. External policy configuration
-3\. Application policy configuration
+1\. Network resource allocation for your Contiv cluster<br>
+2\. External policy configuration<br>
+3\. Application policy configuration<br>
 
-### Network Resource Allocation for Contiv Cluster
+### Network Resource Allocation for Your Contiv Cluster
 
-Contiv uses the static VLAN binding mechanism to integrate with ACI. This mechanism requires a physDom, VLAN pool and some associated objects. For a step-by-step guide to this configuration see [Installing Contiv Network with Cisco ACI].
+Contiv uses the static VLAN binding mechanism to integrate with ACI. This mechanism requires a physDom, VLAN pool, and some associated objects. For a step-by-step guide to this configuration see [Installing Contiv Network with Cisco ACI].
 
 After the ACI is configured, Contiv must be configured using the `netctl` command as follows:
 
@@ -28,7 +36,7 @@ After the ACI is configured, Contiv must be configured using the `netctl` comman
 netctl global set --fabric-mode aci --vlan-range 400-500
 ```
 
-The VLAN range must match the VLAN pool you create in APIC. in this example the range is 400-500.
+Note: The VLAN range must match the VLAN pool you create in APIC. The range in this example is 400-500.
 
 ### External Policy Configuration
 
@@ -112,11 +120,11 @@ netctl group create -t MixedTenant -p app2db net1 db
 netctl group create -t MixedTenant -e ToConsume -e ToProvide -p app2db net1 app
 ```
 
-#### Add rules to the policy
+#### Add Rules to the Policy
 
 Specify policy between tiers by adding rules to the policy you created. You can add multiple rules to the same policy.
 
-For example, the follwing rule opens TCP port 6379 from *app* to *db*.
+For example, the following rule opens TCP port 6379 from *app* to *db*.
 
 ```
 netctl policy rule-add -t MixedTenant -d in --protocol tcp --port 6379 --from-group app --action allow app2db 1
@@ -134,6 +142,6 @@ netctl app-profile create -t MixedTenant -g app,db container-profile
 
 ### Create Containers
 
-You can now use Docker commands (or other orchestration tools) to create containers. If using Docker, use the `--net` option to specify the Docker network name that corresponds to the application tier (use `docker network ls | grep app` to find the network name that corresponds to `app` in the example). If using Kubernetes, specify the tenant, network, and endpoint group using the `io.contiv.tenant`, `io.contiv.network`, and `io.contiv.net-group` labels respectively.
+You can now use Docker commands (or other orchestration tools) to create containers. If you are using Docker, use the `--net` option to specify the Docker network name that corresponds to the application tier (use `docker network ls | grep app` to find the network name that corresponds to `app` in the example). For Kubernetes, specify the tenant, network, and endpoint group using the `io.contiv.tenant`, `io.contiv.network`, and `io.contiv.net-group` labels respectively.
 
 [Installing Contiv Network with Cisco ACI]: </documents/gettingStarted/networking/aci.html>
