@@ -1,10 +1,10 @@
 all: build
 
 init:
-	docker build -t contiv.github.io_build -f ../Dockerfile ..
+	@bash ./scripts/init.sh
 
 # dev launches the live-reloading development server on port 4567
-dev:
+dev: init
 	@bash ./scripts/dev.sh
 
 clean:
@@ -30,5 +30,5 @@ deploy:
 	mv ./build/sitemap.xml ../
 	touch "../documents/DO NOT EDIT THE HTML OR OTHER OUTPUT DIRECTLY. ALWAYS EDIT FROM THE SOURCE DIRECTORY." 
 
-build: clean
+build: clean init
 	@bash ./scripts/build.sh
