@@ -6,7 +6,7 @@ This repo contains the Contiv website source files (Markdown) and build scripts.
 
 Fork this repo to your personal account.
 
-Run `cd websrc; make init` to build the development Docker image.  If you don't have Docker, you'll need to install it first.
+Install [Docker](https://www.docker.com/).
 
 ## Running the Site Locally and Testing Your Changes
 
