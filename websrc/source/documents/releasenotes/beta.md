@@ -24,28 +24,40 @@ This release includes:
 - Networking Support
 	- L2 (VLAN)
 	- L2 Overlay (VXLAN)
-	- L3
+	- L3 (experimental)
 	- ACI
 - [Contiv UI](https://github.com/contiv/contiv-ui), the first user interface available for administrators and users of Contiv. 
 ![ui](/assets/images/Dashboard.png)
 
 
-## Supported Versions
+## Compatibility Matrix
+Contiv can run on a variety of platform configurations such as on-premise or cloud and different flavors of Linux as host OS. However, we focus on specific configurations of platform components in our lab testing environment, as described below. Any platform specific feature restrictions and configuration requirements are also highlighted.
+
 
 Host OS
 
 - CentOS 7.x
+- RHEL 7.x (upcoming)
 
 Container Schedulers / Orchestrators
 
 - Kubernetes 1.4 
-- Docker 1.12 + Docker Swarm 1.2.5
+- Docker 1.12.x + Docker Swarm 1.2.5
+- Docker 17.03.x-ce (upcoming)
 
 Infrastructure Support
 
 - Bare metal
-- vSphere
-- AWS
+- vCenter
+	- VM port group needs to be configured for correct networking mode (see [this](https://pubs.vmware.com/vsphere-65/index.jsp?topic=%2Fcom.vmware.vsphere.networking.doc%2FGUID-D5960C77-0D19-4669-A00C-B05D58A422F8.html) for more details). For L2 or ACI mode, port group needs to be configured using VLAN trunking to allow Virtual Guest Tagging. For L3 mode, port group can be configured using no VLAN if using External VLAN Tagging or assign a VLAN in the Port Group for Virtual Switch Tagging.
+
+- AWS (VXLAN only)
+
+Integrated Container Platforms
+
+- OpenShift Origin 1.4, OpenShift 3.4 (upcoming)
+- Docker Enterprise Edition (upcoming)
+
 
 
 ## Limitations
