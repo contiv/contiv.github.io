@@ -7,105 +7,230 @@ description: |-
 ---
 
 
-## Containers Tutorial
-Walks through container networking and concepts step by step.
+## Containers Networking Tutorial with Contiv
+Walks through container networking and concepts step by step. We will explore Contiv's networking features along with policies, in next tutorial.
 
 ### Prerequisites 
 1. [Download Vagrant](https://www.vagrantup.com/downloads.html)
 2. [Download Virtualbox](https://www.virtualbox.org/wiki/Downloads)
+3. [Install git client](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+4. [Install docker for mac](https://docs.docker.com/docker-for-mac/install/)
+
+**Note**:
+- If you are using platform other than Mac, please install docker-engine, for that platform.
+
 
 ### Setup
 
-#### Step 1: Get the Vagrantfile
-Copy the [contents](https://raw.githubusercontent.com/jainvipin/tutorial/master/Vagrantfile) into a file called Vagrantfile. It could be done using curl as follows
-
+#### Step 1: Get contiv installer code from github.
 ```
-$ curl https://raw.githubusercontent.com/jainvipin/tutorial/master/Vagrantfile -o Vagrantfile
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100  6731  100  6731    0     0   8424      0 --:--:-- --:--:-- --:--:--  8424
+$ git clone git@github.com:contiv/install.git
+$ cd install
 ```
 
-Note: On Windows the file may be downloaded with `.txt` extension. Rename the file
-if needed to remove the extension. Some steps are
-documented [here](http://www.mediacollege.com/microsoft/windows/extension-change.html).
+#### Step 2: Run installer to install contiv + Docker Swarm using Vagrant on VMs created on VirtualBox
 
-#### Step 2: Create resolv.conf file in the current directory, where you have copied the Vagrantfile.
-This is used by the VMs to access outside network for downloading docker images in
-rest of tutorial. The next steps will fail if this is not specified correctly.
-On `Mac` or `Linux` based systems you may copy `/etc/resolv.conf` to current directory.
+**Note**:
+- Please make sure that you are NOT connected to VPN here.
 
 ```
-$ cp /etc/resolv.conf .
-
-$ cat resolv.conf
-domain foobar.com
-nameserver 171.70.168.183
-nameserver 173.36.131.10
-
-$ ls
-Vagrantfile	resolv.conf
+make demo-swarm
 ```
+This will create two VMs on VirtualBox. Using ansible, all the required services and software for contiv, will get installed at this step.
+This might take some time (usually approx 15-20 mins) depending upon your internet connection.
 
-#### Step 3: Start a small two-node cluster
 
-```
-$ vagrant up
-Bringing machine 'tutorial-node1' up with 'virtualbox' provider...
-Bringing machine 'tutorial-node2' up with 'virtualbox' provider...
- < more output here when trying to bring up the two VMs>
-==> tutorial-node1: ++ /opt/bin/startSwarm.py -binpath /opt/bin -nodes 192.168.2.10,192.168.2.11
-$
-```
-
-#### Step 4: Log into one of the VMs, verify the installation.
+#### Step 3: Check vagrant VM nodes.
 
 **Note**:
 - On Windows, you will need a ssh client to be installed like putty, cygwin etc.
-- The username/password for the VMs is vagrant/vagrant
 
 ```
-$ vagrant ssh tutorial-node1
-vagrant@tutorial-node1:~$ docker info
+This command will show you list of VMs which we have created. 
+$ cd cluster
+$ vagrant status
+Current machine states:
+
+contiv-node3              running (virtualbox)
+contiv-node4              running (virtualbox)
+
 ```
 The above command shows the node information, version, etc.
 
+#### Step 4: Hello world Docker swarm.
+
+As a part of this contiv installation, we install docker swarm for you. To verify docker swarm cluster, please execute
+following commands on Vagrant VMs.
+
 ```
-vagrant@tutorial-node1:~$ etcdctl cluster-health
+$ cd cluster
+$ vagrant ssh contiv-node3
+Now you will be logged into one of the Vagrant VM.
+[vagrant@contiv-node3 ~]$ export DOCKER_HOST=tcp://192.168.2.52:2375 (IP address might change depending upon your setup. 
+You will see this at the end of installation in setp 2 above)
+
+[vagrant@contiv-node3 ~]$ docker info
+Containers: 6
+ Running: 6
+ Paused: 0
+ Stopped: 0
+Images: 5
+Server Version: swarm/1.2.5
+Role: primary
+Strategy: spread
+Filters: health, port, containerslots, dependency, affinity, constraint
+Nodes: 2
+ contiv-node3: 192.168.2.52:2385
+  └ ID: FK7R:SF5N:KRVW:VSYH:VVR5:6BSO:ZUBB:3BPA:U6VM:YE4D:4EQK:HLCW
+  └ Status: Healthy
+  └ Containers: 4 (4 Running, 0 Paused, 0 Stopped)
+  └ Reserved CPUs: 0 / 1
+  └ Reserved Memory: 0 B / 1.018 GiB
+  └ Labels: kernelversion=3.10.0-514.6.2.el7.x86_64, operatingsystem=CentOS Linux 7 (Core), storagedriver=devicemapper
+  └ UpdatedAt: 2017-03-30T04:04:54Z
+  └ ServerVersion: 1.12.6
+ contiv-node4: 192.168.2.53:2385
+  └ ID: NVO2:Y6PR:M7F2:4EIL:PDKF:ZC7Z:A2BP:HUIC:K2IJ:IX3F:2JWB:TYML
+  └ Status: Healthy
+  └ Containers: 2 (2 Running, 0 Paused, 0 Stopped)
+  └ Reserved CPUs: 0 / 1
+  └ Reserved Memory: 0 B / 1.018 GiB
+  └ Labels: kernelversion=3.10.0-514.6.2.el7.x86_64, operatingsystem=CentOS Linux 7 (Core), storagedriver=devicemapper
+  └ UpdatedAt: 2017-03-30T04:04:09Z
+  └ ServerVersion: 1.12.6
+Plugins:
+ Volume:
+ Network:
+Swarm:
+ NodeID:
+ Is Manager: false
+ Node Address:
+Security Options:
+Kernel Version: 3.10.0-514.6.2.el7.x86_64
+Operating System: linux
+Architecture: amd64
+CPUs: 2
+Total Memory: 2.036 GiB
+Name: contiv-node3
+Docker Root Dir:
+Debug Mode (client): false
+Debug Mode (server): false
+WARNING: No kernel memory limit support
+
 ```
+
+Docker swarm with 2 nodes is running successfully.
+
+Scheduler schedules these containers using the
+scheduling algorithm `bin-packing` or `spread`, and if they are not placed on 
+different nodes, feel free to start more containers to see the distribution.
+
+#### Step 5: Check contiv and related services.
+
 `etcdctl` is a control utility to manipulate etcd, state store used by kubernetes/docker/contiv
 
-```
-vagrant@tutorial-node1:~$ ifconfig docker0
-docker0   Link encap:Ethernet  HWaddr 02:42:fb:53:27:56  
-          inet addr:172.17.0.1  Bcast:0.0.0.0  Mask:255.255.0.0
-          inet6 addr: fe80::42:fbff:fe53:2756/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:3521 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:3512 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
-          RX bytes:178318 (178.3 KB)  TX bytes:226978 (226.9 KB)
+To check etcd cluster health
 
-vagrant@tutorial-node1:~$ ifconfig eth1
-eth1      Link encap:Ethernet  HWaddr 08:00:27:f7:17:75  
-          inet addr:192.168.2.10  Bcast:0.0.0.0  Mask:255.255.255.0
-          inet6 addr: fe80::a00:27ff:fef7:1775/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:219585 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:272864 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
-          RX bytes:21413163 (21.4 MB)  TX bytes:28556948 (28.5 MB)
-
-vagrant@tutorial-node1:~$ ifconfig eth0
-eth0      Link encap:Ethernet  HWaddr 08:00:27:a2:bc:0d  
-          inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
-          inet6 addr: fe80::a00:27ff:fea2:bc0d/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:28103 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:13491 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
-          RX bytes:36213596 (36.2 MB)  TX bytes:858264 (858.2 KB)
 ```
+[vagrant@contiv-node3 ~]$ etcdctl cluster-health
+member 6fa216d588021d73 is healthy: got healthy result from http://192.168.2.52:2379
+cluster is healthy
+```
+
+To check netplugin and netmaster is running successfully.
+
+```
+[vagrant@contiv-node3 ~]$ sudo service netmaster status
+Redirecting to /bin/systemctl status  netmaster.service
+● netmaster.service - Netmaster
+   Loaded: loaded (/etc/systemd/system/netmaster.service; enabled; vendor preset: disabled)
+   Active: active (running) since Thu 2017-03-30 04:00:49 UTC; 8min ago
+ Main PID: 19412 (netmaster)
+   CGroup: /system.slice/netmaster.service
+           └─19412 /usr/bin/netmaster --cluster-mode docker -cluster-store etcd://192.168.2.52:2379
+
+Mar 30 04:02:02 contiv-node3 netmaster[19412]: "
+Mar 30 04:02:02 contiv-node3 netmaster[19412]: time="Mar 30 04:02:02.580108038" level=info msg="Registered node: &{HostAddr:192.168.2.53 HostPort:9002}"
+Mar 30 04:02:02 contiv-node3 netmaster[19412]: time="Mar 30 04:02:02.690562420" level=info msg="Connecting to RPC server: 192.168.2.53:9003"
+Mar 30 04:02:02 contiv-node3 netmaster[19412]: time="Mar 30 04:02:02.692078723" level=info msg="Connected to RPC server: 192.168.2.53:9003"
+Mar 30 04:02:02 contiv-node3 netmaster[19412]: time="Mar 30 04:02:02.694238710" level=info msg="Registered node: &{HostAddr:192.168.2.53 HostPort:9003}"
+Mar 30 04:02:03 contiv-node3 netmaster[19412]: time="Mar 30 04:02:03.136923289" level=info msg="Registered node: &{HostAddr:192.168.2.53 HostPort:9003}"
+Mar 30 04:02:03 contiv-node3 netmaster[19412]: time="Mar 30 04:02:03.138000567" level=info msg="Registered node: &{HostAddr:192.168.2.53 HostPort:9002}"
+Mar 30 04:02:03 contiv-node3 netmaster[19412]: time="Mar 30 04:02:03.239922359" level=info msg="Registered node: &{HostAddr:192.168.2.53 HostPort:9003}"
+Mar 30 04:02:03 contiv-node3 netmaster[19412]: time="Mar 30 04:02:03.242355700" level=info msg="Registered node: &{HostAddr:192.168.2.53 HostPort:9002}"
+Mar 30 04:02:21 contiv-node3 netmaster[19412]: time="Mar 30 04:02:21.572363645" level=info msg="Received EndpointUpdateRequest {{IPAddress: ContainerID: Labels...onName:}}"
+Hint: Some lines were ellipsized, use -l to show in full.
+
+
+[vagrant@contiv-node3 ~]$ sudo service netplugin status
+Redirecting to /bin/systemctl status  netplugin.service
+● netplugin.service - Netplugin
+   Loaded: loaded (/etc/systemd/system/netplugin.service; enabled; vendor preset: disabled)
+   Active: active (running) since Thu 2017-03-30 04:00:42 UTC; 8min ago
+ Main PID: 18810 (netplugin)
+   CGroup: /system.slice/netplugin.service
+           └─18810 /usr/bin/netplugin -plugin-mode docker -vlan-if eth2 -vtep-ip 192.168.2.52 -ctrl-ip 192.168.2.52 -cluster-store etcd://192.168.2.52:2379
+
+Mar 30 04:02:21 contiv-node3 netplugin[18810]: time="Mar 30 04:02:21.161330412" level=info msg="Link up received for eth2"
+Mar 30 04:02:21 contiv-node3 netplugin[18810]: time="Mar 30 04:02:21.568484116" level=info msg="Returning network name host for ID 422bc594582f5f711281f593ff19...596376d73"
+Mar 30 04:02:21 contiv-node3 netplugin[18810]: time="Mar 30 04:02:21.568525462" level=info msg="Sending Endpoint update request to master: {&{IPAddress: Contai...onName:}}"
+Mar 30 04:02:21 contiv-node3 netplugin[18810]: time="Mar 30 04:02:21.571034836" level=info msg="Making REST request to url: http://192.168.2.52:9999/plugin/updateEndpoint"
+Mar 30 04:02:21 contiv-node3 netplugin[18810]: time="Mar 30 04:02:21.573488725" level=info msg="Results for (http://192.168.2.52:9999/plugin/updateEndpoint): &{IPAddress:}
+Mar 30 04:02:21 contiv-node3 netplugin[18810]: "
+Mar 30 04:03:06 contiv-node3 netplugin[18810]: time="Mar 30 04:03:06.113998515" level=info msg="Link up received for eth2"
+Mar 30 04:03:06 contiv-node3 netplugin[18810]: time="Mar 30 04:03:06.126356395" level=info msg="Link up received for eth2"
+Mar 30 04:03:51 contiv-node3 netplugin[18810]: time="Mar 30 04:03:51.114258889" level=info msg="Link up received for eth2"
+Mar 30 04:08:51 contiv-node3 netplugin[18810]: time="Mar 30 04:08:51.170318252" level=info msg="Link up received for eth2"
+Hint: Some lines were ellipsized, use -l to show in full.
+
+`netctl` is a utility to create, update, read and modify contiv objects. It is a CLI wrapper
+on top of REST interface.
+
+[vagrant@contiv-node3 ~]$ netctl version
+Client Version:
+Version: 1.0.0-beta.4
+GitCommit: fe95411
+BuildTime: 03-23-2017.18-47-57.UTC
+
+Server Version:
+Version: 1.0.0-beta.4
+GitCommit: fe95411
+BuildTime: 03-23-2017.18-47-57.UTC
+
+```
+
+
+```
+[vagrant@contiv-node3 ~]$ ifconfig docker0
+docker0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 172.17.0.1  netmask 255.255.0.0  broadcast 0.0.0.0
+        ether 02:42:72:6c:8d:f7  txqueuelen 0  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+[vagrant@contiv-node3 ~]$ ifconfig eth1
+eth1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.2.52  netmask 255.255.255.0  broadcast 192.168.2.255
+        inet6 fe80::a00:27ff:feb6:8af9  prefixlen 64  scopeid 0x20<link>
+        ether 08:00:27:b6:8a:f9  txqueuelen 1000  (Ethernet)
+        RX packets 17210  bytes 8681707 (8.2 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 9908  bytes 2438902 (2.3 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+[vagrant@contiv-node3 ~]$ ifconfig eth0
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.0.2.15  netmask 255.255.255.0  broadcast 10.0.2.255
+        inet6 fe80::5054:ff:fe1f:dbb7  prefixlen 64  scopeid 0x20<link>
+        ether 52:54:00:1f:db:b7  txqueuelen 1000  (Ethernet)
+        RX packets 203696  bytes 186767867 (178.1 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 77560  bytes 4354377 (4.1 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+```
+
 
 In the above output, you'll see:
 - `docker0` interface corresponds to the linux bridge and its associated
@@ -115,17 +240,6 @@ is not specified
 - `eth0` in this VM is the management interface, on which we ssh into the VM
 - `eth1` in this VM is the interface that connects to external network (if needed)
 - `eth2` in this VM is the interface that carries vxlan and control (e.g. etcd) traffic
-
-```
-vagrant@tutorial-node1:~$ netctl version
-```
-`netctl` is a utility to create, update, read and modify contiv objects. It is a CLI wrapper
-on top of REST interface.
-
-#### How to restart if VM is shut down, restarted or connectivity is lost
-It is okay to restart the tutorial from where you left at the beginning of the chapter.
-The recommended way is to cleanup the setup using `vagrant -f destroy`, and 
-then restarting them again using `vagrant up`
 
 
 ### Chapter 1 - Introduction to Container Networking
@@ -161,21 +275,24 @@ The rest of the tutorial walks through the docker examples, which implements CNM
 Let's examine the networking a container gets upon vanilla run
 
 ```
-vagrant@tutorial-node1:~$ docker network ls
-NETWORK ID          NAME                DRIVER
-4e8800b4788f        bridge              bridge              
-ce3dd3b5e270        host                host                
-0e7681adac20        none                null             
+[vagrant@contiv-node3 ~]$ docker network ls
+NETWORK ID          NAME                  DRIVER              SCOPE
+a1729504b2d1        contiv-node3/bridge   bridge              local
+422bc594582f        contiv-node3/host     host                local
+5d6b06097745        contiv-node3/none     null                local
+7dc18de21668        contiv-node4/bridge   bridge              local
+72680804a591        contiv-node4/host     host                local
+18b816723b79        contiv-node4/none     null                local
 
-vagrant@tutorial-node1:~$ docker run -itd --name=vanilla-c alpine /bin/sh
-Unable to find image 'alpine:latest' locally
-latest: Pulling from library/alpine
-b66121b7b9c0: Pull complete 
-Digest: sha256:9cacb71397b640eca97488cf08582ae4e4068513101088e9f96c9814bfda95e0
-Status: Downloaded newer image for alpine:latest
-2cf083c0a4de1347d8fea449dada155b7ef1c99f1f0e684767ae73b3bbb6b533
- 
-vagrant@tutorial-node1:~$ ifconfig 
+[vagrant@contiv-node3 ~]$ docker run -itd --name=vanilla-c alpine /bin/sh
+58d5fe78d517834b0172b7ca90521e058680cf3de1fc7824cf66a097c1cffc11
+
+**Note**:
+- Please note this container got scheduled by docker swarm on contiv-node4. 
+Run `docker ps` and check NAMES column to find it.
+
+**
+[vagrant@contiv-node3 ~]$ ifconfig 
 ```
 
 In the `ifconfig` output, you will see that it would have created a veth `virtual 
@@ -184,11 +301,11 @@ importantly it is allocated an IP address from default docker bridge `docker0`,
 likely `172.17.0.5` in this setup, and can be examined using
 
 ```
-$ docker network inspect bridge
+[vagrant@contiv-node3 ~]$ docker network inspect contiv-node4/bridge
 [
     {
         "Name": "bridge",
-        "Id": "4e8800b4788fd21f258d3aa2f4858908b482cefe728106ab92083e604bab8728",
+        "Id": "7dc18de21668de453dd696de5a130b59c3afe7d79dfca2ed10b3919f12474eff",
         "Scope": "local",
         "Driver": "bridge",
         "EnableIPv6": false,
@@ -197,39 +314,17 @@ $ docker network inspect bridge
             "Options": null,
             "Config": [
                 {
-                    "Subnet": "172.17.0.0/16",
-                    "Gateway": "172.17.0.1"
+                    "Subnet": "172.17.0.0/16"
                 }
             ]
         },
         "Internal": false,
         "Containers": {
-            "39d6c7fa38486a22405c0bb68bffbd7831deb94c690b7353dfd34be97b532a33": {
+            "58d5fe78d517834b0172b7ca90521e058680cf3de1fc7824cf66a097c1cffc11": {
                 "Name": "vanilla-c",
-                "EndpointID": "a0697a4aebe2d3ff3c4214b60c8bfaacf8f453670445899822a91b65888a8d01",
-                "MacAddress": "02:42:ac:11:00:05",
-                "IPv4Address": "172.17.0.5/16",
-                "IPv6Address": ""
-            },
-            "5999ee4484bfd5270b0b22858090135447f2a3175d07d52f1aad6d0073726b77": {
-                "Name": "defaultdns",
-                "EndpointID": "efbc1c091c6f92b8f68c4053c00c3e383f9bce1dc37fea0fb20970d633c3c6fd",
+                "EndpointID": "f0feb63de2465891fe8b2f94141b79b47865e9f048f395b1c323555a5314b3f8",
                 "MacAddress": "02:42:ac:11:00:02",
                 "IPv4Address": "172.17.0.2/16",
-                "IPv6Address": ""
-            },
-            "ddc0a899164e1d23a62d5ac312f1301bd1586180b1e82175421f2af4e783115d": {
-                "Name": "swarm-manager",
-                "EndpointID": "c9a353d8c1116f86197edcece771c94a197cf4fb8084d6a1243b8a46f2320708",
-                "MacAddress": "02:42:ac:11:00:03",
-                "IPv4Address": "172.17.0.3/16",
-                "IPv6Address": ""
-            },
-            "fad30ce6a9658a581306bb7bfc6ea71827810294d97fd77a687a7e86739f9c42": {
-                "Name": "swarm-agent",
-                "EndpointID": "a24b1c59500f60c8a19821076b8a3869141452f7e493339b715ce42cf537c6c3",
-                "MacAddress": "02:42:ac:11:00:04",
-                "IPv4Address": "172.17.0.4/16",
                 "IPv6Address": ""
             }
         },
@@ -245,23 +340,25 @@ $ docker network inspect bridge
     }
 ]
 
-vagrant@tutorial-node1:~$ docker inspect --format '{{.NetworkSettings.IPAddress}}' vanilla-c
-172.17.0.5
+[vagrant@contiv-node3 ~]$ docker inspect --format '{{.NetworkSettings.IPAddress}}' vanilla-c
+172.17.0.2
 ```
 
 The other pair of veth interface is put into the container with the name `eth0`
 
 ```
-vagrant@tutorial-node1:~$ docker exec -it vanilla-c /bin/sh
+[vagrant@contiv-node3 ~]$ docker inspect --format '{{.NetworkSettings.IPAddress}}' vanilla-c
+172.17.0.2
+[vagrant@contiv-node3 ~]$ docker exec -it vanilla-c /bin/sh
 / # ifconfig eth0
-eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:03  
-          inet addr:172.17.0.5  Bcast:0.0.0.0  Mask:255.255.0.0
-          inet6 addr: fe80::42:acff:fe11:3%32577/64 Scope:Link
+eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:02
+          inet addr:172.17.0.2  Bcast:0.0.0.0  Mask:255.255.0.0
+          inet6 addr: fe80::42:acff:fe11:2/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:8 errors:0 dropped:0 overruns:0 frame:0
+          RX packets:16 errors:0 dropped:0 overruns:0 frame:0
           TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
-          RX bytes:648 (648.0 B)  TX bytes:648 (648.0 B)
+          collisions:0 txqueuelen:0
+          RX bytes:1296 (1.2 KiB)  TX bytes:648 (648.0 B)
 / # exit
 ```
 
@@ -270,7 +367,7 @@ The Port NATing on the host is done using iptables, which can be seen as a
 MASQUERADE rule for outbound traffic for `172.17.0.0/16`
 
 ```
-$ vagrant@tutorial-node1:~$ sudo iptables -t nat -L -n
+[vagrant@contiv-node3 ~]$ sudo iptables -t nat -L -n
 ```
 
 ### Chapter 2: Multi-host networking
@@ -287,47 +384,50 @@ Let's use the same example as above to spin up two containers on the two differe
 #### 1. Create a multi-host network
 
 ```
-vagrant@tutorial-node1:~$ netctl net create --subnet=10.1.2.0/24 contiv-net
-vagrant@tutorial-node1:~$ netctl net ls
+[vagrant@contiv-node3 ~]$ netctl net create --subnet=10.1.2.0/24 contiv-net
+[vagrant@contiv-node3 ~]$ netctl net ls
 Tenant   Network     Nw Type  Encap type  Packet tag  Subnet       Gateway
 ------   -------     -------  ----------  ----------  -------      ------
 default  contiv-net  data     vxlan       0           10.1.2.0/24  
 
-vagrant@tutorial-node1:~$ $ docker network ls
-NETWORK ID          NAME                DRIVER
-4e8800b4788f        bridge              bridge              
-eeb59152fb69        contiv-net          netplugin           
-ce3dd3b5e270        host                host                
-0e7681adac20        none                null       
+[vagrant@contiv-node3 ~]$ docker network ls
+NETWORK ID          NAME                  DRIVER              SCOPE
+c7b8c135c9f1        contiv-net            netplugin           global
+a1729504b2d1        contiv-node3/bridge   bridge              local
+422bc594582f        contiv-node3/host     host                local
+5d6b06097745        contiv-node3/none     null                local
+7dc18de21668        contiv-node4/bridge   bridge              local
+72680804a591        contiv-node4/host     host                local
+18b816723b79        contiv-node4/none     null                local   
 
-vagrant@tutorial-node1:~$ docker network inspect contiv-net
+[vagrant@contiv-node3 ~]$ docker network inspect contiv-net
 [
     {
         "Name": "contiv-net",
-        "Id": "af2ed043730432e383bbe7fc7716cdfee87246f96342a320ef5fa99f8cf60312",
+        "Id": "c7b8c135c9f1b94614db84875b95873c833af56b2aac0606a88d2497ccb2a055",
         "Scope": "global",
         "Driver": "netplugin",
+        "EnableIPv6": false,
         "IPAM": {
             "Driver": "netplugin",
+            "Options": {
+                "network": "contiv-net",
+                "tenant": "default"
+            },
             "Config": [
                 {
                     "Subnet": "10.1.2.0/24"
                 }
             ]
         },
-        "Containers": {
-            "ab353464b4e20b0267d6a078e872fd21730242235667724a9147fdf278a03220": {
-                "EndpointID": "5d1720e71e3a4c8da6a8ed361480c094aeb6a3cd3adfe0c7b185690bc64ddcd9",
-                "MacAddress": "",
-                "IPv4Address": "10.1.2.2/24",
-                "IPv6Address": ""
-            }
-        },
+        "Internal": false,
+        "Containers": {},
         "Options": {
             "encap": "vxlan",
             "pkt-tag": "1",
             "tenant": "default"
-        }
+        },
+        "Labels": {}
     }
 ]
 ```
@@ -335,32 +435,40 @@ vagrant@tutorial-node1:~$ docker network inspect contiv-net
 You can now run a new container belonging to `contiv-net` network:
 
 ```
-vagrant@tutorial-node1:~$ docker run -itd --name=contiv-c1 --net=contiv-net alpine /bin/sh
-46e619b0b418107114e93f9814963d5c351835624e8da54100b0707582c69549
+[vagrant@contiv-node3 ~]$ docker run -itd --name=contiv-c1 --net=contiv-net alpine /bin/sh
+09689c15f6410c049e16d60cfe42926009af163aeb4296569cb17869a5b69732
 ```
 
-Let's ssh into the second node using `vagrant ssh tutorial-node2`, and spin up a 
-new container on it and try to reach another container running on `tutorial-node1`
+Let's ssh into the second node using 
 
 ```
-vagrant@tutorial-node2:~$ docker run -itd --name=contiv-c2 --net=contiv-net alpine /bin/sh
-26b9f22b9790b55cdfc85f1c2779db5d5fc78c18fee1ea088b85ec0883361a72
+cd cluster
+vagrant ssh contiv-node4
+[vagrant@contiv-node4 ~]$ export DOCKER_HOST=tcp://192.168.2.52:2375
 
-vagrant@tutorial-node2:~$ docker ps
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                  PORTS               NAMES
-26b9f22b9790        alpine              "/bin/sh"           2 seconds ago       Up Less than a second                       contiv-c2
+``` 
 
-vagrant@tutorial-node2:~$ docker exec -it contiv-c2 /bin/sh
+and spin up a new container on it and try to reach container running on the other host.
 
+
+```
+docker run -itd --name=contiv-c2 --net=contiv-net alpine /bin/sh
+f09a78e7960d6c1dfbf86e85648c44479681ef22a86e3049dc2296178ece9c7f
+[vagrant@contiv-node4 ~]$ docker ps
+CONTAINER ID        IMAGE                            COMMAND                  CREATED             STATUS              PORTS               NAMES
+f09a78e7960d        alpine                           "/bin/sh"                3 seconds ago       Up 1 seconds                            contiv-node3/contiv-c2
+09689c15f641        alpine                           "/bin/sh"                3 minutes ago       Up 3 minutes                            contiv-node4/contiv-c1
+
+[vagrant@contiv-node4 ~]$ docker exec -it contiv-c2 /bin/sh
+/ #
 / # ping contiv-c1
-PING contiv-c1 (10.1.2.3): 56 data bytes
-64 bytes from 10.1.2.3: seq=0 ttl=64 time=6.596 ms
-64 bytes from 10.1.2.3: seq=1 ttl=64 time=9.451 ms
+PING contiv-c1 (10.1.2.1): 56 data bytes
+64 bytes from 10.1.2.1: seq=0 ttl=64 time=4.236 ms
+64 bytes from 10.1.2.1: seq=1 ttl=64 time=0.941 ms
 ^C
 --- contiv-c1 ping statistics ---
 2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 6.596/8.023/9.451 ms
-
+round-trip min/avg/max = 0.941/2.588/4.236 ms
 / # exit
 ```
 
@@ -381,17 +489,17 @@ later chapter.
 
 ### Chapter 3: Using multiple tenants with arbitrary IPs in the networks
 
-First, let's create a new tenant space
+First, let's create a new tenant space. Also ssh into contiv-node3 node and export DOCKER_HOST with correct value.
 
 ```
-vagrant@tutorial-node1:~$ netctl tenant create blue
-INFO[0000] Creating tenant: blue                    
+[vagrant@contiv-node3 ~]$ netctl tenant create blue
+Creating tenant: blue                  
 
-vagrant@tutorial-node1:~$ netctl tenant ls 
-Name     
-------   
-default  
-blue     
+[vagrant@contiv-node3 ~]$ netctl tenant ls
+Name
+------
+default
+blue
 ```
 
 After the tenant is created, we can create network within in tenant `blue` and run containers.
@@ -399,50 +507,60 @@ Here we chose the same subnet and network name for it.
 the same subnet and same network name, that we used before
 
 ```
-vagrant@tutorial-node1:~$ netctl net create -t blue --subnet=10.1.2.0/24 contiv-net
-vagrant@tutorial-node1:~$ netctl net ls -t blue
-Tenant  Network     Nw Type  Encap type  Packet tag  Subnet       Gateway
--/-----  -------     -------  ----------  ----------  -------      ------
-blue    contiv-net  data     vxlan       0           10.1.2.0/24  
+[vagrant@contiv-node3 ~]$ netctl net create -t blue --subnet=10.1.2.0/24 contiv-net
+Creating network blue:contiv-net
+[vagrant@contiv-node3 ~]$ netctl net ls -t blue
+Tenant  Network     Nw Type  Encap type  Packet tag  Subnet       Gateway  IPv6Subnet  IPv6Gateway
+------  -------     -------  ----------  ----------  -------      ------   ----------  -----------
+blue    contiv-net  data     vxlan       0           10.1.2.0/24
 ```
 
 Next, we can run containers belonging to this tenant
 
 ```
-vagrant@tutorial-node1:~$ docker run -itd --name=contiv-blue-c1 --net=contiv-net/blue alpine /bin/sh
-6c7d8c0b14ec6c2c9f52468faf50444e29c4b1fa61753b75c00f033564814515
+[vagrant@contiv-node3 ~]$ docker run -itd --name=contiv-blue-c1 --net="contiv-net/blue" alpine /bin/sh
+224be352b574493336e8570b8925a359f808fc05f98b791ca5b14ec9ed580339
 
-vagrant@tutorial-node1:~$ docker ps
-CONTAINER ID        IMAGE                          COMMAND             CREATED             STATUS              PORTS               NAMES
-6c7d8c0b14ec        alpine                         "/bin/sh"           8 seconds ago       Up 6 seconds                            contiv-blue-c1
-17afcd58b8fc        skynetservices/skydns:latest   "/skydns"           6 minutes ago       Up 6 minutes        53/tcp, 53/udp      bluedns
-46e619b0b418        alpine                         "/bin/sh"           11 minutes ago      Up 11 minutes                           contiv-c1
-fb822eda9916        alpine                         "/bin/sh"           23 minutes ago      Up 23 minutes                           overlay-c2
-0ab717006962        alpine                         "/bin/sh"           41 minutes ago      Up 41 minutes                           overlay-c1
-2cf083c0a4de        alpine                         "/bin/sh"           48 minutes ago      Up 48 minutes                           vanilla-c
-ab353464b4e2        skynetservices/skydns:latest   "/skydns"           53 minutes ago      Up 53 minutes       53/udp, 53/tcp      defaultdns
+[vagrant@contiv-node3 ~]$ docker ps
+CONTAINER ID        IMAGE                            COMMAND                  CREATED             STATUS              PORTS               NAMES
+224be352b574        alpine                           "/bin/sh"                12 seconds ago      Up 11 seconds                           contiv-node4/contiv-blue-c1
+f09a78e7960d        alpine                           "/bin/sh"                5 minutes ago       Up 5 minutes                            contiv-node3/contiv-c2
+09689c15f641        alpine                           "/bin/sh"                8 minutes ago       Up 8 minutes                            contiv-node4/contiv-c1
+58d5fe78d517        alpine                           "/bin/sh"                43 minutes ago      Up 43 minutes                           contiv-node4/vanilla-c
+8e08d18caf2c        contiv/auth_proxy:1.0.0-beta.4   "./auth_proxy --tls-k"   58 minutes ago      Up 58 minutes                           contiv-node3/auth-proxy
+77943d7f8a84        quay.io/coreos/etcd:v2.3.8       "/etcd"                  About an hour ago   Up About an hour                        contiv-node4/etcd
+1a266627540f        quay.io/coreos/etcd:v2.3.8       "/etcd"                  About an hour ago   Up About an hour                        contiv-node3/etcd
 ```
 
-Let us run a couple of more containers in the host `tutorial-node2` that belong to the tenant `blue`:
+Let us run a couple of more containers in the host `contiv-node4` that belong to the tenant `blue`:
+
+(Dont forget to set DOCKER_HOST variable after you ssh into this node)
 
 ```
-vagrant@tutorial-node2:~$ docker run -itd --name=contiv-blue-c2 --net=contiv-net/blue alpine /bin/sh
-521abe19d6b5b3557de6ee4654cc504af0c497a64683f737ffb6f8238ddd6454
-vagrant@tutorial-node2:~$ docker run -itd --name=contiv-blue-c3 --net=contiv-net/blue alpine /bin/sh
-0fd07b44d042f37069f9a2f7c901867e8fd01c0a5d4cb761123e54e510705c60
-vagrant@tutorial-node2:~$ docker ps
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
-0fd07b44d042        alpine              "/bin/sh"           7 seconds ago       Up 5 seconds                            contiv-blue-c3
-521abe19d6b5        alpine              "/bin/sh"           23 seconds ago      Up 21 seconds                           contiv-blue-c2
-26b9f22b9790        alpine              "/bin/sh"           13 minutes ago      Up 13 minutes                           contiv-c2
+[vagrant@contiv-node4 ~]$ docker run -itd --name=contiv-blue-c2 --net="contiv-net/blue" alpine /bin/sh
+be63dbd230d6062a07ba63e0ec1af047d4a1181b4003b64a1e5b42ab019c1f43
+[vagrant@contiv-node4 ~]$ docker run -itd --name=contiv-blue-c3 --net="contiv-net/blue" alpine /bin/sh
+1db8d18a88fe976f007e49bcb68e4e7d10ff0d08a2f7ff2ef3e3ac2b00cccc52
+[vagrant@contiv-node4 ~]$ docker ps
+CONTAINER ID        IMAGE                            COMMAND                  CREATED             STATUS              PORTS               NAMES
+1db8d18a88fe        alpine                           "/bin/sh"                15 seconds ago      Up 14 seconds                           contiv-node4/contiv-blue-c3
+be63dbd230d6        alpine                           "/bin/sh"                58 seconds ago      Up 56 seconds                           contiv-node3/contiv-blue-c2
+224be352b574        alpine                           "/bin/sh"                2 minutes ago       Up 2 minutes                            contiv-node4/contiv-blue-c1
+f09a78e7960d        alpine                           "/bin/sh"                8 minutes ago       Up 7 minutes                            contiv-node3/contiv-c2
+09689c15f641        alpine                           "/bin/sh"                11 minutes ago      Up 11 minutes                           contiv-node4/contiv-c1
+58d5fe78d517        alpine                           "/bin/sh"                45 minutes ago      Up 45 minutes                           contiv-node4/vanilla-c
+8e08d18caf2c        contiv/auth_proxy:1.0.0-beta.4   "./auth_proxy --tls-k"   About an hour ago   Up About an hour                        contiv-node3/auth-proxy
+77943d7f8a84        quay.io/coreos/etcd:v2.3.8       "/etcd"                  About an hour ago   Up About an hour                        contiv-node4/etcd
+1a266627540f        quay.io/coreos/etcd:v2.3.8       "/etcd"                  About an hour ago   Up About an hour                        contiv-node3/etcd
 
-vagrant@tutorial-node2:~$ docker network inspect contiv-net/blue
+[vagrant@contiv-node4 ~]$ docker network inspect contiv-net/blue
 [
     {
         "Name": "contiv-net/blue",
-        "Id": "4b8448967b7908cab6b3788886aaccc2748bbd85251258de3d01f64e5ee7ae68",
+        "Id": "cf4c34e778b7a587c8c7726a59aef3313f6ee8ebf0e3a318f320ce259387b3ad",
         "Scope": "global",
         "Driver": "netplugin",
+        "EnableIPv6": false,
         "IPAM": {
             "Driver": "netplugin",
             "Options": {
@@ -455,31 +573,25 @@ vagrant@tutorial-node2:~$ docker network inspect contiv-net/blue
                 }
             ]
         },
+        "Internal": false,
         "Containers": {
-            "0fd07b44d042f37069f9a2f7c901867e8fd01c0a5d4cb761123e54e510705c60": {
+            "1db8d18a88fe976f007e49bcb68e4e7d10ff0d08a2f7ff2ef3e3ac2b00cccc52": {
                 "Name": "contiv-blue-c3",
-                "EndpointID": "eab5b2243199e97c29e3be310b37994e31d1203af775d80b0755adfabd52531e",
-                "MacAddress": "02:02:0a:01:02:04",
-                "IPv4Address": "10.1.2.4/24",
-                "IPv6Address": ""
-            },
-            "521abe19d6b5b3557de6ee4654cc504af0c497a64683f737ffb6f8238ddd6454": {
-                "Name": "contiv-blue-c2",
-                "EndpointID": "916c971aa4c58c6559c4fab241981d350be15855d0527b83afe4a305f92a4bda",
+                "EndpointID": "c297a0479c9a18a5a69e04a4c53bc9aa5a78ecc103668c7aadf2ff62e21e0664",
                 "MacAddress": "02:02:0a:01:02:03",
                 "IPv4Address": "10.1.2.3/24",
                 "IPv6Address": ""
             },
-            "ep-3c744285620b746317391c3e27c8d745f2488fae6b23dc1ebe8b217563d2a999": {
-                "Name": "bluedns",
-                "EndpointID": "3c744285620b746317391c3e27c8d745f2488fae6b23dc1ebe8b217563d2a999",
+            "224be352b574493336e8570b8925a359f808fc05f98b791ca5b14ec9ed580339": {
+                "Name": "contiv-blue-c1",
+                "EndpointID": "fc5edc5de3548e063c2db2dfe14159d8c36e56f0cc8bdfed7585de4b45d8f72c",
                 "MacAddress": "02:02:0a:01:02:01",
                 "IPv4Address": "10.1.2.1/24",
                 "IPv6Address": ""
             },
-						"ep-6c7d8c0b14ec6c2c9f52468faf50444e29c4b1fa61753b75c00f033564814515": {
-                "Name": "contiv-blue-c1",
-                "EndpointID": "c974b747f666d03a9eaab36d20e14f80117328a3e720cba7d17fdf40a57eccf4",
+            "be63dbd230d6062a07ba63e0ec1af047d4a1181b4003b64a1e5b42ab019c1f43": {
+                "Name": "contiv-blue-c2",
+                "EndpointID": "3e4f4035386696187bc19894cc0fd8d730a97e59944a72c48d3a40f4ee210e00",
                 "MacAddress": "02:02:0a:01:02:02",
                 "IPv4Address": "10.1.2.2/24",
                 "IPv6Address": ""
@@ -490,25 +602,29 @@ vagrant@tutorial-node2:~$ docker network inspect contiv-net/blue
             "pkt-tag": "2",
             "tenant": "blue"
         },
-				"Labels": {}
+        "Labels": {}
     }
 ]
 
-vagrant@tutorial-node2:~$ docker exec -it contiv-blue-c3 /bin/sh
+[vagrant@contiv-node4 ~]$ docker exec -it contiv-blue-c3 /bin/sh
 / # ping contiv-blue-c1
-PING contiv-blue-c1 (10.1.2.2): 56 data bytes
-64 bytes from 10.1.2.2: seq=0 ttl=64 time=60.414 ms
+PING contiv-blue-c1 (10.1.2.1): 56 data bytes
+64 bytes from 10.1.2.1: seq=0 ttl=64 time=1.105 ms
+64 bytes from 10.1.2.1: seq=1 ttl=64 time=0.089 ms
+64 bytes from 10.1.2.1: seq=2 ttl=64 time=0.106 ms
 ^C
 --- contiv-blue-c1 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 60.414/60.414/60.414 ms
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.089/0.433/1.105 ms
 / # ping contiv-blue-c2
-PING contiv-blue-c2 (10.1.2.3): 56 data bytes
-64 bytes from 10.1.2.3: seq=0 ttl=64 time=1.637 ms
+PING contiv-blue-c2 (10.1.2.2): 56 data bytes
+64 bytes from 10.1.2.2: seq=0 ttl=64 time=2.478 ms
+64 bytes from 10.1.2.2: seq=1 ttl=64 time=1.054 ms
+64 bytes from 10.1.2.2: seq=2 ttl=64 time=0.895 ms
 ^C
 --- contiv-blue-c2 ping statistics ---
-1 packets transmitted, 1 packets received, 0% packet loss
-round-trip min/avg/max = 1.637/1.637/1.637 ms
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.895/1.475/2.478 ms
 
 / # exit
 ```
@@ -523,43 +639,43 @@ Docker uses the linux bridge (docker_gwbridge) based PNAT to reach out and port 
 for others to reach to the container
 
 ```
-vagrant@tutorial-node1:~$ docker exec -it contiv-c1 /bin/sh
+[vagrant@contiv-node4 ~]$ docker exec -it contiv-c1 /bin/sh
 / # ifconfig -a
-eth0      Link encap:Ethernet  HWaddr 02:02:0A:01:02:03  
-          inet addr:10.1.2.3  Bcast:0.0.0.0  Mask:255.255.255.0
-          inet6 addr: fe80::2:aff:fe01:203%32627/64 Scope:Link
+eth0      Link encap:Ethernet  HWaddr 02:02:0A:01:02:01
+          inet addr:10.1.2.1  Bcast:0.0.0.0  Mask:255.255.255.0
+          inet6 addr: fe80::2:aff:fe01:201/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1450  Metric:1
           RX packets:19 errors:0 dropped:0 overruns:0 frame:0
           TX packets:11 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
+          collisions:0 txqueuelen:0
           RX bytes:1534 (1.4 KiB)  TX bytes:886 (886.0 B)
 
-eth1      Link encap:Ethernet  HWaddr 02:42:AC:12:00:04  
-          inet addr:172.18.0.4  Bcast:0.0.0.0  Mask:255.255.0.0
-          inet6 addr: fe80::42:acff:fe12:4%32627/64 Scope:Link
+eth1      Link encap:Ethernet  HWaddr 02:42:AC:12:00:02
+          inet addr:172.18.0.2  Bcast:0.0.0.0  Mask:255.255.0.0
+          inet6 addr: fe80::42:acff:fe12:2/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:32 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:27 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
-          RX bytes:5584 (5.4 KiB)  TX bytes:3344 (3.2 KiB)
+          RX packets:31 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:2466 (2.4 KiB)  TX bytes:648 (648.0 B)
 
-lo        Link encap:Local Loopback  
+lo        Link encap:Local Loopback
           inet addr:127.0.0.1  Mask:255.0.0.0
-          inet6 addr: ::1%32627/128 Scope:Host
+          inet6 addr: ::1/128 Scope:Host
           UP LOOPBACK RUNNING  MTU:65536  Metric:1
           RX packets:0 errors:0 dropped:0 overruns:0 frame:0
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
+          collisions:0 txqueuelen:1
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
 / # ping contiv.com
-PING contiv.com (216.239.34.21): 56 data bytes
-64 bytes from 216.239.34.21: seq=0 ttl=61 time=35.941 ms
-64 bytes from 216.239.34.21: seq=1 ttl=61 time=38.980 ms
+PING contiv.com (216.239.32.21): 56 data bytes
+64 bytes from 216.239.32.21: seq=0 ttl=61 time=33.051 ms
+64 bytes from 216.239.32.21: seq=1 ttl=61 time=41.745 ms
 ^C
 --- contiv.com ping statistics ---
 2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 35.941/37.460/38.980 ms
+round-trip min/avg/max = 33.051/37.398/41.745 ms
 
 / # exit
 ```
@@ -572,34 +688,37 @@ resolv.conf as a default way to resolve non container IP resolution.
 
 Similarly outside traffic can be exposed on specific ports using `-p` command. Before
 we do that, let us confirm that port 9099 is not reachable from the host
-`tutorial-node1`. To install `nc` netcat utility please run `sudo yum -y install nc` on node1
+`contiv-node3`. To install `nc` netcat utility please run `sudo yum -y install nc and sudo yum install tcpdump` on contiv-node3
 
 ```
 # Install nc utility
 
-vagrant@tutorial-node1:~$ sudo yum -y install nc
+[vagrant@contiv-node3 ~]$ sudo yum -y install nc
 < some yum install output >
 Complete!
 
-vagrant@tutorial-node1:~$ nc -vw 1 localhost 9099
+[vagrant@contiv-node3 ~]$ sudo yum install tcpdump
+< some yum install output >
+Complete!
+
+[vagrant@contiv-node3 ~]$ nc -vw 1 localhost 9099
 Ncat: Version 6.40 ( http://nmap.org/ncat )
-Ncat: Connection to ::1 failed: Connection refused.
-Ncat: Trying next address...
 Ncat: Connection refused.
 ```
 
 Now we start a container that exposes tcp port 9099 out in the host.
 
 ```
-vagrant@tutorial-node1:~$ docker run -itd -p 9099:9099 --name=contiv-exposed --net=contiv-net alpine /bin/sh
+[vagrant@contiv-node3 ~]$ docker run -itd -p 9099:9099 --name=contiv-exposed --net=contiv-net alpine /bin/sh
+a36a8c3eda6675582d9c3f77b30dd50d8d9592bf20919f57d7b4e70ed8d8ff49
 ```
 
 And if we re-run our `nc` utility, we'll see that 9099 is reachable.
 
 ```
-vagrant@tutorial-node1:~$ nc -vw 1 localhost 9099
+[vagrant@contiv-node3 ~]$ nc -vw 1 localhost 9099
 Ncat: Version 6.40 ( http://nmap.org/ncat )
-Ncat: Connected to ::1:9099.
+Ncat: Connected to 127.0.0.1:9099.
 ^C
 ```
 
@@ -608,35 +727,33 @@ the port to allow rest of the network to access the container on the specified/e
 port. The nat rules on the host can be seen by:
 
 ```
-vagrant@tutorial-node1:~$ sudo iptables -t nat -L -n
+[vagrant@contiv-node3 ~]$ sudo iptables -t nat -L -n
 Chain PREROUTING (policy ACCEPT)
-target     prot opt source               destination         
+target     prot opt source               destination
 CONTIV-NODEPORT  all  --  0.0.0.0/0            0.0.0.0/0            ADDRTYPE match dst-type LOCAL
 DOCKER     all  --  0.0.0.0/0            0.0.0.0/0            ADDRTYPE match dst-type LOCAL
 
 Chain INPUT (policy ACCEPT)
-target     prot opt source               destination         
+target     prot opt source               destination
 
 Chain OUTPUT (policy ACCEPT)
-target     prot opt source               destination         
+target     prot opt source               destination
 DOCKER     all  --  0.0.0.0/0           !127.0.0.0/8          ADDRTYPE match dst-type LOCAL
 
 Chain POSTROUTING (policy ACCEPT)
-target     prot opt source               destination         
-MASQUERADE  all  --  172.18.0.0/16        0.0.0.0/0           
-MASQUERADE  all  --  172.17.0.0/16        0.0.0.0/0           
-MASQUERADE  all  --  172.20.0.0/16        0.0.0.0/0           
-MASQUERADE  tcp  --  172.17.0.3           172.17.0.3           tcp dpt:2375
+target     prot opt source               destination
+MASQUERADE  all  --  172.18.0.0/16        0.0.0.0/0
+MASQUERADE  all  --  172.17.0.0/16        0.0.0.0/0
+MASQUERADE  all  --  172.19.0.0/16        0.0.0.0/0
 MASQUERADE  tcp  --  172.18.0.4           172.18.0.4           tcp dpt:9099
 
 Chain CONTIV-NODEPORT (1 references)
-target     prot opt source               destination         
+target     prot opt source               destination
 
 Chain DOCKER (2 references)
-target     prot opt source               destination         
-RETURN     all  --  0.0.0.0/0            0.0.0.0/0           
-RETURN     all  --  0.0.0.0/0            0.0.0.0/0           
-DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:2375 to:172.17.0.3:2375
+target     prot opt source               destination
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0
 DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:9099 to:172.18.0.4:9099
 ```
 
@@ -646,7 +763,7 @@ Remote drivers, like Contiv, can provide an easy way to connect to external
 layer2 or layer3 networks using BGP or standard L2 access into the network.
 
 Preferably using an BGP hand-off to the leaf/TOR, this can be done as in 
-[https://github.com/contiv/demo/blob/master/net/Bgp.md], which describes how
+[http://contiv.github.io/documents/networking/bgp.html], which describes how
 can you use BGP with Contiv to provide native container connectivity and 
 reachability to rest of the network. However for this tutorial, since we don't
 have a real or simulated BGP router, we'll use some very simple native L2
@@ -654,12 +771,13 @@ connectivity to describe the power of native connectivity. This is done
 using vlan network, for example
 
 ```
-vagrant@tutorial-node1:~$ netctl net create -p 112 -e vlan -s 10.1.3.0/24 contiv-vlan
-vagrant@tutorial-node1:~$ netctl net ls
-Tenant   Network         Nw Type  Encap type  Packet tag  Subnet       Gateway
-------   -------         -------  ----------  ----------  -------      ------
-default  contiv-net      data     vxlan       0           10.1.2.0/24  
-default  contiv-vlan     data     vlan        112         10.1.3.0/24  
+[vagrant@contiv-node3 ~]$ netctl net create -p 112 -e vlan -s 10.1.3.0/24 contiv-vlan
+Creating network default:contiv-vlan
+[vagrant@contiv-node3 ~]$ netctl net ls
+Tenant   Network      Nw Type  Encap type  Packet tag  Subnet       Gateway  IPv6Subnet  IPv6Gateway
+------   -------      -------  ----------  ----------  -------      ------   ----------  -----------
+default  contiv-vlan  data     vlan        112         10.1.3.0/24
+default  contiv-net   data     vxlan       0           10.1.2.0/24  
 ```
 
 The allocated vlan can be used to connect any workload in vlan 112 in the network infrastructure.
@@ -667,281 +785,91 @@ The interface that connects to the outside network needs to be specified during 
 start, for this VM configuration it is set as `eth2`
 
 Let's run some containers to belong to this network, one on each node. First one on 
-`tutorial-node1`
+`contiv-node3`
 
 ```
-vagrant@tutorial-node1:~$ docker run -itd --name=contiv-vlan-c1 --net=contiv-vlan alpine /bin/sh
-4bf58874c937e242b4fc2fd8bfd6896a7719fd10475af96e065a83a2e80e9e48
+[vagrant@contiv-node3 ~]$ docker run -itd --name=contiv-vlan-c1 --net=contiv-vlan alpine /bin/sh
+830e9ee01f2e7c64e51b10bc3990d03c6b5ec22d28985c3f49552ad93fc75d74
 ```
 
-And another one on `tutorial-node2`
+And another one on `contiv-node4`
 
 ```
-vagrant@tutorial-node2:~$ docker run -itd --name=contiv-vlan-c2 --net=contiv-vlan alpine /bin/sh
-1c463ecad8295b112a7556d1eaf35f1a8152c6b8cfcef1356d40a7b015ae9d02
+[vagrant@contiv-node4 ~]$ docker run -itd --name=contiv-vlan-c2 --net=contiv-vlan alpine /bin/sh
+a4fcd337342888520e0886d3f2cd304d78d1d8657ba868503b357dc6e5227476
 
-vagrant@tutorial-node2:~$ docker exec -it contiv-vlan-c2 /bin/sh
+[vagrant@contiv-node4 ~]$ docker exec -it contiv-vlan-c2 /bin/sh
 
 / # ping contiv-vlan-c1
-PING contiv-vlan-c1 (10.1.3.4): 56 data bytes
-64 bytes from 10.1.3.4: seq=0 ttl=64 time=2.431 ms
-64 bytes from 10.1.3.4: seq=1 ttl=64 time=1.080 ms
-64 bytes from 10.1.3.4: seq=2 ttl=64 time=1.022 ms
-64 bytes from 10.1.3.4: seq=3 ttl=64 time=1.048 ms
-64 bytes from 10.1.3.4: seq=4 ttl=64 time=1.119 ms
+PING contiv-vlan-c1 (10.1.3.1): 56 data bytes
+64 bytes from 10.1.3.1: seq=0 ttl=64 time=3.051 ms
+64 bytes from 10.1.3.1: seq=1 ttl=64 time=0.893 ms
+64 bytes from 10.1.3.1: seq=2 ttl=64 time=0.840 ms
+64 bytes from 10.1.3.1: seq=3 ttl=64 time=0.860 ms
+64 bytes from 10.1.3.1: seq=4 ttl=64 time=0.836 ms
 . . .
 ```
 
-While this is going on `tutorial-node2`, let's run tcpdump on eth2 on `tutorial-node1`
+While this is going on `contiv-node4`, let's run tcpdump on eth2 on `contiv-node3`
 and confirm how rx/tx packets look on it:
 
 ```
-vagrant@tutorial-node1:~$ sudo tcpdump -e -i eth2 icmp
+[vagrant@contiv-node3 ~]$ sudo tcpdump -e -i eth2 icmp
+tcpdump: WARNING: eth2: no IPv4 address assigned
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
-listening on eth2, link-type EN10MB (Ethernet), capture size 262144 bytes
-05:16:51.578066 02:02:0a:01:03:02 (oui Unknown) > 02:02:0a:01:03:04 (oui Unknown), ethertype 802.1Q (0x8100), length 102: vlan 112, p 0, ethertype IPv4, 10.1.3.2 > 10.1.3.4: ICMP echo request, id 2816, seq 294, length 64
-05:16:52.588159 02:02:0a:01:03:02 (oui Unknown) > 02:02:0a:01:03:04 (oui Unknown), ethertype 802.1Q (0x8100), length 102: vlan 112, p 0, ethertype IPv4, 10.1.3.2 > 10.1.3.4: ICMP echo request, id 2816, seq 295, length 64
-05:16:53.587408 02:02:0a:01:03:02 (oui Unknown) > 02:02:0a:01:03:04 (oui Unknown), ethertype 802.1Q (0x8100), length 102: vlan 112, p 0, ethertype IPv4, 10.1.3.2 > 10.1.3.4: ICMP echo request, id 2816, seq 296, length 64
-05:16:54.587550 02:02:0a:01:03:02 (oui Unknown) > 02:02:0a:01:03:04 (oui Unknown), ethertype 802.1Q (0x8100), length 102: vlan 112, p 0, ethertype IPv4, 10.1.3.2 > 10.1.3.4: ICMP echo request, id 2816, seq 297, length 64
-ç05:16:55.583786 02:02:0a:01:03:02 (oui Unknown) > 02:02:0a:01:03:04 (oui Unknown), ethertype 802.1Q (0x8100), length 102: vlan 112, p 0, ethertype IPv4, 10.1.3.2 > 10.1.3.4: ICMP echo request, id 2816, seq 298, length 64
+listening on eth2, link-type EN10MB (Ethernet), capture size 65535 bytes
+05:13:57.641958 02:02:0a:01:03:01 (oui Unknown) > 02:02:0a:01:03:02 (oui Unknown), ethertype 802.1Q (0x8100), length 102: vlan 112, p 0, ethertype IPv4, 10.1.3.1 > 10.1.3.2: ICMP echo reply, id 2560, seq 0, length 64
+05:13:58.642954 02:02:0a:01:03:01 (oui Unknown) > 02:02:0a:01:03:02 (oui Unknown), ethertype 802.1Q (0x8100), length 102: vlan 112, p 0, ethertype IPv4, 10.1.3.1 > 10.1.3.2: ICMP echo reply, id 2560, seq 1, length 64
+05:13:59.643342 02:02:0a:01:03:01 (oui Unknown) > 02:02:0a:01:03:02 (oui Unknown), ethertype 802.1Q (0x8100), length 102: vlan 112, p 0, ethertype IPv4, 10.1.3.1 > 10.1.3.2: ICMP echo reply, id 2560, seq 2, length 64
 ^C
-5 packets captured
+3 packets captured
+3 packets received by filter
+0 packets dropped by kernel
 ```
 
 Note: The vlan shown in tcpdump is same (i.e. `112`) as what we configured in the VLAN. After verifying this, feel free to stop the ping that is still running on 
 `contiv-vlan-c2` container.
 
-### Chapter 5: Applying policies between containers with Contiv
 
-Contiv provide a way to apply isolation policies between containers groups.
-For this, we create a simple policy called db-policy, and add some rules to which ports are allowed.
-
-Let's start with `tutorial-node1` and create the contiv-net if you start this chapter
-afresh i.e. after `vagrant up`
-
-```
-vagrant@tutorial-node1:~$ netctl net create --subnet=10.1.2.0/24 contiv-net
-```
-
-Next we create a policy called `db-policy` to be applied to all db containers.
-
-```
-vagrant@tutorial-node1:~$ netctl policy create db-policy
-INFO[0000] Creating policy default:db-policy
-vagrant@tutorial-node1:~$ netctl policy ls
-Tenant   Policy
-------   ------
-default  db-policy
-```
-
-Next we create some rules that are part of the policy:
-
-```
-vagrant@tutorial-node1:~$ netctl policy rule-add db-policy 1 -direction=in -protocol=tcp -action=deny
-vagrant@tutorial-node1:~$ netctl policy rule-add db-policy 2 -direction=in -protocol=tcp -port=8888 -action=allow -priority=10
-vagrant@tutorial-node1:~$ netctl policy rule-ls db-policy
-Incoming Rules:
-Rule  Priority  From EndpointGroup  From Network  From IpAddress  Protocol  Port  Action
-----  --------  ------------------  ------------  ---------       --------  ----  ------
-1     1                                                           tcp       0     deny
-2     10                                                          tcp       8888  allow
-Outgoing Rules:
-Rule  Priority  To EndpointGroup  To Network  To IpAddress  Protocol  Port  Action
-----  --------  ----------------  ----------  ---------     --------  ----  ------
-```
-
-Finally, we associate the policy with a group (a group is an arbitrary collection of 
-containers) and run some containers that belong to `db` group:
-
-```
-vagrant@tutorial-node1:~$ netctl group create contiv-net db-group -policy=db-policy
-[vagrant@tutorial-node1 ~]$ netctl group ls
-Tenant   Group     Network     Policies   Network profile
-------   -----     -------     --------   ---------------
-default  db-group  contiv-net  db-policy  
-
-vagrant@tutorial-node1:~$ docker run -itd --name=contiv-db --net=db-group alpine /bin/sh
-27eedc376ef43e5a5f3f4ede01635d447b1a0c313cca4c2a640ba4d5dea3573a
-```
-
-Now let's verify this policy; in order to do so, we'll start `netcat` utility to listen an
-arbitrary port within a container that belongs to `db` group. Then, from another container we
-would scan a range of ports and confirm that only the one permitted i.e. `port 8888` by 
-`db` policy is accessible towards db container
-
-```
-vagrant@tutorial-node1:~$ docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' contiv-db
-10.1.2.5
-
-vagrant@tutorial-node1:~$ docker exec -it contiv-db /bin/sh
-/ # nc -l 8888
-<awaiting connection>
-```
-
-Switch over to `tutorial-node2` window and run a web container and verify the policy. In doing so
-please make sure that you enter the IP address of the node discovered above, which in our case was `10.1.2.5`
-
-```
-vagrant@tutorial-node2:~$ docker run -itd --name=contiv-web --net=contiv-net alpine /bin/sh
-54108c756699071d527a567f9b5d266284aaf5299b888d75cd19ba1a40a1135a
-vagrant@tutorial-node2:~$ docker exec -it contiv-web /bin/sh
-
-/ # nc -nzvw 1 10.1.2.5 8890
-nc: 10.1.2.7 (10.1.2.5:8890): Operation timed out
-/ # nc -nzvw 1 10.1.2.5 8889
-nc: 10.1.2.7 (10.1.2.5:8889): Operation timed out
-/ # nc -nzvw 1 10.1.2.5 8888
-/ #
-```
-
-Note: The last scan on port `8888` using `nc -nzvw 1 10.1.2.5 8888` returned
-without any `Operation timed out` message, which means web tier application is able
-to reach the database application's TCP/IP stack.
-At this point you can add/delete rules to the policy dynamically.
-
-
-### Chapter 6: Running containers in a swarm cluster
-
-We can bring in swarm scheduler by redirecting our requests to an already provision
-swarm cluster. To do so, we can set `DOCKER_HOST` as follows:
-
-```
-vagrant@tutorial-node1:~$ export DOCKER_HOST=tcp://192.168.2.10:2375
-```
-
-Let's look at the status of various hosts using `docker info`:
-
-```
-vagrant@tutorial-node1:~$ docker info
-Containers: 16
-Images: 3
-Role: primary
-Strategy: spread
-Filters: health, port, dependency, affinity, constraint
-Nodes: 2
- tutorial-node1: 192.168.2.10:2385
-  └ Containers: 10
-  └ Reserved CPUs: 0 / 4
-  └ Reserved Memory: 0 B / 2.051 GiB
-  └ Labels: executiondriver=native-0.2, kernelversion=4.0.0-040000-generic, operatingsystem=Ubuntu 15.04, storagedriver=overlay
- tutorial-node2: 192.168.2.11:2385
-  └ Containers: 6
-  └ Reserved CPUs: 0 / 4
-  └ Reserved Memory: 0 B / 2.051 GiB
-  └ Labels: executiondriver=native-0.2, kernelversion=4.0.0-040000-generic, operatingsystem=Ubuntu 15.04, storagedriver=overlay
-CPUs: 8
-Total Memory: 4.103 GiB
-Name: tutorial-node1
-No Proxy: 192.168.2.10,192.168.2.11,127.0.0.1,localhost,netmaster
-```
-
-Above command would display the #nodes, #containers in the cluster, available cpu,
-memory and other relevant details.
-
-At this point if we run some containers, they will get schedule dynamically across 
-the cluster, which is two nodes `tutorial-node1` and `tutorial-node2` for us.
-To see the node on where the containers get scheduled, we can use `docker ps` command
-
-```
-vagrant@tutorial-node1:~$ docker run -itd --name=contiv-cluster-c1 --net=contiv-net alpine /bin/sh
-f8fa35c0aa0ecd692a31e3d5249f5c158bd18902926978265acb3b38a9ed1c0d
-vagrant@tutorial-node1:~$ docker run -itd --name=contiv-cluster-c2 --net=contiv-net alpine /bin/sh
-bfc750736007c307827ae5012755085ca6591f3ac3ac0b707d2befd00e5d1621
-```
-
-After running two containers, scheduler will schedule these containers using the
-scheduling algorithm `bin-packing` or `spread`, and if they are not placed on 
-different nodes, feel free to start more containers to see the distribution.
-
-```
-vagrant@tutorial-node1:~$ docker ps
-CONTAINER ID        IMAGE                          COMMAND             CREATED             STATUS                  PORTS                         NAMES
-bfc750736007        alpine                         "/bin/sh"           5 seconds ago       Up Less than a second                                 tutorial-node2/contiv-cluster-c2
-f8fa35c0aa0e        alpine                         "/bin/sh"           22 seconds ago      Up 16 seconds                                         tutorial-node2/contiv-cluster-c1
-54108c756699        alpine                         "/bin/sh"           14 minutes ago      Up 14 minutes                                         tutorial-node2/contiv-web
-27eedc376ef4        alpine                         "/bin/sh"           25 minutes ago      Up 25 minutes                                         tutorial-node1/contiv-db
-1c463ecad829        alpine                         "/bin/sh"           39 minutes ago      Up 39 minutes                                         tutorial-node2/contiv-vlan-c2
-4bf58874c937        alpine                         "/bin/sh"           40 minutes ago      Up 40 minutes                                         tutorial-node1/contiv-vlan-c1
-52bfcc02c362        alpine                         "/bin/sh"           About an hour ago   Up About an hour        192.168.2.10:9099->9099/tcp   tutorial-node1/contiv-exposed
-0fd07b44d042        alpine                         "/bin/sh"           About an hour ago   Up About an hour                                      tutorial-node2/contiv-blue-c3
-521abe19d6b5        alpine                         "/bin/sh"           About an hour ago   Up About an hour                                      tutorial-node2/contiv-blue-c2
-6c7d8c0b14ec        alpine                         "/bin/sh"           2 hours ago         Up 2 hours                                            tutorial-node1/contiv-blue-c1
-17afcd58b8fc        skynetservices/skydns:latest   "/skydns"           2 hours ago         Up 2 hours              53/tcp, 53/udp                tutorial-node1/bluedns
-26b9f22b9790        alpine                         "/bin/sh"           2 hours ago         Up 2 hours                                            tutorial-node2/contiv-c2
-46e619b0b418        alpine                         "/bin/sh"           2 hours ago         Up 2 hours                                            tutorial-node1/contiv-c1
-fb822eda9916        alpine                         "/bin/sh"           2 hours ago         Up 2 hours                                            tutorial-node1/overlay-c2
-0ab717006962        alpine                         "/bin/sh"           2 hours ago         Up 2 hours                                            tutorial-node1/overlay-c1
-2cf083c0a4de        alpine                         "/bin/sh"           2 hours ago         Up 2 hours                                            tutorial-node1/vanilla-c
-ab353464b4e2        skynetservices/skydns:latest   "/skydns"           2 hours ago         Up 2 hours              53/tcp, 53/udp                tutorial-node1/defaultdns
-```
-
-Let us conclude this section by checking the inter-container connectivity and external 
-connectivity for the containers scheduled across multiple hosts.
-
-```
-agrant@tutorial-node1:~$ docker exec -it contiv-cluster-c1 /bin/sh
-/ # 
-/ # 
-/ # 
-/ # ping contiv-cluster-c2
-PING contiv-cluster-c2 (10.1.2.7): 56 data bytes
-64 bytes from 10.1.2.7: seq=0 ttl=64 time=8.440 ms
-64 bytes from 10.1.2.7: seq=1 ttl=64 time=1.479 ms
-^C
---- contiv-cluster-c2 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 1.479/4.959/8.440 ms
-/ # ping contiv.com
-PING contiv.com (216.239.36.21): 56 data bytes
-64 bytes from 216.239.36.21: seq=0 ttl=61 time=43.537 ms
-64 bytes from 216.239.36.21: seq=1 ttl=61 time=38.867 ms
-^C
---- contiv.com ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 38.867/41.202/43.537 ms
-```
-
-#### Chapter 6: Docker Overlay multi-host networking
+### Chapter 5: Docker Overlay multi-host networking
 
 As we learned earlier that using the vxlan port conflict can prevent us from using
 Docker `overlay` network. For us to experiment with this, we'd go ahead
-and terminate `contiv` driver first on both nodes: `tutorial-node1` and
-`tutorial-node2`:
+and terminate `contiv` driver first on both nodes: `contiv-node3` and
+`contiv-node4`:
 
 ```
-[vagrant@tutorial-node2 ~]$ ps aux | grep "/opt/bin/netplugin"
-vagrant   4227  0.0  0.0 113124  1592 ?        Ss   10:51   0:00 bash -c sudo /opt/bin/netplugin -plugin-mode docker -vlan-if eth2 -cluster-store etcd://localhost:2379 > /tmp/netplugin.log 2>&1
-root      4238  0.0  0.1 193436  2784 ?        S    10:51   0:00 sudo /opt/bin/netplugin -plugin-mode docker -vlan-if eth2 -cluster-store etcd://localhost:2379
-root      4239  0.5  1.1 576804 21168 ?        Sl   10:51   3:02 /opt/bin/netplugin -plugin-mode docker -vlan-if eth2 -cluster-store etcd://localhost:2379
-vagrant  12966  0.0  0.0 112652   980 pts/2    R+   20:03   0:00 grep --color=auto /opt/bin/netplugin
-[vagrant@tutorial-node2 ~]$ sudo kill -9 4239
-[vagrant@tutorial-node2 ~]$ ps aux | grep "/opt/bin/netplugin"
-vagrant  12973  0.0  0.0 112648   980 pts/2    R+   20:03   0:00 grep --color=auto /opt/bin/netplugin
+[vagrant@contiv-node3 ~]$ sudo service netplugin stop
+Redirecting to /bin/systemctl stop  netplugin.service
 ```
 
-To try out overlay driver, we switch to `tutorial-node1` and create an overlay network first.
+To try out overlay driver, we switch to `contiv-node3` and create an overlay network first.
 
 ```
-vagrant@tutorial-node1:~$ docker network create -d=overlay --subnet=30.1.1.0/24 overlay-net
-22f79fe02239d3cbc2c8a4f7147f0e799dc13f3af6e46a69cc3adf8f299a7e56
+[vagrant@contiv-node3 ~]$ docker network create -d=overlay --subnet=30.1.1.0/24 overlay-net
+464aa012989d0736d277b5be55b7685ae42e36350fd3c8ae121721753edb497a
 
-vagrant@tutorial-node1:~$ docker network inspect overlay-net
+[vagrant@contiv-node3 ~]$ docker network inspect overlay-net
 [
     {
         "Name": "overlay-net",
-        "Id": "22f79fe02239d3cbc2c8a4f7147f0e799dc13f3af6e46a69cc3adf8f299a7e56",
+        "Id": "464aa012989d0736d277b5be55b7685ae42e36350fd3c8ae121721753edb497a",
         "Scope": "global",
         "Driver": "overlay",
+        "EnableIPv6": false,
         "IPAM": {
             "Driver": "default",
+            "Options": {},
             "Config": [
                 {
                     "Subnet": "30.1.1.0/24"
                 }
             ]
         },
+        "Internal": false,
         "Containers": {},
-        "Options": {}
+        "Options": {},
+        "Labels": {}
     }
 ]
 ```
@@ -951,48 +879,33 @@ on any of the available nodes by the scheduler. Note that we still have DOCKER_H
 to the swarm cluster.
 
 ```
-vagrant@tutorial-node1:~$ docker run -itd --name=overlay-c1 --net=overlay-net alpine /bin/sh
-2cc629162e533f49901df8e1ea47dc1d26076abe65ca34188ce56ba3feb65118
+[vagrant@contiv-node3 ~]$ docker run -itd --name=overlay-c1 --net=overlay-net alpine /bin/sh
+82079ffd25d45731d0e1e3691211c055977c4e44e5ce1e0bea2c95ab9881fb02
 
-vagrant@tutorial-node1:~$ docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' overlay-c1
+[vagrant@contiv-node3 ~]$ docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' overlay-c1
 30.1.1.2
 
-[vagrant@tutorial-node1 ~]$ docker run -itd --name=overlay-c2 --net=overlay-net alpine /bin/sh
-db1fb99d99abc53ad2403f538c8b7919b363bfd7beab0e137b3cef72a097c239
+[vagrant@contiv-node3 ~]$ docker run -itd --name=overlay-c2 --net=overlay-net alpine /bin/sh
+825a80fb54c4360e48dbe1057a9682273df2811028ec5876cf26124024f6a702
 
-[vagrant@tutorial-node1 ~]$ docker run -itd --name=overlay-c3 --net=overlay-net alpine /bin/sh
-29faca64211eb41efff5dc2d717d0c21006b450bbaa4f40819debd76e8a81f0e
+[vagrant@contiv-node3 ~]$ docker ps
+CONTAINER ID        IMAGE                            COMMAND                  CREATED              STATUS              PORTS               NAMES
+825a80fb54c4        alpine                           "/bin/sh"                38 seconds ago       Up 37 seconds                           contiv-node4/overlay-c2
+82079ffd25d4        alpine                           "/bin/sh"                About a minute ago   Up About a minute                       contiv-node4/overlay-c1
+cf720d2e5409        contiv/auth_proxy:1.0.0-beta.5   "./auth_proxy --tls-k"   3 hours ago          Up 3 hours                              contiv-node3/auth-proxy
+2d450e95bb3b        quay.io/coreos/etcd:v2.3.8       "/etcd"                  4 hours ago          Up 4 hours                              contiv-node4/etcd
+78c09b21c1fa        quay.io/coreos/etcd:v2.3.8       "/etcd"                  4 hours ago          Up 4 hours                              contiv-node3/etcd
 
-[vagrant@tutorial-node1 ~]$ docker ps
-CONTAINER ID        IMAGE                          COMMAND             CREATED             STATUS              PORTS                         NAMES
-29faca64211e        alpine                         "/bin/sh"           4 minutes ago       Up 4 minutes                                      tutorial-node2/overlay-c3
-db1fb99d99ab        alpine                         "/bin/sh"           43 minutes ago      Up 43 minutes                                     tutorial-node2/overlay-c2
-2cc629162e53        alpine                         "/bin/sh"           51 minutes ago      Up 51 minutes                                     tutorial-node2/overlay-c1
-27562283daee        alpine                         "/bin/sh"           About an hour ago   Up About an hour                                  tutorial-node2/contiv-cluster-c2
-7ef719672f74        alpine                         "/bin/sh"           About an hour ago   Up About an hour                                  tutorial-node2/contiv-cluster-c1
-75f32a4ca91a        alpine                         "/bin/sh"           About an hour ago   Up About an hour                                  tutorial-node2/contiv-web
-47da958fa310        alpine                         "/bin/sh"           About an hour ago   Up About an hour                                  tutorial-node1/contiv-db
-9dbafcbfabe5        alpine                         "/bin/sh"           About an hour ago   Up About an hour                                  tutorial-node2/contiv-vlan-c2
-c011a269cc34        alpine                         "/bin/sh"           About an hour ago   Up About an hour                                  tutorial-node1/contiv-vlan-c1
-244181b3c52d        alpine                         "/bin/sh"           About an hour ago   Up About an hour    192.168.2.10:9099->9099/tcp   tutorial-node1/contiv-exposed
-3b8ec5f2a677        alpine                         "/bin/sh"           About an hour ago   Up About an hour                                  tutorial-node2/contiv-blue-c3
-d05ea4cae931        alpine                         "/bin/sh"           About an hour ago   Up About an hour                                  tutorial-node2/contiv-blue-c2
-2fa04bec0b73        alpine                         "/bin/sh"           About an hour ago   Up About an hour                                  tutorial-node1/contiv-blue-c1
-f2e3adbf62e1        skynetservices/skydns:latest   "/skydns"           About an hour ago   Up About an hour    53/tcp, 53/udp                tutorial-node1/bluedns
-17fc681fc3f7        alpine                         "/bin/sh"           2 hours ago         Up 2 hours                                        tutorial-node1/contiv-c1
-39d6c7fa3848        alpine                         "/bin/sh"           2 hours ago         Up 2 hours                                        tutorial-node1/vanilla-c
-e8afe4a2d051        alpine                         "/bin/sh"           2 hours ago         Up 2 hours                                        tutorial-node2/contiv-c2
-5999ee4484bf        skynetservices/skydns:latest   "/skydns"           2 days ago          Up 2 days           53/tcp, 53/udp                tutorial-node1/defaultdns
-
-vagrant@tutorial-node2:~$ docker exec -it overlay-c2 /bin/sh
+[vagrant@contiv-node3 ~]$ docker exec -it overlay-c2 /bin/sh
 / # ping overlay-c1
-PING overlay-c1 (10.1.1.2): 56 data bytes
-64 bytes from 10.1.1.2: seq=0 ttl=64 time=0.066 ms
-64 bytes from 10.1.1.2: seq=1 ttl=64 time=0.092 ms
+PING overlay-c1 (30.1.1.2): 56 data bytes
+64 bytes from 30.1.1.2: seq=0 ttl=64 time=0.096 ms
+64 bytes from 30.1.1.2: seq=1 ttl=64 time=0.091 ms
+64 bytes from 30.1.1.2: seq=2 ttl=64 time=0.075 ms
 ^C
 --- overlay-c1 ping statistics ---
-2 packets transmitted, 2 packets received, 0% packet loss
-round-trip min/avg/max = 0.066/0.079/0.092 ms
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.075/0.087/0.096 ms
 
 / # exit
 ```
@@ -1005,11 +918,16 @@ across using a vxlan overlay.
 To cleanup the setup, after doing all the experiments, exit the VM destroy VMs:
 
 ```
-$ vagrant destroy -f
-==> tutorial-node2: Forcing shutdown of VM...
-==> tutorial-node2: Destroying VM and associated drives...
-==> tutorial-node1: Forcing shutdown of VM...
-==> tutorial-node1: Destroying VM and associated drives...
+[vagrant@contiv-node3 ~]$ exit
+
+$ cd .. (just to come out of cluster dir)
+$ make cluster-destroy
+cd cluster && vagrant destroy -f
+==> contiv-node4: Forcing shutdown of VM...
+==> contiv-node4: Destroying VM and associated drives...
+==> contiv-node3: Forcing shutdown of VM...
+==> contiv-node3: Destroying VM and associated drives...
+
 ```
 
 ### References
