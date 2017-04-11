@@ -6,3 +6,6 @@
 
 # Ignore bundler config
 /.bundle
+
+# Webstorm preference file
+.idea
