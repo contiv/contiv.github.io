@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Container Networking Tutorial">
+    <meta name="description" content="Contiv Policy Networking Tutorial">
 
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -232,10 +232,10 @@ GitHub</a></li>
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
 				
-	<h2>Contiv Policy Networking Tutorial</h2>
+	<h2>Advanced Contiv Tutorial</h2>
 <p><strong>Note</strong>:
 - Please make sure you have you have taken this tutorial before starting this one <a href="/documents/tutorials/container-101.html">Container Networking Tutorial</a></p>
-<p>This tutorial walks through different policy features of contiv container networking.</p>
+<p>This tutorial walks through advanced features of contiv container networking.</p>
 
 <h3>Prerequisites</h3>
 
@@ -602,6 +602,192 @@ On BContainer:
 / #
 
 You see that port 8001 is open and port 8000 is not open.
+
+</code></pre>
+
+<h3>Chapter 3 - Bandwidth Policy</h3>
+<p>In this chapter, we will explore bandwidth policy feature of contiv. 
+We will create tenant, network and groups. Then we will attach netprofile to one group
+and verify that applied bandwidth is working or not as expected in data path.</p>
+<p>So, let us create tenant, a network and group &quot;A&quot; under network.</p>
+<pre class="highlight plaintext"><code>[vagrant@contiv-node3 ~]$ netctl tenant create BandwidthTenant
+Creating tenant: BandwidthTenant
+[vagrant@contiv-node3 ~]$ netctl network create --tenant BandwidthTenant --subnet=50.1.1.0/24 --gateway=50.1.1.254 -p 1001 -e "vlan" BandwidthTestNet
+Creating network BandwidthTenant:BandwidthTestNet
+[vagrant@contiv-node3 ~]$ netctl group create -t BandwidthTenant BandwidthTestNet epgA
+Creating EndpointGroup BandwidthTenant:epgA
+[vagrant@contiv-node3 ~]$ netctl net ls -a
+Tenant           Network           Nw Type  Encap type  Packet tag  Subnet       Gateway     IPv6Subnet  IPv6Gateway
+------           -------           -------  ----------  ----------  -------      ------      ----------  -----------
+BandwidthTenant  BandwidthTestNet  data     vlan        1001        50.1.1.0/24  50.1.1.254
+[vagrant@contiv-node3 ~]$ netctl group ls -a
+Tenant           Group  Network           IP Pool   Policies  Network profile
+------           -----  -------           --------  ---------------
+BandwidthTenant  epgA   BandwidthTestNet
+
+</code></pre>
+<p>Now, We are going to run serverA and clientA containers using group epgA as a network.</p>
+<pre class="highlight plaintext"><code>[vagrant@contiv-node4 ~]$ export DOCKER_HOST=tcp://192.168.2.52:2375
+[vagrant@contiv-node4 ~]$ docker run -itd --net="epgA/BandwidthTenant" --name=serverA contiv/alpine sh
+6112c6697df2c43491a23e02d3d8bc3f621b91d59c64226382789ba15082c71b
+[vagrant@contiv-node4 ~]$ docker run -itd --net="epgA/BandwidthTenant" --name=clientA contiv/alpine sh
+c783d6c3f546d6053953bd664045aa35397756656247255a7e0cbb4201b5514c
+[vagrant@contiv-node4 ~]$ docker ps
+CONTAINER ID        IMAGE                            COMMAND                  CREATED             STATUS              PORTS               NAMES
+c783d6c3f546        contiv/alpine                    "sh"                     5 seconds ago       Up 3 seconds                            contiv-node4/clientA
+6112c6697df2        contiv/alpine                    "sh"                     7 seconds ago       Up 5 seconds                            contiv-node4/serverA
+b6e0601d8c13        contiv/auth_proxy:1.0.0-beta.6   "./auth_proxy --tls-k"   4 minutes ago       Up 4 minutes                            contiv-node3/auth-proxy
+0c3cb365e573        quay.io/coreos/etcd:v2.3.8       "/etcd"                  7 minutes ago       Up 7 minutes                            contiv-node4/etcd
+a9536ad281be        quay.io/coreos/etcd:v2.3.8       "/etcd"                  8 minutes ago       Up 8 minutes                            contiv-node3/etcd
+
+</code></pre>
+<p>Now run iperf server and client to find out current bandwidth which we are getting on the network
+where you are running this tutorial. It may vary depending upon base OS , network speed etc.</p>
+<pre class="highlight plaintext"><code>On serverA:
+
+[vagrant@contiv-node3 ~]$ docker exec -it serverA sh
+/ # ifconfig
+eth0      Link encap:Ethernet  HWaddr 02:02:32:01:01:01
+          inet addr:50.1.1.1  Bcast:0.0.0.0  Mask:255.255.255.0
+          inet6 addr: fe80::2:32ff:fe01:101%32741/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1450  Metric:1
+          RX packets:16 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:1296 (1.2 KiB)  TX bytes:648 (648.0 B)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1%32741/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+/ # iperf -s -u
+------------------------------------------------------------
+Server listening on UDP port 5001
+Receiving 1470 byte datagrams
+UDP buffer size:  208 KByte (default)
+------------------------------------------------------------
+[  3] local 50.1.1.1 port 5001 connected with 50.1.1.2 port 34700
+[ ID] Interval       Transfer     Bandwidth        Jitter   Lost/Total Datagrams
+[  3]  0.0-10.0 sec  1.25 MBytes  1.05 Mbits/sec   0.028 ms    0/  893 (0%)
+
+
+On clientA:
+
+[vagrant@contiv-node4 ~]$ docker exec -it clientA sh
+/ # iperf -c 50.1.1.1 -u
+------------------------------------------------------------
+Client connecting to 50.1.1.1, UDP port 5001
+Sending 1470 byte datagrams
+UDP buffer size:  208 KByte (default)
+------------------------------------------------------------
+[  3] local 50.1.1.2 port 34700 connected with 50.1.1.1 port 5001
+[ ID] Interval       Transfer     Bandwidth
+[  3]  0.0-10.0 sec  1.25 MBytes  1.05 Mbits/sec
+[  3] Sent 893 datagrams
+[  3] Server Report:
+[  3]  0.0-10.0 sec  1.25 MBytes  1.05 Mbits/sec   0.027 ms    0/  893 (0%)
+/ #
+
+</code></pre>
+<p>Now we see that, current bandwidth we are getting is 1.05 Mbits/sec.
+So let us create new group B and create netprofile with bandwidth less than the one 
+we got above. So let us create netprofile with bandwidth of 500Kbits/sec.</p>
+<pre class="highlight plaintext"><code>
+[vagrant@contiv-node3 ~]$ netctl netprofile create -t BandwidthTenant -b 500Kbps -d 6 -s 80 testProfile
+Creating netprofile BandwidthTenant:testProfile
+[vagrant@contiv-node3 ~]$ netctl group create -t BandwidthTenant -n testProfile BandwidthTestNet epgB
+Creating EndpointGroup BandwidthTenant:epgB
+[vagrant@contiv-node3 ~]$ netctl netprofile ls -a
+Name         Tenant           Bandwidth  DSCP      burst size
+------       ------           ---------  --------  ----------
+testProfile  BandwidthTenant  500Kbps    6         80
+[vagrant@contiv-node3 ~]$ netctl group ls -a
+Tenant           Group  Network           IP Pool   Policies  Network profile
+------           -----  -------           --------  ---------------
+BandwidthTenant  epgA   BandwidthTestNet
+BandwidthTenant  epgB   BandwidthTestNet              testProfile
+[vagrant@contiv-node3 ~]$
+
+
+</code></pre>
+<p>Running clientB and serverB containers:</p>
+<pre class="highlight plaintext"><code>
+[vagrant@contiv-node3 ~]$ docker run -itd --net="epgB/BandwidthTenant" --name=serverB contiv/alpine sh
+2f4845ed86c5496537ccece77683354e447c28df8f00c10a1a175eb5f44aee76
+[vagrant@contiv-node3 ~]$ docker run -itd --net="epgB/BandwidthTenant" --name=clientB contiv/alpine sh
+00dde4f46c360e517695e44f2690590ec0af26e125254102147fe79b76331339
+[vagrant@contiv-node3 ~]$ docker ps
+CONTAINER ID        IMAGE                            COMMAND                  CREATED             STATUS              PORTS               NAMES
+00dde4f46c36        contiv/alpine                    "sh"                     2 seconds ago       Up 1 seconds                            contiv-node4/clientB
+2f4845ed86c5        contiv/alpine                    "sh"                     4 seconds ago       Up 3 seconds                            contiv-node3/serverB
+c783d6c3f546        contiv/alpine                    "sh"                     12 minutes ago      Up 12 minutes                           contiv-node4/clientA
+6112c6697df2        contiv/alpine                    "sh"                     12 minutes ago      Up 12 minutes                           contiv-node4/serverA
+b6e0601d8c13        contiv/auth_proxy:1.0.0-beta.6   "./auth_proxy --tls-k"   17 minutes ago      Up 17 minutes                           contiv-node3/auth-proxy
+0c3cb365e573        quay.io/coreos/etcd:v2.3.8       "/etcd"                  20 minutes ago      Up 20 minutes                           contiv-node4/etcd
+a9536ad281be        quay.io/coreos/etcd:v2.3.8       "/etcd"                  20 minutes ago      Up 20 minutes                           contiv-node3/etcd
+[vagrant@contiv-node3 ~]$
+
+
+</code></pre>
+<p>Now as we are running clientB and serverB containers on group B network. we should see bandwidth around
+500Kbps. Thats the verification that our bandwidth netprofile is working as per expectation.</p>
+<pre class="highlight plaintext"><code>
+On serverB:
+
+[vagrant@contiv-node3 ~]$ docker exec -it serverB sh
+/ # ifconfig
+eth0      Link encap:Ethernet  HWaddr 02:02:32:01:01:03
+          inet addr:50.1.1.3  Bcast:0.0.0.0  Mask:255.255.255.0
+          inet6 addr: fe80::2:32ff:fe01:103%32525/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1450  Metric:1
+          RX packets:16 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:1296 (1.2 KiB)  TX bytes:648 (648.0 B)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1%32525/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+/ # iperf -s -u
+------------------------------------------------------------
+Server listening on UDP port 5001
+Receiving 1470 byte datagrams
+UDP buffer size:  208 KByte (default)
+------------------------------------------------------------
+[  3] local 50.1.1.3 port 5001 connected with 50.1.1.4 port 57180
+[ ID] Interval       Transfer     Bandwidth        Jitter   Lost/Total Datagrams
+[  3]  0.0-10.3 sec   692 KBytes   552 Kbits/sec  15.720 ms  411/  893 (46%)
+
+
+On clientB:
+
+[vagrant@contiv-node3 ~]$ docker exec -it clientB sh
+/ # iperf -c 50.1.1.3 -u
+------------------------------------------------------------
+Client connecting to 50.1.1.3, UDP port 5001
+Sending 1470 byte datagrams
+UDP buffer size:  208 KByte (default)
+------------------------------------------------------------
+[  3] local 50.1.1.4 port 57180 connected with 50.1.1.3 port 5001
+[ ID] Interval       Transfer     Bandwidth
+[  3]  0.0-10.0 sec  1.25 MBytes  1.05 Mbits/sec
+[  3] Sent 893 datagrams
+[  3] Server Report:
+[  3]  0.0-10.3 sec   692 KBytes   552 Kbits/sec  15.720 ms  411/  893 (46%)
+
+
+As we see, clientB is getting roughly around 500Kbps bandwidth.
 
 </code></pre>
 
