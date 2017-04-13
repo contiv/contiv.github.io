@@ -9,6 +9,6 @@ description: |-
 # Tutorials
 
 - [Container Networking Tutorial](/documents/tutorials/container-101.html)
-- [Contiv Policy Networking Tutorial](/documents/tutorials/contiv-policy.html)
-- [Policies with Networking](/documents/tutorials/contiv-compose.html) [Deprecated]
+- [Contiv Policy Tutorial](/documents/tutorials/contiv-policy.html)
+- [Networking Policies with Compose **Deprecated**](/documents/tutorials/contiv-compose.html)
 - [Contiv and Cisco ACI](http://contiv.ciscolive.com/)

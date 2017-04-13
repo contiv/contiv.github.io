@@ -19,9 +19,9 @@ Information on getting started and using Contiv for Container networking:
 
 ### Reference 
 
-- [API](/documents/api/contiv.html)
+- [API](/documents/api/wip.html)
 - [CLI](/documents/reference/netctlcli.html)
-- [ContivModel Client](https://godoc.org/github.com/contiv/contivmodel/client)
+- [Go Client Library](https://godoc.org/github.com/contiv/contivmodel/client)
 
 ### Tutorials and Talks
 - [Tutorials](/documents/tutorials)
@@ -37,4 +37,4 @@ Some short but practical implementations to help you get started.
 ### Support
 Where to find help for the open source Contiv project.
 
-- <a href="https://contiv.herokuapp.com" target="_blank"> Log into the Contiv Slack channel.</a>
+- [Support](/documents/support)

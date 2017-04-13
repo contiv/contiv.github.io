@@ -14,13 +14,9 @@ Running the site locally is simple: run `cd websrc; make dev` then open up `http
 
 When you edit the Markdown source files, your changes will be available immediately.  Reload the page to see them.
 
-## Updating API Reference
+## Updating Client Library
 
-The [API Reference](http://contiv.github.io/documents/api/contiv.html) is generated as part of the [contivmodel](https://github.com/contiv/contivmodel) build process.  After you've made changes to `contivmodel`, built the code, and merged a PR there, simply copy `./spec/docs/contiv.html` from the `contivmodel` repo to `./websrc/source/documents/api/contiv.html` in this repo and run `make` to make it part of the static site.
-
-## Updating ContivModel Client
-
-ContivModel's client documentation is generated via GoDoc.  This is hosted on an external site and is automatically pulled in from Github.  You can trigger a manual refresh by going to the bottom of the [contivmodel client page](https://godoc.org/github.com/contiv/contivmodel/client) and clicking "Refresh Now".
+Go client library documentation is generated via GoDoc.  This is hosted on an external site and is automatically pulled in from Github.  You can trigger a manual refresh by going to the bottom of the [contivmodel client page](https://godoc.org/github.com/contiv/contivmodel/client) and clicking "Refresh Now".
 
 ## Submitting Changes
 
