@@ -12,7 +12,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <title>Physical network integration - Contiv</title>
 
-    <link href="/assets/stylesheets/application-d394f169.css" rel="stylesheet"/>
+    <link href="/assets/stylesheets/application-961be2ca.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
@@ -231,8 +231,7 @@ GitHub</a></li>
 		</div>  
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
-				
-	<h1>Contiv in ACI Mode</h1>
+					<h1>Contiv in ACI Mode</h1>
 <p>Contiv works with Cisco Application Centric Infrastructure (ACI) for policy enforcement and connectivity. At the same time, Contiv maintains a consistent interface with the container ecosystem. Contiv interacts with the APIC via an ACI gateway (ACI-GW) to create the objects and associations that enable containers to communicate according to the policy intent.</p>
 <p><img alt="ACI" src="/assets/images/aci-integration-69edd79c.png"/></p>
 
@@ -319,16 +318,17 @@ netctl group create -t MixedTenant -e ToConsume -e ToProvide -p app2db net1 app
 <p>You can now use Docker commands (or other orchestration tools) to create containers. If you are using Docker, use the <code>--net</code> option to specify the Docker network name that corresponds to the application tier (use <code>docker network ls | grep app</code> to find the network name that corresponds to <code>app</code> in the example). For Kubernetes, specify the tenant, network, and endpoint group using the <code>io.contiv.tenant</code>, <code>io.contiv.network</code>, and <code>io.contiv.net-group</code> labels respectively.</p>
 
 	<hr>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <p style="text-align: center"><font color="black">Copyright &copy; 2017 Cisco and/or its affiliates. All rights reserved.</font>
-        </p>
-      </div>
-    </div>
-  </div>   
 
 			</div>
 		</div>
 	</div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <hr>
+            <p style="text-align: center"><font color="black">Copyright &copy; 2017 Cisco and/or its affiliates. All rights reserved.</font>
+            </p>
+    </div>
 </div>

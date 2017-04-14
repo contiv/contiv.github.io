@@ -10,5 +10,10 @@
 
 - Interested in commercial support? Reach out [to us](mailto:contiv-support@external.cisco.com) and we can discuss your options.
 
-<hr>
-Copyright &copy; 2017 Cisco and/or its affiliates. All rights reserved.
+<div class="row">
+    <div class="col-md-10 col-md-offset-1" style="position:absolute; top:90%;">
+        <hr>
+            <p style="text-align: center"><font color="black">Copyright &copy; 2017 Cisco and/or its affiliates. All rights reserved.</font>
+            </p>
+    </div>
+</div>
