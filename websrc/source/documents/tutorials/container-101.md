@@ -24,7 +24,7 @@ Walks through container networking and concepts step by step. We will explore Co
 
 #### Step 1: Get contiv installer code from github.
 ```
-$ git clone git@github.com:contiv/install.git
+$ git clone https://github.com/contiv/install.git
 $ cd install
 ```
 

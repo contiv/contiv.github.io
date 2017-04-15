@@ -6,33 +6,42 @@ description: |-
   Getting Started
 ---
 
-# Policies with Networking
+## Networking Policies with Compose (**Deprecated**)
 
 This tutorial shows how to use a modified *libcompose* utility to apply network policies on a Docker application composition.
 
-**Note:** The demonstrations on this page use the Vagrant utility to set up a VM environment. This environment is for demonstrating automation and integration with Contiv and is not meant to be used in production.
+### Prerequisites 
+1. [Download Vagrant](https://www.vagrantup.com/downloads.html)
+2. [Download Virtualbox](https://www.virtualbox.org/wiki/Downloads)
+3. [Install git client](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+4. [Install docker for mac](https://docs.docker.com/docker-for-mac/install/)
 
-## Getting Started
-The following steps describe how to set up a demo application and apply policies to it.
+**Note**:
+- If you are using platform other than Mac, please install docker-engine, for that platform.
 
-### Prerequisites
-Before starting, install the following tools on your Linux or OS X machine:
 
-- Make
-- Git
+### Setup
 
-### 1. Start the Vagrant Environment
-Use the following commands to start a Contiv Vagrant setup.
-
+#### Step 1: Get contiv installer code from github.
 ```
-$ cd $HOME; mkdir -p deploy/src/github.com/contiv
-$ export GOPATH=$HOME/deploy
-$ cd deploy/src/github.com/contiv/
-$ git clone https://github.com/contiv/netplugin
-$ cd netplugin; make demo-swarm
+$ git clone git@github.com:contiv/install.git
+$ cd install
 ```
 
-### 2. Download the Software
+#### Step 2: Run installer to install contiv + Docker Swarm using Vagrant on VMs created on VirtualBox
+
+**Note**:
+- Please make sure that you are NOT connected to VPN here.
+
+```
+make demo-swarm
+```
+This will create two VMs on VirtualBox. Using ansible, all the required services and software for contiv, will get installed at this step.
+This might take some time (usually approx 15-20 mins) depending upon your internet connection.
+
+
+
+#### Step 3: Download the Software
 
 Get `libcompose` and log into a VM using the following commands:
 
@@ -44,7 +53,7 @@ $ cd $GOPATH/src/github.com/contiv/netplugin
 $ make ssh
 ```
 
-### 3. Compile the Software
+#### Step 4: Compile the Software
 While logged into the VM, do the following to compile *libcompose*:
 
 ```
@@ -55,7 +64,7 @@ $ sudo cp $GOPATH/src/github.com/docker/libcompose/bundles/libcompose-cli /usr/b
 ```
 **Note:** These commands work only on a Linux host. 
 
-### 4. Build or Get Container Images
+#### Step 5: Build or Get Container Images
 You can either build your own container images or download pre-built standard Docker images. 
 
 You need two images, the *web* image and the *database* or *DB* image.
@@ -91,7 +100,7 @@ $ docker tag jainvipin/redis redis
 ```
 **Note:** In the next step we'll use the command-line to create sample networks and policies. If you want to set up authentication and authorization, you can use contiv-ui instead.
 
-### 5. Build Networks and Create Policies
+### Build Networks and Create Policies
 To demo the policies, first create a network:
 
 ```
@@ -143,7 +152,7 @@ example_redis.dev.default [10.11.1.21] 6375 (?) : Connection timed out
 < ** back to linux prompt ** >
 ```
 
-### 6. Stop the Composition
+### Stop the Composition
 Stop the composition and associated policies with the following commands:
 
 ```

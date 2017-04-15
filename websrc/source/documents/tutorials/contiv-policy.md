@@ -7,7 +7,7 @@ description: |-
 ---
 
 
-## Advanced Contiv Tutorial
+## Contiv Policy Tutorial
 **Note**:
 - Please make sure you have you have taken this tutorial before starting this one [Container Networking Tutorial](/documents/tutorials/container-101.html)
 
@@ -27,7 +27,7 @@ This tutorial walks through advanced features of contiv container networking.
 
 #### Step 1: Get contiv installer code from github.
 ```
-$ git clone git@github.com:contiv/install.git
+$ git clone https://github.com/contiv/install.git
 $ cd install
 ```
 

@@ -19,7 +19,7 @@
     
   </head>
 
-  <body id="page-home" class=" page-home layout-">
+  <body id="page-home" class=" page-home layout-documents">
 
   <div class="navbar-jumbotron">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -83,17 +83,162 @@ GitHub</a></li>
 </aside>
 
 
-<h1>&nbsp;&nbsp;Contiv Support</h1>
+<div class="container">
+	<div class="row">
+		<div class="col-md-3 col-sm-3 col-xs-12">
+					<div class="docs-sidebar hidden-print affix-top" role="complementary">
+			<hr>
+			<h3>Release Notes</h3>
+			<ul class="nav">
+				<li>
+					<a href="/documents/releasenotes/beta.html">Beta</a>
+				</li>
+			</ul>
+			<hr>
+			<h3>Getting Started</h3>
+							<ul class="nav">
+							<li>
+								<a href="/documents/gettingStarted/">Intro</a>
+						    </li>
+							<li>
+								<a href="/documents/networking/features.html">Features</a>
+						    </li>
+						    <li>
+								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
+						    </li>
+								
+								<li>
+									<a href="https://github.com/contiv/install/blob/master/README.md">Installation</a>
+									</li>
+								</ul>
+									<hr>
+			<h3>Admin Guide</h3>
+			<ul class="nav">
+				<li>
+					<a href="/documents/admin/index.html">Intro</a>
+				</li>
+				<li>
+				    <a href="/documents/admin/createTenant.html">Managing Tenants</a>
+				</li>
+				<li>
+				    <a href="/documents/admin/manageUsers.html">Managing Users</a>
+			    </li>		
+			    <li>
+				    <a href="/documents/admin/manageAuthorizations.html">Managing Authorizations</a>
+			    </li>
+			    <li>
+				    <a href="/documents/admin/createNodes.html">Managing Nodes</a>
+			    </li>
+			     <li>
+				    <a href="/documents/admin/manageNetworks.html">Managing Networks</a>
+			    </li>
+			    <li>
+				    <a href="/documents/admin/manageLDAP.html">Managing LDAP</a>
+			    </li>
+			</ul>
+				</li>
+			</ul>
+			<hr>
+			<h3>User Guide</h3>
+						
+					<ul class="nav">
+						<li>
+								<a href="/documents/networking/policies.html">Policies</a>
+						</li>
+						<li>
+								<a href="/documents/networking/services.html">Service Loadbalancing</a>
+						</li>
+						<li>
+								<a class="hasChildren" href="/documents/networking/physical-networks.html">Physical Networks</a>
+								<ul class="nav">
+									<li>
+											<a href="/documents/networking/bgp.html">L3 Routed Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/l2-vlan.html">L2 Bridged Networks</a>
+									</li>
+									<li>
+											<a href="/documents/networking/aci_ug.html">Cisco ACI</a>
+									</li>
+								</ul>
+						</li>
+						<li>
+								<a href="/documents/networking/ipam.html">IPAM and Service Discovery</a>
+						</li>
+						<li>
+								<a href="/documents/networking/ipv6.html">IPv6</a>
+						</li>
+					</ul>
+				</li>
+				
+				
+			</ul>
+			<hr><p>
+			<h3>Tutorials and Talks</h3>
+				<ul class="nav">
+					<li>
+						<a href="/documents/tutorials/index.html">Tutorials</a>
+					</li>
+					<li>
+						<a href="/documents/demos/index.html">Demonstration Videos</a>
+					</li>
+					<li>
+						<a href="/documents/talks/index.html">Community Talks</a>
+					</li>
+				</ul>
+			<hr><p>
+			<h3>OpenShift</h3>
+				<ul class="nav">
+						<li>
+							<a href="/documents/openshift/index.html">Contiv and OpenShift</a>
+						</li>
+				</ul>
+			<hr><p>
+			<h3>Examples</h3>
+				<ul class="nav">
+						</li>
+						<li>
+							<a href="/documents/samples/mcast.html">Multicast Examples</a>
+						</li>
+				</ul>
+				<hr><p>
+			<h3>Community</h3>
+				<ul class="nav">
+						</li>
+						<li>
+							<a href="/documents/community/index.html">Contiv Community Examples </a>
+						</li>
+				</ul>
+			<hr><p>
+			<h3>Reference</h3>
+				<ul class="nav">
+					    <li>
+					    <a href="/documents/api/wip.html" target="_blank">API Reference</a>
+					    </li> 
+					    <li>
+					    <a href="/documents/reference/netctlcli.html" target="_blank">CLI Reference</a>
+					    </li> 
+						<li><a href="https://godoc.org/github.com/contiv/contivmodel/client" target="_blank">Go Client Library</a>
+						</li>
+						
+				</ul>
+			<hr><p>
+		</div>
+
+		</div>  
+		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
+			<div class="bs-docs-section">
+					<h1>&nbsp;&nbsp;Contiv Support</h1>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contiv wants your Container Networking project to be a success. There are many ways to reach out to us.</p>
 
 <ul>
 <li><p>For questions and inquiries, sign up for our <a href="https://contiv.herokuapp.com/">Slack channel</a> and you can ask the team questions in real-time.</p>
 </li>
-<li><p>To file a bug, log an issue in <a href="https://github.com/contiv">Github</a>.</p>
+<li><p>To file a bug or feature request, log an issue in appropriate repo on <a href="https://github.com/contiv">Github</a>.</p>
 </li>
 <li><p>For the latest on Contiv development, follow our <a href="http://blogs.cisco.com/tag/contiv">blog</a>.</p>
 </li>
-<li><p>Interested in commercial support? Reach out <a href="mailto:contiv-support@external.cisco.com">to us</a> and we can discuss your options.</p>
+<li><p>Interested in commercial support? Reach out <a href="mailto:contiv-support@external.cisco.com">to us</a> and we can discuss your options. Full support matrix is listed <a href="/documents/support/supportmatrix.html">here</a>.</p>
 </li>
 </ul>
 <div class="row">
@@ -102,3 +247,18 @@ GitHub</a></li>
 <p style="text-align: center"><font color="black">Copyright &copy; 2017 Cisco and/or its affiliates. All rights reserved.</font>
 </p></p>
 </div></div>
+	<hr>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <hr>
+            <p style="text-align: center"><font color="black">Copyright &copy; 2017 Cisco and/or its affiliates. All rights reserved.</font>
+            </p>
+    </div>
+</div>
