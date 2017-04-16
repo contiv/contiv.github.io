@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Video Demonstrations">
+    <meta name="description" content="">
 
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <title>Video Demonstrations - Contiv</title>
+    <title>Release Notes - Contiv</title>
 
     <link href="/assets/stylesheets/application-961be2ca.css" rel="stylesheet"/>
 
@@ -19,7 +19,7 @@
     
   </head>
 
-  <body id="page-Video Demonstrations" class=" page-Video Demonstrations layout-documents page-sub">
+  <body id="page-Release Notes" class=" page-Release Notes layout-documents page-sub">
 
   <div class="navbar-jumbotron">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -179,7 +179,7 @@ GitHub</a></li>
 					<li>
 						<a href="/documents/tutorials/index.html">Tutorials</a>
 					</li>
-					<li class="active">
+					<li>
 						<a href="/documents/demos/index.html">Demonstration Videos</a>
 					</li>
 					<li>
@@ -228,59 +228,67 @@ GitHub</a></li>
 		</div>  
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
-					<h1>Video Demonstrations</h1>
+					<h1>Release Notes for Contiv version 1.0.0</h1>
+<p>Welcome to the GA release of Contiv 1.0.0. Contiv offers the most powerful open source container networking available.</p>
 
-<h2>Introduction</h2>
+<h2>Features</h2>
+<p>This release includes:</p>
 
-<h3>Contiv Introduction and Demo</h3>
-<p>Introduction to Contiv by Kiran Kamity. (8 minutes)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/GwqHu5ZQu6U" frameborder="0" allowfullscreen></iframe></p>
+<ul>
+<li><a href="https://github.com/contiv/netplugin">Flexible Networking Support and Rich Policy Model</a>
 
-<h2>Cisco ACI</h2>
+<ul>
+<li>L2 (VLAN)
+</li>
+<li>L2 Overlay (VXLAN)
+</li>
+<li>L3 (experimental)
+</li>
+<li>ACI
+</li>
+</ul>
+</li>
+<li><a href="https://github.com/contiv/install">Installer</a> - Install Contiv on your existing Docker Swarm or Kubernetes 1.4+ system.
+</li>
+<li><a href="https://github.com/contiv/auth_proxy">Security Features</a> - Authorization and authentication available to system administrators.
+</li>
+<li><a href="https://github.com/contiv/contiv-ui">Contiv UI</a> - The first user interface available for administrators and users of Contiv.
+<img alt="ui" src="/assets/images/Dashboard-0bb74f3c.png"/>
+</li>
+</ul>
+<p>For information about contacting us and support, click <a href="/documents/support/">here</a>.</p>
 
-<h3>Contiv and Cisco ACI Demonstration</h3>
-<p>A Cisco Live demonstration of Contiv and ACI by Rohit Agarwalla. (28 minutes)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/dUXPkLyufVc" frameborder="0" allowfullscreen></iframe></p>
+<h2>Compatibility Matrix</h2>
+<p>Contiv can run on a variety of infrastructure, such as
+on-premise or cloud, and different flavors of Linux as host
+OS. This version of Contiv has been validated with following
+configuration options. See <a href="/documents/support/supportmatrix.html">support
+matrix</a> for more
+details.</p>
 
-<h3>Contiv and Cisco ACI with External Contracts (Docker Swarm)</h3>
-<p>A quick introduction to Contiv and Cisco ACI and a (silent) demonstration on setting up Contiv and ACI on Docker Swarm with existing external contracts. (6 minutes)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/AHH1ACCMrm0" frameborder="0" allowfullscreen></iframe></p>
+<h3>Container Platforms</h3>
+<p>Kubernetes 1.4, Docker Engine 1.12.x + Swarm 1.2.5, Docker UCP 1.1.6, OpenShift Origin 1.x/Enterprise 3.x, Docker UCP 2.1.x</p>
 
-<h3>Contiv and Cisco ACI with External Contracts (Kubernetes)</h3>
-<p>A quick introduction to Contiv and Cisco ACI and a (silent) demonstration on setting up Contiv and ACI on Kubernetes with existing external contracts. (4 minutes)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Eebq8KNo_XU" frameborder="0" allowfullscreen></iframe></p>
+<ul>
+<li>Docker UCP 2.1.x (Docker engine 17.03 in Swarm Mode) support using v2 plugin is in experimental stage
+</li>
+<li>OpenShift support is in experimental stage
+</li>
+</ul>
 
-<h2>Archive of Older Videos</h2>
-<p>These videos are from previous versions of Contiv and are now considered archive material.</p>
+<h3>Infrastructure Support</h3>
+<p>Bare Metal, vCenter VMs, AWS VMs</p>
 
-<h3>Getting Started</h3>
+<ul>
+<li>vCenter VMs require VM port group to be configured (see <a href="https://pubs.vmware.com/vsphere-65/index.jsp?topic=%2Fcom.vmware.vsphere.networking.doc%2FGUID-D5960C77-0D19-4669-A00C-B05D58A422F8.html">the VMWare documentation</a> for more details). For L2 or ACI mode, port group needs to be configured using VLAN trunking to allow Virtual Guest Tagging. For L3 mode, port group can be configured using no VLAN if using External VLAN Tagging or assign a VLAN in the Port Group for Virtual Switch Tagging.
+</li>
+<li>Supported networking configuration for AWS VMs is VXLAN mode only
+</li>
+</ul>
 
-<h4>Getting Started with Contiv Networking</h4>
-<iframe width="600" height="400" src="https://www.youtube.com/embed/KzansAxCBQE?list=PL2k86RlAekM_g6csRwSRQAWvln5SmgicN" frameborder="0" allowfullscreen>
-</iframe>
-<h4>Using Contiv with Docker Swarm</h4>
-<iframe width="600" height="400" src="https://www.youtube.com/embed/_nJRy88UG2Q?list=PL2k86RlAekM_g6csRwSRQAWvln5SmgicN" frameborder="0" allowfullscreen>
-</iframe>
-<h4>Policy Based Container Networking Using Contiv</h4>
-<iframe width="600" height="400" src="https://www.youtube.com/embed/FuvBal8Gp3c?list=PL2k86RlAekM_g6csRwSRQAWvln5SmgicN" frameborder="0" allowfullscreen>
-</iframe>
-<h4>Setting Up a Kubernetes Cluster for Contiv Networking</h4>
-<iframe width="600" height="400" src="https://www.youtube.com/embed/a-po7owZmw8" frameborder="0" allowfullscreen>
-</iframe>
-<h3>Networking</h3>
+<h3>Host OS</h3>
+<p>RHEL 7.x, CentOS 7.x</p>
 
-<h4>DockerCon ACI Demo</h4>
-<iframe width="600" height="400" src="https://www.youtube.com/embed/wTTLRhByqW0" frameborder="0" allowfullscreen>
-</iframe>
-<h4>Contiv L2 with Docker Demo</h4>
-<iframe width="600" height="400" src="https://www.youtube.com/embed/ogqMpesZMtE" frameborder="0" allowfullscreen>
-</iframe>
-<h4>Contiv Layer 3 Network Integration</h4>
-<iframe width="600" height="400" src="https://www.youtube.com/embed/FrA1szyp9jc" frameborder="0" allowfullscreen>
-</iframe>
-<h4>Contiv Bandwidth Policy Demonstration</h4>
-<iframe width="600" height="400" src="https://www.youtube.com/embed/25OZHQ_t3nY" frameborder="0" allowfullscreen>
-</iframe>
 	<hr>
 
 			</div>
