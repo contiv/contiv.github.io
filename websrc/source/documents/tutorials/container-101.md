@@ -39,6 +39,34 @@ make demo-swarm
 This will create two VMs on VirtualBox. Using ansible, all the required services and software for contiv, will get installed at this step.
 This might take some time (usually approx 15-20 mins) depending upon your internet connection.
 
+-- or --
+#### Step 2a: Create a vagrant VM cluster
+
+```
+make cluster
+```
+
+This will create two VMs on VirtualBox. It will also create a .cfg.yml config file that will be used in later steps. Also setup the following two config vars
+
+```
+cd cluster
+export SSH_KEY=$(vagrant ssh-config contiv-node3 | grep IdentityFile | awk '{print $2}' | xargs)
+export USER="vagrant"
+```
+
+#### Step 2b: Download contiv release bundle
+
+```
+wget https://github.com/contiv/install/releases/download/1.0.0/contiv-1.0.0.tgz
+tar -zxvf contiv-1.0.0.tgz
+```
+
+#### Step 2c: Use config file to install contiv
+```
+cd contiv-1.0.0
+./install/ansible/install_swarm.sh -f ../.cfg.yml -e ${SSH_KEY} -u ${USER} -i
+cd ..
+```
 
 #### Step 3: Check vagrant VM nodes.
 
@@ -47,7 +75,6 @@ This might take some time (usually approx 15-20 mins) depending upon your intern
 
 ```
 This command will show you list of VMs which we have created. 
-$ cd cluster
 $ vagrant status
 Current machine states:
 
@@ -69,6 +96,15 @@ Now you will be logged into one of the Vagrant VM.
 [vagrant@contiv-node3 ~]$ export DOCKER_HOST=tcp://192.168.2.52:2375 (IP address might change depending upon your setup. 
 You will see this at the end of installation in setp 2 above)
 
+```
+
+To run docker without sudo, add user to docker group, quit and ssh again.
+
+```
+[vagrant@contiv-node3 ~]$ sudo usermod -aG docker $USER
+```
+
+```
 [vagrant@contiv-node3 ~]$ docker info
 Containers: 6
  Running: 6
@@ -182,21 +218,22 @@ Mar 30 04:03:06 contiv-node3 netplugin[18810]: time="Mar 30 04:03:06.126356395" 
 Mar 30 04:03:51 contiv-node3 netplugin[18810]: time="Mar 30 04:03:51.114258889" level=info msg="Link up received for eth2"
 Mar 30 04:08:51 contiv-node3 netplugin[18810]: time="Mar 30 04:08:51.170318252" level=info msg="Link up received for eth2"
 Hint: Some lines were ellipsized, use -l to show in full.
+```
 
 `netctl` is a utility to create, update, read and modify contiv objects. It is a CLI wrapper
 on top of REST interface.
 
+```
 [vagrant@contiv-node3 ~]$ netctl version
 Client Version:
-Version: 1.0.0-beta.4
-GitCommit: fe95411
-BuildTime: 03-23-2017.18-47-57.UTC
+Version: 1.0.0
+GitCommit: 7290b65
+BuildTime: 04-15-2017.18-50-53.UTC
 
 Server Version:
-Version: 1.0.0-beta.4
-GitCommit: fe95411
-BuildTime: 03-23-2017.18-47-57.UTC
-
+Version: 1.0.0
+GitCommit: 7290b65
+BuildTime: 04-15-2017.18-50-53.UTC
 ```
 
 
