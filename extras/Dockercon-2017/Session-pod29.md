@@ -2,8 +2,17 @@
 ## Containers Networking Tutorial with Contiv
 This tutorial walks you through container networking and concepts step by step. We will also explore Contiv's networking features along with policies.
 
+### Lab Setup
 
-### Setup
+In this lab we are going to use two VMs which are hosted on Cisco's UCS servers. Those are running on ESX. Through vswitch those are connected to TOR switches.
+
+![Lab Setup](https://github.com/contiv/contiv.github.io/blob/master/extras/Dockercon-2017/Lab-Setup.png?raw=true)
+
+### Contiv Installation
+
+The Contiv Docker Swarm installer is launched from a host external to the cluster.  All the nodes must be accessible to the Contiv Ansible-based installer host through SSH.
+
+![installer](https://github.com/contiv/install/blob/master/installer.png?raw=true)
 
 **Note**:
 - Please make sure that you are logged on `Installer-Host` machine, and perform the following steps.
@@ -88,46 +97,10 @@ To verify docker swarm cluster, let us perform following steps.
 On pod29-srv1:
 
 [root@pod29-srv1 ~]# export DOCKER_HOST=tcp://pod29-srv1.ecatsrtpdmz.cisco.com:2375
-[root@pod29-srv1 ~]# 
-[root@pod29-srv1 ~]# cd ~
-[root@pod29-srv1 ~]# sed -i -e '$a export DOCKER_HOST=tcp://pod29-srv1.ecatsrtpdmz.cisco.com:2375' .bashrc
-[root@pod29-srv1 ~]# cat .bashrc
-# .bashrc
-
-# User specific aliases and functions
-
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
-
-# Source global definitions
-if [ -f /etc/bashrc ]; then
-        . /etc/bashrc
-fi
-export DOCKER_HOST=tcp://pod29-srv1.ecatsrtpdmz.cisco.com:2375
-[root@pod29-srv1 ~]# 
-
 
 On pod29-srv2:
 
 [root@pod29-srv2 ~]# export DOCKER_HOST=tcp://pod29-srv1.ecatsrtpdmz.cisco.com:2375
-[root@pod29-srv2 ~]# 
-[root@pod29-srv2 ~]# cd ~
-[root@pod29-srv2 ~]# sed -i -e '$a export DOCKER_HOST=tcp://pod29-srv1.ecatsrtpdmz.cisco.com:2375' .bashrc
-[root@pod29-srv2 ~]# cat .bashrc
-# .bashrc
-
-# User specific aliases and functions
-
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
-
-# Source global definitions
-if [ -f /etc/bashrc ]; then
-        . /etc/bashrc
-fi
-export DOCKER_HOST=tcp://pod29-srv1.ecatsrtpdmz.cisco.com:2375
 
 ```
 
@@ -331,7 +304,7 @@ that schedules regular docker containers e.g. Nomad or Mesos docker containerize
 Let's examine the networking a container gets upon vanilla run
 
 ```
-[root@pod29-srv1 ~]# [root@pod29-srv1 ~]# docker network ls
+[root@pod29-srv1 ~]# docker network ls
 NETWORK ID          NAME                                      DRIVER              SCOPE
 4c7a511c1131        pod29-srv1.ecatsrtpdmz.cisco.com/bridge   bridge              local               
 e8be04ef7ab7        pod29-srv1.ecatsrtpdmz.cisco.com/host     host                local               
@@ -551,8 +524,6 @@ blue
 ```
 
 After the tenant is created, we can create network within in tenant `blue` and run containers.
-Here we chose the same subnet and network name for it.
-the same subnet and same network name, that we used before
 
 ```
 [root@pod29-srv2 ~]# netctl net create -t blue --subnet=40.1.2.0/24 contiv-net 
