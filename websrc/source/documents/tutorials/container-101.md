@@ -96,6 +96,15 @@ Now you will be logged into one of the Vagrant VM.
 [vagrant@contiv-node3 ~]$ export DOCKER_HOST=tcp://192.168.2.52:2375 (IP address might change depending upon your setup. 
 You will see this at the end of installation in setp 2 above)
 
+```
+
+To run docker without sudo, add user to docker group, quit and ssh again.
+
+```
+[vagrant@contiv-node3 ~]$ sudo usermod -aG docker $USER
+```
+
+```
 [vagrant@contiv-node3 ~]$ docker info
 Containers: 6
  Running: 6
@@ -209,21 +218,22 @@ Mar 30 04:03:06 contiv-node3 netplugin[18810]: time="Mar 30 04:03:06.126356395" 
 Mar 30 04:03:51 contiv-node3 netplugin[18810]: time="Mar 30 04:03:51.114258889" level=info msg="Link up received for eth2"
 Mar 30 04:08:51 contiv-node3 netplugin[18810]: time="Mar 30 04:08:51.170318252" level=info msg="Link up received for eth2"
 Hint: Some lines were ellipsized, use -l to show in full.
+```
 
 `netctl` is a utility to create, update, read and modify contiv objects. It is a CLI wrapper
 on top of REST interface.
 
+```
 [vagrant@contiv-node3 ~]$ netctl version
 Client Version:
-Version: 1.0.0-beta.4
-GitCommit: fe95411
-BuildTime: 03-23-2017.18-47-57.UTC
+Version: 1.0.0
+GitCommit: 7290b65
+BuildTime: 04-15-2017.18-50-53.UTC
 
 Server Version:
-Version: 1.0.0-beta.4
-GitCommit: fe95411
-BuildTime: 03-23-2017.18-47-57.UTC
-
+Version: 1.0.0
+GitCommit: 7290b65
+BuildTime: 04-15-2017.18-50-53.UTC
 ```
 
 

@@ -43,6 +43,7 @@ This will create two VMs on VirtualBox. Using ansible, all the required services
 This might take some time (usually approx 15-20 mins) depending upon your internet connection.
 
 -- or --
+
 #### Step 2a: Create a vagrant VM cluster
 
 ```
@@ -100,6 +101,15 @@ Now you will be logged into one of the Vagrant VM.
 [vagrant@contiv-node3 ~]$ export DOCKER_HOST=tcp://192.168.2.52:2375 (IP address might change depending upon your setup. 
 You will see this at the end of installation in setp 2 above)
 
+```
+
+To run docker without sudo, add user to docker group, quit and ssh again.
+```
+[vagrant@contiv-node3 ~]$ sudo usermod -aG docker $USER
+```
+
+
+```
 [vagrant@contiv-node3 ~]$ docker info
 Containers: 6
  Running: 6
@@ -212,20 +222,22 @@ Apr 05 05:00:20 contiv-node3 netplugin[18715]: time="Apr  5 05:00:20.115436793" 
 Apr 05 05:01:05 contiv-node3 netplugin[18715]: time="Apr  5 05:01:05.103688615" level=info msg="Link up received for eth2"
 Apr 05 05:01:05 contiv-node3 netplugin[18715]: time="Apr  5 05:01:05.118184283" level=info msg="Link up received for eth2"
 Apr 05 05:01:50 contiv-node3 netplugin[18715]: time="Apr  5 05:01:50.111603433" level=info msg="Link up received for eth2"
+```
 
 `netctl` is a utility to create, update, read and modify contiv objects. It is a CLI wrapper
 on top of REST interface.
 
+```
 [vagrant@contiv-node3 ~]$ netctl version
 Client Version:
-Version: 1.0.0-beta.5
-GitCommit: 2b9a58f
-BuildTime: 03-30-2017.19-09-51.UTC
+Version: 1.0.0
+GitCommit: 7290b65
+BuildTime: 04-15-2017.18-50-53.UTC
 
 Server Version:
-Version: 1.0.0-beta.5
-GitCommit: 2b9a58f
-BuildTime: 03-30-2017.19-09-51.UTC
+Version: 1.0.0
+GitCommit: 7290b65
+BuildTime: 04-15-2017.18-50-53.UTC
 
 ```
 
