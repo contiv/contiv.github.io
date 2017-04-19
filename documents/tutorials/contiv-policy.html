@@ -234,208 +234,18 @@ GitHub</a></li>
 <p>This tutorial walks through advanced features of contiv container networking.</p>
 
 <h3>Prerequisites</h3>
-
-<ol>
-<li><a href="https://www.vagrantup.com/downloads.html">Download Vagrant</a>
-</li>
-<li><a href="https://www.virtualbox.org/wiki/Downloads">Download Virtualbox</a>
-</li>
-<li><a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">Install git client</a>
-</li>
-<li><a href="https://docs.docker.com/docker-for-mac/install/">Install docker for mac</a>
-</li>
-</ol>
-<p><strong>Note</strong>:
-- If you are using platform other than Mac, please install docker-engine, for that platform.</p>
+<p>See prerequisites section for <a href="/documents/tutorials/container-101.html">Container Networking Tutorial</a>.</p>
 
 <h3>Setup</h3>
-
-<h4>Step 1: Get contiv installer code from github.</h4>
-<pre class="highlight plaintext"><code>$ git clone https://github.com/contiv/install.git
-$ cd install
-</code></pre>
-
-<h4>Step 2: Run installer to install contiv + Docker Swarm using Vagrant on VMs created on VirtualBox</h4>
-<p><strong>Note</strong>:
-- Please make sure that you are NOT connected to VPN here.</p>
-<pre class="highlight plaintext"><code>make demo-swarm
-</code></pre>
-<p>This will create two VMs on VirtualBox. Using ansible, all the required services and software for contiv, will get installed at this step.
-This might take some time (usually approx 15-20 mins) depending upon your internet connection.</p>
-<p>-- or --</p>
-
-<h4>Step 2a: Create a vagrant VM cluster</h4>
-<pre class="highlight plaintext"><code>make cluster
-</code></pre>
-<p>This will create two VMs on VirtualBox. It will also create a .cfg.yml config file that will be used in later steps. Also setup the following two config vars</p>
-<pre class="highlight plaintext"><code>cd cluster
-export SSH_KEY=$(vagrant ssh-config contiv-node3 | grep IdentityFile | awk '{print $2}' | xargs)
-export USER="vagrant"
-</code></pre>
-
-<h4>Step 2b: Download contiv release bundle</h4>
-<pre class="highlight plaintext"><code>wget https://github.com/contiv/install/releases/download/1.0.0/contiv-1.0.0.tgz
-tar -zxvf contiv-1.0.0.tgz
-</code></pre>
-
-<h4>Step 2c: Use config file to install contiv</h4>
-<pre class="highlight plaintext"><code>cd contiv-1.0.0
-./install/ansible/install_swarm.sh -f ../.cfg.yml -e ${SSH_KEY} -u ${USER} -i
-cd ..
-</code></pre>
-
-<h4>Step 3: Check vagrant VM nodes</h4>
-<p><strong>Note</strong>:
-- On Windows, you will need a ssh client to be installed like putty, cygwin etc.</p>
-<pre class="highlight plaintext"><code>This command will show you list of VMs which we have created. 
-$ cd cluster
-$ vagrant status
-Current machine states:
-
-contiv-node3              running (virtualbox)
-contiv-node4              running (virtualbox)
-
-</code></pre>
-<p>The above command shows the node information, version, etc.</p>
-
-<h4>Step 4: Hello world Docker swarm.</h4>
-<p>As a part of this contiv installation, we install docker swarm for you. To verify docker swarm cluster, please execute
-following commands on Vagrant VMs.</p>
-<pre class="highlight plaintext"><code>$ cd cluster
-$ vagrant ssh contiv-node3
-Now you will be logged into one of the Vagrant VM.
-[vagrant@contiv-node3 ~]$ export DOCKER_HOST=tcp://192.168.2.52:2375 (IP address might change depending upon your setup. 
-You will see this at the end of installation in setp 2 above)
-
-</code></pre>
-<p>To run docker without sudo, add user to docker group, quit and ssh again.
-<code>
-[vagrant@contiv-node3 ~]$ sudo usermod -aG docker $USER
-</code></p>
-<pre class="highlight plaintext"><code>[vagrant@contiv-node3 ~]$ docker info
-Containers: 6
- Running: 6
- Paused: 0
- Stopped: 0
-Images: 5
-Server Version: swarm/1.2.5
-Role: primary
-Strategy: spread
-Filters: health, port, containerslots, dependency, affinity, constraint
-Nodes: 2
- contiv-node3: 192.168.2.52:2385
-  └ ID: VTEC:DKHT:6JQ3:3VTA:OIVJ:DTWY:USJ4:BWTV:RSDU:7SQS:KZLQ:ERQN
-  └ Status: Healthy
-  └ Containers: 4 (4 Running, 0 Paused, 0 Stopped)
-  └ Reserved CPUs: 0 / 1
-  └ Reserved Memory: 0 B / 1.018 GiB
-  └ Labels: kernelversion=3.10.0-514.6.2.el7.x86_64, operatingsystem=CentOS Linux 7 (Core), storagedriver=devicemapper
-  └ UpdatedAt: 2017-04-05T03:44:23Z
-  └ ServerVersion: 1.12.6
- contiv-node4: 192.168.2.53:2385
-  └ ID: DFY4:JOVY:RJOM:BEAT:6TW3:6H3V:3QVZ:DMNR:KXJF:LGSM:D67W:ZM2B
-  └ Status: Healthy
-  └ Containers: 2 (2 Running, 0 Paused, 0 Stopped)
-  └ Reserved CPUs: 0 / 1
-  └ Reserved Memory: 0 B / 1.018 GiB
-  └ Labels: kernelversion=3.10.0-514.6.2.el7.x86_64, operatingsystem=CentOS Linux 7 (Core), storagedriver=devicemapper
-  └ UpdatedAt: 2017-04-05T03:44:22Z
-  └ ServerVersion: 1.12.6
-Plugins:
- Volume:
- Network:
-Swarm:
- NodeID:
- Is Manager: false
- Node Address:
-Security Options:
-Kernel Version: 3.10.0-514.6.2.el7.x86_64
-Operating System: linux
-Architecture: amd64
-CPUs: 2
-Total Memory: 2.036 GiB
-Name: contiv-node3
-Docker Root Dir:
-Debug Mode (client): false
-Debug Mode (server): false
-WARNING: No kernel memory limit support
-
-</code></pre>
-<p>Docker swarm with 2 nodes is running successfully.</p>
-<p>Scheduler schedules these containers using the
-scheduling algorithm <code>bin-packing</code> or <code>spread</code>, and if they are not placed on 
-different nodes, feel free to start more containers to see the distribution.</p>
-
-<h4>Step 5: Check contiv and related services.</h4>
-<p><code>etcdctl</code> is a control utility to manipulate etcd, state store used by kubernetes/docker/contiv</p>
-<p>To check etcd cluster health</p>
-<pre class="highlight plaintext"><code>[vagrant@contiv-node3 ~]$ etcdctl cluster-health
-member 6fa216d588021d73 is healthy: got healthy result from http://192.168.2.52:2379
-cluster is healthy
-</code></pre>
-<p>To check netplugin and netmaster is running successfully.</p>
-<pre class="highlight plaintext"><code>[vagrant@contiv-node3 ~]$ sudo service netmaster status
-Redirecting to /bin/systemctl status  netmaster.service
-● netmaster.service - Netmaster
-   Loaded: loaded (/etc/systemd/system/netmaster.service; enabled; vendor preset: disabled)
-   Active: active (running) since Wed 2017-04-05 03:38:13 UTC; 1h 24min ago
- Main PID: 19303 (netmaster)
-   CGroup: /system.slice/netmaster.service
-           └─19303 /usr/bin/netmaster --cluster-mode docker -cluster-store etcd://192.168.2.52:2379
-
-Apr 05 03:39:24 contiv-node3 netmaster[19303]: "
-Apr 05 03:39:24 contiv-node3 netmaster[19303]: time="Apr  5 03:39:24.553096492" level=info msg="Registered node: &amp;{HostAddr:192.168.2.53 HostPort:9003}"
-Apr 05 03:39:24 contiv-node3 netmaster[19303]: time="Apr  5 03:39:24.655632431" level=info msg="Connecting to RPC server: 192.168.2.53:9002"
-Apr 05 03:39:24 contiv-node3 netmaster[19303]: time="Apr  5 03:39:24.657559108" level=info msg="Connected to RPC server: 192.168.2.53:9002"
-Apr 05 03:39:24 contiv-node3 netmaster[19303]: time="Apr  5 03:39:24.686351579" level=info msg="Registered node: &amp;{HostAddr:192.168.2.53 HostPort:9002}"
-Apr 05 03:39:25 contiv-node3 netmaster[19303]: time="Apr  5 03:39:25.055993278" level=info msg="Registered node: &amp;{HostAddr:192.168.2.53 HostPort:9003}"
-Apr 05 03:39:25 contiv-node3 netmaster[19303]: time="Apr  5 03:39:25.057403945" level=info msg="Registered node: &amp;{HostAddr:192.168.2.53 HostPort:9002}"
-Apr 05 03:39:26 contiv-node3 netmaster[19303]: time="Apr  5 03:39:26.982569554" level=info msg="Registered node: &amp;{HostAddr:192.168.2.53 HostPort:9003}"
-Apr 05 03:39:26 contiv-node3 netmaster[19303]: time="Apr  5 03:39:26.985850619" level=info msg="Registered node: &amp;{HostAddr:192.168.2.53 HostPort:9002}"
-Apr 05 03:39:47 contiv-node3 netmaster[19303]: time="Apr  5 03:39:47.370439060" level=info msg="Received EndpointUpdateRequest {{IPAddress: ContainerID: Labels:map[] Tenant: ...mmonName:}}"
-Hint: Some lines were ellipsized, use -l to show in full.
-
-
-[vagrant@contiv-node3 ~]$ sudo service netplugin status
-Redirecting to /bin/systemctl status  netplugin.service
-● netplugin.service - Netplugin
-   Loaded: loaded (/etc/systemd/system/netplugin.service; enabled; vendor preset: disabled)
-   Active: active (running) since Wed 2017-04-05 03:38:06 UTC; 1h 24min ago
- Main PID: 18715 (netplugin)
-   CGroup: /system.slice/netplugin.service
-           └─18715 /usr/bin/netplugin -plugin-mode docker -vlan-if eth2 -vtep-ip 192.168.2.52 -ctrl-ip 192.168.2.52 -cluster-store etcd://192.168.2.52:2379
-
-Apr 05 04:53:05 contiv-node3 netplugin[18715]: time="Apr  5 04:53:05.147613969" level=info msg="Link up received for eth2"
-Apr 05 04:53:50 contiv-node3 netplugin[18715]: time="Apr  5 04:53:50.094566036" level=info msg="Link up received for eth2"
-Apr 05 04:58:50 contiv-node3 netplugin[18715]: time="Apr  5 04:58:50.111429722" level=info msg="Link up received for eth2"
-Apr 05 04:59:35 contiv-node3 netplugin[18715]: time="Apr  5 04:59:35.097787227" level=info msg="Link up received for eth2"
-Apr 05 04:59:35 contiv-node3 netplugin[18715]: time="Apr  5 04:59:35.117917438" level=info msg="Link up received for eth2"
-Apr 05 05:00:20 contiv-node3 netplugin[18715]: time="Apr  5 05:00:20.098625381" level=info msg="Link up received for eth2"
-Apr 05 05:00:20 contiv-node3 netplugin[18715]: time="Apr  5 05:00:20.115436793" level=info msg="Link up received for eth2"
-Apr 05 05:01:05 contiv-node3 netplugin[18715]: time="Apr  5 05:01:05.103688615" level=info msg="Link up received for eth2"
-Apr 05 05:01:05 contiv-node3 netplugin[18715]: time="Apr  5 05:01:05.118184283" level=info msg="Link up received for eth2"
-Apr 05 05:01:50 contiv-node3 netplugin[18715]: time="Apr  5 05:01:50.111603433" level=info msg="Link up received for eth2"
-</code></pre>
-<p><code>netctl</code> is a utility to create, update, read and modify contiv objects. It is a CLI wrapper
-on top of REST interface.</p>
-<pre class="highlight plaintext"><code>[vagrant@contiv-node3 ~]$ netctl version
-Client Version:
-Version: 1.0.0
-GitCommit: 7290b65
-BuildTime: 04-15-2017.18-50-53.UTC
-
-Server Version:
-Version: 1.0.0
-GitCommit: 7290b65
-BuildTime: 04-15-2017.18-50-53.UTC
-
-</code></pre>
+<p>Follow all steps for Setup section for <a href="/documents/tutorials/container-101.html">Container Networking Tutorial</a>.</p>
 
 <h3>Chapter 1 - ICMP Policy</h3>
-<p>In this section, we will create two groups epgA and epgB. We will create container with respect to those groups. 
-Then by default communication between group is allowed. So we will have ICMP deny policy and very that we are not able to ping among those containers.</p>
+<p>In this section, we will create two groups epgA and epgB, and we will create containers belonging to these groups.
+By default, communication between groups belonging to same network is allowed. 
+So we will add ICMP deny policy and verify that we are not able to ping among those containers.</p>
 <p>Let us create Tenant and Network first.</p>
-<pre class="highlight plaintext"><code>[vagrant@contiv-node3 ~]$ netctl tenant create TestTenant
+<pre class="highlight plaintext"><code>[vagrant@contiv-node3 ~]$ export DOCKER_HOST=tcp://192.168.2.52:2375
+[vagrant@contiv-node3 ~]$ netctl tenant create TestTenant
 Creating tenant: TestTenant
 [vagrant@contiv-node3 ~]$ netctl network create --tenant TestTenant --subnet=10.1.1.0/24 --gateway=10.1.1.254 -e "vlan" TestNet
 Creating network TestTenant:TestNet
@@ -472,29 +282,26 @@ f265e28064e3        epgA/TestTenant       netplugin           global
 5991ae9fafc0        epgB/TestTenant       netplugin           global
 
 </code></pre>
-<p>Now Let us create two containers on each group network and check whether they are abel to ping each other or not.
-By default, Contiv allows ping between groups under same network.</p>
-<pre class="highlight plaintext"><code>
-[vagrant@contiv-node3 ~]$ docker run -itd --net="epgA/TestTenant" --name=AContainer contiv/alpine sh
+<p>Let us create two containers on each group network and check whether they are able to ping each other or not.
+By default, Contiv allows connectivity between groups under same network.</p>
+<pre class="highlight plaintext"><code>[vagrant@contiv-node3 ~]$ docker run -itd --net="epgA/TestTenant" --name=AContainer contiv/alpine sh
 d1c6376bebdbd93392131dce08887117460c801be1f1540e0f25ee990aa9003b
 
-Log on to contiv-node4 and export DOCKER_HOST.
-[vagrant@contiv-node4 ~]$ docker run -itd --net="epgB/TestTenant" --name=BContainer contiv/alpine sh
+[vagrant@contiv-node3 ~]$ docker run -itd --net="epgB/TestTenant" --name=BContainer contiv/alpine sh
 4a4ce395f99b6f0e4f8963724a2dd04c46c2d88375f7ac3870435f46bdc4aa30
 
 [vagrant@contiv-node3 ~]$ docker ps
 CONTAINER ID        IMAGE                            COMMAND                  CREATED              STATUS              PORTS               NAMES
 4a4ce395f99b        contiv/alpine                    "sh"                     51 seconds ago       Up 50 seconds                           contiv-node4/BContainer
 d1c6376bebdb        contiv/alpine                    "sh"                     About a minute ago   Up 59 seconds                           contiv-node3/AContainer
-8874e51e9f3b        contiv/auth_proxy:1.0.0-beta.5   "./auth_proxy --tls-k"   10 minutes ago       Up 10 minutes                           contiv-node3/auth-proxy
+8874e51e9f3b        contiv/auth_proxy:1.0.0   "./auth_proxy --tls-k"   10 minutes ago       Up 10 minutes                           contiv-node3/auth-proxy
 767c6a3fd784        quay.io/coreos/etcd:v2.3.8       "/etcd"                  13 minutes ago       Up 13 minutes                           contiv-node4/etcd
 a56c3ab35cbf        quay.io/coreos/etcd:v2.3.8       "/etcd"                  13 minutes ago       Up 13 minutes                           contiv-node3/etcd
 
 
 </code></pre>
-<p>Now try to ping from AContainer to BContainer. They should be able to ping each other.</p>
-<pre class="highlight plaintext"><code>
-[vagrant@contiv-node4 ~]$ docker exec -it BContainer sh
+<p>Try to ping from AContainer to BContainer. They should be able to ping each other.</p>
+<pre class="highlight plaintext"><code>[vagrant@contiv-node3 ~]$ docker exec -it BContainer sh
 / # ifconfig
 eth0      Link encap:Ethernet  HWaddr 02:02:0A:01:01:02
           inet addr:10.1.1.2  Bcast:0.0.0.0  Mask:255.255.255.0
@@ -515,8 +322,6 @@ lo        Link encap:Local Loopback
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
 
-[vagrant@contiv-node3 ~]$ docker exec -it Acontainer sh
-Error response from daemon: No such container Acontainer
 [vagrant@contiv-node3 ~]$ docker exec -it AContainer sh
 / # ifconfig
 eth0      Link encap:Ethernet  HWaddr 02:02:0A:01:01:01
@@ -549,8 +354,7 @@ rtt min/avg/max/mdev = 0.836/1.633/2.430/0.797 ms
 
 
 </code></pre>
-<p>Now add ICMP Deny policy. Container should not be abel to ping each other now.</p>
-<p>Adding policy and modifying group.</p>
+<p>Add ICMP Deny policy from epgA and modify group epgB to associate this policy.</p>
 <pre class="highlight plaintext"><code>
 [vagrant@contiv-node3 ~]$ netctl policy create -t TestTenant policyAB
 Creating policy TestTenant:policyAB
@@ -572,7 +376,7 @@ Rule  Priority  To EndpointGroup  To Network  To IpAddress  Protocol  Port  Acti
 ----  --------  ----------------  ----------  ---------     --------  ----  ------
 
 </code></pre>
-<p>Now ping between containers.</p>
+<p>Now ping between containers should not work.</p>
 <pre class="highlight plaintext"><code>
 [vagrant@contiv-node3 ~]$ docker exec -it AContainer sh
 / # ping 10.1.1.2
@@ -586,45 +390,42 @@ PING 10.1.1.2 (10.1.1.2) 56(84) bytes of data.
 </code></pre>
 
 <h3>Chapter 2 - TCP Policy</h3>
-<p>In this section, We will add TCP 8001 port allow policy and then will verify this policy.</p>
-<p>Creating TCP port policy.</p>
+<p>In this section, we will create TCP deny policy as well as selective TCP port allow policy.</p>
 <pre class="highlight plaintext"><code>
-[vagrant@contiv-node3 ~]$ netctl policy rule-add -t TestTenant -d in --protocol tcp --port 8001  --from-group epgA  --action allow policyAB 3
+[vagrant@contiv-node3 ~]$ netctl policy rule-add -t TestTenant -d in --protocol tcp --port 0  --from-group epgA  --action deny policyAB 2
+[vagrant@contiv-node3 ~]$ netctl policy rule-add -t TestTenant -d in --protocol tcp --port 8001  --from-group epgA  --action allow --priority 10 policyAB 3
 [vagrant@contiv-node3 ~]$ netctl policy rule-ls -t TestTenant policyAB
 Incoming Rules:
 Rule  Priority  From EndpointGroup  From Network  From IpAddress  Protocol  Port  Action
 ----  --------  ------------------  ------------  ---------       --------  ----  ------
 1     1         epgA                                              icmp      0     deny
-3     1         epgA                                              tcp       8001  allow
+2     1         epgA                                              tcp       0     deny
+3     10        epgA                                              tcp       8001  allow
 Outgoing Rules:
 Rule  Priority  To EndpointGroup  To Network  To IpAddress  Protocol  Port  Action
 ----  --------  ----------------  ----------  ---------     --------  ----  ------
 
 </code></pre>
-<p>Now check that from app group, only TCP 8001 port is open. To test this, Let us run iperf on BContainer and
-verify using nc utility on BContainer.</p>
-<pre class="highlight plaintext"><code>On AContainer:
+<p>Now check that from epgB, only TCP 8001 port is open. To test this, Let us run iperf on BContainer and
+verify using nc utility on AContainer.</p>
+<pre class="highlight plaintext"><code>On BContainer:
 
-[vagrant@contiv-node3 ~]$ docker exec -it AContainer sh
+[vagrant@contiv-node3 ~]$ docker exec -it BContainer sh
 / # iperf -s -p 8001
 ------------------------------------------------------------
 Server listening on TCP port 8001
 TCP window size: 85.3 KByte (default)
 ------------------------------------------------------------
-
-
-
-On BContainer:
-
-[vagrant@contiv-node4 ~]$ docker exec -it BContainer sh
-/ # nc -zvw 1 10.1.1.1 8001 -------&gt; here 10.1.1.1 is IP address of AContainer.
-10.1.1.1 (10.1.1.1:8001) open
-/ # nc -zvw 1 10.1.1.1 8000
-/ #
-
-You see that port 8001 is open and port 8000 is not open.
-
 </code></pre>
+<p>On AContainer:</p>
+<pre class="highlight plaintext"><code>[vagrant@contiv-node3 ~]$ docker exec -it AContainer sh
+/ # nc -zvw 1 10.1.1.2 8001 -------&gt; here 10.1.1.2 is IP address of BContainer.
+10.1.1.2 (10.1.1.2:8001) open
+/ # nc -zvw 1 10.1.1.2 8000
+10.1.1.2 (10.1.1.2:8000): Operation timed out
+/ #
+</code></pre>
+<p>You see that port 8001 is open and port 8000 is not open.</p>
 
 <h3>Chapter 3 - Bandwidth Policy</h3>
 <p>In this chapter, we will explore bandwidth policy feature of contiv. 
@@ -648,16 +449,15 @@ BandwidthTenant  epgA   BandwidthTestNet
 
 </code></pre>
 <p>Now, We are going to run serverA and clientA containers using group epgA as a network.</p>
-<pre class="highlight plaintext"><code>[vagrant@contiv-node4 ~]$ export DOCKER_HOST=tcp://192.168.2.52:2375
-[vagrant@contiv-node4 ~]$ docker run -itd --net="epgA/BandwidthTenant" --name=serverA contiv/alpine sh
+<pre class="highlight plaintext"><code>[vagrant@contiv-node3 ~]$ docker run -itd --net="epgA/BandwidthTenant" --name=serverA contiv/alpine sh
 6112c6697df2c43491a23e02d3d8bc3f621b91d59c64226382789ba15082c71b
-[vagrant@contiv-node4 ~]$ docker run -itd --net="epgA/BandwidthTenant" --name=clientA contiv/alpine sh
+[vagrant@contiv-node3 ~]$ docker run -itd --net="epgA/BandwidthTenant" --name=clientA contiv/alpine sh
 c783d6c3f546d6053953bd664045aa35397756656247255a7e0cbb4201b5514c
-[vagrant@contiv-node4 ~]$ docker ps
+[vagrant@contiv-node3 ~]$ docker ps
 CONTAINER ID        IMAGE                            COMMAND                  CREATED             STATUS              PORTS               NAMES
 c783d6c3f546        contiv/alpine                    "sh"                     5 seconds ago       Up 3 seconds                            contiv-node4/clientA
 6112c6697df2        contiv/alpine                    "sh"                     7 seconds ago       Up 5 seconds                            contiv-node4/serverA
-b6e0601d8c13        contiv/auth_proxy:1.0.0-beta.6   "./auth_proxy --tls-k"   4 minutes ago       Up 4 minutes                            contiv-node3/auth-proxy
+b6e0601d8c13        contiv/auth_proxy:1.0.0   "./auth_proxy --tls-k"   4 minutes ago       Up 4 minutes                            contiv-node3/auth-proxy
 0c3cb365e573        quay.io/coreos/etcd:v2.3.8       "/etcd"                  7 minutes ago       Up 7 minutes                            contiv-node4/etcd
 a9536ad281be        quay.io/coreos/etcd:v2.3.8       "/etcd"                  8 minutes ago       Up 8 minutes                            contiv-node3/etcd
 
@@ -699,6 +499,7 @@ UDP buffer size:  208 KByte (default)
 
 On clientA:
 
+[vagrant@contiv-node4 ~]$ export DOCKER_HOST=tcp://192.168.2.52:2375
 [vagrant@contiv-node4 ~]$ docker exec -it clientA sh
 / # iperf -c 50.1.1.1 -u
 ------------------------------------------------------------
@@ -748,7 +549,7 @@ CONTAINER ID        IMAGE                            COMMAND                  CR
 2f4845ed86c5        contiv/alpine                    "sh"                     4 seconds ago       Up 3 seconds                            contiv-node3/serverB
 c783d6c3f546        contiv/alpine                    "sh"                     12 minutes ago      Up 12 minutes                           contiv-node4/clientA
 6112c6697df2        contiv/alpine                    "sh"                     12 minutes ago      Up 12 minutes                           contiv-node4/serverA
-b6e0601d8c13        contiv/auth_proxy:1.0.0-beta.6   "./auth_proxy --tls-k"   17 minutes ago      Up 17 minutes                           contiv-node3/auth-proxy
+b6e0601d8c13        contiv/auth_proxy:1.0.0   "./auth_proxy --tls-k"   17 minutes ago      Up 17 minutes                           contiv-node3/auth-proxy
 0c3cb365e573        quay.io/coreos/etcd:v2.3.8       "/etcd"                  20 minutes ago      Up 20 minutes                           contiv-node4/etcd
 a9536ad281be        quay.io/coreos/etcd:v2.3.8       "/etcd"                  20 minutes ago      Up 20 minutes                           contiv-node3/etcd
 [vagrant@contiv-node3 ~]$
@@ -793,7 +594,7 @@ UDP buffer size:  208 KByte (default)
 
 On clientB:
 
-[vagrant@contiv-node3 ~]$ docker exec -it clientB sh
+[vagrant@contiv-node4 ~]$ docker exec -it clientB sh
 / # iperf -c 50.1.1.3 -u
 ------------------------------------------------------------
 Client connecting to 50.1.1.3, UDP port 5001
