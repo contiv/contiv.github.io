@@ -19,7 +19,18 @@ Walks through container networking and concepts step by step. We will explore Co
 **Note**:
 - If you are using platform other than Mac, please install docker-engine, for that platform.
 
+Make virtualbox the default provider for vagrant
 
+```
+export VAGRANT_DEFAULT_PROVIDER=virtualbox
+```
+
+Cluster build steps below download a centos vagrant box. If you have a centos box available already, or you have access to the box file, add it to list of box images with specific name centos/7, as follows:
+
+```
+vagrant box add --name centos/7 CentOS-7-x86_64-Vagrant-1703_01.VirtualBox.box
+```
+ 
 ### Setup
 
 #### Step 1: Get contiv installer code from github.
@@ -34,7 +45,7 @@ $ cd install
 - Please make sure that you are NOT connected to VPN here.
 
 ```
-make demo-swarm
+$ make demo-swarm
 ```
 This will create two VMs on VirtualBox. Using ansible, all the required services and software for contiv, will get installed at this step.
 This might take some time (usually approx 15-20 mins) depending upon your internet connection.
@@ -43,29 +54,49 @@ This might take some time (usually approx 15-20 mins) depending upon your intern
 #### Step 2a: Create a vagrant VM cluster
 
 ```
-make cluster
+$ make cluster
 ```
 
 This will create two VMs on VirtualBox. It will also create a .cfg.yml config file that will be used in later steps. Also setup the following two config vars
 
 ```
-cd cluster
-export SSH_KEY=$(vagrant ssh-config contiv-node3 | grep IdentityFile | awk '{print $2}' | xargs)
-export USER="vagrant"
+$ cd cluster
+$ export SSH_KEY=$(vagrant ssh-config contiv-node3 | grep IdentityFile | awk '{print $2}' | xargs)
+$ export USER="vagrant"
 ```
 
 #### Step 2b: Download contiv release bundle
 
 ```
-wget https://github.com/contiv/install/releases/download/1.0.0/contiv-1.0.0.tgz
-tar -zxvf contiv-1.0.0.tgz
+$ wget https://github.com/contiv/install/releases/download/1.0.0/contiv-1.0.0.tgz
+$ tar -zxvf contiv-1.0.0.tgz
 ```
 
 #### Step 2c: Use config file to install contiv
 ```
-cd contiv-1.0.0
-./install/ansible/install_swarm.sh -f ../.cfg.yml -e ${SSH_KEY} -u ${USER} -i
-cd ..
+$ cd contiv-1.0.0
+$ ./install/ansible/install_swarm.sh -f ../.cfg.yml -e ${SSH_KEY} -u ${USER} -i
+$ cd ..
+```
+
+Make note of final outcome of this process. This lists the URL for docker swarm as well as for UI.
+
+```
+Installation is complete
+=========================================================
+
+Please export DOCKER_HOST=tcp://192.168.2.52:2375 in your shell before proceeding
+Contiv UI is available at https://192.168.2.52:10000
+Please use the first run wizard or configure the setup as follows:
+ Configure forwarding mode (optional, default is bridge).
+ netctl global set --fwd-mode routing
+ Configure ACI mode (optional)
+ netctl global set --fabric-mode aci --vlan-range <start>-<end>
+ Create a default network
+ netctl net create -t default --subnet=<CIDR> default-net
+ For example, netctl net create -t default --subnet=20.1.1.0/24 default-net
+
+=========================================================
 ```
 
 #### Step 3: Check vagrant VM nodes.
@@ -90,21 +121,20 @@ As a part of this contiv installation, we install docker swarm for you. To verif
 following commands on Vagrant VMs.
 
 ```
-$ cd cluster
 $ vagrant ssh contiv-node3
-Now you will be logged into one of the Vagrant VM.
-[vagrant@contiv-node3 ~]$ export DOCKER_HOST=tcp://192.168.2.52:2375 (IP address might change depending upon your setup. 
-You will see this at the end of installation in setp 2 above)
-
 ```
-
 To run docker without sudo, add user to docker group, quit and ssh again.
 
 ```
 [vagrant@contiv-node3 ~]$ sudo usermod -aG docker $USER
+[vagrant@contiv-node3 ~]$ exit
+$ vagrant ssh contiv-node3
 ```
 
+Now you will be logged into one of the Vagrant VM. Setup DOCKER_HOST variable based on the output of installation step above.
+
 ```
+[vagrant@contiv-node3 ~]$ export DOCKER_HOST=tcp://192.168.2.52:2375
 [vagrant@contiv-node3 ~]$ docker info
 Containers: 6
  Running: 6
@@ -469,34 +499,21 @@ a1729504b2d1        contiv-node3/bridge   bridge              local
 ]
 ```
 
-You can now run a new container belonging to `contiv-net` network:
+You can now spin a couple of containers belonging to `contiv-net` network. Specifying node constraint forces containers to start on different hosts.
 
 ```
-[vagrant@contiv-node3 ~]$ docker run -itd --name=contiv-c1 --net=contiv-net alpine /bin/sh
+[vagrant@contiv-node3 ~]$ docker run -itd --name=contiv-c1 --net=contiv-net -e constraint:node=contiv-node3 alpine /bin/sh
 09689c15f6410c049e16d60cfe42926009af163aeb4296569cb17869a5b69732
-```
 
-Let's ssh into the second node using 
-
-```
-cd cluster
-vagrant ssh contiv-node4
-[vagrant@contiv-node4 ~]$ export DOCKER_HOST=tcp://192.168.2.52:2375
-
-``` 
-
-and spin up a new container on it and try to reach container running on the other host.
-
-
-```
-docker run -itd --name=contiv-c2 --net=contiv-net alpine /bin/sh
+[vagrant@contiv-node3 ~]$ docker run -itd --name=contiv-c2 --net=contiv-net -e constraint:node=contiv-node4 alpine /bin/sh
 f09a78e7960d6c1dfbf86e85648c44479681ef22a86e3049dc2296178ece9c7f
-[vagrant@contiv-node4 ~]$ docker ps
-CONTAINER ID        IMAGE                            COMMAND                  CREATED             STATUS              PORTS               NAMES
-f09a78e7960d        alpine                           "/bin/sh"                3 seconds ago       Up 1 seconds                            contiv-node3/contiv-c2
-09689c15f641        alpine                           "/bin/sh"                3 minutes ago       Up 3 minutes                            contiv-node4/contiv-c1
 
-[vagrant@contiv-node4 ~]$ docker exec -it contiv-c2 /bin/sh
+[vagrant@contiv-node3 ~]$ docker ps
+CONTAINER ID        IMAGE                            COMMAND                  CREATED             STATUS              PORTS               NAMES
+09689c15f641        alpine                           "/bin/sh"                3 seconds ago       Up 1 seconds                            contiv-node3/contiv-c1
+f09a78e7960d        alpine                           "/bin/sh"                3 minutes ago       Up 3 minutes                            contiv-node4/contiv-c2
+
+[vagrant@contiv-node3 ~]$ docker exec -it contiv-c2 /bin/sh
 / #
 / # ping contiv-c1
 PING contiv-c1 (10.1.2.1): 56 data bytes
@@ -526,9 +543,10 @@ later chapter.
 
 ### Chapter 3: Using multiple tenants with arbitrary IPs in the networks
 
-First, let's create a new tenant space. Also ssh into contiv-node3 node and export DOCKER_HOST with correct value.
+First, let's create a new tenant space.
 
 ```
+[vagrant@contiv-node3 ~]$ export DOCKER_HOST=tcp://192.168.2.52:2375
 [vagrant@contiv-node3 ~]$ netctl tenant create blue
 Creating tenant: blue                  
 
@@ -539,9 +557,9 @@ default
 blue
 ```
 
-After the tenant is created, we can create network within in tenant `blue` and run containers.
-Here we chose the same subnet and network name for it.
-the same subnet and same network name, that we used before
+After the tenant is created, we can create network within tenant `blue`.
+Here we can choose the same subnet and network name as we used earlier with default tenant, as namespaces
+are isolated across tenants.
 
 ```
 [vagrant@contiv-node3 ~]$ netctl net create -t blue --subnet=10.1.2.0/24 contiv-net
@@ -552,33 +570,19 @@ Tenant  Network     Nw Type  Encap type  Packet tag  Subnet       Gateway  IPv6S
 blue    contiv-net  data     vxlan       0           10.1.2.0/24
 ```
 
-Next, we can run containers belonging to this tenant
+Next, we can run containers belonging to this tenant.
 
 ```
 [vagrant@contiv-node3 ~]$ docker run -itd --name=contiv-blue-c1 --net="contiv-net/blue" alpine /bin/sh
 224be352b574493336e8570b8925a359f808fc05f98b791ca5b14ec9ed580339
 
-[vagrant@contiv-node3 ~]$ docker ps
-CONTAINER ID        IMAGE                            COMMAND                  CREATED             STATUS              PORTS               NAMES
-224be352b574        alpine                           "/bin/sh"                12 seconds ago      Up 11 seconds                           contiv-node4/contiv-blue-c1
-f09a78e7960d        alpine                           "/bin/sh"                5 minutes ago       Up 5 minutes                            contiv-node3/contiv-c2
-09689c15f641        alpine                           "/bin/sh"                8 minutes ago       Up 8 minutes                            contiv-node4/contiv-c1
-58d5fe78d517        alpine                           "/bin/sh"                43 minutes ago      Up 43 minutes                           contiv-node4/vanilla-c
-8e08d18caf2c        contiv/auth_proxy:1.0.0-beta.4   "./auth_proxy --tls-k"   58 minutes ago      Up 58 minutes                           contiv-node3/auth-proxy
-77943d7f8a84        quay.io/coreos/etcd:v2.3.8       "/etcd"                  About an hour ago   Up About an hour                        contiv-node4/etcd
-1a266627540f        quay.io/coreos/etcd:v2.3.8       "/etcd"                  About an hour ago   Up About an hour                        contiv-node3/etcd
-```
-
-Let us run a couple of more containers in the host `contiv-node4` that belong to the tenant `blue`:
-
-(Dont forget to set DOCKER_HOST variable after you ssh into this node)
-
-```
-[vagrant@contiv-node4 ~]$ docker run -itd --name=contiv-blue-c2 --net="contiv-net/blue" alpine /bin/sh
+[vagrant@contiv-node3 ~]$ docker run -itd --name=contiv-blue-c2 --net="contiv-net/blue" alpine /bin/sh
 be63dbd230d6062a07ba63e0ec1af047d4a1181b4003b64a1e5b42ab019c1f43
-[vagrant@contiv-node4 ~]$ docker run -itd --name=contiv-blue-c3 --net="contiv-net/blue" alpine /bin/sh
+
+[vagrant@contiv-node3 ~]$ docker run -itd --name=contiv-blue-c3 --net="contiv-net/blue" alpine /bin/sh
 1db8d18a88fe976f007e49bcb68e4e7d10ff0d08a2f7ff2ef3e3ac2b00cccc52
-[vagrant@contiv-node4 ~]$ docker ps
+
+[vagrant@contiv-node3 ~]$ docker ps
 CONTAINER ID        IMAGE                            COMMAND                  CREATED             STATUS              PORTS               NAMES
 1db8d18a88fe        alpine                           "/bin/sh"                15 seconds ago      Up 14 seconds                           contiv-node4/contiv-blue-c3
 be63dbd230d6        alpine                           "/bin/sh"                58 seconds ago      Up 56 seconds                           contiv-node3/contiv-blue-c2
@@ -590,11 +594,11 @@ f09a78e7960d        alpine                           "/bin/sh"                8 
 77943d7f8a84        quay.io/coreos/etcd:v2.3.8       "/etcd"                  About an hour ago   Up About an hour                        contiv-node4/etcd
 1a266627540f        quay.io/coreos/etcd:v2.3.8       "/etcd"                  About an hour ago   Up About an hour                        contiv-node3/etcd
 
-[vagrant@contiv-node4 ~]$ docker network inspect contiv-net/blue
+[vagrant@contiv-node3 ~]$ docker network inspect contiv-net/blue
 [
     {
         "Name": "contiv-net/blue",
-        "Id": "cf4c34e778b7a587c8c7726a59aef3313f6ee8ebf0e3a318f320ce259387b3ad",
+        "Id": "...",
         "Scope": "global",
         "Driver": "netplugin",
         "EnableIPv6": false,
@@ -612,23 +616,23 @@ f09a78e7960d        alpine                           "/bin/sh"                8 
         },
         "Internal": false,
         "Containers": {
-            "1db8d18a88fe976f007e49bcb68e4e7d10ff0d08a2f7ff2ef3e3ac2b00cccc52": {
+            "...": {
                 "Name": "contiv-blue-c3",
-                "EndpointID": "c297a0479c9a18a5a69e04a4c53bc9aa5a78ecc103668c7aadf2ff62e21e0664",
+                "EndpointID": "...",
                 "MacAddress": "02:02:0a:01:02:03",
                 "IPv4Address": "10.1.2.3/24",
                 "IPv6Address": ""
             },
-            "224be352b574493336e8570b8925a359f808fc05f98b791ca5b14ec9ed580339": {
+            "...": {
                 "Name": "contiv-blue-c1",
-                "EndpointID": "fc5edc5de3548e063c2db2dfe14159d8c36e56f0cc8bdfed7585de4b45d8f72c",
+                "EndpointID": "...",
                 "MacAddress": "02:02:0a:01:02:01",
                 "IPv4Address": "10.1.2.1/24",
                 "IPv6Address": ""
             },
-            "be63dbd230d6062a07ba63e0ec1af047d4a1181b4003b64a1e5b42ab019c1f43": {
+            "...": {
                 "Name": "contiv-blue-c2",
-                "EndpointID": "3e4f4035386696187bc19894cc0fd8d730a97e59944a72c48d3a40f4ee210e00",
+                "EndpointID": "...",
                 "MacAddress": "02:02:0a:01:02:02",
                 "IPv4Address": "10.1.2.2/24",
                 "IPv6Address": ""
@@ -643,7 +647,7 @@ f09a78e7960d        alpine                           "/bin/sh"                8 
     }
 ]
 
-[vagrant@contiv-node4 ~]$ docker exec -it contiv-blue-c3 /bin/sh
+[vagrant@contiv-node3 ~]$ docker exec -it contiv-blue-c3 /bin/sh
 / # ping contiv-blue-c1
 PING contiv-blue-c1 (10.1.2.1): 56 data bytes
 64 bytes from 10.1.2.1: seq=0 ttl=64 time=1.105 ms
@@ -725,16 +729,16 @@ resolv.conf as a default way to resolve non container IP resolution.
 
 Similarly outside traffic can be exposed on specific ports using `-p` command. Before
 we do that, let us confirm that port 9099 is not reachable from the host
-`contiv-node3`. To install `nc` netcat utility please run `sudo yum -y install nc and sudo yum install tcpdump` on contiv-node3
+`contiv-node3`. To install `nc` netcat utility please run `sudo yum -y install nc and sudo yum -y install tcpdump` on contiv-node3
+
 
 ```
 # Install nc utility
-
 [vagrant@contiv-node3 ~]$ sudo yum -y install nc
 < some yum install output >
 Complete!
 
-[vagrant@contiv-node3 ~]$ sudo yum install tcpdump
+[vagrant@contiv-node3 ~]$ sudo yum -y install tcpdump
 < some yum install output >
 Complete!
 
