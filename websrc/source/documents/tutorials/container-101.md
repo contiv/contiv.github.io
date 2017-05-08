@@ -502,10 +502,10 @@ a1729504b2d1        contiv-node3/bridge   bridge              local
 You can now spin a couple of containers belonging to `contiv-net` network. Specifying node constraint forces containers to start on different hosts.
 
 ```
-[vagrant@contiv-node3 ~]$ docker run -itd --name=contiv-c1 --net=contiv-net -e constraint:node=contiv-node3 alpine /bin/sh
+[vagrant@contiv-node3 ~]$ docker run -itd --name=contiv-c1 --net=contiv-net -e constraint:node==contiv-node3 alpine /bin/sh
 09689c15f6410c049e16d60cfe42926009af163aeb4296569cb17869a5b69732
 
-[vagrant@contiv-node3 ~]$ docker run -itd --name=contiv-c2 --net=contiv-net -e constraint:node=contiv-node4 alpine /bin/sh
+[vagrant@contiv-node3 ~]$ docker run -itd --name=contiv-c2 --net=contiv-net -e constraint:node==contiv-node4 alpine /bin/sh
 f09a78e7960d6c1dfbf86e85648c44479681ef22a86e3049dc2296178ece9c7f
 
 [vagrant@contiv-node3 ~]$ docker ps
