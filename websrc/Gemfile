@@ -13,3 +13,5 @@ gem "nokogiri", "1.6.7"
 gem 'redcarpet', "3.3.4"
 
 gem "rouge", "1.10.1"
+
+gem "tzinfo-data", "1.2017.2"
