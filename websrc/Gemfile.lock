@@ -188,6 +188,8 @@ GEM
     tilt (1.4.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    tzinfo-data (1.2017.2)
+      tzinfo (>= 1.0.0)
     uber (0.0.15)
     uglifier (2.7.2)
       execjs (>= 0.3.0)
@@ -208,9 +210,10 @@ DEPENDENCIES
   nokogiri (= 1.6.7)
   redcarpet (= 3.3.4)
   rouge (= 1.10.1)
+  tzinfo-data (= 1.2017.2)
 
 RUBY VERSION
    ruby 2.0.0p0
 
 BUNDLED WITH
-   1.13.7
+   1.14.6
