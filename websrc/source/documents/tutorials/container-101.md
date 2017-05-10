@@ -50,55 +50,6 @@ $ make demo-swarm
 This will create two VMs on VirtualBox. Using ansible, all the required services and software for contiv, will get installed at this step.
 This might take some time (usually approx 15-20 mins) depending upon your internet connection.
 
--- or --
-#### Step 2a: Create a vagrant VM cluster
-
-```
-$ make cluster
-```
-
-This will create two VMs on VirtualBox. It will also create a .cfg.yml config file that will be used in later steps. Also setup the following two config vars
-
-```
-$ cd cluster
-$ export SSH_KEY=$(vagrant ssh-config contiv-node3 | grep IdentityFile | awk '{print $2}' | xargs)
-$ export USER="vagrant"
-```
-
-#### Step 2b: Download contiv release bundle
-
-```
-$ wget https://github.com/contiv/install/releases/download/1.0.0/contiv-1.0.0.tgz
-$ tar -zxvf contiv-1.0.0.tgz
-```
-
-#### Step 2c: Use config file to install contiv
-```
-$ cd contiv-1.0.0
-$ ./install/ansible/install_swarm.sh -f ../.cfg.yml -e ${SSH_KEY} -u ${USER} -i
-$ cd ..
-```
-
-Make note of final outcome of this process. This lists the URL for docker swarm as well as for UI.
-
-```
-Installation is complete
-=========================================================
-
-Please export DOCKER_HOST=tcp://192.168.2.52:2375 in your shell before proceeding
-Contiv UI is available at https://192.168.2.52:10000
-Please use the first run wizard or configure the setup as follows:
- Configure forwarding mode (optional, default is bridge).
- netctl global set --fwd-mode routing
- Configure ACI mode (optional)
- netctl global set --fabric-mode aci --vlan-range <start>-<end>
- Create a default network
- netctl net create -t default --subnet=<CIDR> default-net
- For example, netctl net create -t default --subnet=20.1.1.0/24 default-net
-
-=========================================================
-```
-
 #### Step 3: Check vagrant VM nodes.
 
 **Note**:
