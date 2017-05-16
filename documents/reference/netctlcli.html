@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-961be2ca.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-ccddc50c.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -236,31 +236,31 @@ GitHub</a></li>
 <li><a href="/documents/reference/netctlcli.html#netctl">netctl</a>
 
 <ul>
-<li><a href="/documents/reference/netctlcli.html#version">version</a>
+<li><a href="/documents/reference/netctlcli.html#acigw">aci-gw</a>
 </li>
-<li><a href="/documents/reference/netctlcli.html#group">group</a>
+<li><a href="/documents/reference/netctlcli.html#approfile">app-profile</a>
+</li>
+<li><a href="/documents/reference/netctlcli.html#bgp">bgp</a>
 </li>
 <li><a href="/documents/reference/netctlcli.html#endpoint">endpoint, ep</a>
-</li>
-<li><a href="/documents/reference/netctlcli.html#netprofile">netprofile</a>
-</li>
-<li><a href="/documents/reference/netctlcli.html#network">network, net</a>
-</li>
-<li><a href="/documents/reference/netctlcli.html#tenant">tenant</a>
-</li>
-<li><a href="/documents/reference/netctlcli.html#policy">policy</a>
 </li>
 <li><a href="/documents/reference/netctlcli.html#externalcontracts">external-contracts</a>
 </li>
 <li><a href="/documents/reference/netctlcli.html#global">global</a>
 </li>
-<li><a href="/documents/reference/netctlcli.html#acigw">aci-gw</a>
+<li><a href="/documents/reference/netctlcli.html#group">group</a>
 </li>
-<li><a href="/documents/reference/netctlcli.html#bgp">bgp</a>
+<li><a href="/documents/reference/netctlcli.html#netprofile">netprofile</a>
 </li>
-<li><a href="/documents/reference/netctlcli.html#approfile">app-profile</a>
+<li><a href="/documents/reference/netctlcli.html#network">network, net</a>
+</li>
+<li><a href="/documents/reference/netctlcli.html#policy">policy</a>
 </li>
 <li><a href="/documents/reference/netctlcli.html#service">service</a>
+</li>
+<li><a href="/documents/reference/netctlcli.html#tenant">tenant</a>
+</li>
+<li><a href="/documents/reference/netctlcli.html#version">version</a>
 </li>
 <li><a href="/documents/reference/netctlcli.html#help">help</a>
 </li>
@@ -278,28 +278,25 @@ GitHub</a></li>
 </code></pre>
 
 <h3>COMMANDS:</h3>
-<p><code>version</code>            Version Information<br>
-   <code>group</code>              Endpoint Group manipulation tools<br>
+<p><code>aci-gw</code>             ACI Gateway information<br>
+   <code>app-profile</code>        Application Profile manipulation tools<br>
+   <code>bgp</code>                Router capability configuration<br>
    <code>endpoint, ep</code>       Endpoint Inspection<br>
-   <code>netprofile</code>         Network profile manipulation tools<br>
-   <code>network, net</code>       Network manipulation tools<br>
-   <code>tenant</code>             Tenant manipulation tools<br>
-   <code>policy</code>             Policy manipulation tools <br>
    <code>external-contracts</code> External contracts<br>
    <code>global</code>             Global information<br>
-   <code>aci-gw</code>             ACI Gateway information<br>
-   <code>bgp</code>                Router capability configuration<br>
-   <code>app-profile</code>        Application Profile manipulation tools<br>
+   <code>group</code>              Endpoint Group manipulation tools<br>
+   <code>netprofile</code>         Network profile manipulation tools<br>
+   <code>network, net</code>       Network manipulation tools<br>
+   <code>policy</code>             Policy manipulation tools <br>
    <code>service</code>            Service object creation <br>
+   <code>tenant</code>             Tenant manipulation tools<br>
+   <code>version</code>            Version Information<br>
    <code>help, h</code>            Shows a list of commands or help for one command<br></p>
 
 <h2>GLOBAL OPTIONS:</h2>
-<p><code>--netmaster &quot;http://netmaster:9999&quot;</code>    The hostname of the netmaster [$NETMASTER] <br>
-   <code>--help, -h</code>             show help <br>
+<p><code>--help, -h</code>             show help <br>
+   <code>--netmaster &quot;http://netmaster:9999&quot;</code>    The hostname of the netmaster [$NETMASTER] <br>
    <code>--version, -v</code>          print the version <br></p>
-
-<h2><a name="version"></a>version</h2>
-<p><code>netctl version</code>  Version Information for netctl client and sever, git commit hash, and build time.</p>
 
 <h2><a name="group"></a>group</h2>
 
@@ -320,6 +317,60 @@ GitHub</a></li>
 <h5>OPTIONS:</h5>
 <p><code>--help, -h</code> show help</p>
 
+<h2><a name="acigw"></a>aci-gw</h2>
+
+<h3>NAME:</h3>
+<p><code>netctl aci-gw</code> - ACI Gateway information</p>
+
+<h3>USAGE:</h3>
+<p><code>netctl aci-gw command [command options] [arguments...]</code></p>
+
+<h3>COMMANDS:</h3>
+<p><code>info</code>   Show ACI gateway information<br>
+   <code>inspect</code>    Inspect aci gateway operational information<br>
+   <code>set</code>        Set aci-gw parameters.<br>
+   <code>help, h</code>    Shows a list of commands or help for one command<br></p>
+
+<h3>OPTIONS:</h3>
+<p><code>--help, -h</code> show help</p>
+
+<h2><a name="approfile"></a>app-profile</h2>
+
+<h3>NAME:</h3>
+<p><code>netctl app-profile</code> - Application Profile manipulation tools</p>
+
+<h3>USAGE:</h3>
+<p><code>netctl app-profile command [command options] [arguments...]</code></p>
+
+<h3>COMMANDS:</h3>
+<p><code>create</code>     Create an application profile <br>
+   <code>update</code> Update an application profile <br>
+   <code>rm, delete</code>     Delete an application profile <br>
+   <code>ls, list</code>       List application profiles <br>
+   <code>group-ls, group-list</code>   List groups in an app-profile <br>
+   <code>help, h</code>    Shows a list of commands or help for one command <br></p>
+
+<h3>OPTIONS:</h3>
+<p><code>--help, -h</code> show help</p>
+
+<h2><a name="bgp"></a>bgp</h2>
+
+<h3>NAME:</h3>
+<p><code>netctl bgp</code> - Router capability configuration</p>
+
+<h3>USAGE:</h3>
+<p><code>netctl bgp command [command options] [arguments...]</code></p>
+
+<h3>COMMANDS:</h3>
+<p><code>ls, list</code>   List BGP configuration<br>
+   <code>rm, delete</code> Delete BGP configuration<br>
+   <code>create</code>     Add BGP configuration.<br>
+   <code>inspect</code>    Inspect BGP<br>
+   <code>help, h</code>    Shows a list of commands or help for one command<br></p>
+
+<h3>OPTIONS:</h3>
+<p><code>--help, -h</code> show help</p>
+
 <h2><a name="endpoint"></a>endpoint</h2>
 
 <h3>NAME:</h3>
@@ -331,6 +382,40 @@ GitHub</a></li>
 <h3>COMMANDS:</h3>
 <p><code>inspect</code>    Inspect an Endpoint<br>
    <code>help, h</code>    Shows a list of commands or help for one command<br></p>
+
+<h2><a name="externalcontracts"></a>external-contracts</h2>
+
+<h3>NAME:</h3>
+<p><code>netctl external-contracts</code> - External contracts</p>
+
+<h3>USAGE:</h3>
+<p><code>netctl external-contracts command [command options] [arguments...]</code></p>
+
+<h3>COMMANDS:</h3>
+<p><code>ls, list</code>   List external contracts<br>
+   <code>rm, delete</code> Delete external contracts<br>
+   <code>create</code>     Create external contracts<br>
+   <code>help, h</code>    Shows a list of commands or help for one command<br></p>
+
+<h3>OPTIONS:</h3>
+<p><code>--help, -h</code> show help</p>
+
+<h2><a name="global"></a>global</h2>
+
+<h3>NAME:</h3>
+<p><code>netctl global</code> - Global information</p>
+
+<h3>USAGE:</h3>
+<p><code>netctl global command [command options] [arguments...]</code></p>
+
+<h3>COMMANDS:</h3>
+<p><code>info</code>       Show global information<br>
+   <code>inspect</code>    Inspect global operational information<br>
+   <code>set</code>        Set global parameters<br>
+   <code>help, h</code>    Shows a list of commands or help for one command<br></p>
+
+<h3>OPTIONS:</h3>
+<p><code>--help, -h</code> show help</p>
 
 <h2><a name="netprofile"></a>netprofile</h2>
 
@@ -368,24 +453,6 @@ GitHub</a></li>
 <h3>OPTIONS:</h3>
 <p><code>--help, -h  show help</code></p>
 
-<h2><a name="tenant"></a>tenant</h2>
-
-<h3>NAME:</h3>
-<p><code>tenant</code> Tenant manipulation tools <br></p>
-
-<h3>USAGE:</h3>
-<p><code>netctl tenant command [command options] [arguments...]</code></p>
-
-<h3>COMMANDS:</h3>
-<p><code>ls, list</code>   List tenants <br>
-   <code>rm, delete</code> Delete a tenant<br>
-   <code>create</code>     Create a tenant<br>
-   <code>inspect</code>    Inspect a tenant<br>
-   <code>help, h</code>    Shows a list of commands or help for one command<br></p>
-
-<h3>OPTIONS:</h3>
-<p><code>--help, -h</code> show help</p>
-
 <h2><a name="policy"></a>policy</h2>
 
 <h3>NAME:</h3>
@@ -407,94 +474,6 @@ GitHub</a></li>
 <h3>OPTIONS:</h3>
 <p><code>--help, -h</code> show help</p>
 
-<h2><a name="externalcontracts"></a>external-contracts</h2>
-
-<h3>NAME:</h3>
-<p><code>netctl external-contracts</code> - External contracts</p>
-
-<h3>USAGE:</h3>
-<p><code>netctl external-contracts command [command options] [arguments...]</code></p>
-
-<h3>COMMANDS:</h3>
-<p><code>ls, list</code>   List external contracts<br>
-   <code>rm, delete</code> Delete external contracts<br>
-   <code>create</code>     Create external contracts<br>
-   <code>help, h</code>    Shows a list of commands or help for one command<br></p>
-
-<h3>OPTIONS:</h3>
-<p><code>--help, -h</code> show help</p>
-
-<h2><a name="global"></a>global</h2>
-
-<h3>NAME:</h3>
-<p><code>netctl global</code> - Global information</p>
-
-<h3>USAGE:</h3>
-<p><code>netctl global command [command options] [arguments...]</code></p>
-
-<h3>COMMANDS:</h3>
-<p><code>info</code>       Show global information<br>
-   <code>inspect</code>    Inspect global operational information<br>
-   <code>set</code>        Set global parameters<br>
-   <code>help, h</code>    Shows a list of commands or help for one command<br></p>
-
-<h3>OPTIONS:</h3>
-<p><code>--help, -h</code> show help</p>
-
-<h2><a name="acigw"></a>aci-gw</h2>
-
-<h3>NAME:</h3>
-<p><code>netctl aci-gw</code> - ACI Gateway information</p>
-
-<h3>USAGE:</h3>
-<p><code>netctl aci-gw command [command options] [arguments...]</code></p>
-
-<h3>COMMANDS:</h3>
-<p><code>info</code>   Show ACI gateway information<br>
-   <code>inspect</code>    Inspect aci gateway operational information<br>
-   <code>set</code>        Set aci-gw parameters.<br>
-   <code>help, h</code>    Shows a list of commands or help for one command<br></p>
-
-<h3>OPTIONS:</h3>
-<p><code>--help, -h</code> show help</p>
-
-<h2><a name="bgp"></a>bgp</h2>
-
-<h3>NAME:</h3>
-<p><code>netctl bgp</code> - Router capability configuration</p>
-
-<h3>USAGE:</h3>
-<p><code>netctl bgp command [command options] [arguments...]</code></p>
-
-<h3>COMMANDS:</h3>
-<p><code>ls, list</code>   List BGP configuration<br>
-   <code>rm, delete</code> Delete BGP configuration<br>
-   <code>create</code>     Add BGP configuration.<br>
-   <code>inspect</code>    Inspect BGP<br>
-   <code>help, h</code>    Shows a list of commands or help for one command<br></p>
-
-<h3>OPTIONS:</h3>
-<p><code>--help, -h</code> show help</p>
-
-<h2><a name="approfile"></a>app-profile</h2>
-
-<h3>NAME:</h3>
-<p><code>netctl app-profile</code> - Application Profile manipulation tools</p>
-
-<h3>USAGE:</h3>
-<p><code>netctl app-profile command [command options] [arguments...]</code></p>
-
-<h3>COMMANDS:</h3>
-<p><code>create</code>     Create an application profile <br>
-   <code>update</code> Update an application profile <br>
-   <code>rm, delete</code>     Delete an application profile <br>
-   <code>ls, list</code>       List application profiles <br>
-   <code>group-ls, group-list</code>   List groups in an app-profile <br>
-   <code>help, h</code>    Shows a list of commands or help for one command <br></p>
-
-<h3>OPTIONS:</h3>
-<p><code>--help, -h</code> show help</p>
-
 <h2><a name="service"></a>service</h2>
 
 <h3>NAME:</h3>
@@ -512,6 +491,27 @@ GitHub</a></li>
 
 <h3>OPTIONS:</h3>
 <p><code>--help, -h</code> show help</p>
+
+<h2><a name="tenant"></a>tenant</h2>
+
+<h3>NAME:</h3>
+<p><code>tenant</code> Tenant manipulation tools <br></p>
+
+<h3>USAGE:</h3>
+<p><code>netctl tenant command [command options] [arguments...]</code></p>
+
+<h3>COMMANDS:</h3>
+<p><code>ls, list</code>   List tenants <br>
+   <code>rm, delete</code> Delete a tenant<br>
+   <code>create</code>     Create a tenant<br>
+   <code>inspect</code>    Inspect a tenant<br>
+   <code>help, h</code>    Shows a list of commands or help for one command<br></p>
+
+<h3>OPTIONS:</h3>
+<p><code>--help, -h</code> show help</p>
+
+<h2><a name="version"></a>version</h2>
+<p><code>netctl version</code>  Version Information for netctl client and sever, git commit hash, and build time.</p>
 
 <h2><a name="help">help</h2>
 <p><code>netctl help</code> Shows help information</p>
