@@ -19,6 +19,7 @@ Contiv uses the netctl command-line interface (CLI) to configure networks, polic
   * [external-contracts](/documents/reference/netctlcli.html#externalcontracts)
   * [global](/documents/reference/netctlcli.html#global)
   * [group](/documents/reference/netctlcli.html#group)
+  * [login](/documents/reference/netctlcli.html#login)
   * [netprofile](/documents/reference/netctlcli.html#netprofile)
   * [network, net](/documents/reference/netctlcli.html#network)
   * [policy](/documents/reference/netctlcli.html#policy)
@@ -45,6 +46,7 @@ Contiv uses the netctl command-line interface (CLI) to configure networks, polic
    `external-contracts`	External contracts<br>
    `global`				Global information<br>
    `group`				Endpoint Group manipulation tools<br>
+   `login`				Authenticate to Contiv
    `netprofile`			Network profile manipulation tools<br>
    `network, net`		Network manipulation tools<br>
    `policy`				Policy manipulation tools <br>
@@ -54,9 +56,10 @@ Contiv uses the netctl command-line interface (CLI) to configure networks, polic
    `help, h`			Shows a list of commands or help for one command<br>
 
 ##GLOBAL OPTIONS:
-   `--help, -h`				show help <br>
+   `--help, -h`				Show help <br>
+   `--insecure`				Disable strict certificate checking <br>
    `--netmaster "http://netmaster:9999"`	The hostname of the netmaster [$NETMASTER] <br>
-   `--version, -v`			print the version <br>
+   `--version, -v`			Print the version <br>
 
 ##<a name="group"></a>group
 
@@ -178,6 +181,35 @@ Contiv uses the netctl command-line interface (CLI) to configure networks, polic
    
 ###OPTIONS:
    `--help, -h`	show help
+
+##<a name="login"></a>login
+
+Contiv comes with a proxy called [auth\_proxy](https://github.com/contiv/auth\_proxy) which transparently sits in front of netmaster and provides authentication (Active Directory, LDAP, local users) and authorization (RBAC).  netctl can send requests to auth_proxy as if it were sending requests directly to netmaster.  For more details, please see [the auth\_proxy repo](https://github.com/contiv/auth\_proxy).
+
+You must login before you can send any netctl requests to auth_proxy.  Any requests destined for auth\_proxy must include the global `--netmaster` flag with the full HTTPS auth\_proxy URL as the value.
+
+If the target auth\_proxy is using an expired, invalid, or untrusted certificate, you will additionally need to specify the global `--insecure` flag.
+
+netctl stores its auth\_proxy access token under `$HOME/.netctl/config.json`.  To "logout", simply delete this file.
+
+###NAME:
+   `netctl login` - Authenticate to Contiv
+
+###USAGE:
+
+In these examples, set `$AUTH_PROXY_URL` to the full HTTPS auth_proxy URL.  This will look something like: `https://1.2.3.4:10000`
+
+#### Login (you will be prompted for your username and password)
+   ```netctl --netmaster=$AUTH_PROXY_URL login```
+
+#### Send authenticated request (token is automatically sent)
+   ```netctl --netmaster=$AUTH_PROXY_URL network ls```
+
+#### Send request to auth_proxy with untrusted certificate
+   ```netctl --insecure --netmaster=$AUTH_PROXY_URL network ls```
+
+##OPTIONS:
+   `--help, -h	show help`
 
 ##<a name="netprofile"></a>netprofile
 

@@ -250,6 +250,8 @@ GitHub</a></li>
 </li>
 <li><a href="/documents/reference/netctlcli.html#group">group</a>
 </li>
+<li><a href="/documents/reference/netctlcli.html#login">login</a>
+</li>
 <li><a href="/documents/reference/netctlcli.html#netprofile">netprofile</a>
 </li>
 <li><a href="/documents/reference/netctlcli.html#network">network, net</a>
@@ -285,6 +287,7 @@ GitHub</a></li>
    <code>external-contracts</code> External contracts<br>
    <code>global</code>             Global information<br>
    <code>group</code>              Endpoint Group manipulation tools<br>
+   <code>login</code>              Authenticate to Contiv
    <code>netprofile</code>         Network profile manipulation tools<br>
    <code>network, net</code>       Network manipulation tools<br>
    <code>policy</code>             Policy manipulation tools <br>
@@ -294,9 +297,10 @@ GitHub</a></li>
    <code>help, h</code>            Shows a list of commands or help for one command<br></p>
 
 <h2>GLOBAL OPTIONS:</h2>
-<p><code>--help, -h</code>             show help <br>
+<p><code>--help, -h</code>             Show help <br>
+   <code>--insecure</code>             Disable strict certificate checking <br>
    <code>--netmaster &quot;http://netmaster:9999&quot;</code>    The hostname of the netmaster [$NETMASTER] <br>
-   <code>--version, -v</code>          print the version <br></p>
+   <code>--version, -v</code>          Print the version <br></p>
 
 <h2><a name="group"></a>group</h2>
 
@@ -416,6 +420,30 @@ GitHub</a></li>
 
 <h3>OPTIONS:</h3>
 <p><code>--help, -h</code> show help</p>
+
+<h2><a name="login"></a>login</h2>
+<p>Contiv comes with a proxy called <a href="https://github.com/contiv/auth_proxy">auth_proxy</a> which transparently sits in front of netmaster and provides authentication (Active Directory, LDAP, local users) and authorization (RBAC).  netctl can send requests to auth_proxy as if it were sending requests directly to netmaster.  For more details, please see <a href="https://github.com/contiv/auth_proxy">the auth_proxy repo</a>.</p>
+<p>You must login before you can send any netctl requests to auth_proxy.  Any requests destined for auth_proxy must include the global <code>--netmaster</code> flag with the full HTTPS auth_proxy URL as the value.</p>
+<p>If the target auth_proxy is using an expired, invalid, or untrusted certificate, you will additionally need to specify the global <code>--insecure</code> flag.</p>
+<p>netctl stores its auth_proxy access token under <code>$HOME/.netctl/config.json</code>.  To &quot;logout&quot;, simply delete this file.</p>
+
+<h3>NAME:</h3>
+<p><code>netctl login</code> - Authenticate to Contiv</p>
+
+<h3>USAGE:</h3>
+<p>In these examples, set <code>$AUTH_PROXY_URL</code> to the full HTTPS auth_proxy URL.  This will look something like: <code>https://1.2.3.4:10000</code></p>
+
+<h4>Login (you will be prompted for your username and password)</h4>
+<p><code>netctl --netmaster=$AUTH_PROXY_URL login</code></p>
+
+<h4>Send authenticated request (token is automatically sent)</h4>
+<p><code>netctl --netmaster=$AUTH_PROXY_URL network ls</code></p>
+
+<h4>Send request to auth_proxy with untrusted certificate</h4>
+<p><code>netctl --insecure --netmaster=$AUTH_PROXY_URL network ls</code></p>
+
+<h2>OPTIONS:</h2>
+<p><code>--help, -h  show help</code></p>
 
 <h2><a name="netprofile"></a>netprofile</h2>
 
