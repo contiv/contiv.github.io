@@ -20,15 +20,25 @@ Introduction to Contiv by Kiran Kamity. (8 minutes)
 A Cisco Live demonstration of Contiv and ACI by Rohit Agarwalla. (28 minutes)
 <iframe width="560" height="315" src="https://www.youtube.com/embed/dUXPkLyufVc" frameborder="0" allowfullscreen></iframe>
 
-### Contiv and Cisco ACI with External Contracts (Docker Swarm) 
+### Contiv on Docker Swarm with ACI and external contracts
 A quick introduction to Contiv and Cisco ACI and a (silent) demonstration on setting up Contiv and ACI on Docker Swarm with existing external contracts. (6 minutes)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/AHH1ACCMrm0" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/vSsvOj1sHDc" frameborder="0" allowfullscreen></iframe>
 
-### Contiv and Cisco ACI with External Contracts (Kubernetes) 
+### Contiv on Kubernetes with ACI and external contracts
 A quick introduction to Contiv and Cisco ACI and a (silent) demonstration on setting up Contiv and ACI on Kubernetes with existing external contracts. (4 minutes)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Eebq8KNo_XU" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Xf3Q9DWRtJ8" frameborder="0" allowfullscreen></iframe>
 
-##Archive of Older Videos
+### Contiv on Docker Swarm mode using VLAN (L2) networking
+<iframe width="560" height="315" src="https://www.youtube.com/embed/GlNuapz0Oxg" frameborder="0" allowfullscreen></iframe>
+
+### Contiv on Docker Legacy Swarm using VLAN (L2) networking
+<iframe width="560" height="315" src="https://www.youtube.com/embed/oJf8gGV390g" frameborder="0" allowfullscreen></iframe>
+
+### Contiv on Kubernetes cluster using VLAN (L2) networking
+<iframe width="560" height="315" src="https://www.youtube.com/embed/HC4MljGX5RY" frameborder="0" allowfullscreen></iframe>
+
+
+## Archive of Older Videos
 
 These videos are from previous versions of Contiv and are now considered archive material. 
 
