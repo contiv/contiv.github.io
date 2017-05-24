@@ -29,7 +29,7 @@ The following resources are provided to help you get up to speed on Contiv and c
 - [Physical networks](/documents/networking/physical-networks.html)
     - [L3 routed networks](/documents/networking/bgp.html)
     - [L2 bridged networks](/documents/networking/l2-vlan.html)
-    - [Cisco ACI](/documents/networking/l2-vlan.html)
+    - [Cisco ACI](/documents/networking/aci_ug.html)
 
 - [IPAM and Service Discovery](/documents/networking/ipam.html)
 - [IPv6](/documents/networking/ipv6.html)

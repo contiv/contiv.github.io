@@ -32,13 +32,10 @@ You can create separate Interface Profiles for individual ToRs if you like.
 
 7. Make a note of the full node names of the ToRs you have connected to your servers.
 
-## Start the ACI Gateway Container
-
-The ACI gateway (ACI-GW) container must be accessible by the `netmaster` node at `localhost:5000`. 
-To ensure that it is accessible, start the ACI-GW on the same node as `netmaster`, with the `--net=host` option.
+## Configure the ACI Gateway Container
 
 To enable the ACI-GW to access and configure ACI to match the Contiv configuration, set these environment 
-variables: 
+variables (see configuring aci under Installation): 
 
 `APIC_URL` - The URL of the APIC.
 
@@ -64,7 +61,7 @@ To enable key-based authentication, follow these steps:
 Create a key and certicate. Add the certificate to APIC using the procedure described 
 [here](http://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/kb/b_KB_Signature_Based_Transactions.pdf).
 
-2. Set the APIC_CERT_DN Environment Variable
+2. Set the APIC_CERT_DN Environment Variable in aci config
 Find the distinguished name (DN) of the key that was added to APIC and pass it to the ACI-GW via the `APIC_CERT_DN` environment variable. 
 This DN is of the form *uni/userext/user-admin/usercert-admin* The exact DN can be found from the APIC visore, 
 for example, `APIC_CERT_DN=uni/userext/user-admin/usercert-admin`.
@@ -72,21 +69,8 @@ for example, `APIC_CERT_DN=uni/userext/user-admin/usercert-admin`.
 3. Create a Key Directory
 Create a directory on the server that hosts ACI-GW and copy the key created in the previous step to this directory.
 
-4. Share the Directory 
+4. Share the key and restart aci_gw container 
+<b>TBD: this step is potentially different in k8s vs swarm environment.</b>
 Share this directory with the ACI-GW using the bind mounting option of Docker.
 For example, if the keys are copied to the `/shared/keys` directory on the host, 
 use the `-v /shared/keys:/aciconfig` option while starting the ACI-GW container.
-
-Below is an example of starting the ACI-GW with all relevant parameters.
-
-```
-/usr/bin/docker run --net=host \
-    -e "APIC_URL=https://11.103.101.33" \
-    -e "APIC_USERNAME=admin" \
-    -e "APIC_LEAF_NODE=topology/pod-1/node-101,topology/pod-1/node-102" \
-    -e "APIC_PHYS_DOMAIN=contivPhysDom" \
-    -e "APIC_CERT_DN=uni/userext/user-admin/usercert-admin" \
-    -v /shared/keys:/aciconfig \
-    --name=contiv-aci-gw \
-    -t contiv/aci-gw
-```
