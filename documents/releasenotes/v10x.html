@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-961be2ca.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-ccddc50c.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -91,7 +91,7 @@ GitHub</a></li>
 			<h3>Release Notes</h3>
 			<ul class="nav">
 				<li>
-					<a href="/documents/releasenotes/v100.html">1.0.0</a>
+					<a href="/documents/releasenotes/v10x.html">1.0.x</a>
 				</li>
 			</ul>
 			<hr>
@@ -106,7 +106,6 @@ GitHub</a></li>
 						    <li>
 								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
 						    </li>
-								
 								<li>
 									<a href="https://github.com/contiv/install/blob/master/README.md">Installation</a>
 									</li>
@@ -228,8 +227,8 @@ GitHub</a></li>
 		</div>  
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
-					<h1>Release Notes for Contiv version 1.0.0</h1>
-<p>Welcome to the GA release of Contiv 1.0.0. Contiv offers the most powerful open source container networking available.</p>
+					<h1>Release Notes for Contiv version 1.0.x</h1>
+<p>Welcome to the GA release of Contiv 1.0. Contiv offers the most powerful open source container networking available.</p>
 
 <h2>Features</h2>
 <p>This release includes:</p>
@@ -262,22 +261,22 @@ GitHub</a></li>
 <p>Contiv can run on a variety of infrastructure, such as
 on-premise or cloud, and different flavors of Linux as host
 OS. This version of Contiv has been validated with following
-configuration options. See <a href="/documents/support/supportmatrix.html">support
+configuration options. See <a href="/documents/support/supportmatrix/v10x.html">support
 matrix</a> for more
 details.</p>
 
 <h3>Container Platforms</h3>
-<p>Kubernetes 1.4, Docker Engine 1.12.x + Swarm 1.2.5, Docker UCP 1.1.6, OpenShift Origin 1.x/Enterprise 3.x, Docker UCP 2.1.x</p>
+<p>Kubernetes, OpenShift, Docker Engine + Swarm, Docker UCP</p>
 
 <ul>
-<li>Docker UCP 2.1.x support using v2 plugin is in experimental stage
+<li>Docker UCP 2.1.x/Engine 17.03-ce support with native swarm mode using v2plugin is in experimental stage
 </li>
 <li>OpenShift support is in experimental stage
 </li>
 </ul>
 
 <h3>Infrastructure Support</h3>
-<p>Bare Metal, vCenter VMs, AWS VMs</p>
+<p>Bare Metal, VMware vCenter (version 6.5+) VMs, AWS VMs</p>
 
 <ul>
 <li>vCenter VMs require VM port group to be configured (see <a href="https://pubs.vmware.com/vsphere-65/index.jsp?topic=%2Fcom.vmware.vsphere.networking.doc%2FGUID-D5960C77-0D19-4669-A00C-B05D58A422F8.html">the VMWare documentation</a> for more details). For L2 or ACI mode, port group needs to be configured using VLAN trunking to allow Virtual Guest Tagging. For L3 mode, port group can be configured using no VLAN if using External VLAN Tagging or assign a VLAN in the Port Group for Virtual Switch Tagging.

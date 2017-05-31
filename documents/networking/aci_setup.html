@@ -3,23 +3,23 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Setting up a Swarm Cluster.">
+    <meta name="description" content="Setting up ACI ">
 
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <title>Swarm Cluster - Contiv</title>
+    <title>Cisco ACI - Contiv</title>
 
     <link href="/assets/stylesheets/application-961be2ca.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-ccddc50c.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
 
-  <body id="page-Swarm Cluster" class=" page-Swarm Cluster layout-documents page-sub">
+  <body id="page-Cisco ACI" class=" page-Cisco ACI layout-documents page-sub">
 
   <div class="navbar-jumbotron">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -91,7 +91,7 @@ GitHub</a></li>
 			<h3>Release Notes</h3>
 			<ul class="nav">
 				<li>
-					<a href="/documents/releasenotes/v100.html">1.0.0</a>
+					<a href="/documents/releasenotes/v10x.html">1.0.x</a>
 				</li>
 			</ul>
 			<hr>
@@ -106,7 +106,6 @@ GitHub</a></li>
 						    <li>
 								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
 						    </li>
-								
 								<li class="active">
 									<a href="https://github.com/contiv/install/blob/master/README.md">Installation</a>
 									</li>
@@ -228,119 +227,71 @@ GitHub</a></li>
 		</div>  
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
-					<h1>Installing Contiv Network with Docker Swarm</h1>
-<p>This page describes how to set up a Contiv cluster using Docker Swarm.</p>
-<p><a name="Prerequisites"/></p>
+					<h1>Installing Contiv Network with Cisco ACI</h1>
+<p>This page gives brief instructions for installing Contiv Network with Cisco&#39;s Application Centric Infrastructure (ACI).</p>
+<p>For more information about ACI, contact <a href="http://www.cisco.com/c/en/us/solutions/data-center-virtualization/application-centric-infrastructure/index.html">Cisco Systems</a>.</p>
 
 <h2>Prerequisites</h2>
+<p>Configure your APIC Fabric and Access Policies as follows:</p>
 
 <ol>
-<li>Install Ubuntu 15 or Centos 7.2 on all servers used for the Contiv cluster.
+<li><p>Create a VLAN Pool under <em>Fabric</em> -&gt; <em>Access Policies</em> -&gt; <em>Pools</em> -&gt; <em>VLAN</em>. Set allocation mode to
+<em>Static Allocation</em>.</p>
 </li>
-<li>Ensure that each server has at least two, and preferably three, interfaces.
+<li><p>Create a physical domain under <em>Fabric</em> -&gt; <em>Access Policies</em> -&gt; <em>Physical and External Domains</em> -&gt; <em>Physical Domains</em>.</p>
 </li>
-<li>Choose a server that is on the management network. Run the install procedure below on this node. This <em>install node</em> manages the installation in addition to being part of your cluster.
+<li><p>Create an attachable access entity profile (AAEP) and associate it with the physical domain created in Step 2.</p>
 </li>
-<li>In a command shell, use the following commands to set two environment variables:
-<a name="export_CLUSTER_NODE_IPS_lt_node_ips_gt_and"/><a href="#export_CLUSTER_NODE_IPS_lt_node_ips_gt_and"><code>export CLUSTER_NODE_IPS=&lt;node_ips&gt; and</code></a>export no_proxy=<node_ips>,127.0.0.1,localhost,netmaster<code>,
-where</code><node_ip>` is a list of the IP addresses of all nodes in your cluster.
+<li><p>Create a Policy Group (under <em>Interface Policies</em>) and specify the AAEP created in Step 3.</p>
 </li>
-<li>If your servers are behind an http proxy, use the following commands to set the proxies on the install node: <a name="export_http_proxy_lt_proxy_url_gt_"/><a href="#export_http_proxy_lt_proxy_url_gt_"><code>export http_proxy=&lt;proxy url&gt;</code></a> and  <code>export https_proxy=&lt;proxy_url&gt;</code>. 
+<li><p>Create an Interface Profile and specify the physical interfaces connected from your ToRs to the bare metal servers. 
+You can create separate Interface Profiles for individual ToRs if you like.</p>
 </li>
-<li>Verify Python is installed on the target machines
+<li><p>Create a Switch Profile (<em>Switch Policies/Profiles</em>) and specify the appropriate interface profile created in Step 5.</p>
 </li>
-<li>The setup scripts use the Python module <em>netaddr</em> and the Linux utility <em>bzip2</em>. If these are not installed on the machine where you are executing these steps, you must install them before proceeding. (You can use the following commands: <a name="yum_install_bzip2_pip_install_netaddr"/><a href="#yum_install_bzip2_pip_install_netaddr"><code>yum install bzip2; pip install netaddr</code></a>.)
-</li>
-<li>(Optional but recommeded): Enable passwordless SSH access from the installation server to all the other servers in the cluster. An example is <a href="http://www.linuxproblem.org/art_9.html">here</a>.
-</li>
-<li>(Optional but recommeded): Enable passwordless sudo on all servers.  An example is
-<a href="http://askubuntu.com/questions/192050/how-to-run-sudo-command-with-no-password">here</a>.
-</li>
-<li>Make a note of the IP addresses (or DNS names) of all the servers, and of the network
-interfaces on which these IP addresses are configured.
+<li><p>Make a note of the full node names of the ToRs you have connected to your servers.</p>
 </li>
 </ol>
-<p><a name="Download"/></p>
 
-<h2>Step 1: Download the Installer Script</h2>
-<p>Log into the install server and download the installer script using the following command:</p>
-<pre class="highlight plaintext"><code>wget https://raw.githubusercontent.com/contiv/demo/master/net/net_demo_installer
-</code></pre>
+<h2>Configure the ACI Gateway Container</h2>
+<p>To enable the ACI-GW to access and configure ACI to match the Contiv configuration, set these environment 
+variables (see configuring aci under Installation):</p>
+<p><code>APIC_URL</code> - The URL of the APIC.</p>
+<p><code>APIC_USERNAME</code> - The login username for the APIC.</p>
+<p><code>APIC_LEAF_NODE</code> - The full URI path of the ACI leaf nodes where the cluster servers are connected,
+for example, <code>topology/pod-1/node-101</code>. If there are multiple nodes, you can use comma separation,
+for example, <code>topology/pod-1/node-101,topology/pod-1/node-102</code>.</p>
+<p><code>APIC_PHYS_DOMAIN</code> - The name of the physical domain used for the Contiv cluster (Step 2 above).</p>
 
-<h2>Step 2: Create the Configuration File</h2>
-<p>Create the configuration file, <code>cfg.yml</code>, and provide connection information for each server.</p>
-<p>In the configuration file, <code>CONNECTION_INFO</code> is a mandatory section that provides access 
-information for all server nodes in the setup.</p>
-<p>For every server in the setup, provide the IP/DNS and the control, data interface:</p>
-<pre class="highlight plaintext"><code>    CONNECTION_INFO:
-        &lt;server1-ip-or-dns&gt;:
-            control: &lt;interface on which control protocols can interact&gt;
-            data: &lt;interface used to send data packets&gt;
-        &lt;server2-ip-or-dns&gt;:
-            control: &lt;interface on which control protocols can interact&gt;
-            data: &lt;interface used to send data packets&gt;
-</code></pre>
-<p>A sample configuration file can be found here: <a href="/extras/sample_cfg.yml">sample_cfg.yml</a>.</p>
+<h2>Set Up Authentication</h2>
+<p>Both key-based authentication and password authentication are supported. Key-based authentication is the recommended method.</p>
 
-<h2>Step 3: Run the Installer Script</h2>
-<p>Set execute privileges on and run the installer script as follows:</p>
-<pre class="highlight plaintext"><code>    chmod +x net_demo_installer
-    ./net_demo_installer
-</code></pre>
-<p>set the environment variable contiv_network_version if a different version of Contiv network is needed.</p>
-<pre class="highlight plaintext"><code>export contiv_network_version="v0.1-06-17-2016.08-42-14.UTC"
-</code></pre>
-<p>contiv network version can be obtained from: <a href="https://github.com/contiv/netplugin/releases">https://github.com/contiv/netplugin/releases</a></p>
-<p>&quot;aci_gw_image&quot; specifies the docker image used for the aci-gw. This defaults to &quot;contiv/aci-gw:latest&quot;.</p>
-<p>If your setup requires a different image, just set this &quot;aci_gw_image&quot; environment variable to the &quot;image-name:version&quot;.</p>
-<p>e.g:</p>
-<pre class="highlight plaintext"><code>export aci_gw_image="contiv/aci-gw:v2"
-</code></pre>
-<p>Will fetch container aci-gw of contiv user from docker hub registry with v2 tag.</p>
-<p>Run net_demo_installer script.</p>
-<pre class="highlight plaintext"><code>./net_demo_installer
-</code></pre>
-<p><em>Note</em>: To restart the services already deployed, run the installer with -r option. This ensures that the services are restarted in a clean state.</p>
-<pre class="highlight plaintext"><code>./net_demo_installer -r
-</code></pre>
+<h3>Password-Based Authentication</h3>
+<p>For password-based authentication, pass the password to the ACI-GW using the <code>APIC_PASSWORD</code> environment variable.</p>
 
-<ul>
-<li>The installer script requests username and password if passwordless ssh is not set during the installation.
+<h3>Key-Based Authentication</h3>
+<p>To enable key-based authentication, follow these steps:</p>
+
+<ol>
+<li><p>Create a Key 
+Create a key and certicate. Add the certificate to APIC using the procedure described 
+<a href="http://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/kb/b_KB_Signature_Based_Transactions.pdf">here</a>.</p>
 </li>
-<li>Running the installer with &#39;-c&#39; (&quot;clean&quot;) removes any files that are auto-generated by the script.
+<li><p>Set the APIC_CERT_DN Environment Variable in aci config
+Find the distinguished name (DN) of the key that was added to APIC and pass it to the ACI-GW via the <a name="APIC_CERT_DN"/><a href="#APIC_CERT_DN"><code>APIC_CERT_DN</code></a> environment variable. 
+This DN is of the form <em>uni/userext/user-admin/usercert-admin</em> The exact DN can be found from the APIC visore, 
+for example, <code>APIC_CERT_DN=uni/userext/user-admin/usercert-admin</code>.</p>
 </li>
-</ul>
-<p>The installer script performs the following actions:
-- Verifies that a supported operating system is installed on the servers.
-- Verifies network access to the servers. 
-- Creates the Ansible inventory file.
-- Sets server provisioning variables that determine the installation mode.
-- Runs the Ansible playbook which installs necessary packages and starts the services.</p>
-
-<h2>What to Do Next</h2>
-<p>Use the Contiv <code>netctl</code> commands are used to create and manipulate networks, endpoint groups, and policies.</p>
-<p>See the small-scale Vagrant demo <a href="/documents/gettingStarted/networking/swarm.html">here</a> to get started.</p>
-<p>See the <a href="/documents/tutorials/">Tutorials</a> section for extended examples of setting up policy-based networks.</p>
-<p>See the <a href="/documents/samples/">Examples</a> section for details on using <code>netctl</code> to explore various features of Contiv networking.</p>
-
-<h2>Troubleshooting</h2>
-<p>Current limitations of the script include the following:</p>
-
-<ul>
-<li>The installer script must run from one of the server nodes in the cluster. 
+<li><p>Create a Key Directory
+Create a directory on the server that hosts ACI-GW and copy the key created in the previous step to this directory.</p>
 </li>
-<li>Connections to the servers must be on the default ssh port.
+<li><p>Share the key and restart aci_gw container 
+<b>TBD: this step is potentially different in k8s vs swarm environment.</b>
+Share this directory with the ACI-GW using the bind mounting option of Docker.
+For example, if the keys are copied to the <a name="_shared_keys"/><a href="#_shared_keys"><code>/shared/keys</code></a> directory on the host, 
+use the <code>-v /shared/keys:/aciconfig</code> option while starting the ACI-GW container.</p>
 </li>
-<li>The default username used is the local hostname.
-</li>
-</ul>
-<p>The script generates many files for bookkeeping during the installation procedure.
-These files can be found under <code>.gen</code> folder in your installer directory.
-To remove these files and start from a clean slate, use the <code>-c</code> option as follows:</p>
-<pre class="highlight plaintext"><code>        ./net_demo_installer -c
-</code></pre>
-<p>With this option, the script lists the files to remove and prompt you for confirmation to proceed.</p>
-<p>If you find any other issues or have suggestions for improvement, please feel free to suggest or contribute.</p>
+</ol>
 
 	<hr>
 

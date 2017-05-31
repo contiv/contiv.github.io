@@ -144,4 +144,4 @@ netctl app-profile create -t MixedTenant -g app,db container-profile
 
 You can now use Docker commands (or other orchestration tools) to create containers. If you are using Docker, use the `--net` option to specify the Docker network name that corresponds to the application tier (use `docker network ls | grep app` to find the network name that corresponds to `app` in the example). For Kubernetes, specify the tenant, network, and endpoint group using the `io.contiv.tenant`, `io.contiv.network`, and `io.contiv.net-group` labels respectively.
 
-[Installing Contiv Network with Cisco ACI]: </documents/gettingStarted/networking/aci.html>
+[Installing Contiv Network with Cisco ACI]: </documents/networking/aci_setup.html>

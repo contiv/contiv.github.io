@@ -14,7 +14,7 @@
 
     <link href="/assets/stylesheets/application-961be2ca.css" rel="stylesheet"/>
 
-    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-ccddc50c.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="/assets/javascripts/html5shiv-099439cc.js"></script><script src="/assets/javascripts/respond.min-1eb35b04.js"></script><![endif]-->
 
     
   </head>
@@ -91,7 +91,7 @@ GitHub</a></li>
 			<h3>Release Notes</h3>
 			<ul class="nav">
 				<li>
-					<a href="/documents/releasenotes/v100.html">1.0.0</a>
+					<a href="/documents/releasenotes/v10x.html">1.0.x</a>
 				</li>
 			</ul>
 			<hr>
@@ -106,7 +106,6 @@ GitHub</a></li>
 						    <li>
 								<a href="/documents/networking/concepts.html">Concepts and Terminology</a>
 						    </li>
-								
 								<li>
 									<a href="https://github.com/contiv/install/blob/master/README.md">Installation</a>
 									</li>
@@ -243,7 +242,7 @@ GitHub</a></li>
 3. Application policy configuration<br></p>
 
 <h3>Network Resource Allocation for Your Contiv Cluster</h3>
-<p>Contiv uses the static VLAN binding mechanism to integrate with ACI. This mechanism requires a physDom, VLAN pool, and some associated objects. For a step-by-step guide to this configuration see <a href="/documents/gettingStarted/networking/aci.html">Installing Contiv Network with Cisco ACI</a>.</p>
+<p>Contiv uses the static VLAN binding mechanism to integrate with ACI. This mechanism requires a physDom, VLAN pool, and some associated objects. For a step-by-step guide to this configuration see <a href="/documents/networking/aci_setup.html">Installing Contiv Network with Cisco ACI</a>.</p>
 <p>After the ACI is configured, Contiv must be configured using the <code>netctl</code> command as follows:</p>
 <pre class="highlight plaintext"><code>netctl global set --fabric-mode aci --vlan-range 400-500
 </code></pre>
@@ -261,7 +260,7 @@ GitHub</a></li>
 
 <h4>Bridge Domain Configuration</h4>
 <p>Contiv does not have an explicit BD object. Because ACI requires a BD object, the ACI-GW creates it in ACI when a network is associated with ACI with an app profile binding.</p>
-<p>Some use cases might require binding to a BD that already exists in ACI. To bind with an existing BD, the BD&#39;s domain name (DN) must be passed to the ACI-GW via the <code>APIC_EPG_BRIDGE_DOMAIN</code> environment variable when the ACI-GW is started. See <a href="/documents/gettingStarted/networking/aci.html">Installing Contiv Network with Cisco ACI</a>.</p>
+<p>Some use cases might require binding to a BD that already exists in ACI. To bind with an existing BD, the BD&#39;s domain name (DN) must be passed to the ACI-GW via the <code>APIC_EPG_BRIDGE_DOMAIN</code> environment variable when the ACI-GW is started. See <a href="/documents/networking/aci_setup.html">Installing Contiv Network with Cisco ACI</a>.</p>
 
 <h4>Contracts</h4>
 <p>For communication between the Contiv cluster and external endpoints, corresponding contracts are necessary. Such a contract must first be created in ACI, then its DN must be supplied to Contiv by creating an external-contracts object in Contiv.</p>
