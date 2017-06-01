@@ -36,7 +36,7 @@ The following resources are provided to help you get up to speed on Contiv and c
 
 ## Supported Modes
 
-Contiv supports the networking modes and schedulers shown in the table below. To learn about and try the various combinations, see the Contiv Network [Getting Started](/documents/gettingStarted/networking/index.html) page.
+Contiv supports the networking modes and schedulers shown in the table below. To learn about and try various combinations, see [Getting Started](/documents/gettingStarted/) page for how to [install](https://github.com/contiv/install/blob/master/README.md) in your environment, or in a [demo setup](https://github.com/contiv/install/blob/master/QUICKSTART.md).
 
 |Fabric  | Kubernetes | Docker Swarm |  
 |--------+------------+--------------|
@@ -45,6 +45,6 @@ Contiv supports the networking modes and schedulers shown in the table below. To
 | **Overlay (cloud)** | <i class="fa fa-check fa-2x"></i>| <i class="fa fa-check fa-2x"></i> |  
 | **ACI**     | <i class="fa fa-check fa-2x"></i>| <i class="fa fa-check fa-2x"></i> |
 
-Please [submit an issue](https://github.com/contiv/netplugin/issues) if you
-would like to suggest a feature or enhancement to be addressed by Contiv developers and contributors.
+Please see [support](/documents/support/index.html) page on 
+how to suggest a feature or enhancement to be addressed by Contiv developers and contributors.
 
