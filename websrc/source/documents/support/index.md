@@ -12,7 +12,7 @@ layout: "documents"
 
 - For the latest on Contiv development, follow our [blog](http://blogs.cisco.com/tag/contiv).
 
-- Interested in commercial support? Reach out [to us](mailto:contiv-support@external.cisco.com) and we can discuss your options. Full support matrix is listed [here](/documents/support/supportmatrix.html).
+- Interested in commercial support? Reach out [to us](mailto:contiv-support@external.cisco.com) and we can discuss your options. Full support matrix for each Contiv version is listed [here](/documents/support/supportmatrix/index.html).
 
 <div class="row">
     <div class="col-md-10 col-md-offset-1" style="position:absolute; top:90%;">
