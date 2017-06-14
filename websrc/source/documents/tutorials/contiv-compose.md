@@ -34,7 +34,7 @@ $ cd install
 - Please make sure that you are NOT connected to VPN here.
 
 ```
-make demo-swarm
+make demo-legacy-swarm
 ```
 This will create two VMs on VirtualBox. Using ansible, all the required services and software for contiv, will get installed at this step.
 This might take some time (usually approx 15-20 mins) depending upon your internet connection.
