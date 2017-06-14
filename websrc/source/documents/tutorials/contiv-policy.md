@@ -28,12 +28,12 @@ So we will add ICMP deny policy and verify that we are not able to ping among th
 Let us create Tenant and Network first.
 
 ```
-[vagrant@contiv-node3 ~]$ export DOCKER_HOST=tcp://192.168.2.52:2375
-[vagrant@contiv-node3 ~]$ netctl tenant create TestTenant
+[vagrant@legacy-swarm-master ~]$ export DOCKER_HOST=tcp://192.168.2.50:2375
+[vagrant@legacy-swarm-master ~]$ netctl tenant create TestTenant
 Creating tenant: TestTenant
-[vagrant@contiv-node3 ~]$ netctl network create --tenant TestTenant --subnet=10.1.1.0/24 --gateway=10.1.1.254 -e "vlan" TestNet
+[vagrant@legacy-swarm-master ~]$ netctl network create --tenant TestTenant --subnet=10.1.1.0/24 --gateway=10.1.1.254 -e "vlan" TestNet
 Creating network TestTenant:TestNet
-[vagrant@contiv-node3 ~]$ netctl net ls -a
+[vagrant@legacy-swarm-master ~]$ netctl net ls -a
 Tenant      Network  Nw Type  Encap type  Packet tag  Subnet       Gateway     IPv6Subnet  IPv6Gateway
 ------      -------  -------  ----------  ----------  -------      ------      ----------  -----------
 TestTenant  TestNet  data     vlan        0           10.1.1.0/24  10.1.1.254
@@ -44,11 +44,11 @@ Now, create two groups epgA and epgB, under network TestNet.
 
 
 ```
-vagrant@contiv-node3 ~]$ netctl group create -t TestTenant TestNet epgA
+vagrant@legacy-swarm-master ~]$ netctl group create -t TestTenant TestNet epgA
 Creating EndpointGroup TestTenant:epgA
-[vagrant@contiv-node3 ~]$ netctl group create -t TestTenant TestNet epgB
+[vagrant@legacy-swarm-master ~]$ netctl group create -t TestTenant TestNet epgB
 Creating EndpointGroup TestTenant:epgB
-[vagrant@contiv-node3 ~]$ netctl group ls -a
+[vagrant@legacy-swarm-master ~]$ netctl group ls -a
 Tenant      Group  Network  IP Pool   Policies  Network profile
 ------      -----  -------  --------  ---------------
 TestTenant  epgA   TestNet
@@ -56,22 +56,22 @@ TestTenant  epgB   TestNet
 
 ```
 
-Now you will see thse groups and networks are reported as network to docker-engine, with driver listed as netplugin.
+Now you will see these groups and networks are reported as network to docker-engine, with driver listed as netplugin.
 
 
 ```
 
-[vagrant@contiv-node3 ~]$ docker network ls
-NETWORK ID          NAME                  DRIVER              SCOPE
-85f8144b5793        TestNet/TestTenant    netplugin           global
-dc4bf5c0a3f6        contiv-node3/bridge   bridge              local
-8ba7d938a5a6        contiv-node3/host     host                local
-ce0ed5eeb959        contiv-node3/none     null                local
-f582a71ef87c        contiv-node4/bridge   bridge              local
-9a79b6aa93d3        contiv-node4/host     host                local
-bb41a59343f7        contiv-node4/none     null                local
-f265e28064e3        epgA/TestTenant       netplugin           global
-5991ae9fafc0        epgB/TestTenant       netplugin           global
+[vagrant@legacy-swarm-master ~]$ docker network ls
+NETWORK ID          NAME                          DRIVER              SCOPE
+f38fe5758042        TestNet/TestTenant            netplugin           global
+6b438745a206        epgA/TestTenant               netplugin           global
+d595ad64ccaf        epgB/TestTenant               netplugin           global
+d27068896366        legacy-swarm-master/bridge    bridge              local
+1771861879cf        legacy-swarm-master/host      host                local
+f7d7643491f3        legacy-swarm-master/none      null                local
+83f0ad7997e2        legacy-swarm-worker0/bridge   bridge              local
+7f2342d24e6a        legacy-swarm-worker0/host     host                local
+506fc42e2a35        legacy-swarm-worker0/none     null                local
 
 ```
 
@@ -79,19 +79,19 @@ Let us create two containers on each group network and check whether they are ab
 By default, Contiv allows connectivity between groups under same network.
 
 ```
-[vagrant@contiv-node3 ~]$ docker run -itd --net="epgA/TestTenant" --name=AContainer contiv/alpine sh
+[vagrant@legacy-swarm-master ~]$ docker run -itd --net="epgA/TestTenant" --name=AContainer contiv/alpine sh
 d1c6376bebdbd93392131dce08887117460c801be1f1540e0f25ee990aa9003b
 
-[vagrant@contiv-node3 ~]$ docker run -itd --net="epgB/TestTenant" --name=BContainer contiv/alpine sh
+[vagrant@legacy-swarm-master ~]$ docker run -itd --net="epgB/TestTenant" --name=BContainer contiv/alpine sh
 4a4ce395f99b6f0e4f8963724a2dd04c46c2d88375f7ac3870435f46bdc4aa30
 
-[vagrant@contiv-node3 ~]$ docker ps
-CONTAINER ID        IMAGE                            COMMAND                  CREATED              STATUS              PORTS               NAMES
-4a4ce395f99b        contiv/alpine                    "sh"                     51 seconds ago       Up 50 seconds                           contiv-node4/BContainer
-d1c6376bebdb        contiv/alpine                    "sh"                     About a minute ago   Up 59 seconds                           contiv-node3/AContainer
-8874e51e9f3b        contiv/auth_proxy:1.0.0   "./auth_proxy --tls-k"   10 minutes ago       Up 10 minutes                           contiv-node3/auth-proxy
-767c6a3fd784        quay.io/coreos/etcd:v2.3.8       "/etcd"                  13 minutes ago       Up 13 minutes                           contiv-node4/etcd
-a56c3ab35cbf        quay.io/coreos/etcd:v2.3.8       "/etcd"                  13 minutes ago       Up 13 minutes                           contiv-node3/etcd
+[vagrant@legacy-swarm-master ~]$ docker ps
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS               NAMES
+d50a96536aeb        contiv/alpine                "sh"                     7 seconds ago       Up 6 seconds                            legacy-swarm-worker0/BContainer
+32e87214aedd        contiv/alpine                "sh"                     30 seconds ago      Up 29 seconds                           legacy-swarm-worker0/AContainer
+654e678abd24        contiv/auth_proxy:1.0.3      "./auth_proxy --tls-k"   9 hours ago         Up 9 hours                              legacy-swarm-master/auth-proxy
+e8f9f40077f1        quay.io/coreos/etcd:v2.3.8   "/etcd"                  9 hours ago         Up 9 hours                              legacy-swarm-worker0/etcd
+7810f563e836        quay.io/coreos/etcd:v2.3.8   "/etcd"                  9 hours ago         Up 9 hours                              legacy-swarm-master/etcd
 
 
 ```
@@ -99,32 +99,32 @@ a56c3ab35cbf        quay.io/coreos/etcd:v2.3.8       "/etcd"                  13
 Try to ping from AContainer to BContainer. They should be able to ping each other.
 
 ```
-[vagrant@contiv-node3 ~]$ docker exec -it BContainer sh
+[vagrant@legacy-swarm-master ~]$ docker exec -it BContainer sh
 / # ifconfig
 eth0      Link encap:Ethernet  HWaddr 02:02:0A:01:01:02
           inet addr:10.1.1.2  Bcast:0.0.0.0  Mask:255.255.255.0
-          inet6 addr: fe80::2:aff:fe01:102%32606/64 Scope:Link
+          inet6 addr: fe80::2:aff:fe01:102/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1450  Metric:1
-          RX packets:12 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:11 errors:0 dropped:0 overruns:0 carrier:0
+          RX packets:8 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:0
-          RX bytes:956 (956.0 B)  TX bytes:886 (886.0 B)
+          RX bytes:648 (648.0 B)  TX bytes:648 (648.0 B)
 
 lo        Link encap:Local Loopback
           inet addr:127.0.0.1  Mask:255.0.0.0
-          inet6 addr: ::1%32606/128 Scope:Host
+          inet6 addr: ::1/128 Scope:Host
           UP LOOPBACK RUNNING  MTU:65536  Metric:1
           RX packets:0 errors:0 dropped:0 overruns:0 frame:0
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:1
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
-
-[vagrant@contiv-node3 ~]$ docker exec -it AContainer sh
+/ # exit
+[vagrant@legacy-swarm-master ~]$ docker exec -it AContainer sh
 / # ifconfig
 eth0      Link encap:Ethernet  HWaddr 02:02:0A:01:01:01
           inet addr:10.1.1.1  Bcast:0.0.0.0  Mask:255.255.255.0
-          inet6 addr: fe80::2:aff:fe01:101%32716/64 Scope:Link
+          inet6 addr: fe80::2:aff:fe01:101/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1450  Metric:1
           RX packets:16 errors:0 dropped:0 overruns:0 frame:0
           TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
@@ -133,23 +133,23 @@ eth0      Link encap:Ethernet  HWaddr 02:02:0A:01:01:01
 
 lo        Link encap:Local Loopback
           inet addr:127.0.0.1  Mask:255.0.0.0
-          inet6 addr: ::1%32716/128 Scope:Host
+          inet6 addr: ::1/128 Scope:Host
           UP LOOPBACK RUNNING  MTU:65536  Metric:1
           RX packets:0 errors:0 dropped:0 overruns:0 frame:0
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:1
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
-/ # ping 10.1.1.2
-PING 10.1.1.2 (10.1.1.2) 56(84) bytes of data.
-64 bytes from 10.1.1.2: icmp_seq=1 ttl=64 time=2.43 ms
-64 bytes from 10.1.1.2: icmp_seq=2 ttl=64 time=0.836 ms
-^C
---- 10.1.1.2 ping statistics ---
-2 packets transmitted, 2 received, 0% packet loss, time 1003ms
-rtt min/avg/max/mdev = 0.836/1.633/2.430/0.797 ms
-/ # exit
+/ # ping -c 3 10.1.1.2
+PING 10.1.1.2 (10.1.1.2): 56 data bytes
+64 bytes from 10.1.1.2: seq=0 ttl=64 time=1.188 ms
+64 bytes from 10.1.1.2: seq=1 ttl=64 time=0.087 ms
+64 bytes from 10.1.1.2: seq=2 ttl=64 time=0.098 ms
 
+--- 10.1.1.2 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.087/0.457/1.188 ms
+/ # exit
 
 ```
 
@@ -157,17 +157,17 @@ Add ICMP Deny policy from epgA and modify group epgB to associate this policy.
 
 ```
 
-[vagrant@contiv-node3 ~]$ netctl policy create -t TestTenant policyAB
+[vagrant@legacy-swarm-master ~]$ netctl policy create -t TestTenant policyAB
 Creating policy TestTenant:policyAB
-[vagrant@contiv-node3 ~]$ netctl policy rule-add -t TestTenant -d in --protocol icmp  --from-group epgA  --action deny policyAB 1
-[vagrant@contiv-node3 ~]$ netctl group create -t TestTenant -p policyAB TestNet epgB
+[vagrant@legacy-swarm-master ~]$ netctl policy rule-add -t TestTenant -d in --protocol icmp  --from-group epgA  --action deny policyAB 1
+[vagrant@legacy-swarm-master ~]$ netctl group create -t TestTenant -p policyAB TestNet epgB
 Creating EndpointGroup TestTenant:epgB
-[vagrant@contiv-node3 ~]$ netctl policy ls -a
+[vagrant@legacy-swarm-master ~]$ netctl policy ls -a
 Tenant      Policy
 ------      ------
 TestTenant  policyAB
 
-[vagrant@contiv-node3 ~]$ netctl policy rule-ls -t TestTenant policyAB
+[vagrant@legacy-swarm-master ~]$ netctl policy rule-ls -t TestTenant policyAB
 Incoming Rules:
 Rule  Priority  From EndpointGroup  From Network  From IpAddress  Protocol  Port  Action
 ----  --------  ------------------  ------------  ---------       --------  ----  ------
@@ -183,12 +183,13 @@ Now ping between containers should not work.
 
 ```
 
-[vagrant@contiv-node3 ~]$ docker exec -it AContainer sh
-/ # ping 10.1.1.2
-PING 10.1.1.2 (10.1.1.2) 56(84) bytes of data.
-^C
+[vagrant@legacy-swarm-master ~]$ docker exec -it AContainer sh
+
+/ # ping -c 3 10.1.1.2
+PING 10.1.1.2 (10.1.1.2): 56 data bytes
+
 --- 10.1.1.2 ping statistics ---
-4 packets transmitted, 0 received, 100% packet loss, time 3002ms
+3 packets transmitted, 0 packets received, 100% packet loss
 
 / # exit
 
@@ -200,9 +201,9 @@ In this section, we will create TCP deny policy as well as selective TCP port al
 
 ```
 
-[vagrant@contiv-node3 ~]$ netctl policy rule-add -t TestTenant -d in --protocol tcp --port 0  --from-group epgA  --action deny policyAB 2
-[vagrant@contiv-node3 ~]$ netctl policy rule-add -t TestTenant -d in --protocol tcp --port 8001  --from-group epgA  --action allow --priority 10 policyAB 3
-[vagrant@contiv-node3 ~]$ netctl policy rule-ls -t TestTenant policyAB
+[vagrant@legacy-swarm-master ~]$ netctl policy rule-add -t TestTenant -d in --protocol tcp --port 0  --from-group epgA  --action deny policyAB 2
+[vagrant@legacy-swarm-master ~]$ netctl policy rule-add -t TestTenant -d in --protocol tcp --port 8001  --from-group epgA  --action allow --priority 10 policyAB 3
+[vagrant@legacy-swarm-master ~]$ netctl policy rule-ls -t TestTenant policyAB
 Incoming Rules:
 Rule  Priority  From EndpointGroup  From Network  From IpAddress  Protocol  Port  Action
 ----  --------  ------------------  ------------  ---------       --------  ----  ------
@@ -222,7 +223,7 @@ verify using nc utility on AContainer.
 ```
 On BContainer:
 
-[vagrant@contiv-node3 ~]$ docker exec -it BContainer sh
+[vagrant@legacy-swarm-master ~]$ docker exec -it BContainer sh
 / # iperf -s -p 8001
 ------------------------------------------------------------
 Server listening on TCP port 8001
@@ -233,7 +234,7 @@ TCP window size: 85.3 KByte (default)
 On AContainer:
 
 ```
-[vagrant@contiv-node3 ~]$ docker exec -it AContainer sh
+[vagrant@legacy-swarm-master ~]$ docker exec -it AContainer sh
 / # nc -zvw 1 10.1.1.2 8001 -------> here 10.1.1.2 is IP address of BContainer.
 10.1.1.2 (10.1.1.2:8001) open
 / # nc -zvw 1 10.1.1.2 8000
@@ -254,17 +255,17 @@ So, let us create tenant, a network and group "A" under network.
 
 
 ```
-[vagrant@contiv-node3 ~]$ netctl tenant create BandwidthTenant
+[vagrant@legacy-swarm-master ~]$ netctl tenant create BandwidthTenant
 Creating tenant: BandwidthTenant
-[vagrant@contiv-node3 ~]$ netctl network create --tenant BandwidthTenant --subnet=50.1.1.0/24 --gateway=50.1.1.254 -p 1001 -e "vlan" BandwidthTestNet
+[vagrant@legacy-swarm-master ~]$ netctl network create --tenant BandwidthTenant --subnet=50.1.1.0/24 --gateway=50.1.1.254 -p 1001 -e "vlan" BandwidthTestNet
 Creating network BandwidthTenant:BandwidthTestNet
-[vagrant@contiv-node3 ~]$ netctl group create -t BandwidthTenant BandwidthTestNet epgA
+[vagrant@legacy-swarm-master ~]$ netctl group create -t BandwidthTenant BandwidthTestNet epgA
 Creating EndpointGroup BandwidthTenant:epgA
-[vagrant@contiv-node3 ~]$ netctl net ls -a
+[vagrant@legacy-swarm-master ~]$ netctl net ls -a
 Tenant           Network           Nw Type  Encap type  Packet tag  Subnet       Gateway     IPv6Subnet  IPv6Gateway
 ------           -------           -------  ----------  ----------  -------      ------      ----------  -----------
 BandwidthTenant  BandwidthTestNet  data     vlan        1001        50.1.1.0/24  50.1.1.254
-[vagrant@contiv-node3 ~]$ netctl group ls -a
+[vagrant@legacy-swarm-master ~]$ netctl group ls -a
 Tenant           Group  Network           IP Pool   Policies  Network profile
 ------           -----  -------           --------  ---------------
 BandwidthTenant  epgA   BandwidthTestNet
@@ -275,17 +276,19 @@ Now, We are going to run serverA and clientA containers using group epgA as a ne
 
 
 ```
-[vagrant@contiv-node3 ~]$ docker run -itd --net="epgA/BandwidthTenant" --name=serverA contiv/alpine sh
+[vagrant@legacy-swarm-master ~]$ docker run -itd --net="epgA/BandwidthTenant" --name=serverA contiv/alpine sh
 6112c6697df2c43491a23e02d3d8bc3f621b91d59c64226382789ba15082c71b
-[vagrant@contiv-node3 ~]$ docker run -itd --net="epgA/BandwidthTenant" --name=clientA contiv/alpine sh
+[vagrant@legacy-swarm-master ~]$ docker run -itd --net="epgA/BandwidthTenant" --name=clientA contiv/alpine sh
 c783d6c3f546d6053953bd664045aa35397756656247255a7e0cbb4201b5514c
-[vagrant@contiv-node3 ~]$ docker ps
-CONTAINER ID        IMAGE                            COMMAND                  CREATED             STATUS              PORTS               NAMES
-c783d6c3f546        contiv/alpine                    "sh"                     5 seconds ago       Up 3 seconds                            contiv-node4/clientA
-6112c6697df2        contiv/alpine                    "sh"                     7 seconds ago       Up 5 seconds                            contiv-node4/serverA
-b6e0601d8c13        contiv/auth_proxy:1.0.0   "./auth_proxy --tls-k"   4 minutes ago       Up 4 minutes                            contiv-node3/auth-proxy
-0c3cb365e573        quay.io/coreos/etcd:v2.3.8       "/etcd"                  7 minutes ago       Up 7 minutes                            contiv-node4/etcd
-a9536ad281be        quay.io/coreos/etcd:v2.3.8       "/etcd"                  8 minutes ago       Up 8 minutes                            contiv-node3/etcd
+[vagrant@legacy-swarm-master ~]$ docker ps
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS               NAMES
+f41c806565d3        contiv/alpine                "sh"                     6 seconds ago       Up 4 seconds                            legacy-swarm-worker0/clientA
+7ea3a6a30e59        contiv/alpine                "sh"                     11 seconds ago      Up 9 seconds                            legacy-swarm-master/serverA
+d50a96536aeb        contiv/alpine                "sh"                     6 minutes ago       Up 6 minutes                            legacy-swarm-worker0/BContainer
+32e87214aedd        contiv/alpine                "sh"                     6 minutes ago       Up 6 minutes                            legacy-swarm-worker0/AContainer
+654e678abd24        contiv/auth_proxy:1.0.3      "./auth_proxy --tls-k"   9 hours ago         Up 9 hours                              legacy-swarm-master/auth-proxy
+e8f9f40077f1        quay.io/coreos/etcd:v2.3.8   "/etcd"                  9 hours ago         Up 9 hours                              legacy-swarm-worker0/etcd
+7810f563e836        quay.io/coreos/etcd:v2.3.8   "/etcd"                  9 hours ago         Up 9 hours                              legacy-swarm-master/etcd
 
 ```
 
@@ -296,7 +299,7 @@ where you are running this tutorial. It may vary depending upon base OS , networ
 ```
 On serverA:
 
-[vagrant@contiv-node3 ~]$ docker exec -it serverA sh
+[vagrant@legacy-swarm-master ~]$ docker exec -it serverA sh
 / # ifconfig
 eth0      Link encap:Ethernet  HWaddr 02:02:32:01:01:01
           inet addr:50.1.1.1  Bcast:0.0.0.0  Mask:255.255.255.0
@@ -329,8 +332,8 @@ UDP buffer size:  208 KByte (default)
 
 On clientA:
 
-[vagrant@contiv-node4 ~]$ export DOCKER_HOST=tcp://192.168.2.52:2375
-[vagrant@contiv-node4 ~]$ docker exec -it clientA sh
+[vagrant@legacy-swarm-worker0 ~]$ export DOCKER_HOST=tcp://192.168.2.50:2375
+[vagrant@legacy-swarm-worker0 ~]$ docker exec -it clientA sh
 / # iperf -c 50.1.1.1 -u
 ------------------------------------------------------------
 Client connecting to 50.1.1.1, UDP port 5001
@@ -343,7 +346,7 @@ UDP buffer size:  208 KByte (default)
 [  3] Sent 893 datagrams
 [  3] Server Report:
 [  3]  0.0-10.0 sec  1.25 MBytes  1.05 Mbits/sec   0.027 ms    0/  893 (0%)
-/ #
+/ # exit
 
 ```
 
@@ -353,20 +356,20 @@ we got above. So let us create netprofile with bandwidth of 500Kbits/sec.
 
 ```
 
-[vagrant@contiv-node3 ~]$ netctl netprofile create -t BandwidthTenant -b 500Kbps -d 6 -s 80 testProfile
+[vagrant@legacy-swarm-master ~]$ netctl netprofile create -t BandwidthTenant -b 500Kbps -d 6 -s 80 testProfile
 Creating netprofile BandwidthTenant:testProfile
-[vagrant@contiv-node3 ~]$ netctl group create -t BandwidthTenant -n testProfile BandwidthTestNet epgB
+[vagrant@legacy-swarm-master ~]$ netctl group create -t BandwidthTenant -n testProfile BandwidthTestNet epgB
 Creating EndpointGroup BandwidthTenant:epgB
-[vagrant@contiv-node3 ~]$ netctl netprofile ls -a
+[vagrant@legacy-swarm-master ~]$ netctl netprofile ls -a
 Name         Tenant           Bandwidth  DSCP      burst size
 ------       ------           ---------  --------  ----------
 testProfile  BandwidthTenant  500Kbps    6         80
-[vagrant@contiv-node3 ~]$ netctl group ls -a
+[vagrant@legacy-swarm-master ~]$ netctl group ls -a
 Tenant           Group  Network           IP Pool   Policies  Network profile
 ------           -----  -------           --------  ---------------
 BandwidthTenant  epgA   BandwidthTestNet
 BandwidthTenant  epgB   BandwidthTestNet              testProfile
-[vagrant@contiv-node3 ~]$
+[vagrant@legacy-swarm-master ~]$
 
 
 ```
@@ -375,20 +378,22 @@ Running clientB and serverB containers:
 
 ```
 
-[vagrant@contiv-node3 ~]$ docker run -itd --net="epgB/BandwidthTenant" --name=serverB contiv/alpine sh
+[vagrant@legacy-swarm-master ~]$ docker run -itd --net="epgB/BandwidthTenant" --name=serverB contiv/alpine sh
 2f4845ed86c5496537ccece77683354e447c28df8f00c10a1a175eb5f44aee76
-[vagrant@contiv-node3 ~]$ docker run -itd --net="epgB/BandwidthTenant" --name=clientB contiv/alpine sh
+[vagrant@legacy-swarm-master ~]$ docker run -itd --net="epgB/BandwidthTenant" --name=clientB contiv/alpine sh
 00dde4f46c360e517695e44f2690590ec0af26e125254102147fe79b76331339
-[vagrant@contiv-node3 ~]$ docker ps
-CONTAINER ID        IMAGE                            COMMAND                  CREATED             STATUS              PORTS               NAMES
-00dde4f46c36        contiv/alpine                    "sh"                     2 seconds ago       Up 1 seconds                            contiv-node4/clientB
-2f4845ed86c5        contiv/alpine                    "sh"                     4 seconds ago       Up 3 seconds                            contiv-node3/serverB
-c783d6c3f546        contiv/alpine                    "sh"                     12 minutes ago      Up 12 minutes                           contiv-node4/clientA
-6112c6697df2        contiv/alpine                    "sh"                     12 minutes ago      Up 12 minutes                           contiv-node4/serverA
-b6e0601d8c13        contiv/auth_proxy:1.0.0   "./auth_proxy --tls-k"   17 minutes ago      Up 17 minutes                           contiv-node3/auth-proxy
-0c3cb365e573        quay.io/coreos/etcd:v2.3.8       "/etcd"                  20 minutes ago      Up 20 minutes                           contiv-node4/etcd
-a9536ad281be        quay.io/coreos/etcd:v2.3.8       "/etcd"                  20 minutes ago      Up 20 minutes                           contiv-node3/etcd
-[vagrant@contiv-node3 ~]$
+[vagrant@legacy-swarm-master ~]$ docker ps
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS               NAMES
+ce3004028e6e        contiv/alpine                "sh"                     4 seconds ago       Up 3 seconds                            legacy-swarm-worker0/clientB
+9b229192cc8b        contiv/alpine                "sh"                     4 minutes ago       Up 4 minutes                            legacy-swarm-master/serverB
+f41c806565d3        contiv/alpine                "sh"                     8 minutes ago       Up 8 minutes                            legacy-swarm-worker0/clientA
+7ea3a6a30e59        contiv/alpine                "sh"                     8 minutes ago       Up 8 minutes                            legacy-swarm-master/serverA
+d50a96536aeb        contiv/alpine                "sh"                     14 minutes ago      Up 14 minutes                           legacy-swarm-worker0/BContainer
+32e87214aedd        contiv/alpine                "sh"                     15 minutes ago      Up 15 minutes                           legacy-swarm-worker0/AContainer
+654e678abd24        contiv/auth_proxy:1.0.3      "./auth_proxy --tls-k"   9 hours ago         Up 9 hours                              legacy-swarm-master/auth-proxy
+e8f9f40077f1        quay.io/coreos/etcd:v2.3.8   "/etcd"                  9 hours ago         Up 9 hours                              legacy-swarm-worker0/etcd
+7810f563e836        quay.io/coreos/etcd:v2.3.8   "/etcd"                  9 hours ago         Up 9 hours                              legacy-swarm-master/etcd
+[vagrant@legacy-swarm-master ~]$
 
 
 ```
@@ -400,7 +405,7 @@ Now as we are running clientB and serverB containers on group B network. we shou
 
 On serverB:
 
-[vagrant@contiv-node3 ~]$ docker exec -it serverB sh
+[vagrant@legacy-swarm-master ~]$ docker exec -it serverB sh
 / # ifconfig
 eth0      Link encap:Ethernet  HWaddr 02:02:32:01:01:03
           inet addr:50.1.1.3  Bcast:0.0.0.0  Mask:255.255.255.0
@@ -433,7 +438,7 @@ UDP buffer size:  208 KByte (default)
 
 On clientB:
 
-[vagrant@contiv-node4 ~]$ docker exec -it clientB sh
+[vagrant@legacy-swarm-worker0 ~]$ docker exec -it clientB sh
 / # iperf -c 50.1.1.3 -u
 ------------------------------------------------------------
 Client connecting to 50.1.1.3, UDP port 5001
@@ -457,15 +462,20 @@ As we see, clientB is getting roughly around 500Kbps bandwidth.
 To cleanup the setup, after doing all the experiments, exit the VM destroy VMs:
 
 ```
-[vagrant@contiv-node3 ~]$ exit
+[vagrant@legacy-swarm-master ~]$ exit
 
-$ cd .. (just to come out of cluster dir)
 $ make cluster-destroy
 cd cluster && vagrant destroy -f
-==> contiv-node4: Forcing shutdown of VM...
-==> contiv-node4: Destroying VM and associated drives...
-==> contiv-node3: Forcing shutdown of VM...
-==> contiv-node3: Destroying VM and associated drives...
+==> kubeadm-worker0: VM not created. Moving on...
+==> kubeadm-master: VM not created. Moving on...
+==> swarm-mode-worker0: VM not created. Moving on...
+==> swarm-mode-master: VM not created. Moving on...
+==> legacy-swarm-worker0: Forcing shutdown of VM...
+==> legacy-swarm-worker0: Destroying VM and associated drives...
+==> legacy-swarm-master: Forcing shutdown of VM...
+==> legacy-swarm-master: Destroying VM and associated drives...
+
+$ make vagrant-clean
 
 ```
 
