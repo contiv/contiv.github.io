@@ -1,23 +1,23 @@
 ---
 layout: "documents"
-page_title: "Container Networking Tutorial"
+page_title: "Container Networking Tutorial (Legacy Swarm)"
 sidebar_current: "tutorials-container-101"
 description: |-
-  Container Networking Tutorial
+  Container Networking Tutorial (Legacy Swarm)
 ---
 
 
-## Containers Networking Tutorial with Contiv
-Walks through container networking and concepts step by step. We will explore Contiv's networking features along with policies, in next tutorial.
+## Containers Networking Tutorial with Contiv + Legacy Swarm
+This tutorial will walk through container networking and concepts step by step. We will explore Contiv's networking features along with policies, in the next tutorial.
 
 ### Prerequisites 
 1. [Download Vagrant](https://www.vagrantup.com/downloads.html)
-2. [Download Virtualbox](https://www.virtualbox.org/wiki/Downloads)
+2. [Download VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 3. [Install git client](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-4. [Install docker for mac](https://docs.docker.com/docker-for-mac/install/)
+4. [Install docker for Mac](https://docs.docker.com/docker-for-mac/install/)
 
 **Note**:
-- If you are using platform other than Mac, please install docker-engine, for that platform.
+If you are using a platform other than Mac, please install docker-engine, for that platform.
 
 Make virtualbox the default provider for vagrant
 
@@ -25,7 +25,7 @@ Make virtualbox the default provider for vagrant
 export VAGRANT_DEFAULT_PROVIDER=virtualbox
 ```
 
-Cluster build steps below download a centos vagrant box. If you have a centos box available already, or you have access to the box file, add it to list of box images with specific name centos/7, as follows:
+The steps below download a centos vagrant box. If you have a centos box available already, or you have access to the box file, add it to list of box images with specific name centos/7, as follows:
 
 ```
 vagrant box add --name centos/7 CentOS-7-x86_64-Vagrant-1703_01.VirtualBox.box
@@ -33,20 +33,22 @@ vagrant box add --name centos/7 CentOS-7-x86_64-Vagrant-1703_01.VirtualBox.box
  
 ### Setup
 
-#### Step 1: Get contiv installer code from github.
+#### Step 1: Get the Contiv installer code from github.
 ```
 $ git clone https://github.com/contiv/install.git
 $ cd install
 ```
 
-#### Step 2: Run installer to install contiv + Docker Swarm using Vagrant on VMs created on VirtualBox
+#### Step 2: Run the installer to install Contiv + Docker Swarm using Vagrant on VMs created on VirtualBox
 
 **Note**:
-- Please make sure that you are NOT connected to VPN here.
+Please make sure that you are NOT connected to VPN here.
 
 ```
 $ make demo-legacy-swarm
 ```
+**Note**: Please do not try to work in both the Legacy Swarm and Kubernetes environments at the same time. This will not work.
+
 This will create two VMs on VirtualBox. Using ansible, all the required services and software for contiv, will get installed at this step.
 This might take some time (usually approx 15-20 mins) depending upon your internet connection.
 
@@ -68,6 +70,7 @@ $ export USER="vagrant"
 #### Step 2b: Download contiv release bundle
 
 ```
+$ cd .. # go back to the install folder
 $ curl -L -O https://github.com/contiv/install/releases/download/1.0.3/contiv-1.0.3.tgz
 $ tar xf contiv-1.0.3.tgz
 ```
@@ -79,7 +82,7 @@ $ ./install/ansible/install_swarm.sh -f ../cluster/.cfg_legacy-swarm.yaml -e ${S
 $ cd ..
 ```
 
-Make note of final outcome of this process. This lists the URL for docker swarm as well as for UI.
+Make note of final outcome of this process. This lists the URL for Docker Swarm as well as the UI.
 
 ```
 Installation is complete
@@ -105,7 +108,8 @@ Please use the first run wizard or configure the setup as follows:
 - On Windows, you will need a ssh client to be installed like putty, cygwin etc.
 
 ```
-This command will show you list of VMs which we have created. 
+This command will show you list of VMs which we have created.
+$ cd cluster
 $ vagrant status
 Current machine states:
 
@@ -117,13 +121,12 @@ The above command shows the node information, version, etc.
 
 #### Step 4: Hello world Docker swarm.
 
-As a part of this contiv installation, we install docker swarm for you. To verify docker swarm cluster, please execute
-following commands on Vagrant VMs.
+As a part of this contiv installation, we install Docker Swarm for you. To verify the Docker Swarm cluster, please execute following commands on the Vagrant VMs.
 
 ```
 $ vagrant ssh legacy-swarm-master
 ```
-To run docker without sudo, add user to docker group, quit and ssh again.
+To run Docker without sudo, add user to docker group, quit and ssh again.
 
 ```
 [vagrant@legacy-swarm-master ~]$ sudo usermod -aG docker $USER
@@ -321,24 +324,24 @@ There are two main container networking models discussed within the community.
 
 #### Docker libnetwork - Container Network Model (CNM)
 
-CNM (Container Network Model) is Docker's libnetwork network model for containers
-- An endpoint is container's interface into a network
-- A network is collection of arbitrary endpoints
-- A container can belong to multiple endpoints (and therefore multiple networks)
-- CNM allows for co-existence of multiple drivers, with a network managed by one driver
-- Provides Driver APIs for IPAM and Endpoint creation/deletion
-- IPAM Driver APIs: Create/Delete Pool, Allocate/Free IP Address
-- Network Driver APIs: Network Create/Delete, Endpoint Create/Delete/Join/Leave
+CNM (Container Network Model) is Docker's libnetwork network model for containers  
+- An endpoint is a container's interface into a network  
+- A network is collection of arbitrary endpoints  
+- A container can belong to multiple endpoints (and therefore multiple networks)  
+- CNM allows for co-existence of multiple drivers, with a network managed by one driver  
+- Provides Driver APIs for IPAM and Endpoint creation/deletion  
+- IPAM Driver APIs: Create/Delete Pool, Allocate/Free IP Address  
+- Network Driver APIs: Network Create/Delete, Endpoint Create/Delete/Join/Leave  
 - Used by docker engine, docker swarm, and docker compose; and other schedulers
 that schedule regular docker containers e.g. Nomad or Mesos docker containerizer
 
 #### CoreOS CNI - Container Network Interface (CNI)
-CNI (Container Network Interface) CoreOS's network model for containers
-- Allows container id (uuid) specification for the network interface you create
-- Provides Container Create/Delete events
-- Provides access to network namespace to the driver to plumb networking
-- No separate IPAM Driver: Container Create returns the IAPM information along with other data
-- Used by Kubernetes and thus supported by various Kubernetes network plugins, including Contiv
+CNI (Container Network Interface) CoreOS's network model for containers  
+- Allows container id (uuid) specification for the network interface you create  
+- Provides Container Create/Delete events  
+- Provides access to network namespace to the driver to plumb networking  
+- No separate IPAM Driver: Container Create returns the IAPM information along with other data  
+- Used by Kubernetes and thus supported by various Kubernetes network plugins, including Contiv  
 
 Using Contiv with CNI/Kubernetes can be found [here](https://github.com/contiv/netplugin/tree/master/mgmtfn/k8splugin).
 The rest of the tutorial walks through the docker examples, which implements CNM APIs
