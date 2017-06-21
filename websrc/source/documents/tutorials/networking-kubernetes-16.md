@@ -663,12 +663,45 @@ round-trip min/avg/max = 0.779/4.343/11.343 ms
 ```
 The built-in DNS does not resolve `contiv-c2` to it's IP address because Kubernetes does not provide DNS names for. We can communicate between pods using IP addresses and the vxlan overlay provided.
 
+### Chapter 3: Using multiple tenants with arbitrary IPs in the networks
+
+First, let's create a new tenant space.
+
+```
+[vagrant@kubeadm-master ~]$ netctl tenant create blue
+Creating tenant: blue
+```
+```
+[vagrant@kubeadm-master ~]$ netctl tenant ls
+Name
+------
+blue
+default
+```
+After the tenant is created, we can create network within tenant `blue`. Here we can choose the same subnet and network name as we used earlier with default tenant, as namespaces are isolated across tenants.
+
+```
+[vagrant@kubeadm-master ~]$ netctl net create -t blue --subnet=10.1.2.0/24 contiv-net
+Creating network blue:contiv-net
+```
+```
+[vagrant@kubeadm-master ~]$ netctl net ls -t blue
+Tenant  Network     Nw Type  Encap type  Packet tag  Subnet       Gateway  IPv6Subnet  IPv6Gateway  Cfgd Tag
+------  -------     -------  ----------  ----------  -------      ------   ----------  -----------  ---------
+blue    contiv-net  data     vxlan       0           10.1.2.0/24
+```
+Next, we can run pods belonging to this tenant.
+
+```
+kubectl run -it contiv-blue-c1 --image=alpine /bin/sh -l io.contiv.tenant=blue -l io.contiv.network=contiv-net
+```
+
 ### Cleanup:
 
 To cleanup the setup, after doing all the experiments, exit the VM and destroy the VMs:
 
 ```
-[vagrant@legacy-swarm-master ~]$ exit
+[vagrant@kubeadm-master ~]$ exit
 logout
 Connection to 127.0.0.1 closed.
 ```

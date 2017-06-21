@@ -1,53 +1,56 @@
 ---
 layout: "documents"
-page_title: "Contiv Policy Networking Tutorial"
+page_title: "Contiv Policy Networking Tutorial (Legacy Swarm)"
 sidebar_current: "contiv-policy"
 description: |-
-  Contiv Policy Networking Tutorial
+  Contiv Policy Networking Tutorial (Legacy Swarm)
 ---
 
 
-## Contiv Policy Tutorial
-**Note**:
-- Please make sure you have you have taken this tutorial before starting this one [Container Networking Tutorial](/documents/tutorials/container-101.html)
+## Contiv Policy Tutorial with Legacy Swarm
 
-This tutorial walks through advanced features of contiv container networking.
-
-### Prerequisites 
-See prerequisites section for [Container Networking Tutorial](/documents/tutorials/container-101.html).
+This tutorial walks through advanced features of Contiv container networking.
 
 ### Setup
-Follow all steps for Setup section for [Container Networking Tutorial](/documents/tutorials/container-101.html).
+Follow all steps from the [Container Networking Tutorial](/documents/tutorials/container-101.html).
 
 ### Chapter 1 - ICMP Policy
 
-In this section, we will create two groups epgA and epgB, and we will create containers belonging to these groups.
-By default, communication between groups belonging to same network is allowed. 
-So we will add ICMP deny policy and verify that we are not able to ping among those containers.
+In this section, we will create two groups epgA and epgB. We will create containers with respect to those groups. Then, by default, communication between the groups is allowed. So, we will create an ICMP deny policy and verify that we are not able to ping between those containers.
 
-Let us create Tenant and Network first.
+Let's create a Tenant and Network first.
 
 ```
 [vagrant@legacy-swarm-master ~]$ export DOCKER_HOST=tcp://192.168.2.50:2375
 [vagrant@legacy-swarm-master ~]$ netctl tenant create TestTenant
 Creating tenant: TestTenant
+```
+Create a network under this tenant.
+
+```
 [vagrant@legacy-swarm-master ~]$ netctl network create --tenant TestTenant --subnet=10.1.1.0/24 --gateway=10.1.1.254 -e "vlan" TestNet
 Creating network TestTenant:TestNet
+```
+We can see the networks that are present within the cluster.
+
+```
 [vagrant@legacy-swarm-master ~]$ netctl net ls -a
 Tenant      Network  Nw Type  Encap type  Packet tag  Subnet       Gateway     IPv6Subnet  IPv6Gateway
 ------      -------  -------  ----------  ----------  -------      ------      ----------  -----------
 TestTenant  TestNet  data     vlan        0           10.1.1.0/24  10.1.1.254
-
 ```
 
-Now, create two groups epgA and epgB, under network TestNet.
-
+Now create two network groups under network TestNet.
 
 ```
 vagrant@legacy-swarm-master ~]$ netctl group create -t TestTenant TestNet epgA
 Creating EndpointGroup TestTenant:epgA
 [vagrant@legacy-swarm-master ~]$ netctl group create -t TestTenant TestNet epgB
 Creating EndpointGroup TestTenant:epgB
+```
+We can list the network groups as well.
+
+```
 [vagrant@legacy-swarm-master ~]$ netctl group ls -a
 Tenant      Group  Network  IP Pool   Policies  Network profile
 ------      -----  -------  --------  ---------------
@@ -56,8 +59,7 @@ TestTenant  epgB   TestNet
 
 ```
 
-Now you will see these groups and networks are reported as network to docker-engine, with driver listed as netplugin.
-
+Now we will see these groups and networks are reported as networks to docker-engine, with the driver listed as netplugin.
 
 ```
 
@@ -75,8 +77,7 @@ f7d7643491f3        legacy-swarm-master/none      null                local
 
 ```
 
-Let us create two containers on each group network and check whether they are able to ping each other or not.
-By default, Contiv allows connectivity between groups under same network.
+Let's create two containers, one on each group network, and check whethere they are able to ping each other or not. By default, Contiv allows connectivity between groups under the same network.
 
 ```
 [vagrant@legacy-swarm-master ~]$ docker run -itd --net="epgA/TestTenant" --name=AContainer contiv/alpine sh
@@ -92,8 +93,6 @@ d50a96536aeb        contiv/alpine                "sh"                     7 seco
 654e678abd24        contiv/auth_proxy:1.0.3      "./auth_proxy --tls-k"   9 hours ago         Up 9 hours                              legacy-swarm-master/auth-proxy
 e8f9f40077f1        quay.io/coreos/etcd:v2.3.8   "/etcd"                  9 hours ago         Up 9 hours                              legacy-swarm-worker0/etcd
 7810f563e836        quay.io/coreos/etcd:v2.3.8   "/etcd"                  9 hours ago         Up 9 hours                              legacy-swarm-master/etcd
-
-
 ```
 
 Try to ping from AContainer to BContainer. They should be able to ping each other.
@@ -120,6 +119,8 @@ lo        Link encap:Local Loopback
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
 / # exit
+```
+```
 [vagrant@legacy-swarm-master ~]$ docker exec -it AContainer sh
 / # ifconfig
 eth0      Link encap:Ethernet  HWaddr 02:02:0A:01:01:01
@@ -150,18 +151,28 @@ PING 10.1.1.2 (10.1.1.2): 56 data bytes
 3 packets transmitted, 3 packets received, 0% packet loss
 round-trip min/avg/max = 0.087/0.457/1.188 ms
 / # exit
-
 ```
 
-Add ICMP Deny policy from epgA and modify group epgB to associate this policy.
+Now let’s add an ICMP Deny policy and modify group epgB. The containers should not be able to ping each other now.
+
+Create the policy.
 
 ```
-
 [vagrant@legacy-swarm-master ~]$ netctl policy create -t TestTenant policyAB
-Creating policy TestTenant:policyAB
-[vagrant@legacy-swarm-master ~]$ netctl policy rule-add -t TestTenant -d in --protocol icmp  --from-group epgA  --action deny policyAB 1
+Creating policy TestTenant:policyAB 
+```
+Add a rule to the policy.
+
+```
+[vagrant@legacy-swarm-master ~]$ netctl policy rule-add -t TestTenant -d in --protocol icmp --from-group epgA --action deny policyAB 1
+```
+Create a group associated with this policy.
+
+```
 [vagrant@legacy-swarm-master ~]$ netctl group create -t TestTenant -p policyAB TestNet epgB
-Creating EndpointGroup TestTenant:epgB
+Creating EndpointGroup TestTenant:epgB 
+```
+```
 [vagrant@legacy-swarm-master ~]$ netctl policy ls -a
 Tenant      Policy
 ------      ------
@@ -175,24 +186,18 @@ Rule  Priority  From EndpointGroup  From Network  From IpAddress  Protocol  Port
 Outgoing Rules:
 Rule  Priority  To EndpointGroup  To Network  To IpAddress  Protocol  Port  Action
 ----  --------  ----------------  ----------  ---------     --------  ----  ------
-
 ```
 
 Now ping between containers should not work.
 
-
 ```
-
 [vagrant@legacy-swarm-master ~]$ docker exec -it AContainer sh
-
 / # ping -c 3 10.1.1.2
 PING 10.1.1.2 (10.1.1.2): 56 data bytes
 
 --- 10.1.1.2 ping statistics ---
 3 packets transmitted, 0 packets received, 100% packet loss
-
 / # exit
-
 ```
 
 ### Chapter 2 - TCP Policy
