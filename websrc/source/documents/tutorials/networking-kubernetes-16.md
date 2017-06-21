@@ -1,14 +1,14 @@
 ---
 layout: "documents"
-page_title: "Container Networking Tutorial for Kubernetes"
+page_title: "Container Networking Tutorial (Kubernetes)"
 sidebar_current: "tutorials-container-101-k8s"
 description: |-
-  Container Networking Tutorial for Kubernetes
+  Container Networking Tutorial (Kubernetes)
 ---
 
 
-## Container Networking Tutorial for Kubernetes
-This tutorial walks through container networking concepts step by step on a Kubernetes environment. We will explore Contiv's networking features along with policies, in the next tutorial.
+## Container Networking Tutorial with Contiv + Kubernetes
+This tutorial walks through container networking concepts step by step in a Kubernetes environment. We will explore Contiv's networking features along with policies in the next tutorial.
 
 ### Prerequisites 
 1. [Download Vagrant](https://www.vagrantup.com/downloads.html)
@@ -17,7 +17,7 @@ This tutorial walks through container networking concepts step by step on a Kube
 4. [Install docker for mac](https://docs.docker.com/docker-for-mac/install/)
 
 **Note**:
-- If you are using a platform other than Mac, please install docker-engine, for that platform.
+If you are using a platform other than Mac, please install docker-engine, for that platform.
 
 Make virtualbox the default provider for vagrant.
 
@@ -40,7 +40,7 @@ $ git clone https://github.com/contiv/install.git
 $ cd install
 ```
 
-#### Step 2: Run the installer to install Contiv + Kubernetes using Vagrant on the VMs created on VirtualBox.
+#### Step 2: Install Contiv + Kubernetes using Vagrant on the VMs created on VirtualBox
 
 **Note**:
 Please make sure that you are NOT connected to VPN here.
@@ -52,11 +52,9 @@ $ make demo-kubeadm
 **Note**: 
 Please do not try to work in both the Legacy Swarm and Kubernetes environments at the same time. This will not work.
 
-This will create two VMs on VirtualBox. It installs Kubernetes using [kubeadm](https://kubernetes.io/docs/setup/independent/install-kubeadm/).
-This might take some time (usually approx 15-20 mins) depending upon your internet connection.
+This will create two VMs on VirtualBox. It installs Kubernetes using [kubeadm](https://kubernetes.io/docs/setup/independent/install-kubeadm/) and all the required services and software for Contiv. This might take some time (usually approx 15-20 mins) depending upon your internet connection.
 
 -- OR --
-
 #### Step 2a: Create a vagrant VM cluster
 
 ```
@@ -91,13 +89,13 @@ eth1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
 
-We will use the eth1 address as the Contiv netmaster control plane IP.
+You will use the eth1 address as the Contiv netmaster control plane IP.
 
 ```
 [vagrant@kubeadm-master contiv-1.0.3]$ sudo ./install/k8s/install.sh -n 192.168.2.54
 ```
 
-Make note of final outcome of this process. This lists the URL for the UI as well as instructions to access the master node.
+Make note of final outcome of this process. This lists the URL for the UI. There are instructions for setting up a default network as well.
 
 ```
 Installation is complete
@@ -116,12 +114,6 @@ Please use the first run wizard or configure the setup as follows:
 =========================================================
 ```
 
-Now, create a default network for pods to connect to.
-
-```
-[vagrant@kubeadm-master contiv-1.0.3]$ netctl net create -t default --subnet=20.1.1.0/24 -g 20.1.1.1 default-net
-Creating network default:default-net
-```
 ```
 [vagrant@kubeadm-master contiv-1.0.3]$ exit
 ```
@@ -129,7 +121,7 @@ Creating network default:default-net
 #### Step 3: Check vagrant VM nodes.
 
 **Note**:
-- On Windows, you will need a ssh client to be installed like putty, cygwin etc.
+On Windows, you will need a ssh client to be installed like putty, cygwin etc.
 
 This command will show you list of VMs which we have created. Make sure you are in the cluster folder.
 
@@ -157,6 +149,7 @@ $ vagrant ssh kubeadm-master
 ```
 
 Now you will be logged into the Kubernetes master Vagrant VM.
+`kubectl` is the command line client to connect to Kubernetes API server.
 
 ```
 [vagrant@kubeadm-master ~]$ kubectl version
@@ -301,7 +294,7 @@ Events:
 ```
 
 You can see a two node Kubernetes cluster running the latest Kubernetes version.
-The kubeadm-master node also has a taint `Taints: node-role.kubernetes.io/master:NoSchedule` that tells the Kubernetes scheduler to not schedule worker workloads on the master node. So all the worker pods will be scheduled on kubeadm-worker0. You can remove the taint to allow scheduling the pod on the worker node.
+The kubeadm-master node also has a taint `Taints: node-role.kubernetes.io/master:NoSchedule` that tells the Kubernetes scheduler to not schedule worker workloads on the master node causing all worker pods to be scheduled on kubeadm-worker0. You can remove the taint to allow scheduling pods on the master node.
 
 ``` 
 [vagrant@kubeadm-master ~]$ kubectl taint node kubeadm-master node-role.kubernetes.io/master:NoSchedule-
@@ -309,8 +302,6 @@ node “kubeadm-master” tainted
 ``` 
 
 #### Step 5: Check contiv and related services.
-
-`kubectl` is the command line client to connect to Kubernetes API server. `netctl` is a utility to create, update, read and modify Contiv objects. It is a command line client wrapper for the netmaster REST interface.
 
 ```
 [vagrant@kubeadm-master ~]$ kubectl get pods -n kube-system
@@ -330,6 +321,8 @@ kube-scheduler-kubeadm-master            1/1       Running   0          20m
 ```
 
 You should see contiv-netmaster, contiv-netplugin, contiv-etcd and contiv-api-proxy nodes in `Running` status. A small number of initial restarts are normal while all the pods startup, but you should not see an increasing number here.
+
+`netctl` is a utility to create, update, read and modify Contiv objects. It is a CLI wrapper on top of REST interface.
 
 ```
 [vagrant@kubeadm-master ~]$ netctl version
@@ -352,7 +345,7 @@ default  contivh1     infra    vxlan       0           132.1.1.0/24  132.1.1.1
 ```
 
 You can see that `netctl` is able to communicate with the Contiv API & policy server, netmaster.
-We can also see that a `default-net` network has been created.
+You can also see that a `default-net` network has been created.
 
 ```
 [vagrant@kubeadm-master ~]$ ifconfig docker0
@@ -383,6 +376,15 @@ eth1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         RX errors 0  dropped 0  overruns 0  frame 0
         TX packets 13926  bytes 7675230 (7.3 MiB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+[vagrant@kubeadm-master ~]$ ifconfig eth2
+eth2: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::3ac5:5a79:a7e6:b2e6  prefixlen 64  scopeid 0x20<link>
+        ether 08:00:27:97:0a:cf  txqueuelen 1000  (Ethernet)
+        RX packets 1055  bytes 360810 (352.3 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 2865  bytes 507022 (495.1 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
 
 In the above output, you'll see the following interfaces:  
@@ -392,59 +394,7 @@ is the default network containers would belong to when an override network
 is not specified  
 - `eth0` in this VM is the management interface, on which we ssh into the VM  
 - `eth1` in this VM is the interface that connects to an external network (if needed)  
-
-```
-[vagrant@kubeadm-master ~]$ ifconfig contivh0
-contivh0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
-        inet 172.19.255.254  netmask 255.255.0.0  broadcast 0.0.0.0
-        inet6 fe80::2:acff:fe13:fffe  prefixlen 64  scopeid 0x20<link>
-        ether 02:02:ac:13:ff:fe  txqueuelen 1000  (Ethernet)
-        RX packets 1202  bytes 70169 (68.5 KiB)
-        RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 1420  bytes 685603 (669.5 KiB)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-```
-```
-[vagrant@kubeadm-master ~]$ ip route
-...
-172.19.0.0/16 dev contivh0  proto kernel  scope link  src 172.19.255.254
-...
-```
-```
-[vagrant@kubeadm-master ~]$ sudo iptables -t nat -v -L POSTROUTING -n --line-number
-Chain POSTROUTING (policy ACCEPT 20 packets, 1200 bytes)
-num   pkts bytes target     prot opt in     out     source               destination
-1     3451  206K KUBE-POSTROUTING  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes postrouting rules */
-2        0     0 MASQUERADE  all  --  *      !docker0  172.17.0.0/16        0.0.0.0/0
-3        0     0 MASQUERADE  all  --  *      !contivh0  172.19.0.0/16        0.0.0.0/0
-```
-
-Contiv uses contivh0 as the host port to route external traffic. It adds a post routing rule in
-iptables on the host to masquerade traffic coming through contivh0.
-
-```
-[vagrant@kubeadm-master ~]$ ifconfig contivh1
-contivh1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
-        inet 132.1.1.3  netmask 255.255.255.0  broadcast 0.0.0.0
-        inet6 fe80::2:84ff:fe01:103  prefixlen 64  scopeid 0x20<link>
-        ether 02:02:84:01:01:03  txqueuelen 1000  (Ethernet)
-        RX packets 4683  bytes 1437562 (1.3 MiB)
-        RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 4699  bytes 430994 (420.8 KiB)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-```
-```
-[vagrant@kubeadm-master ~]$ ip route
-default via 10.0.2.2 dev eth0  proto static  metric 100
-10.0.2.0/24 dev eth0  proto kernel  scope link  src 10.0.2.15  metric 100
-20.1.1.0/24 via 132.1.1.2 dev contivh1
-132.1.1.0/24 dev contivh1  proto kernel  scope link  src 132.1.1.2
-172.17.0.0/16 dev docker0  proto kernel  scope link  src 172.17.0.1
-172.19.0.0/16 dev contivh0  proto kernel  scope link  src 172.19.255.254
-192.168.2.0/24 dev eth1  proto kernel  scope link  src 192.168.2.54  metric 100
-```
-contivh1 port allows the host to access the container/pod networks in vxlan mode.
-As Contiv tenants allow multiple tenants to have the same IP address range, host access is currently supported only for pods in the default tenant.
+- `eth2` in this VM is the interface that carries vxlan and control (e.g. etcd) traffic
 
 ### Chapter 1 - Introduction to Container Networking
 
@@ -478,6 +428,16 @@ The rest of the tutorial walks through Contiv with CNI/Kubernetes examples.
 Let's examine the networking a container gets upon a vanilla run.
 
 ```
+[vagrant@kubeadm-master ~]$ sudo docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+b60fdf5ccb88        bridge              bridge              local
+6feedf8caae3        host                host                local
+133512a17887        none                null                local
+```
+
+Unlike in the Legacy Swarm tutorial, Contiv networks are not visible under docker networks in a Kubernetes setup. This is because Contiv is a CNI plugin for Kubernetes and not visible as a docker networking CNM plugin in the Kubernetes environment.
+
+```
 [vagrant@kubeadm-master ~]$ kubectl run -it vanilla-c --image=alpine /bin/sh
 If you don't see a command prompt, try pressing enter.
 
@@ -506,16 +466,6 @@ default via 20.1.1.1 dev eth0
 / # exit
 Session ended, resume using 'kubectl attach vanilla-c-1408101207-s911j -c vanilla-c -i -t' command when the pod is running
 ```
-```
-[vagrant@kubeadm-master ~]$ sudo docker network ls
-NETWORK ID          NAME                DRIVER              SCOPE
-b60fdf5ccb88        bridge              bridge              local
-6feedf8caae3        host                host                local
-133512a17887        none                null                local
-```
-
-Unlike in the Docker Swarm tutorial, Contiv networks are not visible under docker networks in
-a Kubernetes setup. This is because Contiv is a CNI plugin for Kubernetes and not visible as a docker networking CNM plugin in the Kubernetes installation.
 
 ```
 [vagrant@kubeadm-master ~]$ kubectl get pods -o wide
@@ -524,38 +474,53 @@ vanilla-c-1408101207-m9w65   1/1       Running   1          1m        20.1.1.3  
 ```
 
 **Note**:
-Please note this container got scheduled by Kubernetes on kubeadm-worker0 node, as seen in the NODE column above.  
-The following ifconfig has to be run on kubeadm-worker0 node only if the container is scheduled on kubeadm-worker0.
+Please note this container got scheduled by Kubernetes on kubeadm-worker0 node, as seen in the NODE column above. The following ifconfig has to be run on kubeadm-worker0 node only if the container is scheduled on kubeadm-worker0.
 
 Switch to `kubeadm-worker0`
 
 ```
 [vagrant@kubeadm-master ~]$ exit
-```
-```
+
 $ vagrant ssh kubeadm-worker0
-```
-```
+
 [vagrant@kubeadm-worker0 ~]$ ifconfig
-```
-```
+
 [vagrant@kubeadm-worker0 ~]$ exit
-```
-```
+
 $ vagrant ssh kubeadm-master
 ```
 
-In the `ifconfig` output, you will see that it would have created two vvport `virtual 
+In the `ifconfig` output, you will see that it would have created a vvport `virtual 
 ethernet interface` that could look like `vvport#`.
+
+The other pair of veth interface is put into the container with the name `eth0`.
+
+```
+[vagrant@kubeadm-master ~]$ kubectl exec -it vanilla-c-1408101207-w3993 sh
+/ # ifconfig eth0
+eth0      Link encap:Ethernet  HWaddr 02:02:14:01:01:03
+          inet addr:20.1.1.3  Bcast:0.0.0.0  Mask:255.255.255.0
+          inet6 addr: fe80::2:14ff:fe01:103/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1450  Metric:1
+          RX packets:8 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:648 (648.0 B)  TX bytes:648 (648.0 B)
+
+/ # exit
+```
 
 All traffic to/from this container is Port-NATed to the host's IP (on eth0). The Port NATing on the host is done using iptables, which can be seen as a MASQUERADE rule for outbound traffic for `172.17.0.0/16`
 
 ```
-[vagrant@legacy-swarm-master ~]$ sudo iptables -t nat -L -n
+[vagrant@kubeadm-master ~]$ sudo iptables -t nat -L -n
 Chain PREROUTING (policy ACCEPT)
 target     prot opt source               destination
 CONTIV-NODEPORT  all  --  0.0.0.0/0            0.0.0.0/0            ADDRTYPE match dst-type LOCAL
+KUBE-SERVICES  all  --  0.0.0.0/0            0.0.0.0/0            /* kubernetes service portals */
+DOCKER     all  --  0.0.0.0/0            0.0.0.0/0            ADDRTYPE match dst-type LOCAL
 ...
+
 Chain POSTROUTING (policy ACCEPT)
 target     prot opt source               destination
 KUBE-POSTROUTING  all  --  0.0.0.0/0            0.0.0.0/0            /* kubernetes postrouting rules */
@@ -569,13 +534,12 @@ target     prot opt source               destination
 
 ### Chapter 2: Multi-host networking
 
-There are many solutions like Contiv such as Calico, Weave, OpenShift, OpenContrail, Nuage,
-VMWare, Docker, Kubernetes, OpenStack that provide solutions to multi-host container networking. 
+There are many solutions like Contiv such as Calico, Weave, OpenShift, OpenContrail, Nuage, VMWare, Docker, Kubernetes, and OpenStack that provide solutions to multi-host container networking. 
 
 In this section, let's examine Contiv and Kubernetes overlay solutions.
 
 #### Multi-host networking with Contiv
-Let's use the same example as above to spin up two containers on the two different hosts
+Let's use the same example as above to spin up two containers on the two different hosts.
 
 #### 1. Create a multi-host network
 
@@ -618,118 +582,8 @@ default  contiv-net   data     vxlan       0           10.1.2.0/24
 }
 ```
 
-You can now spin up a couple of containers belonging to the `contiv-net` network.
+You can now spin a couple of containers belonging to the `contiv-net` network. Specifying a node constraint forces the container to start on a different host.
 
-```
-[vagrant@kubeadm-master ~]$ kubectl run -it contiv-c1 --image=alpine /bin/sh -l io.contiv.network=contiv-net
-If you don't see a command prompt, try pressing enter.
-/ # ifconfig
-eth0      Link encap:Ethernet  HWaddr 02:02:0A:01:02:01
-          inet addr:10.1.2.1  Bcast:0.0.0.0  Mask:255.255.255.0
-          inet6 addr: fe80::2:aff:fe01:201/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1450  Metric:1
-          RX packets:7 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:7 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0
-          RX bytes:578 (578.0 B)  TX bytes:578 (578.0 B)
-
-lo        Link encap:Local Loopback
-          inet addr:127.0.0.1  Mask:255.0.0.0
-          inet6 addr: ::1/128 Scope:Host
-          UP LOOPBACK RUNNING  MTU:65536  Metric:1
-          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1
-          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
-
-/ # exit
-```
-The IP address of this pod is 10.1.2.1 which means it is part of the contiv-net network because the contiv-net network has IP addresses reserved for 10.1.2.0/24.
-
-```
-[vagrant@kubeadm-master ~]$ kubectl run -it contiv-c2 --image=alpine /bin/sh -l io.contiv.network=contiv-net
-If you don't see a command prompt, try pressing enter.
-/ # ifconfig
-eth0      Link encap:Ethernet  HWaddr 02:02:0A:01:02:02
-          inet addr:10.1.2.2  Bcast:0.0.0.0  Mask:255.255.255.0
-          inet6 addr: fe80::2:aff:fe01:202/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1450  Metric:1
-          RX packets:8 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0
-          RX bytes:648 (648.0 B)  TX bytes:648 (648.0 B)
-
-lo        Link encap:Local Loopback
-          inet addr:127.0.0.1  Mask:255.0.0.0
-          inet6 addr: ::1/128 Scope:Host
-          UP LOOPBACK RUNNING  MTU:65536  Metric:1
-          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1
-          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
-
-/ # exit
-```
-
-Let's list the pods that we have created.
-
-```
-[vagrant@kubeadm-master ~]$ kubectl get pods
-NAME                         READY     STATUS    RESTARTS   AGE
-contiv-c1-3082481984-sn9lh   1/1       Running   1          16m
-contiv-c2-3175346497-9x8k0   1/1       Running   0          5m
-vanilla-c-1408101207-s911j   1/1       Running   1          1h
-```
-Now let's try to ping between pods.
-
-```
-[vagrant@kubeadm-master ~]$ kubectl exec -it contiv-c2-3175346497-9x8k0 sh
-/ # ping -c 3 10.1.2.1
-PING 10.1.2.1 (10.1.2.1): 56 data bytes
-64 bytes from 10.1.2.1: seq=0 ttl=64 time=1.695 ms
-64 bytes from 10.1.2.1: seq=1 ttl=64 time=0.089 ms
-64 bytes from 10.1.2.1: seq=2 ttl=64 time=0.095 ms
-
---- 10.1.2.1 ping statistics ---
-3 packets transmitted, 3 packets received, 0% packet loss
-round-trip min/avg/max = 0.089/0.626/1.695 ms
-/ # exit
-```
-
-### Chapter 3: Using multiple tenants with arbitrary IPs in the network
-
-First, let's create a new tenant space.
-
-```
-[vagrant@kubeadm-master ~]$ netctl tenant create blue
-Creating tenant: blue
-```
-```
-[vagrant@kubeadm-master ~]$ netctl tenant ls
-Name
-------
-default
-blue
-```
-
-After the tenant is created, we can create a network under tenant `blue`.
-Here we can choose the same subnet and network name as we used earlier with the default tenant, as namespaces
-are isolated across tenants.
-
-```
-netctl net create -t blue --subnet=10.1.2.0/24 contiv-net
-Creating network blue:contiv-net
-```
-```
-[vagrant@legacy-swarm-master ~]$ netctl net ls -t blue
-Tenant  Network     Nw Type  Encap type  Packet tag  Subnet       Gateway  IPv6Subnet  IPv6Gateway  Cfgd Tag
-------  -------     -------  ----------  ----------  -------      ------   ----------  -----------  ---------
-blue    contiv-net  data     vxlan       0           10.1.2.0/24
-```
-
-Next, we can run containers belonging to this tenant.
-
-```
 
 ### Cleanup:
 
@@ -740,21 +594,35 @@ To cleanup the setup, after doing all the experiments, exit the VM destroy VMs:
 logout
 Connection to 127.0.0.1 closed.
 ```
+
 ```
-$ cd .. (just to come out of cluster dir)
+$ cd .. # go back to install directory
 $ make cluster-destroy
+cd cluster && vagrant destroy -f
+==> kubeadm-worker0: Forcing shutdown of VM...
+==> kubeadm-worker0: Destroying VM and associated drives...
+==> kubeadm-master: Forcing shutdown of VM...
+==> kubeadm-master: Destroying VM and associated drives...
+==> swarm-mode-worker0: VM not created. Moving on...
+==> swarm-mode-master: VM not created. Moving on...
+==> legacy-swarm-worker0: VM not created. Moving on...
+==> legacy-swarm-master: VM not created. Moving on...
+```
+```
+$ make vagrant-clean
+vagrant global-status --prune
+id       name   provider state  directory
+--------------------------------------------------------------------
+There are no active Vagrant environments on this computer! Or,
+you haven't destroyed and recreated Vagrant environments that were
+started with an older version of Vagrant.
 cd cluster && vagrant destroy -f
 ==> kubeadm-worker0: VM not created. Moving on...
 ==> kubeadm-master: VM not created. Moving on...
 ==> swarm-mode-worker0: VM not created. Moving on...
 ==> swarm-mode-master: VM not created. Moving on...
-==> legacy-swarm-worker0: Forcing shutdown of VM...
-==> legacy-swarm-worker0: Destroying VM and associated drives...
-==> legacy-swarm-master: Forcing shutdown of VM...
-==> legacy-swarm-master: Destroying VM and associated drives...
-```
-```
-$ make vagrant-clean
+==> legacy-swarm-worker0: VM not created. Moving on...
+==> legacy-swarm-master: VM not created. Moving on...
 ```
 
 ### References
@@ -762,7 +630,6 @@ $ make vagrant-clean
 2. [CNM Design](https://github.com/docker/libnetwork/blob/master/docs/design.md)
 3. [Contiv User Guide](http://docs.contiv.io)
 4. [Contiv Networking Code](https://github.com/contiv/netplugin)
-
 
 ### Improvements or Comments
 This tutorial was developed by Contiv engineers. Thank you for trying out this tutorial.
