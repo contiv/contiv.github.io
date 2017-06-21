@@ -81,7 +81,7 @@ $ ./install/ansible/install_swarm.sh -f ../cluster/.cfg_legacy-swarm.yaml -e ${S
 $ cd ..
 ```
 
-Make note of final outcome of this process. This lists the URL for Legacy Swarm as well as the UI. There are instructions for setting up a default network as well.
+Make note of the final outcome of this process. This lists the URL for Legacy Swarm as well as the UI. There are instructions for setting up a default network as well.
 
 ```
 Installation is complete
@@ -532,7 +532,7 @@ d4f9c8886927        legacy-swarm-worker0/none     null                local
 ]
 ```
 
-You can now spin a couple of containers belonging to the `contiv-net` network. Specifying a node constraint forces the container to start on a different host.
+We can now spin a couple of containers belonging to the `contiv-net` network. Specifying a node constraint forces the container to start on a different host.
 
 ```
 [vagrant@legacy-swarm-master ~]$ docker run -itd --name=contiv-c1 --net=contiv-net -e constraint:node==legacy-swarm-master alpine /bin/sh
@@ -554,7 +554,7 @@ abe3cae574fb        alpine                       "/bin/sh"                16 min
 19eeadd6015d        quay.io/coreos/etcd:v2.3.8   "/etcd"                  31 minutes ago      Up 31 minutes                           legacy-swarm-worker0/etcd
 1477be6b938f        quay.io/coreos/etcd:v2.3.8   "/etcd"                  32 minutes ago      Up 32 minutes                           legacy-swarm-master/etcd
 ```
-Now try to ping between pods.
+Now try to ping between containers.
 
 ```
 [vagrant@legacy-swarm-master ~]$ docker exec -it contiv-c2 /bin/sh

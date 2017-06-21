@@ -65,7 +65,7 @@ This will create two VMs on VirtualBox.
 
 #### Step 2b: Download the Contiv release bundle on the master node
 
-Note that this step is different from the Docker Swarm tutorial. This installation is run on the master node itself and not from a different installer host.
+Note that this step is different from the Legacy Swarm tutorial. This installation is run on the master node itself and not from a different installer host.
 
 ```
 $ cd cluster
@@ -95,7 +95,7 @@ You will use the eth1 address as the Contiv netmaster control plane IP.
 [vagrant@kubeadm-master contiv-1.0.3]$ sudo ./install/k8s/install.sh -n 192.168.2.54
 ```
 
-Make note of final outcome of this process. This lists the URL for the UI. There are instructions for setting up a default network as well.
+Make note of the final outcome of this process. This lists the URL for the UI. There are instructions for setting up a default network as well.
 
 ```
 Installation is complete
@@ -294,12 +294,7 @@ Events:
 ```
 
 You can see a two node Kubernetes cluster running the latest Kubernetes version.
-The kubeadm-master node also has a taint `Taints: node-role.kubernetes.io/master:NoSchedule` that tells the Kubernetes scheduler to not schedule worker workloads on the master node causing all worker pods to be scheduled on kubeadm-worker0. You can remove the taint to allow scheduling pods on the master node.
-
-``` 
-[vagrant@kubeadm-master ~]$ kubectl taint node kubeadm-master node-role.kubernetes.io/master:NoSchedule-
-node “kubeadm-master” tainted
-``` 
+The kubeadm-master node also has a taint `Taints: node-role.kubernetes.io/master:NoSchedule` that tells the Kubernetes scheduler to not schedule worker workloads on the master node causing all worker pods to be scheduled on kubeadm-worker0.
 
 #### Step 5: Check contiv and related services.
 
@@ -344,8 +339,7 @@ default  default-net  data     vxlan       0           20.1.1.0/24   20.1.1.1
 default  contivh1     infra    vxlan       0           132.1.1.0/24  132.1.1.1
 ```
 
-You can see that `netctl` is able to communicate with the Contiv API & policy server, netmaster.
-You can also see that a `default-net` network has been created.
+You can see that `netctl` is able to communicate with the Contiv API & policy server, netmaster. You can also see that a `default-net` network has been created.
 
 ```
 [vagrant@kubeadm-master ~]$ ifconfig docker0
@@ -390,7 +384,7 @@ eth2: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 In the above output, you'll see the following interfaces:  
 - `docker0` interface corresponds to the linux bridge and its associated
 subnet `172.17.0.1/16`. This is created by the docker daemon automatically, and
-is the default network containers would belong to when an override network
+is the default network pods would belong to when an override network
 is not specified  
 - `eth0` in this VM is the management interface, on which we ssh into the VM  
 - `eth1` in this VM is the interface that connects to an external network (if needed)  
@@ -425,7 +419,7 @@ The rest of the tutorial walks through Contiv with CNI/Kubernetes examples.
 
 #### Basic container networking
 
-Let's examine the networking a container gets upon a vanilla run.
+Let's examine the networking a pod gets upon a vanilla run.
 
 ```
 [vagrant@kubeadm-master ~]$ sudo docker network ls
@@ -446,10 +440,10 @@ eth0      Link encap:Ethernet  HWaddr 02:02:14:01:01:03
           inet addr:20.1.1.3  Bcast:0.0.0.0  Mask:255.255.255.0
           inet6 addr: fe80::2:14ff:fe01:103/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1450  Metric:1
-          RX packets:7 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:7 errors:0 dropped:0 overruns:0 carrier:0
+          RX packets:8 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:0
-          RX bytes:578 (578.0 B)  TX bytes:578 (578.0 B)
+          RX bytes:648 (648.0 B)  TX bytes:648 (648.0 B)
 
 lo        Link encap:Local Loopback
           inet addr:127.0.0.1  Mask:255.0.0.0
@@ -464,17 +458,16 @@ lo        Link encap:Local Loopback
 default via 20.1.1.1 dev eth0
 20.1.1.0/24 dev eth0  src 20.1.1.3
 / # exit
-Session ended, resume using 'kubectl attach vanilla-c-1408101207-s911j -c vanilla-c -i -t' command when the pod is running
 ```
 
 ```
 [vagrant@kubeadm-master ~]$ kubectl get pods -o wide
 NAME                         READY     STATUS    RESTARTS   AGE       IP         NODE
-vanilla-c-1408101207-m9w65   1/1       Running   1          1m        20.1.1.3   kubeadm-worker0
+vanilla-c-1408101207-vvwxv   1/1       Running   1           1m       20.1.1.3   kubeadm-worker0
 ```
 
 **Note**:
-Please note this container got scheduled by Kubernetes on kubeadm-worker0 node, as seen in the NODE column above. The following ifconfig has to be run on kubeadm-worker0 node only if the container is scheduled on kubeadm-worker0.
+Please note this pod got scheduled by Kubernetes on kubeadm-worker0 node, as seen in the NODE column above. In order to see all of this pod's interfaces, we must run it on the kubeadm-worker0 node since it is scheduled on that node.
 
 Switch to `kubeadm-worker0`
 
@@ -491,12 +484,12 @@ $ vagrant ssh kubeadm-master
 ```
 
 In the `ifconfig` output, you will see that it would have created a vvport `virtual 
-ethernet interface` that could look like `vvport#`.
+ethernet interface` that would look like `vvport#`.
 
-The other pair of veth interface is put into the container with the name `eth0`.
+The other pair of veth interface is put into the pod with the name `eth0`.
 
 ```
-[vagrant@kubeadm-master ~]$ kubectl exec -it vanilla-c-1408101207-w3993 sh
+[vagrant@kubeadm-master ~]$ kubectl exec -it vanilla-c-1408101207-vvwxv sh
 / # ifconfig eth0
 eth0      Link encap:Ethernet  HWaddr 02:02:14:01:01:03
           inet addr:20.1.1.3  Bcast:0.0.0.0  Mask:255.255.255.0
@@ -510,7 +503,7 @@ eth0      Link encap:Ethernet  HWaddr 02:02:14:01:01:03
 / # exit
 ```
 
-All traffic to/from this container is Port-NATed to the host's IP (on eth0). The Port NATing on the host is done using iptables, which can be seen as a MASQUERADE rule for outbound traffic for `172.17.0.0/16`
+All traffic to/from this pod is Port-NATed to the host's IP (on eth0). The Port NATing on the host is done using iptables, which can be seen as a MASQUERADE rule for outbound traffic for `172.17.0.0/16`
 
 ```
 [vagrant@kubeadm-master ~]$ sudo iptables -t nat -L -n
@@ -539,7 +532,7 @@ There are many solutions like Contiv such as Calico, Weave, OpenShift, OpenContr
 In this section, let's examine Contiv and Kubernetes overlay solutions.
 
 #### Multi-host networking with Contiv
-Let's use the same example as above to spin up two containers on the two different hosts.
+Let's use the same example as above to spin up two pods on the two different hosts.
 
 #### 1. Create a multi-host network
 
@@ -582,12 +575,97 @@ default  contiv-net   data     vxlan       0           10.1.2.0/24
 }
 ```
 
-You can now spin a couple of containers belonging to the `contiv-net` network. Specifying a node constraint forces the container to start on a different host.
+We can now spin a couple of pods belonging to the `contiv-net` network.
+We will create one pod on the master node and one pod on the worker node.
+This will create a pod on the master node because we have specified tolerations in accordance with the master nodes taints.
 
+```
+[vagrant@kubeadm-master ~]$
+cat <<EOF > contiv-c1.yaml
+apiVersion: v1
+kind: Pod
+metadata: 
+  labels: 
+    io.contiv.network: contiv-net
+    k8s-app: contiv-c1
+  name: contiv-c1
+spec: 
+
+  containers: 
+    - 
+      image: alpine
+      name: alpine
+      command: 
+      - sleep
+      - "6000"
+  nodeSelector: 
+    node-role.kubernetes.io/master: ""
+  tolerations: 
+    - 
+      effect: NoSchedule
+      key: node-role.kubernetes.io/master
+EOF
+```
+```
+[vagrant@kubeadm-master ~]$ kubectl create -f contiv-c1.yaml
+pod "contiv-c1" created
+```
+This will create a pod on the worker node.
+
+```
+[vagrant@kubeadm-master ~]$
+cat <<EOF > contiv-c2.yaml
+apiVersion: v1
+kind: Pod
+metadata: 
+  labels: 
+    io.contiv.network: contiv-net
+    k8s-app: contiv-c2
+  name: contiv-c2
+spec: 
+
+  containers: 
+    - 
+      image: alpine
+      name: alpine
+      command: 
+      - sleep
+      - "6000"
+EOF
+```
+```
+[vagrant@kubeadm-master ~]$ kubectl create -f contiv-c2.yaml
+pod "contiv-c2" created
+```
+We can see which pods have been created and where they have been scheduled.
+
+```
+[vagrant@kubeadm-master ~]$ kubectl get pods -o wide
+NAME                         READY     STATUS    RESTARTS   AGE       IP         NODE
+contiv-c1                    1/1       Running   0          13m       10.1.2.1   kubeadm-master
+contiv-c2                    1/1       Running   0          18s       10.1.2.2   kubeadm-worker0
+vanilla-c-1408101207-vvwxv   1/1       Running   1          25m       20.1.1.3   kubeadm-worker0
+```
+Now let's try to ping between these two pods.
+
+```
+[vagrant@kubeadm-master ~]$ kubectl exec -it contiv-c1 sh
+/ # ping -c 3 10.1.2.2
+PING 10.1.2.2 (10.1.2.2): 56 data bytes
+64 bytes from 10.1.2.2: seq=0 ttl=64 time=11.343 ms
+64 bytes from 10.1.2.2: seq=1 ttl=64 time=0.909 ms
+64 bytes from 10.1.2.2: seq=2 ttl=64 time=0.779 ms
+
+--- 10.1.2.2 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.779/4.343/11.343 ms
+/ # exit
+```
+The built-in DNS does not resolve `contiv-c2` to it's IP address because Kubernetes does not provide DNS names for. We can communicate between pods using IP addresses and the vxlan overlay provided.
 
 ### Cleanup:
 
-To cleanup the setup, after doing all the experiments, exit the VM destroy VMs:
+To cleanup the setup, after doing all the experiments, exit the VM and destroy the VMs:
 
 ```
 [vagrant@legacy-swarm-master ~]$ exit
@@ -635,4 +713,3 @@ cd cluster && vagrant destroy -f
 This tutorial was developed by Contiv engineers. Thank you for trying out this tutorial.
 Please file a GitHub issue if you see an issue with the tutorial, or if you prefer
 improving some text, feel free to send a pull request.
-```
