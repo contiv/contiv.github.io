@@ -6,14 +6,20 @@ description: |-
   Contiv Policy Networking Tutorial (Kubernetes 1.6)
 ---
 
+
+
 ## Contiv Policy Tutorial with Kubernetes
+
+ - [Setup](#setup)
+ - [Chapter 1 - ICMP Policy](#ch1)
+ - [Cleanup](#cleanup)
 
 This tutorial walks through advanced features of Contiv container networking.
 
-### Setup
+### <a name="setup"></a> Setup
 Follow all steps from the [Container Networking Tutorial](/documents/tutorials/networking-kubernetes-16.html).
 
-###Chapter 1 - ICMP Policy
+### <a name="ch1"></a> Chapter 1 - ICMP Policy
 
 In this section, we will create two groups epgA and epgB. We will create containers with respect to those groups. Then, by default, communication between the groups is allowed. So, we will create an ICMP deny policy and verify that we are not able to ping between those containers.
 
@@ -219,7 +225,7 @@ PING 10.1.1.2 (10.1.1.2): 56 data bytes
 / # exit
 ```
 
-### Cleanup: **after all play is done**
+### <a name="cleanup"></a> Cleanup: **after all play is done**
 To cleanup the setup, after doing all the experiments, exit the VM destroy VMs:
 
 ```

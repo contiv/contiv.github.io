@@ -8,9 +8,18 @@ description: |-
 
 
 ## Container Networking Tutorial with Contiv + Kubernetes
+
+- [Prerequisites](#prereqs)
+- [Setup](#prereqs)
+- [Chapter 1 - Introduction to Container Networking](#ch1)
+- [Chapter 2 - Multi-host networking](#ch2)
+- [Chapter 3 - Using multiple tenants with arbitrary IPs in the networks](#ch3)
+- [Chapter 4 - Connecting pods to external networks](#ch4)
+- [Cleanup](#cleanup)
+
 This tutorial walks through container networking concepts step by step in a Kubernetes environment. We will explore Contiv's networking features along with policies in the next tutorial.
 
-### Prerequisites 
+### <a name="prereqs"></a> Prerequisites 
 1. [Download Vagrant](https://www.vagrantup.com/downloads.html)
 2. [Download Virtualbox](https://www.virtualbox.org/wiki/Downloads)
 3. [Install git client](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
@@ -31,7 +40,7 @@ The steps below download a centos vagrant box. If you have a centos box availabl
 vagrant box add --name centos/7 CentOS-7-x86_64-Vagrant-1703_01.VirtualBox.box
 ```
  
-### Setup
+### <a name="setup"></a> Setup
 
 #### Step 1: Get contiv installer code from github.
 
@@ -390,7 +399,7 @@ is not specified
 - `eth1` in this VM is the interface that connects to an external network (if needed)  
 - `eth2` in this VM is the interface that carries vxlan and control (e.g. etcd) traffic
 
-### Chapter 1 - Introduction to Container Networking
+### <a name="ch1"></a> Chapter 1: Introduction to Container Networking
 
 There are two main container networking models discussed within the community.
 
@@ -525,7 +534,7 @@ target     prot opt source               destination
 ...
 ```
 
-### Chapter 2: Multi-host networking
+### <a name="ch2"></a> Chapter 2: Multi-host networking
 
 There are many solutions like Contiv such as Calico, Weave, OpenShift, OpenContrail, Nuage, VMWare, Docker, Kubernetes, and OpenStack that provide solutions to multi-host container networking. 
 
@@ -663,7 +672,7 @@ round-trip min/avg/max = 0.779/4.343/11.343 ms
 ```
 The built-in DNS does not resolve `contiv-c2` to it's IP address because Kubernetes does not provide DNS names for. We can communicate between pods using IP addresses and the vxlan overlay provided.
 
-### Chapter 3: Using multiple tenants with arbitrary IPs in the networks
+### <a name="ch3"></a> Chapter 3: Using multiple tenants with arbitrary IPs in the networks
 
 First, let's create a new tenant space.
 
@@ -805,7 +814,7 @@ round-trip min/avg/max = 0.084/0.417/1.076 ms
 / # exit
 ```
 
-### Chapter 4: Connecting pods to external networks
+### <a name="ch4"></a> Chapter 4: Connecting pods to external networks
 
 In this chapter, we explore ways to connect pods to external networks.
 
@@ -964,7 +973,7 @@ pod "contiv-exposed" created
 ```
 If we re-run our nc utility, we'll see that 9099 is reachable.
 
-### Cleanup:
+### <a name="cleanup"></a> Cleanup:
 
 To cleanup the setup, after doing all the experiments, exit the VM and destroy the VMs:
 

@@ -7,14 +7,23 @@ description: |-
 ---
 
 
+
+ 
+
 ## Contiv Policy Tutorial with Legacy Swarm
+
+- [Setup](#setup)
+- [Chapter 1 - ICMP Policy](#ch1)
+- [Chapter 2 - TCP Policy](#ch2)
+- [Chapter 3 - Bandwidth Policy](#ch3)
+- [Cleanup](#cleanup)
 
 This tutorial walks through advanced features of Contiv container networking.
 
-### Setup
+### <a name="setup"></a> Setup 
 Follow all steps from the [Container Networking Tutorial](/documents/tutorials/container-101.html).
 
-### Chapter 1 - ICMP Policy
+### <a name="ch1"></a> Chapter 1 - ICMP Policy 
 
 In this section, we will create two groups epgA and epgB. We will create containers with respect to those groups. Then, by default, communication between the groups is allowed. So, we will create an ICMP deny policy and verify that we are not able to ping between those containers.
 
@@ -200,7 +209,7 @@ PING 10.1.1.2 (10.1.1.2): 56 data bytes
 / # exit
 ```
 
-### Chapter 2 - TCP Policy
+### <a name="ch2"></a> Chapter 2 - TCP Policy 
 
 In this section, we will create TCP deny policy as well as selective TCP port allow policy.
 
@@ -249,7 +258,7 @@ On AContainer:
 
 You see that port 8001 is open and port 8000 is not open.
 
-### Chapter 3 - Bandwidth Policy
+### <a name="ch3"></a> Chapter 3 - Bandwidth Policy 
 
 In this chapter, we will explore bandwidth policy feature of contiv. 
 We will create tenant, network and groups. Then we will attach netprofile to one group
@@ -463,7 +472,7 @@ As we see, clientB is getting roughly around 500Kbps bandwidth.
 ```
 
 
-### Cleanup: **after all play is done**
+### <a name="cleanup"></a> Cleanup: 
 To cleanup the setup, after doing all the experiments, exit the VM destroy VMs:
 
 ```

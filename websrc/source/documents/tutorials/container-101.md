@@ -7,10 +7,22 @@ description: |-
 ---
 
 
+
+
 ## Containers Networking Tutorial with Contiv + Legacy Swarm
+
+  - [Prerequisites](#prereqs)
+  - [Setup](#setup)
+  - [Chapter 1 - Introduction to Container Networking](#ch1)
+  - [Chapter 2 - Multi-host networking](#ch2)
+  - [Chapter 3 - Using multiple tenants with arbitrary IPs in the networks](#ch3)
+  - [Chapter 4 - Connecting containers to external networks](#ch4)
+  - [Chapter 5 - Docker Overlay multi-host networking](#ch5)
+  - [Cleanup](#cleanup)
+
 This tutorial will walk through container networking and concepts step by step in the Legacy Swarm environment. We will explore Contiv's networking features along with policies in the next tutorial.
 
-### Prerequisites 
+### <a name="prereqs"></a> Prerequisites 
 1. [Download Vagrant](https://www.vagrantup.com/downloads.html)
 2. [Download VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 3. [Install git client](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
@@ -31,7 +43,7 @@ The steps below download a centos vagrant box. If you have a centos box availabl
 vagrant box add --name centos/7 CentOS-7-x86_64-Vagrant-1703_01.VirtualBox.box
 ```
  
-### Setup
+### <a name="setup"></a> Setup
 
 #### Step 1: Get the Contiv installer code from github.
 ```
@@ -313,7 +325,7 @@ is not specified
 - `eth2` in this VM is the interface that carries vxlan and control (e.g. etcd) traffic  
 
 
-### Chapter 1 - Introduction to Container Networking
+### <a name="ch1"></a> Chapter 1: Introduction to Container Networking
 
 There are two main container networking models discussed within the community.
 
@@ -468,7 +480,7 @@ target     prot opt source               destination
 ...
 ```
 
-### Chapter 2: Multi-host networking
+### <a name="ch2"></a> Chapter 2: Multi-host networking
 
 There are many solutions like Contiv such as Calico, Weave, OpenShift, OpenContrail, Nuage, VMWare, Docker, Kubernetes, and OpenStack that provide solutions to multi-host container networking. 
 
@@ -584,7 +596,7 @@ with `contiv` because then we can terminate the contiv driver and
 let Docker overlay driver use the vxlan port bindings. More about it in
 later chapter.
 
-### Chapter 3: Using multiple tenants with arbitrary IPs in the networks
+### <a name="ch3"></a> Chapter 3: Using multiple tenants with arbitrary IPs in the networks
 
 First, let's create a new tenant space.
 
@@ -721,7 +733,7 @@ round-trip min/avg/max = 0.936/1.448/2.441 ms
 / # exit
 ```
 
-### Chapter 4: Connecting containers to external networks
+### <a name="ch4"></a> Chapter 4: Connecting containers to external networks
 
 In this chapter, we explore ways to connect containers to the external networks
 
@@ -925,7 +937,7 @@ Note: The vlan shown in tcpdump is same (i.e. `112`) as what we configured in th
 `contiv-vlan-c2` container.
 
 
-### Chapter 5: Docker Overlay multi-host networking
+### <a name="ch5"></a> Chapter 5: Docker Overlay multi-host networking
 
 As we learned earlier that using the vxlan port conflict can prevent us from using
 Docker `overlay` network. For us to experiment with this, we'd go ahead
@@ -1011,7 +1023,7 @@ Very similar to contiv-networking, built in dns resolves the name `overlay-c1`
 to the IP address of `overlay-c1` container and be able to reach another container
 across using a vxlan overlay.
 
-### Cleanup:
+### <a name="cleanup"></a> Cleanup:
 
 To cleanup the setup, after doing all the experiments, exit the VM destroy VMs:
 
