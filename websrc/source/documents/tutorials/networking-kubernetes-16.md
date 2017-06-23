@@ -537,7 +537,7 @@ Let's use the same example as above to spin up two pods on the two different hos
 #### 1. Create a multi-host network
 
 ```
-[vagrant@legacy-swarm-master ~]$ netctl net create --subnet=10.1.2.0/24 contiv-net
+[vagrant@kubeadm-master ~]$ netctl net create --subnet=10.1.2.0/24 contiv-net
 Creating network default:contiv-net
 ```
 ```
@@ -693,8 +693,276 @@ blue    contiv-net  data     vxlan       0           10.1.2.0/24
 Next, we can run pods belonging to this tenant.
 
 ```
-kubectl run -it contiv-blue-c1 --image=alpine /bin/sh -l io.contiv.tenant=blue -l io.contiv.network=contiv-net
+[vagrant@kubeadm-master ~]$
+cat <<EOF > contiv-blue-c1.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    io.contiv.tenant: blue
+    io.contiv.network: contiv-net
+    k8s-app: contiv-blue-c1
+  name: contiv-blue-c1
+spec: 
+
+  containers: 
+    - 
+      image: alpine
+      name: alpine
+      command: 
+      - sleep
+      - "6000"
+EOF
+
+[vagrant@kubeadm-master ~]$ kubectl create -f contiv-blue-c2.yaml
+pod "contiv-blue-c2" created
 ```
+```
+[vagrant@kubeadm-master ~]$
+cat <<EOF > contiv-blue-c2.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    io.contiv.tenant: blue
+    io.contiv.network: contiv-net
+    k8s-app: contiv-blue-c2
+  name: contiv-blue-c2
+spec: 
+
+  containers: 
+    - 
+      image: alpine
+      name: alpine
+      command: 
+      - sleep
+      - "6000"
+EOF
+
+[vagrant@kubeadm-master ~]$ kubectl create -f contiv-blue-c2.yaml
+pod "contiv-blue-c2" created
+```
+```
+[vagrant@kubeadm-master ~]$
+cat <<EOF > contiv-blue-c3.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    io.contiv.tenant: blue
+    io.contiv.network: contiv-net
+    k8s-app: contiv-blue-c3
+  name: contiv-blue-c3
+spec: 
+
+  containers: 
+    - 
+      image: alpine
+      name: alpine
+      command: 
+      - sleep
+      - "6000"
+EOF
+
+[vagrant@kubeadm-master ~]$ kubectl create -f contiv-blue-c3.yaml
+pod "contiv-blue-c3" created
+```
+
+Let's see what has been created.
+
+```
+[vagrant@kubeadm-master ~]$ kubectl get pods -o wide
+NAME                         READY     STATUS    RESTARTS   AGE       IP         NODE
+contiv-blue-c1               1/1       Running   0          1h        10.1.2.1   kubeadm-worker0
+contiv-blue-c2               1/1       Running   0          30s       10.1.2.2   kubeadm-worker0
+contiv-blue-c3               1/1       Running   0          10s       10.1.2.3   kubeadm-worker0
+contiv-c1                    1/1       Running   3          5h        10.1.2.1   kubeadm-master
+contiv-c2                    1/1       Running   3          5h        10.1.2.2   kubeadm-worker0
+vanilla-c-1408101207-vvwxv   1/1       Running   1          5h        20.1.1.3   kubeadm-worker0
+```
+Now, let's try to ping between these pods.
+
+```
+[vagrant@kubeadm-master ~]$ kubectl exec -it contiv-blue-c1 sh
+/ # ping -c 3 10.1.2.2
+PING 10.1.2.2 (10.1.2.2): 56 data bytes
+64 bytes from 10.1.2.2: seq=0 ttl=64 time=1.065 ms
+64 bytes from 10.1.2.2: seq=1 ttl=64 time=0.082 ms
+64 bytes from 10.1.2.2: seq=2 ttl=64 time=0.082 ms
+
+--- 10.1.2.2 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.082/0.409/1.065 ms
+/ # ping -c 3 10.1.2.3
+PING 10.1.2.3 (10.1.2.3): 56 data bytes
+64 bytes from 10.1.2.3: seq=0 ttl=64 time=1.076 ms
+64 bytes from 10.1.2.3: seq=1 ttl=64 time=0.084 ms
+64 bytes from 10.1.2.3: seq=2 ttl=64 time=0.093 ms
+
+--- 10.1.2.3 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.084/0.417/1.076 ms
+/ # exit
+```
+
+### Chapter 4: Connecting pods to external networks
+
+In this chapter, we explore ways to connect pods to external networks.
+
+#### 1.External Connectivity using Host NATing
+
+We must use a network that has a gateway.
+
+```
+[vagrant@kubeadm-master ~]$ netctl net ls -a
+Tenant   Network      Nw Type  Encap type  Packet tag  Subnet        Gateway    IPv6Subnet  IPv6Gateway  Cfgd Tag
+------   -------      -------  ----------  ----------  -------       ------     ----------  -----------  ---------
+default  contivh1     infra    vxlan       0           132.1.1.0/24  132.1.1.1
+default  default-net  data     vxlan       0           20.1.1.0/24   20.1.1.1
+default  contiv-net   data     vxlan       0           10.1.2.0/24
+blue     contiv-net   data     vxlan       0           10.1.2.0/24
+```
+Both `contivh1` and `default-net` have gateways. We will use `default-net`. Let's see what pods are assigned to this network.
+
+```
+[vagrant@kubeadm-master ~]$ netctl net inspect default-net
+{
+  "Config": {
+    "key": "default:default-net",
+    "encap": "vxlan",
+    "gateway": "20.1.1.1",
+    "networkName": "default-net",
+    "nwType": "data",
+    "subnet": "20.1.1.0/24",
+    "tenantName": "default",
+    "link-sets": {},
+    "links": {
+      "Tenant": {
+        "type": "tenant",
+        "key": "default"
+      }
+    }
+  },
+  "Oper": {
+    "allocatedAddressesCount": 2,
+    "allocatedIPAddresses": "20.1.1.1-20.1.1.3",
+    "availableIPAddresses": "20.1.1.4-20.1.1.254",
+    "endpoints": [
+      {
+        "containerName": "kube-dns-692378583-q52m9",
+        "endpointID": "27b7c6b7dd931d5110bf9d75086be63103fcb3e92b6b88740e76eb1fb3a28102",
+        "homingHost": "kubeadm-worker0",
+        "ipAddress": [
+          "20.1.1.2",
+          ""
+        ],
+        "labels": "map[]",
+        "macAddress": "02:02:14:01:01:02",
+        "network": "default-net.default"
+      },
+      {
+        "containerName": "vanilla-c-1408101207-vvwxv",
+        "endpointID": "846c1fccb6bd07294002abba32649a4dc46e13fb5ddebf1f2db256bccb479378",
+        "homingHost": "kubeadm-worker0",
+        "ipAddress": [
+          "20.1.1.3",
+          ""
+        ],
+        "labels": "map[]",
+        "macAddress": "02:02:14:01:01:03",
+        "network": "default-net.default"
+      }
+    ],
+    "externalPktTag": 2,
+    "networkTag": "default-net.default",
+    "numEndpoints": 2,
+    "pktTag": 2
+  }
+}
+```
+We see that our `vanilla-c` pod is within this network.
+
+```
+[vagrant@kubeadm-master ~]$ kubectl exec -it vanilla-c-1408101207-vvwxv sh
+/ # ifconfig -a
+eth0      Link encap:Ethernet  HWaddr 02:02:14:01:01:03
+          inet addr:20.1.1.3  Bcast:0.0.0.0  Mask:255.255.255.0
+          inet6 addr: fe80::2:14ff:fe01:103/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1450  Metric:1
+          RX packets:22 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:22 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:3440 (3.3 KiB)  TX bytes:1820 (1.7 KiB)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+/ # ping -c 3 contiv.com
+PING contiv.com (216.239.34.21): 56 data bytes
+64 bytes from 216.239.34.21: seq=0 ttl=61 time=170.747 ms
+64 bytes from 216.239.34.21: seq=1 ttl=61 time=184.913 ms
+64 bytes from 216.239.34.21: seq=2 ttl=61 time=525.511 ms
+
+--- contiv.com ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 170.747/293.723/525.511 ms
+/ # exit
+```
+
+What you see is that the pod has one interface belonging to it:  
+- eth0 is reachability into the default-net
+
+Similarly outside traffic can be exposed on specific ports using the -p command. Before we do that, let us confirm that port 9099 is not reachable from the master node. Let's first install some commands.
+
+```
+[vagrant@kubeadm-master ~]$ sudo yum -y install nc
+< some yum install output >
+Complete!
+
+[vagrant@kubeadm-master ~]$ sudo yum -y install tcpdump
+< some yum install output >
+Complete!
+
+[vagrant@kubeadm-master ~]$ nc -vw 1 localhost 9099
+Ncat: Version 6.40 ( http://nmap.org/ncat )
+Ncat: Connection refused.
+```
+Now let's start a pod that exposes TCP port 9099 out in the host.
+
+```
+[vagrant@kubeadm-master ~]$
+cat <<EOF > contiv-exposed.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    io.contiv.tenant: blue
+    io.contiv.network: contiv-net
+    k8s-app: contiv-exposed
+  name: contiv-exposed
+spec: 
+
+  containers: 
+    - 
+      image: alpine
+      name: alpine
+      command: 
+      - sleep
+      - "6000"
+      ports:
+      - containerPort: 9099
+EOF
+
+[vagrant@kubeadm-master ~]$ kubectl create -f contiv-exposed.yaml
+pod "contiv-exposed" created
+```
+If we re-run our nc utility, we'll see that 9099 is reachable.
 
 ### Cleanup:
 

@@ -592,7 +592,8 @@ First, let's create a new tenant space.
 [vagrant@legacy-swarm-master ~]$ export DOCKER_HOST="tcp://192.168.2.50:2375"
 [vagrant@legacy-swarm-master ~]$ netctl tenant create blue
 Creating tenant: blue
-
+```
+```
 [vagrant@legacy-swarm-master ~]$ netctl tenant ls
 Name
 ------
@@ -607,7 +608,8 @@ are isolated across tenants.
 ```
 [vagrant@legacy-swarm-master ~]$ netctl net create -t blue --subnet=10.1.2.0/24 contiv-net
 Creating network blue:contiv-net
-
+```
+```
 [vagrant@legacy-swarm-master ~]$ netctl net ls -t blue
 Tenant  Network     Nw Type  Encap type  Packet tag  Subnet       Gateway  IPv6Subnet  IPv6Gateway  Cfgd Tag
 ------  -------     -------  ----------  ----------  -------      ------   ----------  -----------  ---------
@@ -625,7 +627,8 @@ ea49d3f17e5f51404221d199b0502973c0005a2c7baf1827e569cb135958d77e
 
 [vagrant@legacy-swarm-master ~]$ docker run -itd --name=contiv-blue-c3 --net="contiv-net/blue" alpine /bin/sh
 40e249715badb157faa84890c2521528ce1068165482635c8644856830dacd73
-
+```
+```
 [vagrant@legacy-swarm-master ~]$ docker ps
 CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS               NAMES
 40e249715bad        alpine                       "/bin/sh"                17 seconds ago      Up 16 seconds                           legacy-swarm-worker0/contiv-blue-c3
@@ -690,7 +693,10 @@ abe3cae574fb        alpine                       "/bin/sh"                22 min
         "Labels": {}
     }
 ]
+```
+Now let's try to ping between these containers.
 
+```
 [vagrant@legacy-swarm-master ~]$ docker exec -it contiv-blue-c3 /bin/sh
 
 / # ping -c 3 contiv-blue-c1
@@ -713,7 +719,6 @@ PING contiv-blue-c2 (10.1.2.2): 56 data bytes
 3 packets transmitted, 3 packets received, 0% packet loss
 round-trip min/avg/max = 0.936/1.448/2.441 ms
 / # exit
-
 ```
 
 ### Chapter 4: Connecting containers to external networks
@@ -770,16 +775,12 @@ round-trip min/avg/max = 38.088/49.449/57.052 ms
 / # exit
 ```
 
-What you see is that container has two interfaces belonging to it:
-- eth0 is reachability into the `contiv-net` 
-- eth1 is reachability for container to the external world and outside
-traffic to be able to reach the container `contiv-c1`. This also relies on the host's dns
-resolv.conf as a default way to resolve non container IP resolution.
+What you see is that container has two interfaces belonging to it:  
+- eth0 is reachability into the `contiv-net`  
+- eth1 is reachability for container to the external world and outside traffic to be able to reach the container `contiv-c1`. This also relies on the host's dns resolv.conf as a default way to resolve non container IP resolution.
 
-Similarly outside traffic can be exposed on specific ports using `-p` command. Before
-we do that, let us confirm that port 9099 is not reachable from the host
-`contiv-node3`. To install `nc` netcat utility please run `sudo yum -y install nc && sudo yum -y install tcpdump` on contiv-node3
-
+Similarly outside traffic can be exposed on specific ports using the `-p` command. Before
+we do that, let us confirm that port 9099 is not reachable from the master node. Let's first install some commands.
 
 ```
 # Install nc utility
@@ -984,7 +985,7 @@ to the swarm cluster.
 [vagrant@legacy-swarm-master ~]$ docker run -itd --name=overlay-c2 --net=overlay-net alpine /bin/sh
 68e4daada1082009472ad5f61c32604ebcf0a2079c02bc714c056e25b967037c
 
-[vagrant@contiv-node3 ~]$ docker ps
+[vagrant@clegacy-swarm-master ~]$ docker ps
 CONTAINER ID        IMAGE                            COMMAND                  CREATED              STATUS              PORTS               NAMES
 825a80fb54c4        alpine                           "/bin/sh"                38 seconds ago       Up 37 seconds                           contiv-node4/overlay-c2
 82079ffd25d4        alpine                           "/bin/sh"                About a minute ago   Up About a minute                       contiv-node4/overlay-c1

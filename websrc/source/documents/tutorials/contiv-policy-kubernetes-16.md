@@ -60,7 +60,7 @@ TestTenant  epgB   TestNet
 Let's create two pods, one on each group network, and check whethere they are able to ping each other or not. By default, Contiv allows connectivity between groups under the same network.
 
 ```
-[vagrant@contiv-node1 ~]$ 
+[vagrant@kubeadm-master ~]$ 
 cat <<EOF > apod.yaml
 apiVersion: v1
 kind: Pod
@@ -84,7 +84,7 @@ EOF
 pod "apod" created
 ```
 ```
-[vagrant@contiv-node1 ~]$ 
+[vagrant@kubeadm-master ~]$ 
 cat <<EOF > bpod.yaml
 apiVersion: v1
 kind: Pod
