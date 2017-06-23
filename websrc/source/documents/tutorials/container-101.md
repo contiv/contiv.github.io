@@ -7,10 +7,22 @@ description: |-
 ---
 
 
-## Containers Networking Tutorial with Contiv + Legacy Swarm
-This tutorial will walk through container networking and concepts step by step. We will explore Contiv's networking features along with policies, in the next tutorial.
 
-### Prerequisites 
+
+## Containers Networking Tutorial with Contiv + Legacy Swarm
+
+  - [Prerequisites](#prereqs)
+  - [Setup](#setup)
+  - [Chapter 1 - Introduction to Container Networking](#ch1)
+  - [Chapter 2 - Multi-host networking](#ch2)
+  - [Chapter 3 - Using multiple tenants with arbitrary IPs in the networks](#ch3)
+  - [Chapter 4 - Connecting containers to external networks](#ch4)
+  - [Chapter 5 - Docker Overlay multi-host networking](#ch5)
+  - [Cleanup](#cleanup)
+
+This tutorial will walk through container networking and concepts step by step in the Legacy Swarm environment. We will explore Contiv's networking features along with policies in the next tutorial.
+
+### <a name="prereqs"></a> Prerequisites 
 1. [Download Vagrant](https://www.vagrantup.com/downloads.html)
 2. [Download VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 3. [Install git client](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
@@ -25,13 +37,13 @@ Make virtualbox the default provider for vagrant
 export VAGRANT_DEFAULT_PROVIDER=virtualbox
 ```
 
-The steps below download a centos vagrant box. If you have a centos box available already, or you have access to the box file, add it to list of box images with specific name centos/7, as follows:
+The steps below download a centos vagrant box. If you have a centos box available already, or you have access to the box file, add it to list of box images with the specific name centos/7, as follows:
 
 ```
 vagrant box add --name centos/7 CentOS-7-x86_64-Vagrant-1703_01.VirtualBox.box
 ```
  
-### Setup
+### <a name="setup"></a> Setup
 
 #### Step 1: Get the Contiv installer code from github.
 ```
@@ -39,7 +51,7 @@ $ git clone https://github.com/contiv/install.git
 $ cd install
 ```
 
-#### Step 2: Run the installer to install Contiv + Docker Swarm using Vagrant on VMs created on VirtualBox
+#### Step 2: Install Contiv + Legacy Swarm using Vagrant on the VMs created on VirtualBox
 
 **Note**:
 Please make sure that you are NOT connected to VPN here.
@@ -49,17 +61,16 @@ $ make demo-legacy-swarm
 ```
 **Note**: Please do not try to work in both the Legacy Swarm and Kubernetes environments at the same time. This will not work.
 
-This will create two VMs on VirtualBox. Using ansible, all the required services and software for contiv, will get installed at this step.
-This might take some time (usually approx 15-20 mins) depending upon your internet connection.
+This will create two VMs on VirtualBox. It will install Legacy Swarm and all the required services and software for Contiv using Ansible. This might take some time (usually approx 15-20 mins) depending upon your internet connection.
 
--- or --
+-- OR --
 #### Step 2a: Create a vagrant VM cluster
 
 ```
 $ make cluster-legacy-swarm
 ```
 
-This will create two VMs on VirtualBox. It will also create a cluster/.cfg_legacy-swarm.yaml config file that will be used in later steps. Also setup the following two config vars.
+This will create two VMs on VirtualBox. It will also create a cluster/.cfg_legacy-swarm.yaml config file that will be used in later steps. Setup the following two config vars.
 
 ```
 $ cd cluster
@@ -67,7 +78,7 @@ $ export SSH_KEY=$(vagrant ssh-config legacy-swarm-master | grep IdentityFile | 
 $ export USER="vagrant"
 ```
 
-#### Step 2b: Download contiv release bundle
+#### Step 2b: Download Contiv release bundle
 
 ```
 $ cd .. # go back to the install folder
@@ -75,14 +86,14 @@ $ curl -L -O https://github.com/contiv/install/releases/download/1.0.3/contiv-1.
 $ tar xf contiv-1.0.3.tgz
 ```
 
-#### Step 2c: Use config file to install contiv
+#### Step 2c: Install Contiv
 ```
 $ cd contiv-1.0.3
 $ ./install/ansible/install_swarm.sh -f ../cluster/.cfg_legacy-swarm.yaml -e ${SSH_KEY} -u ${USER} -i
 $ cd ..
 ```
 
-Make note of final outcome of this process. This lists the URL for Docker Swarm as well as the UI.
+Make note of the final outcome of this process. This lists the URL for Legacy Swarm as well as the UI. There are instructions for setting up a default network as well.
 
 ```
 Installation is complete
@@ -105,11 +116,11 @@ Please use the first run wizard or configure the setup as follows:
 #### Step 3: Check vagrant VM nodes.
 
 **Note**:
-- On Windows, you will need a ssh client to be installed like putty, cygwin etc.
+On Windows, you will need a ssh client to be installed like putty, cygwin etc.
+
+This command will show you list of VMs which we have created. Make sure you are in the cluster folder.
 
 ```
-This command will show you list of VMs which we have created.
-$ cd cluster
 $ vagrant status
 Current machine states:
 
@@ -119,14 +130,14 @@ legacy-swarm-worker0      running (virtualbox)
 ```
 The above command shows the node information, version, etc.
 
-#### Step 4: Hello world Docker swarm.
+#### Step 4: Hello world Docker Swarm.
 
-As a part of this contiv installation, we install Docker Swarm for you. To verify the Docker Swarm cluster, please execute following commands on the Vagrant VMs.
+As a part of this Contiv installation, we install Legacy Swarm for you. To verify the Legacy Swarm cluster, please execute the following commands on the Vagrant VMs.
 
 ```
 $ vagrant ssh legacy-swarm-master
 ```
-To run Docker without sudo, add user to docker group, quit and ssh again.
+Now you will be logged into the Legacy Swarm master Vagrant VM. To run Docker without sudo, add user to docker group in the master and worker nodes.
 
 ```
 [vagrant@legacy-swarm-master ~]$ sudo usermod -aG docker $USER
@@ -139,7 +150,7 @@ $ vagrant ssh legacy-swarm-master
 
 ```
 
-Now you will be logged into one of the Vagrant VM. Setup DOCKER_HOST variable based on the output of installation step above.
+Setup DOCKER_HOST variable based on the output of installation step above.
 
 ```
 [vagrant@legacy-swarm-master ~]$ export DOCKER_HOST=tcp://192.168.2.50:2375
@@ -194,11 +205,8 @@ WARNING: No kernel memory limit support
 
 ```
 
-Docker swarm with 2 nodes is running successfully.
-
-Scheduler schedules these containers using the
-scheduling algorithm `bin-packing` or `spread`, and if they are not placed on 
-different nodes, feel free to start more containers to see the distribution.
+You can see a two node Legacy Swarm cluster running successfully.
+Scheduler schedules these containers using the scheduling algorithm `bin-packing` or `spread`. If they are not placed on different nodes, feel free to start more containers to see the distribution.
 
 #### Step 5: Check contiv and related services.
 
@@ -307,18 +315,17 @@ eth0: flags=4163  mtu 1500
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
 
-
-In the above output, you'll see:
+In the above output, you'll see the following interfaces:  
 - `docker0` interface corresponds to the linux bridge and its associated
 subnet `172.17.0.1/16`. This is created by docker daemon automatically, and
 is the default network containers would belong to when an override network
-is not specified
-- `eth0` in this VM is the management interface, on which we ssh into the VM
-- `eth1` in this VM is the interface that connects to external network (if needed)
-- `eth2` in this VM is the interface that carries vxlan and control (e.g. etcd) traffic
+is not specified  
+- `eth0` in this VM is the management interface, on which we ssh into the VM  
+- `eth1` in this VM is the interface that connects to external network (if needed)  
+- `eth2` in this VM is the interface that carries vxlan and control (e.g. etcd) traffic  
 
 
-### Chapter 1 - Introduction to Container Networking
+### <a name="ch1"></a> Chapter 1: Introduction to Container Networking
 
 There are two main container networking models discussed within the community.
 
@@ -344,11 +351,11 @@ CNI (Container Network Interface) CoreOS's network model for containers
 - Used by Kubernetes and thus supported by various Kubernetes network plugins, including Contiv  
 
 Using Contiv with CNI/Kubernetes can be found [here](https://github.com/contiv/netplugin/tree/master/mgmtfn/k8splugin).
-The rest of the tutorial walks through the docker examples, which implements CNM APIs
+The rest of the tutorial walks through the docker examples, which implements CNM APIs.
 
 #### Basic container networking
 
-Let's examine the networking a container gets upon vanilla run
+Let's examine the networking a container gets upon vanilla run.
 
 ```
 [vagrant@legacy-swarm-master ~]$ docker network ls
@@ -359,7 +366,8 @@ NETWORK ID          NAME                          DRIVER              SCOPE
 27bdd6e2aacf        legacy-swarm-worker0/bridge   bridge              local
 ebd623056f92        legacy-swarm-worker0/host     host                local
 d4f9c8886927        legacy-swarm-worker0/none     null                local
-
+```
+```
 [vagrant@legacy-swarm-master ~]$ docker run -itd --name=vanilla-c alpine /bin/sh
 abe3cae574fb7b07fa228b88b4a0ff338029b9d8d7b5f77ea9c0802dd6162154
 
@@ -369,15 +377,14 @@ abe3cae574fb        alpine                       "/bin/sh"                About 
 08c5621da092        contiv/auth_proxy:1.0.3      "./auth_proxy --tls-k"   12 minutes ago       Up 12 minutes                           legacy-swarm-master/auth-proxy
 19eeadd6015d        quay.io/coreos/etcd:v2.3.8   "/etcd"                  16 minutes ago       Up 16 minutes                           legacy-swarm-worker0/etcd
 1477be6b938f        quay.io/coreos/etcd:v2.3.8   "/etcd"                  17 minutes ago       Up 17 minutes                           legacy-swarm-master/etcd
+```
 
 **Note**:
-- Please note this container got scheduled by docker swarm on legacy-swarm-worker0 node,
- as seen in the NAMES column above.
-- The following ifconfig has to be run on legacy-swarm-worker0 node only if the container is scheduled on legacy-swarm-worker0.
-**
+This container got scheduled by Legacy Swarm on legacy-swarm-worker0 node, as seen in the NAMES column above. The following ifconfig has to be run on legacy-swarm-worker0 node only if the container is scheduled on legacy-swarm-worker0.
 
 Switch to `legacy-swarm-worker0`
 
+```
 [vagrant@legacy-swarm-master ~]$ exit
 
 $ vagrant ssh legacy-swarm-worker0
@@ -390,10 +397,7 @@ $ vagrant ssh legacy-swarm-master
 
 ```
 
-In the `ifconfig` output, you will see that it would have created a veth `virtual 
-ethernet interface` that could look like `veth......` towards the end. More 
-importantly it is allocated an IP address from default docker bridge `docker0`, 
-likely `172.17.0.2` in this setup, and can be examined using
+In the `ifconfig` output, you will see that it would have created a veth `virtual ethernet interface` that could look like `veth......` towards the end. More importantly it is allocated an IP address from default docker bridge `docker0`, likely `172.17.0.2` in this setup, and can be examined using
 
 ```
 [vagrant@legacy-swarm-master ~]$ docker network inspect legacy-swarm-worker0/bridge
@@ -440,7 +444,7 @@ likely `172.17.0.2` in this setup, and can be examined using
 
 ```
 
-The other pair of veth interface is put into the container with the name `eth0`
+The other pair of veth interface is put into the container with the name `eth0`.
 
 ```
 [vagrant@legacy-swarm-master ~]$ docker exec -it vanilla-c /bin/sh
@@ -476,28 +480,28 @@ target     prot opt source               destination
 ...
 ```
 
-### Chapter 2: Multi-host networking
+### <a name="ch2"></a> Chapter 2: Multi-host networking
 
-There are many solutions like Contiv such as Calico, Weave, OpenShift, OpenContrail, Nuage,
-VMWare, Docker, Kubernetes, OpenStack that provide solutions to multi-host
-container networking. 
+There are many solutions like Contiv such as Calico, Weave, OpenShift, OpenContrail, Nuage, VMWare, Docker, Kubernetes, and OpenStack that provide solutions to multi-host container networking. 
 
 In this section, let's examine Contiv and Docker overlay solutions.
 
 #### Multi-host networking with Contiv
-Let's use the same example as above to spin up two containers on the two different hosts
+Let's use the same example as above to spin up two containers on the two different hosts.
 
 #### 1. Create a multi-host network
 
 ```
 [vagrant@legacy-swarm-master ~]$ netctl net create --subnet=10.1.2.0/24 contiv-net
 Creating network default:contiv-net
-
+```
+```
 [vagrant@legacy-swarm-master ~]$ netctl net ls
 Tenant   Network     Nw Type  Encap type  Packet tag  Subnet       Gateway  IPv6Subnet  IPv6Gateway  Cfgd Tag
 ------   -------     -------  ----------  ----------  -------      ------   ----------  -----------  ---------
 default  contiv-net  data     vxlan       0           10.1.2.0/24
-
+```
+```
 [vagrant@legacy-swarm-master ~]$ docker network ls
 NETWORK ID          NAME                          DRIVER              SCOPE
 72d7371e90b5        contiv-net                    netplugin           global
@@ -540,15 +544,19 @@ d4f9c8886927        legacy-swarm-worker0/none     null                local
 ]
 ```
 
-You can now spin a couple of containers belonging to `contiv-net` network. Specifying node constraint forces containers to start on different hosts.
+We can now spin a couple of containers belonging to the `contiv-net` network. Specifying a node constraint forces the container to start on a different host.
 
 ```
 [vagrant@legacy-swarm-master ~]$ docker run -itd --name=contiv-c1 --net=contiv-net -e constraint:node==legacy-swarm-master alpine /bin/sh
 021b3e7e21a8284a6d46657ef6f3477eafc594ef0c8080351af0f3d2e52dbd5e
-
+```
+```
 [vagrant@legacy-swarm-master ~]$ docker run -itd --name=contiv-c2 --net=contiv-net -e constraint:node==legacy-swarm-worker0 alpine /bin/sh
 93f39b9cf9e27f3b1b3d3d4f33232843ca84547eb8a83d2325e95216a72b7173
+```
+You can see which containers have been created.
 
+```
 [vagrant@legacy-swarm-master ~]$ docker ps
 CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS               NAMES
 93f39b9cf9e2        alpine                       "/bin/sh"                27 seconds ago      Up 26 seconds                           legacy-swarm-worker0/contiv-c2
@@ -557,7 +565,10 @@ abe3cae574fb        alpine                       "/bin/sh"                16 min
 08c5621da092        contiv/auth_proxy:1.0.3      "./auth_proxy --tls-k"   28 minutes ago      Up 28 minutes                           legacy-swarm-master/auth-proxy
 19eeadd6015d        quay.io/coreos/etcd:v2.3.8   "/etcd"                  31 minutes ago      Up 31 minutes                           legacy-swarm-worker0/etcd
 1477be6b938f        quay.io/coreos/etcd:v2.3.8   "/etcd"                  32 minutes ago      Up 32 minutes                           legacy-swarm-master/etcd
+```
+Now try to ping between containers.
 
+```
 [vagrant@legacy-swarm-master ~]$ docker exec -it contiv-c2 /bin/sh
 
 / # ping -c 3 contiv-c1
@@ -573,10 +584,7 @@ round-trip min/avg/max = 0.878/1.016/1.217 ms
 / # exit
 ```
 
-As you will see during the ping that, built in dns resolves the name `contiv-c1`
-to the IP address of `contiv-c1` container and be able to reach another container
-across using a vxlan overlay.
-
+You can see that during the ping, the built-in DNS resolves the name `contiv-c1` to the IP address of the `contiv-c1` container and uses the vxlan overlay to communicate with the other container.
 
 #### Docker Overlay multi-host networking
 
@@ -588,7 +596,7 @@ with `contiv` because then we can terminate the contiv driver and
 let Docker overlay driver use the vxlan port bindings. More about it in
 later chapter.
 
-### Chapter 3: Using multiple tenants with arbitrary IPs in the networks
+### <a name="ch3"></a> Chapter 3: Using multiple tenants with arbitrary IPs in the networks
 
 First, let's create a new tenant space.
 
@@ -596,7 +604,8 @@ First, let's create a new tenant space.
 [vagrant@legacy-swarm-master ~]$ export DOCKER_HOST="tcp://192.168.2.50:2375"
 [vagrant@legacy-swarm-master ~]$ netctl tenant create blue
 Creating tenant: blue
-
+```
+```
 [vagrant@legacy-swarm-master ~]$ netctl tenant ls
 Name
 ------
@@ -611,7 +620,8 @@ are isolated across tenants.
 ```
 [vagrant@legacy-swarm-master ~]$ netctl net create -t blue --subnet=10.1.2.0/24 contiv-net
 Creating network blue:contiv-net
-
+```
+```
 [vagrant@legacy-swarm-master ~]$ netctl net ls -t blue
 Tenant  Network     Nw Type  Encap type  Packet tag  Subnet       Gateway  IPv6Subnet  IPv6Gateway  Cfgd Tag
 ------  -------     -------  ----------  ----------  -------      ------   ----------  -----------  ---------
@@ -629,7 +639,8 @@ ea49d3f17e5f51404221d199b0502973c0005a2c7baf1827e569cb135958d77e
 
 [vagrant@legacy-swarm-master ~]$ docker run -itd --name=contiv-blue-c3 --net="contiv-net/blue" alpine /bin/sh
 40e249715badb157faa84890c2521528ce1068165482635c8644856830dacd73
-
+```
+```
 [vagrant@legacy-swarm-master ~]$ docker ps
 CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS               NAMES
 40e249715bad        alpine                       "/bin/sh"                17 seconds ago      Up 16 seconds                           legacy-swarm-worker0/contiv-blue-c3
@@ -694,7 +705,10 @@ abe3cae574fb        alpine                       "/bin/sh"                22 min
         "Labels": {}
     }
 ]
+```
+Now let's try to ping between these containers.
 
+```
 [vagrant@legacy-swarm-master ~]$ docker exec -it contiv-blue-c3 /bin/sh
 
 / # ping -c 3 contiv-blue-c1
@@ -717,10 +731,9 @@ PING contiv-blue-c2 (10.1.2.2): 56 data bytes
 3 packets transmitted, 3 packets received, 0% packet loss
 round-trip min/avg/max = 0.936/1.448/2.441 ms
 / # exit
-
 ```
 
-### Chapter 4: Connecting containers to external networks
+### <a name="ch4"></a> Chapter 4: Connecting containers to external networks
 
 In this chapter, we explore ways to connect containers to the external networks
 
@@ -774,16 +787,12 @@ round-trip min/avg/max = 38.088/49.449/57.052 ms
 / # exit
 ```
 
-What you see is that container has two interfaces belonging to it:
-- eth0 is reachability into the `contiv-net` 
-- eth1 is reachability for container to the external world and outside
-traffic to be able to reach the container `contiv-c1`. This also relies on the host's dns
-resolv.conf as a default way to resolve non container IP resolution.
+What you see is that container has two interfaces belonging to it:  
+- eth0 is reachability into the `contiv-net`  
+- eth1 is reachability for container to the external world and outside traffic to be able to reach the container `contiv-c1`. This also relies on the host's dns resolv.conf as a default way to resolve non container IP resolution.
 
-Similarly outside traffic can be exposed on specific ports using `-p` command. Before
-we do that, let us confirm that port 9099 is not reachable from the host
-`contiv-node3`. To install `nc` netcat utility please run `sudo yum -y install nc && sudo yum -y install tcpdump` on contiv-node3
-
+Similarly outside traffic can be exposed on specific ports using the `-p` command. Before
+we do that, let us confirm that port 9099 is not reachable from the master node. Let's first install some commands.
 
 ```
 # Install nc utility
@@ -928,7 +937,7 @@ Note: The vlan shown in tcpdump is same (i.e. `112`) as what we configured in th
 `contiv-vlan-c2` container.
 
 
-### Chapter 5: Docker Overlay multi-host networking
+### <a name="ch5"></a> Chapter 5: Docker Overlay multi-host networking
 
 As we learned earlier that using the vxlan port conflict can prevent us from using
 Docker `overlay` network. For us to experiment with this, we'd go ahead
@@ -988,7 +997,7 @@ to the swarm cluster.
 [vagrant@legacy-swarm-master ~]$ docker run -itd --name=overlay-c2 --net=overlay-net alpine /bin/sh
 68e4daada1082009472ad5f61c32604ebcf0a2079c02bc714c056e25b967037c
 
-[vagrant@contiv-node3 ~]$ docker ps
+[vagrant@clegacy-swarm-master ~]$ docker ps
 CONTAINER ID        IMAGE                            COMMAND                  CREATED              STATUS              PORTS               NAMES
 825a80fb54c4        alpine                           "/bin/sh"                38 seconds ago       Up 37 seconds                           contiv-node4/overlay-c2
 82079ffd25d4        alpine                           "/bin/sh"                About a minute ago   Up About a minute                       contiv-node4/overlay-c1
@@ -1014,15 +1023,17 @@ Very similar to contiv-networking, built in dns resolves the name `overlay-c1`
 to the IP address of `overlay-c1` container and be able to reach another container
 across using a vxlan overlay.
 
-### Cleanup: **after all play is done**
+### <a name="cleanup"></a> Cleanup:
+
 To cleanup the setup, after doing all the experiments, exit the VM destroy VMs:
 
 ```
 [vagrant@legacy-swarm-master ~]$ exit
 logout
 Connection to 127.0.0.1 closed.
-
-$ cd .. (just to come out of cluster dir)
+```
+```
+$ cd .. # back to install directory
 $ make cluster-destroy
 cd cluster && vagrant destroy -f
 ==> kubeadm-worker0: VM not created. Moving on...
@@ -1033,10 +1044,9 @@ cd cluster && vagrant destroy -f
 ==> legacy-swarm-worker0: Destroying VM and associated drives...
 ==> legacy-swarm-master: Forcing shutdown of VM...
 ==> legacy-swarm-master: Destroying VM and associated drives...
-
+```
+```
 $ make vagrant-clean
-
-
 ```
 
 ### References
