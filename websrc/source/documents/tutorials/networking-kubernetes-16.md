@@ -56,6 +56,7 @@ Please make sure that you are NOT connected to VPN here.
 
 ```
 $ make demo-kubeadm
+$ cd cluster
 ```
 
 **Note**: 
@@ -393,11 +394,62 @@ eth2: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 In the above output, you'll see the following interfaces:  
 - `docker0` interface corresponds to the linux bridge and its associated
 subnet `172.17.0.1/16`. This is created by the docker daemon automatically, and
-is the default network pods would belong to when an override network
-is not specified  
+is the default network containers would belong to when an override network
+is not specified.
 - `eth0` in this VM is the management interface, on which we ssh into the VM  
 - `eth1` in this VM is the interface that connects to an external network (if needed)  
 - `eth2` in this VM is the interface that carries vxlan and control (e.g. etcd) traffic
+
+```
+[vagrant@kubeadm-master ~]$ ifconfig contivh0
+contivh0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.19.255.254  netmask 255.255.0.0  broadcast 0.0.0.0
+        inet6 fe80::2:acff:fe13:fffe  prefixlen 64  scopeid 0x20<link>
+        ether 02:02:ac:13:ff:fe  txqueuelen 1000  (Ethernet)
+        RX packets 1202  bytes 70169 (68.5 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1420  bytes 685603 (669.5 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+[vagrant@kubeadm-master ~]$ ip route
+...
+172.19.0.0/16 dev contivh0  proto kernel  scope link  src 172.19.255.254
+...
+```
+
+```
+[vagrant@kubeadm-master ~]$ sudo iptables -t nat -v -L POSTROUTING -n --line-number
+Chain POSTROUTING (policy ACCEPT 20 packets, 1200 bytes)
+num   pkts bytes target     prot opt in     out     source               destination
+1     3451  206K KUBE-POSTROUTING  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes postrouting rules */
+2        0     0 MASQUERADE  all  --  *      !docker0  172.17.0.0/16        0.0.0.0/0
+3        0     0 MASQUERADE  all  --  *      !contivh0  172.19.0.0/16        0.0.0.0/0
+```
+
+Contiv uses contivh0 as the host port to route external traffic. It adds a post routing rule in iptables on the host to masquerade traffic coming through contivh0.
+
+```
+[vagrant@kubeadm-master ~]$ ifconfig contivh1
+contivh1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 132.1.1.3  netmask 255.255.255.0  broadcast 0.0.0.0
+        inet6 fe80::2:84ff:fe01:103  prefixlen 64  scopeid 0x20<link>
+        ether 02:02:84:01:01:03  txqueuelen 1000  (Ethernet)
+        RX packets 4683  bytes 1437562 (1.3 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 4699  bytes 430994 (420.8 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+[vagrant@kubeadm-master ~]$ ip route
+default via 10.0.2.2 dev eth0  proto static  metric 100
+10.0.2.0/24 dev eth0  proto kernel  scope link  src 10.0.2.15  metric 100
+20.1.1.0/24 via 132.1.1.2 dev contivh1
+132.1.1.0/24 dev contivh1  proto kernel  scope link  src 132.1.1.2
+172.17.0.0/16 dev docker0  proto kernel  scope link  src 172.17.0.1
+172.19.0.0/16 dev contivh0  proto kernel  scope link  src 172.19.255.254
+192.168.2.0/24 dev eth1  proto kernel  scope link  src 192.168.2.54  metric 100
+```
+
+contivh1 port allows the host to access the container/pod networks in routing mode. As Contiv tenants allow multiple tenants to have the same IP address range, host access is currently supported only for pods in the default tenant.
 
 ### <a name="ch1"></a> Chapter 1: Introduction to Container Networking
 
@@ -421,7 +473,7 @@ CNI (Container Network Interface) CoreOS's network model for containers
 - Allows container id (uuid) specification for the network interface you create  
 - Provides Container Create/Delete events  
 - Provides access to network namespace to the driver to plumb networking  
-- No separate IPAM Driver: Container Create returns the IAPM information along with other data  
+- No separate IPAM Driver: Container Create returns the IPAM information along with other data
 - Used by Kubernetes and thus supported by various Kubernetes network plugins, including Contiv  
 
 The rest of the tutorial walks through Contiv with CNI/Kubernetes examples.
@@ -512,27 +564,10 @@ eth0      Link encap:Ethernet  HWaddr 02:02:14:01:01:03
 / # exit
 ```
 
-All traffic to/from this pod is Port-NATed to the host's IP (on eth0). The Port NATing on the host is done using iptables, which can be seen as a MASQUERADE rule for outbound traffic for `172.17.0.0/16`
-
-```
-[vagrant@kubeadm-master ~]$ sudo iptables -t nat -L -n
-Chain PREROUTING (policy ACCEPT)
-target     prot opt source               destination
-CONTIV-NODEPORT  all  --  0.0.0.0/0            0.0.0.0/0            ADDRTYPE match dst-type LOCAL
-KUBE-SERVICES  all  --  0.0.0.0/0            0.0.0.0/0            /* kubernetes service portals */
-DOCKER     all  --  0.0.0.0/0            0.0.0.0/0            ADDRTYPE match dst-type LOCAL
-...
-
-Chain POSTROUTING (policy ACCEPT)
-target     prot opt source               destination
-KUBE-POSTROUTING  all  --  0.0.0.0/0            0.0.0.0/0            /* kubernetes postrouting rules */
-MASQUERADE  all  --  172.17.0.0/16        0.0.0.0/0
-MASQUERADE  all  --  172.19.0.0/16        0.0.0.0/0
-
-Chain CONTIV-NODEPORT (1 references)
-target     prot opt source               destination
-...
-```
+When you run a pod without specifying any network, the `default-net` network in the `default` tenant
+is connected to the pod's containers.
+External connectivity to this pod is provided using SNAT via the default-net gateway.
+All traffic to this pod is routed using the contivh1 interface we saw earlier.
 
 ### <a name="ch2"></a> Chapter 2: Multi-host networking
 
@@ -546,7 +581,7 @@ Let's use the same example as above to spin up two pods on the two different hos
 #### 1. Create a multi-host network
 
 ```
-[vagrant@kubeadm-master ~]$ netctl net create --subnet=10.1.2.0/24 contiv-net
+[vagrant@kubeadm-master ~]$ netctl net create --subnet=10.1.2.0/24 --gateway=10.1.2.1 contiv-net
 Creating network default:contiv-net
 ```
 ```
@@ -555,7 +590,7 @@ Tenant   Network      Nw Type  Encap type  Packet tag  Subnet        Gateway    
 ------   -------      -------  ----------  ----------  -------       ------     ----------  -----------  ---------
 default  contivh1     infra    vxlan       0           132.1.1.0/24  132.1.1.1
 default  default-net  data     vxlan       0           20.1.1.0/24   20.1.1.1
-default  contiv-net   data     vxlan       0           10.1.2.0/24
+default  contiv-net   data     vxlan       0           10.1.2.0/24   10.1.2.1
 ```
 ```
 [vagrant@kubeadm-master ~]$ netctl net inspect contiv-net
@@ -563,6 +598,7 @@ default  contiv-net   data     vxlan       0           10.1.2.0/24
   "Config": {
     "key": "default:contiv-net",
     "encap": "vxlan",
+    "gateway": "10.1.2.1",
     "networkName": "contiv-net",
     "nwType": "data",
     "subnet": "10.1.2.0/24",
@@ -576,7 +612,8 @@ default  contiv-net   data     vxlan       0           10.1.2.0/24
     }
   },
   "Oper": {
-    "availableIPAddresses": "10.1.2.1-10.1.2.254",
+    "allocatedIPAddresses": "10.1.2.1",
+    "availableIPAddresses": "10.1.2.2-10.1.2.254",
     "externalPktTag": 3,
     "networkTag": "contiv-net.default",
     "pktTag": 3
@@ -589,17 +626,21 @@ We will create one pod on the master node and one pod on the worker node.
 This will create a pod on the master node because we have specified tolerations in accordance with the master nodes taints.
 
 ```
-[vagrant@kubeadm-master ~]$
-cat <<EOF > contiv-c1.yaml
+[vagrant@kubeadm-master ~]$ cat <<EOF > contiv-c1.yaml
 apiVersion: v1
 kind: Pod
-metadata: 
-  labels: 
+metadata:
+  labels:
+    io.contiv.tenant: default
     io.contiv.network: contiv-net
     k8s-app: contiv-c1
   name: contiv-c1
 spec: 
-
+  tolerations:
+   - key: node-role.kubernetes.io/master
+     effect: NoSchedule
+  nodeSelector:
+    node-role.kubernetes.io/master: ""
   containers: 
     - 
       image: alpine
@@ -607,70 +648,89 @@ spec:
       command: 
       - sleep
       - "6000"
-  nodeSelector: 
-    node-role.kubernetes.io/master: ""
-  tolerations: 
-    - 
-      effect: NoSchedule
-      key: node-role.kubernetes.io/master
 EOF
-```
-```
+
+
 [vagrant@kubeadm-master ~]$ kubectl create -f contiv-c1.yaml
 pod "contiv-c1" created
-```
-This will create a pod on the worker node.
 
-```
-[vagrant@kubeadm-master ~]$
-cat <<EOF > contiv-c2.yaml
-apiVersion: v1
-kind: Pod
-metadata: 
-  labels: 
-    io.contiv.network: contiv-net
-    k8s-app: contiv-c2
-  name: contiv-c2
-spec: 
+[vagrant@kubeadm-master ~]$ kubectl get pods -o wide
+NAME        READY     STATUS    RESTARTS   AGE       IP         NODE
+contiv-c1   1/1       Running   0          4s        10.1.2.2   kubeadm-master
 
-  containers: 
-    - 
-      image: alpine
-      name: alpine
-      command: 
-      - sleep
-      - "6000"
-EOF
+[vagrant@kubeadm-master ~]$ kubectl exec -it contiv-c1 sh
+/ # ifconfig
+eth0      Link encap:Ethernet  HWaddr 02:02:0A:01:02:02
+          inet addr:10.1.2.2  Bcast:0.0.0.0  Mask:255.255.255.0
+          inet6 addr: fe80::2:aff:fe01:202/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1450  Metric:1
+          RX packets:8 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:648 (648.0 B)  TX bytes:648 (648.0 B)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+/ # exit
 ```
+The IP address of this pod is 10.1.2.2 which means it is part of the `contiv-net` network.
+
 ```
 [vagrant@kubeadm-master ~]$ kubectl create -f contiv-c2.yaml
 pod "contiv-c2" created
-```
-We can see which pods have been created and where they have been scheduled.
+
+[vagrant@kubeadm-master ~]$ kubectl get pods -o wide
+NAME        READY     STATUS    RESTARTS   AGE       IP         NODE
+contiv-c1   1/1       Running   0          2m        10.1.2.2   kubeadm-master
+contiv-c2   1/1       Running   0          6s        10.1.2.3   kubeadm-worker0
+
+[vagrant@kubeadm-master ~]$ kubectl exec -it contiv-c2 sh
+/ # ifconfig
+eth0      Link encap:Ethernet  HWaddr 02:02:0A:01:02:03
+          inet addr:10.1.2.3  Bcast:0.0.0.0  Mask:255.255.255.0
+          inet6 addr: fe80::2:aff:fe01:203/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1450  Metric:1
+          RX packets:8 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:648 (648.0 B)  TX bytes:648 (648.0 B)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+/ # exit
 
 ```
-[vagrant@kubeadm-master ~]$ kubectl get pods -o wide
-NAME                         READY     STATUS    RESTARTS   AGE       IP         NODE
-contiv-c1                    1/1       Running   0          13m       10.1.2.1   kubeadm-master
-contiv-c2                    1/1       Running   0          18s       10.1.2.2   kubeadm-worker0
-vanilla-c-1408101207-vvwxv   1/1       Running   1          25m       20.1.1.3   kubeadm-worker0
-```
+
 Now let's try to ping between these two pods.
 
 ```
 [vagrant@kubeadm-master ~]$ kubectl exec -it contiv-c1 sh
-/ # ping -c 3 10.1.2.2
-PING 10.1.2.2 (10.1.2.2): 56 data bytes
-64 bytes from 10.1.2.2: seq=0 ttl=64 time=11.343 ms
-64 bytes from 10.1.2.2: seq=1 ttl=64 time=0.909 ms
-64 bytes from 10.1.2.2: seq=2 ttl=64 time=0.779 ms
+/ # ping -c 3 contiv-c2
+PING contiv-c2 (10.1.2.3): 56 data bytes
+64 bytes from 10.1.2.3: seq=0 ttl=64 time=1.685 ms
+64 bytes from 10.1.2.3: seq=1 ttl=64 time=0.912 ms
+64 bytes from 10.1.2.3: seq=2 ttl=64 time=0.913 ms
 
---- 10.1.2.2 ping statistics ---
+--- contiv-c2 ping statistics ---
 3 packets transmitted, 3 packets received, 0% packet loss
-round-trip min/avg/max = 0.779/4.343/11.343 ms
+round-trip min/avg/max = 0.912/1.170/1.685 ms
 / # exit
 ```
-The built-in DNS does not resolve `contiv-c2` to it's IP address because Kubernetes does not provide DNS names for. We can communicate between pods using IP addresses and the vxlan overlay provided.
+
 
 ### <a name="ch3"></a> Chapter 3: Using multiple tenants with arbitrary IPs in the networks
 
@@ -690,7 +750,7 @@ default
 After the tenant is created, we can create network within tenant `blue`. Here we can choose the same subnet and network name as we used earlier with default tenant, as namespaces are isolated across tenants.
 
 ```
-[vagrant@kubeadm-master ~]$ netctl net create -t blue --subnet=10.1.2.0/24 contiv-net
+[vagrant@kubeadm-master ~]$ netctl net create -t blue --subnet=10.1.2.0/24  -g 10.1.2.1 contiv-net
 Creating network blue:contiv-net
 ```
 ```
@@ -723,7 +783,7 @@ spec:
       - "6000"
 EOF
 
-[vagrant@kubeadm-master ~]$ kubectl create -f contiv-blue-c2.yaml
+[vagrant@kubeadm-master ~]$ kubectl create -f contiv-blue-c1.yaml
 pod "contiv-blue-c2" created
 ```
 ```
@@ -738,7 +798,11 @@ metadata:
     k8s-app: contiv-blue-c2
   name: contiv-blue-c2
 spec: 
-
+  tolerations:
+   - key: node-role.kubernetes.io/master
+     effect: NoSchedule
+  nodeSelector:
+    node-role.kubernetes.io/master: ""
   containers: 
     - 
       image: alpine
@@ -763,7 +827,6 @@ metadata:
     k8s-app: contiv-blue-c3
   name: contiv-blue-c3
 spec: 
-
   containers: 
     - 
       image: alpine
@@ -781,33 +844,35 @@ Let's see what has been created.
 
 ```
 [vagrant@kubeadm-master ~]$ kubectl get pods -o wide
-NAME                         READY     STATUS    RESTARTS   AGE       IP         NODE
-contiv-blue-c1               1/1       Running   0          1h        10.1.2.1   kubeadm-worker0
-contiv-blue-c2               1/1       Running   0          30s       10.1.2.2   kubeadm-worker0
-contiv-blue-c3               1/1       Running   0          10s       10.1.2.3   kubeadm-worker0
-contiv-c1                    1/1       Running   3          5h        10.1.2.1   kubeadm-master
-contiv-c2                    1/1       Running   3          5h        10.1.2.2   kubeadm-worker0
-vanilla-c-1408101207-vvwxv   1/1       Running   1          5h        20.1.1.3   kubeadm-worker0
+NAME             READY     STATUS    RESTARTS   AGE       IP         NODE
+contiv-blue-c1   1/1       Running   0          48s       10.1.2.2   kubeadm-worker0
+contiv-blue-c2   1/1       Running   0          19s       10.1.2.3   kubeadm-master
+contiv-blue-c3   1/1       Running   0          6s        10.1.2.4   kubeadm-worker0
+contiv-c1        1/1       Running   0          5m        10.1.2.2   kubeadm-master
+contiv-c2        1/1       Running   0          3m        10.1.2.3   kubeadm-worker0
 ```
 Now, let's try to ping between these pods.
 
 ```
 [vagrant@kubeadm-master ~]$ kubectl exec -it contiv-blue-c1 sh
-/ # ping -c 3 10.1.2.2
-PING 10.1.2.2 (10.1.2.2): 56 data bytes
-64 bytes from 10.1.2.2: seq=0 ttl=64 time=1.065 ms
-64 bytes from 10.1.2.2: seq=1 ttl=64 time=0.082 ms
-64 bytes from 10.1.2.2: seq=2 ttl=64 time=0.082 ms
-
---- 10.1.2.2 ping statistics ---
-3 packets transmitted, 3 packets received, 0% packet loss
-round-trip min/avg/max = 0.082/0.409/1.065 ms
 / # ping -c 3 10.1.2.3
 PING 10.1.2.3 (10.1.2.3): 56 data bytes
-64 bytes from 10.1.2.3: seq=0 ttl=64 time=1.076 ms
-64 bytes from 10.1.2.3: seq=1 ttl=64 time=0.084 ms
-64 bytes from 10.1.2.3: seq=2 ttl=64 time=0.093 ms
+64 bytes from 10.1.2.3: seq=0 ttl=64 time=1.197 ms
+64 bytes from 10.1.2.3: seq=1 ttl=64 time=0.758 ms
+64 bytes from 10.1.2.3: seq=2 ttl=64 time=0.918 ms
 
+--- 10.1.2.3 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.758/0.957/1.197 ms
+/ # ping -c 3 10.1.2.4
+PING 10.1.2.4 (10.1.2.4): 56 data bytes
+64 bytes from 10.1.2.4: seq=0 ttl=64 time=1.343 ms
+64 bytes from 10.1.2.4: seq=1 ttl=64 time=0.082 ms
+64 bytes from 10.1.2.4: seq=2 ttl=64 time=0.065 ms
+
+--- 10.1.2.4 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.065/0.496/1.343 ms
 --- 10.1.2.3 ping statistics ---
 3 packets transmitted, 3 packets received, 0% packet loss
 round-trip min/avg/max = 0.084/0.417/1.076 ms
@@ -818,160 +883,7 @@ round-trip min/avg/max = 0.084/0.417/1.076 ms
 
 In this chapter, we explore ways to connect pods to external networks.
 
-#### 1.External Connectivity using Host NATing
-
-We must use a network that has a gateway.
-
-```
-[vagrant@kubeadm-master ~]$ netctl net ls -a
-Tenant   Network      Nw Type  Encap type  Packet tag  Subnet        Gateway    IPv6Subnet  IPv6Gateway  Cfgd Tag
-------   -------      -------  ----------  ----------  -------       ------     ----------  -----------  ---------
-default  contivh1     infra    vxlan       0           132.1.1.0/24  132.1.1.1
-default  default-net  data     vxlan       0           20.1.1.0/24   20.1.1.1
-default  contiv-net   data     vxlan       0           10.1.2.0/24
-blue     contiv-net   data     vxlan       0           10.1.2.0/24
-```
-Both `contivh1` and `default-net` have gateways. We will use `default-net`. Let's see what pods are assigned to this network.
-
-```
-[vagrant@kubeadm-master ~]$ netctl net inspect default-net
-{
-  "Config": {
-    "key": "default:default-net",
-    "encap": "vxlan",
-    "gateway": "20.1.1.1",
-    "networkName": "default-net",
-    "nwType": "data",
-    "subnet": "20.1.1.0/24",
-    "tenantName": "default",
-    "link-sets": {},
-    "links": {
-      "Tenant": {
-        "type": "tenant",
-        "key": "default"
-      }
-    }
-  },
-  "Oper": {
-    "allocatedAddressesCount": 2,
-    "allocatedIPAddresses": "20.1.1.1-20.1.1.3",
-    "availableIPAddresses": "20.1.1.4-20.1.1.254",
-    "endpoints": [
-      {
-        "containerName": "kube-dns-692378583-q52m9",
-        "endpointID": "27b7c6b7dd931d5110bf9d75086be63103fcb3e92b6b88740e76eb1fb3a28102",
-        "homingHost": "kubeadm-worker0",
-        "ipAddress": [
-          "20.1.1.2",
-          ""
-        ],
-        "labels": "map[]",
-        "macAddress": "02:02:14:01:01:02",
-        "network": "default-net.default"
-      },
-      {
-        "containerName": "vanilla-c-1408101207-vvwxv",
-        "endpointID": "846c1fccb6bd07294002abba32649a4dc46e13fb5ddebf1f2db256bccb479378",
-        "homingHost": "kubeadm-worker0",
-        "ipAddress": [
-          "20.1.1.3",
-          ""
-        ],
-        "labels": "map[]",
-        "macAddress": "02:02:14:01:01:03",
-        "network": "default-net.default"
-      }
-    ],
-    "externalPktTag": 2,
-    "networkTag": "default-net.default",
-    "numEndpoints": 2,
-    "pktTag": 2
-  }
-}
-```
-We see that our `vanilla-c` pod is within this network.
-
-```
-[vagrant@kubeadm-master ~]$ kubectl exec -it vanilla-c-1408101207-vvwxv sh
-/ # ifconfig -a
-eth0      Link encap:Ethernet  HWaddr 02:02:14:01:01:03
-          inet addr:20.1.1.3  Bcast:0.0.0.0  Mask:255.255.255.0
-          inet6 addr: fe80::2:14ff:fe01:103/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1450  Metric:1
-          RX packets:22 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:22 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0
-          RX bytes:3440 (3.3 KiB)  TX bytes:1820 (1.7 KiB)
-
-lo        Link encap:Local Loopback
-          inet addr:127.0.0.1  Mask:255.0.0.0
-          inet6 addr: ::1/128 Scope:Host
-          UP LOOPBACK RUNNING  MTU:65536  Metric:1
-          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1
-          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
-
-/ # ping -c 3 contiv.com
-PING contiv.com (216.239.34.21): 56 data bytes
-64 bytes from 216.239.34.21: seq=0 ttl=61 time=170.747 ms
-64 bytes from 216.239.34.21: seq=1 ttl=61 time=184.913 ms
-64 bytes from 216.239.34.21: seq=2 ttl=61 time=525.511 ms
-
---- contiv.com ping statistics ---
-3 packets transmitted, 3 packets received, 0% packet loss
-round-trip min/avg/max = 170.747/293.723/525.511 ms
-/ # exit
-```
-
-What you see is that the pod has one interface belonging to it:  
-- eth0 is reachability into the default-net
-
-Similarly outside traffic can be exposed on specific ports using the -p command. Before we do that, let us confirm that port 9099 is not reachable from the master node. Let's first install some commands.
-
-```
-[vagrant@kubeadm-master ~]$ sudo yum -y install nc
-< some yum install output >
-Complete!
-
-[vagrant@kubeadm-master ~]$ sudo yum -y install tcpdump
-< some yum install output >
-Complete!
-
-[vagrant@kubeadm-master ~]$ nc -vw 1 localhost 9099
-Ncat: Version 6.40 ( http://nmap.org/ncat )
-Ncat: Connection refused.
-```
-Now let's start a pod that exposes TCP port 9099 out in the host.
-
-```
-[vagrant@kubeadm-master ~]$
-cat <<EOF > contiv-exposed.yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    io.contiv.tenant: blue
-    io.contiv.network: contiv-net
-    k8s-app: contiv-exposed
-  name: contiv-exposed
-spec: 
-
-  containers: 
-    - 
-      image: alpine
-      name: alpine
-      command: 
-      - sleep
-      - "6000"
-      ports:
-      - containerPort: 9099
-EOF
-
-[vagrant@kubeadm-master ~]$ kubectl create -f contiv-exposed.yaml
-pod "contiv-exposed" created
-```
-If we re-run our nc utility, we'll see that 9099 is reachable.
+TBD: Add Cluster IP and NodePort access here.
 
 ### <a name="cleanup"></a> Cleanup:
 
