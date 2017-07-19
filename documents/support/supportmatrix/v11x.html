@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Setting Network Defaults">
+    <meta name="description" content="">
 
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <title>Network Defaults - Contiv</title>
+    <title>Contiv</title>
 
     <link href="/assets/stylesheets/application-ffbab1f8.css" rel="stylesheet"/>
 
@@ -19,7 +19,7 @@
     
   </head>
 
-  <body id="page-Network Defaults" class=" page-Network Defaults layout-documents page-sub">
+  <body id="page-home" class=" page-home layout-documents">
 
   <div class="navbar-jumbotron">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -114,25 +114,25 @@ GitHub</a></li>
 									<hr>
 			<h3>Admin Guide</h3>
 			<ul class="nav">
-				<li class="active">
+				<li>
 					<a href="/documents/admin/index.html">Intro</a>
 				</li>
-				<li class="active">
+				<li>
 				    <a href="/documents/admin/createTenant.html">Managing Tenants</a>
 				</li>
-				<li class="active">
+				<li>
 				    <a href="/documents/admin/manageUsers.html">Managing Users</a>
 			    </li>		
-			    <li class="active">
+			    <li>
 				    <a href="/documents/admin/manageAuthorizations.html">Managing Authorizations</a>
 			    </li>
-			    <li class="active">
+			    <li>
 				    <a href="/documents/admin/createNodes.html">Managing Nodes</a>
 			    </li>
-			     <li class="active">
+			     <li>
 				    <a href="/documents/admin/manageNetworks.html">Managing Networks</a>
 			    </li>
-			    <li class="active">
+			    <li>
 				    <a href="/documents/admin/manageLDAP.html">Managing LDAP</a>
 			    </li>
 			</ul>
@@ -228,41 +228,76 @@ GitHub</a></li>
 		</div>  
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
-					<h1>Managing Networks</h1>
-<p>Set the default parameters for networks your tenants will create in <strong>Network Settings</strong>.</p>
-<p>You can:</p>
+					<h1>Support and Validation Matrix</h1>
+<p>Contiv works with Docker and Kubernetes on multiple Linux distributions in a variety of infrastructure settings. In our labs, we validate Contiv on a subset of these options, as outlined below.</p>
 
-<ul>
-<li>Enable Cisco ACI if that is part of your network infrastructure
-</li>
-<li>Set VLAN and VXLAN ranges
-</li>
-<li>Determine forwarding mode
-</li>
-<li>Select the ARP mode
-</li>
-</ul>
-<p>To set the network defaults.</p>
-
-<ol>
-<li>Select <strong>Settings &gt; Network Defaults</strong>.
-</li>
-<li>Choose your network infrastructure type.<br>
-If you are using Cisco ACI, choose <strong>Cisco ACI</strong>, otherwise leave your infrastructure type as default.
-</li>
-<li>Enter your desired VLAN range.
-</li>
-<li>Enter your desired VXLAN range. 
-</li>
-<li>Select your forwarding mode <strong>bridge</strong> or <strong>routing</strong>.
-</li>
-<li>Select your Address Resolution Protocol (ARP) Mode, <strong>proxy</strong> or <strong>flood</strong> 
-</li>
-<li>Click <strong>Update Network Settings</strong>. <br>
-</li>
-</ol>
-<p><img alt="CreateNetworkSettings" src="/documents/admin/CreateNetworkSettings-d966ad77.png"/></p>
-<p>You recieve a confirmation message confirming the update to your global settings.</p>
+<table><thead>
+<tr>
+<th>Container Platforms</th>
+<th style="text-align: center">Version</th>
+<th>Host OS</th>
+<th>Infrastructure</th>
+<th>Support Model</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Kubernetes</td>
+<td style="text-align: center">1.4.x, 1.6.x</td>
+<td>CentOS 7.x</td>
+<td>AWS, vCenter 6.5+, Bare Metal</td>
+<td>Community</td>
+<td></td>
+</tr>
+<tr>
+<td>Docker</td>
+<td style="text-align: center">Engine 1.12.x + Swarm 1.2.5</td>
+<td>CentOS 7.x</td>
+<td>AWS, vCenter 6.5+, Bare Metal</td>
+<td>Community</td>
+<td></td>
+</tr>
+<tr>
+<td>Docker</td>
+<td style="text-align: center">Engine 17.03-ce, 17.06-ce</td>
+<td>CentOS 7.x</td>
+<td>AWS, vCenter 6.5+, Bare Metal</td>
+<td>Community</td>
+<td>Swarm mode support only</td>
+</tr>
+<tr>
+<td>OpenShift Origin</td>
+<td style="text-align: center">1.5</td>
+<td>CentOS 7.x</td>
+<td>vCenter 6.5+, Bare Metal</td>
+<td>Community</td>
+<td></td>
+</tr>
+<tr>
+<td>OpenShift Enterprise</td>
+<td style="text-align: center">3.5</td>
+<td>RHEL 7.x</td>
+<td>vCenter 6.5+, Bare Metal</td>
+<td>Commercial</td>
+<td></td>
+</tr>
+<tr>
+<td>Docker UCP</td>
+<td style="text-align: center">1.1.6 + Engine 1.12.x</td>
+<td>RHEL 7.x</td>
+<td>vCenter 6.5+, Bare Metal</td>
+<td>Commercial</td>
+<td></td>
+</tr>
+<tr>
+<td>Docker UCP</td>
+<td style="text-align: center">2.1.x + Engine 17.03-ee</td>
+<td>RHEL 7.x</td>
+<td>vCenter 6.5+, Bare Metal</td>
+<td>Commercial</td>
+<td></td>
+</tr>
+</tbody></table>
 
 	<hr>
 
