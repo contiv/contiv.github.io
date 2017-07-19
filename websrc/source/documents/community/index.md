@@ -6,17 +6,32 @@ description: |-
   Community
 ---
 
-# Contiv Community Examples
+# Community
 
-* [Consistent Container Connectivity with Cisco Contiv](https://communities.cisco.com/people/shogg@gtri.com/blog/2017/04/21/consistent-container-connectivity-with-cisco-contiv)
-* [The Best Open Source Solution for Microservices Networking](http://lucarelandini.blogspot.it/2017/06/open-source-networking-microservices.html)
+We want your Container Networking project to be a success. Contiv is fully open sourced. Here are the channels we use to communicate and contribute:
 
-## Kubernetes
+- For questions and inquiries, sign up for our [Slack channel](https://contiv.herokuapp.com/) and you can ask the team questions in real-time. This is the preferred method for obtaining community support. Alternatively, you may also use [contiv-users](mailto:contiv-users@external.cisco.com) mailer list.
 
-* [Kubernetes and Contiv on Bare Metal](http://blog.michali.net/2017/03/07/kubernetes-with-contiv-plugin-on-bare-metal/) blog post by Paul Michali
-* [Kubernetes and Contiv on a VM](http://blog.michali.net/2017/03/06/kubernetes-with-contiv-plugin-in-vm/) blog post by Paul Michali
-* [Kubernetes and Contiv on Bare Metal with L3/BGP](http://blog.michali.net/2017/03/20/kubernetes-and-contiv-on-bare-metal-with-l3bgp/) blog post by Paul Michali
+- To file a bug or feature request, log an issue in appropriate repo on [Github](https://github.com/contiv). 
 
+- For the latest on Contiv development, follow our [blog](http://blogs.cisco.com/tag/contiv), or subscribe to [contiv-update](mailto:contiv-update@external.cisco.com) mailer list.
 
+# Contributing
+
+We welcome community contributions! Please see the CONTRIBUTING.md file in the respective Contiv repository for instructions on how to submit changes. If you are planning on making elaborate or controversial changes, please discuss them on the [contiv-dev](contiv-dev@external.cisco.com) mailing list before sending a pull request. 
+
+# Governance
+
+Contiv is structured as multiple projects, each project consisting of multiple github repositories. Each project has a list of assigned committers - individuals responsible for merging PRs into repos, and arbitrators of dispute. For full description, please see the GOVERNANCE.md file in the respective contiv repository.
+
+# Commercial Support
+Interested in commercial support? Reach out [to us](mailto:contiv-support@external.cisco.com) and we can discuss your options. Full support matrix for each Contiv version is listed [here](/documents/support/supportmatrix/index.html).
  
 
+<div class="row">
+    <div class="col-md-10 col-md-offset-1" style="position:absolute; top:90%;">
+        <hr>
+            <p style="text-align: center"><font color="black">Copyright &copy; 2017 Cisco and/or its affiliates. All rights reserved.</font>
+            </p>
+    </div>
+</div>
