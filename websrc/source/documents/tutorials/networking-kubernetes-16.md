@@ -108,7 +108,7 @@ You will use the eth1 address as the Contiv netmaster control plane IP.
 ```
 
 Make note of the final outcome of this process. This lists the URL for the UI.
- 
+
 ```
 Installation is complete
 =========================================================
@@ -979,7 +979,7 @@ round-trip min/avg/max = 4.433/4.835/5.459 ms
 / # exit
 ```
 
-### <a name="cleanup"></a> Cleanup:
+### <a name="cleanup"></a> Cleanup
 
 To cleanup the setup, after doing all the experiments, exit the VM and destroy the VMs:
 

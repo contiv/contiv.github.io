@@ -235,6 +235,10 @@ GitHub</a></li>
 </li>
 <li><a href="#ch1">Chapter 1 - ICMP Policy</a>
 </li>
+<li><a href="#ch2">Chapter 2 - TCP Policy</a>
+</li>
+<li><a href="#ch3">Chapter 3 - Bandwidth Policy</a>
+</li>
 <li><a href="#cleanup">Cleanup</a>
 </li>
 </ul>
@@ -257,9 +261,11 @@ Creating network TestTenant:TestNet
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ netctl net ls -a
 Tenant      Network      Nw Type  Encap type  Packet tag  Subnet        Gateway     IPv6Subnet  IPv6Gateway  Cfgd Tag
 ------      -------      -------  ----------  ----------  -------       ------      ----------  -----------  ---------
-default     contivh1     infra    vxlan       0           132.1.1.0/24  132.1.1.1
 default     default-net  data     vxlan       0           20.1.1.0/24   20.1.1.1
+default     contiv-net   data     vxlan       0           10.1.2.0/24   10.1.2.1
+blue        contiv-net   data     vxlan       0           10.1.2.0/24   10.1.2.1
 TestTenant  TestNet      data     vlan        0           10.1.1.0/24   10.1.1.254
+default     contivh1     infra    vxlan       0           132.1.1.0/24  132.1.1.1
 </code></pre>
 <p>Now create two network groups under network TestNet.</p>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ netctl group create -t TestTenant TestNet epgA
@@ -275,7 +281,7 @@ Tenant      Group  Network  IP Pool  CfgdTag  Policies  Network profile
 TestTenant  epgA   TestNet
 TestTenant  epgB   TestNet
 </code></pre>
-<p>Let&#39;s create two pods, one on each group network, and check whethere they are able to ping each other or not. By default, Contiv allows connectivity between groups under the same network.</p>
+<p>Let&#39;s create two pods, one on each group network, and check whether they are able to ping each other or not. By default, Contiv allows connectivity between groups under the same network.</p>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ 
 cat &lt;&lt;EOF &gt; apod.yaml
 apiVersion: v1
@@ -290,7 +296,7 @@ metadata:
 spec:
   containers:
   - name: alpine
-    image: alpine
+    image: contiv/alpine
     command:
       - sleep
       - "6000"
@@ -313,7 +319,7 @@ metadata:
 spec:
   containers:
   - name: alpine
-    image: alpine
+    image: contiv/alpine
     command:
       - sleep
       - "6000"
@@ -417,6 +423,126 @@ PING 10.1.1.2 (10.1.1.2): 56 data bytes
 3 packets transmitted, 0 packets received, 100% packet loss
 / # exit
 </code></pre>
+
+<h3><a name="ch2"></a> Chapter 2 - TCP Policy</h3>
+<p>In this section, we will create a TCP deny policy as well as a selective TCP port allow policy.</p>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ netctl policy rule-add -t TestTenant -d in --protocol tcp --port 0  --from-group epgA  --action deny policyAB 2
+[vagrant@kubeadm-master ~]$ netctl policy rule-add -t TestTenant -d in --protocol tcp --port 8001  --from-group epgA  --action allow --priority 10 policyAB 3
+[vagrant@kubeadm-master ~]$ netctl policy rule-ls -t TestTenant policyAB
+Incoming Rules:
+Rule  Priority  From EndpointGroup  From Network  From IpAddress  Protocol  Port  Action
+----  --------  ------------------  ------------  ---------       --------  ----  ------
+1     1         epgA                                              icmp      0     deny
+2     1         epgA                                              tcp       0     deny
+3     10        epgA                                              tcp       8001  allow
+Outgoing Rules:
+Rule  Priority  To EndpointGroup  To Network  To IpAddress  Protocol  Port  Action
+----  --------  ----------------  ----------  ---------     --------  ----  ------
+</code></pre>
+<p>Now check that from epgB, only TCP 8001 port is open. To test this, let&#39;s run <code>iperf</code> on bpod and verify using the <code>nc</code> utility on apod.</p>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl exec -it bpod sh
+/ # iperf -s [vagrant@kubeadm-master ~]$ -p 8001
+-bash: -p: command not found
+[vagrant@kubeadm-master ~]$ kubectl exec -it bpod sh
+/ # iperf -s -p 8001
+------------------------------------------------------------
+Server listening on TCP port 8001
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+^C/ # exit
+</code></pre>
+<p>On apod:</p>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl exec -it apod sh
+/ # nc -zvw 1 10.1.1.2 8001
+/ # nc -zvw 1 10.1.1.2 8000
+nc: 10.1.1.2 (10.1.1.2:8000): Operation timed out
+/ # exit
+</code></pre>
+<p>Port 8001 is open because we didn&#39;t get any timeout output like we see with port 8000 which is closed.</p>
+
+<h3><a name="ch3"></a> Chapter 3 - Bandwidth Policy</h3>
+<p>In this chapter, we will explore the bandwidth policy feature of Contiv. We will create a tenant, a network and some groups. Then we will attach a netprofile to one endpoint group and verify that the applied bandwidth policy works as expected.</p>
+<p>So, let&#39;s create a tenant, a network and group &quot;A&quot; under the network.</p>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ netctl tenant create BandwidthTenant
+Creating tenant: BandwidthTenant
+[vagrant@kubeadm-master ~]$ netctl network create --tenant BandwidthTenant --subnet=50.1.1.0/24 --gateway=50.1.1.254 -p 1001 -e "vlan" BandwidthTestNet
+Creating network BandwidthTenant:BandwidthTestNet
+[vagrant@kubeadm-master ~]$ netctl group create -t BandwidthTenant BandwidthTestNet epgA
+Creating EndpointGroup BandwidthTenant:epgA
+</code></pre>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ netctl net ls -a
+Tenant           Network           Nw Type  Encap type  Packet tag  Subnet        Gateway     IPv6Subnet  IPv6Gateway  Cfgd Tag
+------           -------           -------  ----------  ----------  -------       ------      ----------  -----------  ---------
+default          default-net       data     vxlan       0           20.1.1.0/24   20.1.1.1
+default          contiv-net        data     vxlan       0           10.1.2.0/24   10.1.2.1
+blue             contiv-net        data     vxlan       0           10.1.2.0/24   10.1.2.1
+TestTenant       TestNet           data     vlan        0           10.1.1.0/24   10.1.1.254
+BandwidthTenant  BandwidthTestNet  data     vlan        1001        50.1.1.0/24   50.1.1.254
+default          contivh1          infra    vxlan       0           132.1.1.0/24  132.1.1.1
+</code></pre>
+<p>Now, we are going to run two containers in the epgA network space: serverA and clientA.</p>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$
+cat &lt;&lt;EOF &gt; aserver.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: aserver
+  labels:
+    app: aserver
+    io.contiv.tenant: BandwidthTenant
+    io.contiv.net-group: epgA
+    io.contiv.network: BandwidthTestNet
+spec:
+  containers:
+  - name: alpine
+    image: contiv/alpine
+    command:
+      - sleep
+      - "6000"
+EOF
+
+[vagrant@kubeadm-master ~]$ kubectl create -f aserver.yaml
+pod "aserver" created
+</code></pre>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$
+cat &lt;&lt;EOF &gt; aclient.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: aclient
+  labels:
+    app: aclient
+    io.contiv.tenant: BandwidthTenant
+    io.contiv.net-group: epgA
+    io.contiv.network: BandwidthTestNet
+spec:
+  containers:
+  - name: alpine
+    image: contiv/alpine
+    command:
+      - sleep
+      - "6000"
+EOF
+
+[vagrant@kubeadm-master ~]$ kubectl create -f aclient.yaml
+pod "aclient" created
+</code></pre>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl get pods
+NAME                         READY     STATUS    RESTARTS   AGE
+aclient                      1/1       Running   0          21s
+apod                         1/1       Running   1          37m
+aserver                      1/1       Running   0          56s
+bpod                         1/1       Running   1          37m
+contiv-blue-c1               1/1       Running   0          53m
+contiv-blue-c2               1/1       Running   0          53m
+contiv-blue-c3               1/1       Running   0          53m
+contiv-c1                    1/1       Running   0          54m
+contiv-c2                    1/1       Running   0          54m
+vanilla-c-1408101207-k5rbh   1/1       Running   1          55m
+</code></pre>
+<p>Now run <code>iperf</code> on the server and client to find out the current bandwidth policies which we are on the network. It may vary depending upon base OS, network speed, etc.</p>
+<p>On aserver:</p>
+<pre class="highlight plaintext"><code></code></pre>
 
 <h3><a name="cleanup"></a> Cleanup: <strong>after all play is done</strong></h3>
 <p>To cleanup the setup, after doing all the experiments, exit the VM destroy VMs:</p>

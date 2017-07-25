@@ -210,7 +210,7 @@ PING 10.1.1.2 (10.1.1.2): 56 data bytes
 
 ### <a name="ch2"></a> Chapter 2 - TCP Policy 
 
-In this section, we will create TCP deny policy as well as selective TCP port allow policy.
+In this section, we will create a TCP deny policy as well as a selective TCP port allow policy.
 
 ```
 
@@ -229,8 +229,8 @@ Rule  Priority  To EndpointGroup  To Network  To IpAddress  Protocol  Port  Acti
 
 ```
 
-Now check that from epgB, only TCP 8001 port is open. To test this, Let us run iperf on BContainer and
-verify using nc utility on AContainer.
+Now check that from epgB, only TCP 8001 port is open. To test this, let's run `iperf` on BContainer and
+verify using the `nc` utility on AContainer.
 
 
 ```
@@ -259,13 +259,9 @@ You see that port 8001 is open and port 8000 is not open.
 
 ### <a name="ch3"></a> Chapter 3 - Bandwidth Policy 
 
-In this chapter, we will explore bandwidth policy feature of contiv. 
-We will create tenant, network and groups. Then we will attach netprofile to one group
-and verify that applied bandwidth is working or not as expected in data path.
+In this chapter, we will explore the bandwidth policy feature of Contiv. We will create a tenant, a network and some groups. Then we will attach a netprofile to one endpoint group and verify that the applied bandwidth policy works as expected.
 
-
-So, let us create tenant, a network and group "A" under network.
-
+So, let's create a tenant, a network and group "A" under the network.
 
 ```
 [vagrant@legacy-swarm-master ~]$ netctl tenant create BandwidthTenant
@@ -274,6 +270,8 @@ Creating tenant: BandwidthTenant
 Creating network BandwidthTenant:BandwidthTestNet
 [vagrant@legacy-swarm-master ~]$ netctl group create -t BandwidthTenant BandwidthTestNet epgA
 Creating EndpointGroup BandwidthTenant:epgA
+```
+```
 [vagrant@legacy-swarm-master ~]$ netctl net ls -a
 Tenant           Network           Nw Type  Encap type  Packet tag  Subnet       Gateway     IPv6Subnet  IPv6Gateway
 ------           -------           -------  ----------  ----------  -------      ------      ----------  -----------
@@ -284,9 +282,7 @@ Tenant           Group  Network           IP Pool   Policies  Network profile
 BandwidthTenant  epgA   BandwidthTestNet
 
 ```
-
-Now, We are going to run serverA and clientA containers using group epgA as a network.
-
+Now, we are going to run two containers in the epgA network space: serverA and clientA.
 
 ```
 [vagrant@legacy-swarm-master ~]$ docker run -itd --net="epgA/BandwidthTenant" --name=serverA contiv/alpine sh
@@ -302,16 +298,12 @@ d50a96536aeb        contiv/alpine                "sh"                     6 minu
 654e678abd24        contiv/auth_proxy:1.0.3      "./auth_proxy --tls-k"   9 hours ago         Up 9 hours                              legacy-swarm-master/auth-proxy
 e8f9f40077f1        quay.io/coreos/etcd:v2.3.8   "/etcd"                  9 hours ago         Up 9 hours                              legacy-swarm-worker0/etcd
 7810f563e836        quay.io/coreos/etcd:v2.3.8   "/etcd"                  9 hours ago         Up 9 hours                              legacy-swarm-master/etcd
-
 ```
+Now run `iperf` on the server and client to find out the current bandwidth policies which we are on the network. It may vary depending upon base OS, network speed, etc.
 
-Now run iperf server and client to find out current bandwidth which we are getting on the network
-where you are running this tutorial. It may vary depending upon base OS , network speed etc.
-
-
-```
 On serverA:
 
+```
 [vagrant@legacy-swarm-master ~]$ docker exec -it serverA sh
 / # ifconfig
 eth0      Link encap:Ethernet  HWaddr 02:02:32:01:01:01
