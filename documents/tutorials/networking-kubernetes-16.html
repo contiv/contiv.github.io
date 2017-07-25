@@ -246,7 +246,7 @@ GitHub</a></li>
 <li><a href="#cleanup">Cleanup</a>
 </li>
 </ul>
-<p>This tutorial walks through container networking concepts step by step in a Kubernetes environment. We will explore Contiv&#39;s networking features along with policies in the next tutorial.</p>
+<p>This tutorial walks through container networking concepts step by step in the Kubernetes environment. We will explore Contiv&#39;s networking features along with policies in the next tutorial.</p>
 
 <h3><a name="prereqs"></a> Prerequisites</h3>
 
@@ -255,23 +255,23 @@ GitHub</a></li>
 </li>
 <li><a href="https://www.virtualbox.org/wiki/Downloads">Download Virtualbox</a>
 </li>
-<li><a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">Install git client</a>
+<li><a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">Install Git client</a>
 </li>
-<li><a href="https://docs.docker.com/docker-for-mac/install/">Install docker for mac</a>
+<li><a href="https://docs.docker.com/docker-for-mac/install/">Install Docker for Mac</a>
 </li>
 </ol>
 <p><strong>Note</strong>:
-If you are using a platform other than Mac, please install docker-engine, for that platform.</p>
+If you are using a platform other than Mac, please install docker-engine for that platform.</p>
 <p>Make virtualbox the default provider for vagrant.</p>
 <pre class="highlight plaintext"><code>export VAGRANT_DEFAULT_PROVIDER=virtualbox
 </code></pre>
-<p>The steps below download a centos vagrant box. If you have a centos box available already, or you have access to the box file, add it to a list of box images with the specific name centos/7, as follows:</p>
+<p>The steps below download a CentOS vagrant box. If you have a CentOS box available already, or you have access to the box file, add it to a list of box images with the specific name centos/7, as follows:</p>
 <pre class="highlight plaintext"><code>vagrant box add --name centos/7 CentOS-7-x86_64-Vagrant-1703_01.VirtualBox.box
 </code></pre>
 
 <h3><a name="setup"></a> Setup</h3>
 
-<h4>Step 1: Get contiv installer code from github.</h4>
+<h4>Step 1: Get Contiv installer code from Github.</h4>
 <pre class="highlight plaintext"><code>$ git clone https://github.com/contiv/install.git
 $ cd install
 </code></pre>
@@ -284,10 +284,10 @@ $ cd cluster
 </code></pre>
 <p><strong>Note</strong>: 
 Please do not try to work in both the Legacy Swarm and Kubernetes environments at the same time. This will not work.</p>
-<p>This will create two VMs on VirtualBox. It installs Kubernetes using <a href="https://kubernetes.io/docs/setup/independent/install-kubeadm/">kubeadm</a> and all the required services and software for Contiv. This might take some time (usually approx 15-20 mins) depending upon your internet connection.</p>
+<p>This will create two VMs on VirtualBox. It installs Kubernetes using <a href="https://kubernetes.io/docs/setup/independent/install-kubeadm/">kubeadm</a> and all the required services and software for Contiv. This might take some time (usually approx 15-20 mins) depending upon your internet connection. This will also create a default network for you.</p>
 <p>-- OR --</p>
 
-<h4>Step 2a: Create a vagrant VM cluster</h4>
+<h4>Step 2a: Create a Vagrant VM cluster</h4>
 <pre class="highlight plaintext"><code>$ make cluster-kubeadm
 </code></pre>
 <p>This will create two VMs on VirtualBox.</p>
@@ -296,26 +296,26 @@ Please do not try to work in both the Legacy Swarm and Kubernetes environments a
 <p>Note that this step is different from the Legacy Swarm tutorial. This installation is run on the master node itself and not from a different installer host.</p>
 <pre class="highlight plaintext"><code>$ cd cluster
 $ vagrant ssh kubeadm-master
-[vagrant@kubeadm-master ~]$ curl -L -O https://github.com/contiv/install/releases/download/1.0.3/contiv-1.0.3.tgz
-[vagrant@kubeadm-master ~]$ tar xf contiv-1.0.3.tgz
+[vagrant@kubeadm-master ~]$ curl -L -O https://github.com/contiv/install/releases/download/1.1.1/contiv-1.1.1.tgz
+[vagrant@kubeadm-master ~]$ tar xf contiv-1.1.1.tgz
 </code></pre>
 
 <h4>Step 2c: Install Contiv</h4>
-<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ cd contiv-1.0.3
-[vagrant@kubeadm-master contiv-1.0.3]$ ifconfig eth1
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ cd contiv-1.1.1/
+[vagrant@kubeadm-master contiv-1.1.1]$ ifconfig eth1
 eth1: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
         inet 192.168.2.54  netmask 255.255.255.0  broadcast 192.168.2.255
-        inet6 fe80::a00:27ff:fe72:826  prefixlen 64  scopeid 0x20&lt;link&gt;
-        ether 08:00:27:72:08:26  txqueuelen 1000  (Ethernet)
-        RX packets 3  bytes 1026 (1.0 KiB)
+        inet6 fe80::a00:27ff:feab:beb0  prefixlen 64  scopeid 0x20&lt;link&gt;
+        ether 08:00:27:ab:be:b0  txqueuelen 1000  (Ethernet)
+        RX packets 472  bytes 65083 (63.5 KiB)
         RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 18  bytes 2424 (2.3 KiB)
+        TX packets 495  bytes 246162 (240.3 KiB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 </code></pre>
 <p>You will use the eth1 address as the Contiv netmaster control plane IP.</p>
-<pre class="highlight plaintext"><code>[vagrant@kubeadm-master contiv-1.0.3]$ sudo ./install/k8s/install.sh -n 192.168.2.54
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master contiv-1.1.1]$ sudo ./install/k8s/install.sh -n 192.168.2.54
 </code></pre>
-<p>Make note of the final outcome of this process. This lists the URL for the UI. There are instructions for setting up a default network as well.</p>
+<p>Make note of the final outcome of this process. This lists the URL for the UI.</p>
 <pre class="highlight plaintext"><code>Installation is complete
 =========================================================
 
@@ -331,7 +331,13 @@ Please use the first run wizard or configure the setup as follows:
 
 =========================================================
 </code></pre>
-<pre class="highlight plaintext"><code>[vagrant@kubeadm-master contiv-1.0.3]$ exit
+<p>Let&#39;s follow the above instructions to create a default network for us.</p>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master contiv-1.1.1]$ cd ..
+[vagrant@kubeadm-master ~]$ netctl net create -t default --subnet=20.1.1.0/24 -g 20.1.1.1 default-net
+Creating network default:default-net
+[vagrant@kubeadm-master ~]$ exit
+logout
+Connection to 127.0.0.1 closed.
 </code></pre>
 
 <h4>Step 3: Check vagrant VM nodes.</h4>
@@ -358,13 +364,13 @@ VM, run `vagrant status NAME`.
 <p>Now you will be logged into the Kubernetes master Vagrant VM.
 <code>kubectl</code> is the command line client to connect to Kubernetes API server.</p>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl version
-Client Version: version.Info{Major:"1", Minor:"6", GitVersion:"v1.6.5", GitCommit:"490c6f13df1cb6612e0993c4c14f2ff90f8cdbf3", GitTreeState:"clean", BuildDate:"2017-06-14T20:15:53Z", GoVersion:"go1.7.6", Compiler:"gc", Platform:"linux/amd64"}
-Server Version: version.Info{Major:"1", Minor:"6", GitVersion:"v1.6.4", GitCommit:"d6f433224538d4f9ca2f7ae19b252e6fcb66a3ae", GitTreeState:"clean", BuildDate:"2017-05-19T18:33:17Z", GoVersion:"go1.7.5", Compiler:"gc", Platform:"linux/amd64"}
+Client Version: version.Info{Major:"1", Minor:"7", GitVersion:"v1.7.1", GitCommit:"1dc5c66f5dd61da08412a74221ecc79208c2165b", GitTreeState:"clean", BuildDate:"2017-07-14T02:00:46Z", GoVersion:"go1.8.3", Compiler:"gc", Platform:"linux/amd64"}
+Server Version: version.Info{Major:"1", Minor:"6", GitVersion:"v1.6.5", GitCommit:"490c6f13df1cb6612e0993c4c14f2ff90f8cdbf3", GitTreeState:"clean", BuildDate:"2017-06-14T20:03:38Z", GoVersion:"go1.7.6", Compiler:"gc", Platform:"linux/amd64"}
 </code></pre>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl get nodes -o wide
 NAME              STATUS    AGE       VERSION   EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION
-kubeadm-master    Ready     9m        v1.6.5    &lt;none&gt;        CentOS Linux 7 (Core)   3.10.0-514.16.1.el7.x86_64
-kubeadm-worker0   Ready     6m        v1.6.5    &lt;none&gt;        CentOS Linux 7 (Core)   3.10.0-514.16.1.el7.x86_64
+kubeadm-master    Ready     22m       v1.7.1    &lt;none&gt;        CentOS Linux 7 (Core)   3.10.0-514.16.1.el7.x86_64
+kubeadm-worker0   Ready     20m       v1.7.1    &lt;none&gt;        CentOS Linux 7 (Core)   3.10.0-514.16.1.el7.x86_64
 </code></pre>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl describe nodes
 Name:     kubeadm-master
@@ -376,16 +382,17 @@ Labels:     beta.kubernetes.io/arch=amd64
 Annotations:    node.alpha.kubernetes.io/ttl=0
       volumes.kubernetes.io/controller-managed-attach-detach=true
 Taints:     node-role.kubernetes.io/master:NoSchedule
-CreationTimestamp:  Mon, 19 Jun 2017 19:02:22 +0000
-Phase:
+CreationTimestamp:  Mon, 24 Jul 2017 21:28:20 +0000
 Conditions:
-  Type      Status  LastHeartbeatTime     LastTransitionTime    Reason        Message
-  ----      ------  -----------------     ------------------    ------        -------
-  OutOfDisk     False   Mon, 19 Jun 2017 19:11:53 +0000   Mon, 19 Jun 2017 19:02:22 +0000   KubeletHasSufficientDisk  kubelet has sufficient disk space available
-  MemoryPressure  False   Mon, 19 Jun 2017 19:11:53 +0000   Mon, 19 Jun 2017 19:02:22 +0000   KubeletHasSufficientMemory  kubelet has sufficient memory available
-  DiskPressure    False   Mon, 19 Jun 2017 19:11:53 +0000   Mon, 19 Jun 2017 19:02:22 +0000   KubeletHasNoDiskPressure  kubelet has no disk pressure
-  Ready     True  Mon, 19 Jun 2017 19:11:53 +0000   Mon, 19 Jun 2017 19:05:22 +0000   KubeletReady      kubelet is posting ready status
-Addresses:    192.168.2.54,192.168.2.54,kubeadm-master
+  Type      Status  LastHeartbeatTime     LastTransitionTime      Reason      Message
+  ----      ------  -----------------     ------------------      ------      -------
+  OutOfDisk     False   Mon, 24 Jul 2017 21:51:12 +0000   Mon, 24 Jul 2017 21:28:20 +0000   KubeletHasSufficientDisk  kubelet has sufficient disk space available
+  MemoryPressure  False   Mon, 24 Jul 2017 21:51:12 +0000   Mon, 24 Jul 2017 21:28:20 +0000   KubeletHasSufficientMemory  kubelet has sufficient memory available
+  DiskPressure    False   Mon, 24 Jul 2017 21:51:12 +0000   Mon, 24 Jul 2017 21:28:20 +0000   KubeletHasNoDiskPressure  kubelet has no disk pressure
+  Ready     True  Mon, 24 Jul 2017 21:51:12 +0000   Mon, 24 Jul 2017 21:34:21 +0000   KubeletReady    kubelet is posting ready status
+Addresses:
+  InternalIP: 192.168.2.54
+  Hostname: kubeadm-master
 Capacity:
  cpu:   1
  memory:  1883804Ki
@@ -395,28 +402,27 @@ Allocatable:
  memory:  1781404Ki
  pods:    110
 System Info:
- Machine ID:      5f08662a06cb4ea885f592a26cebb84a
- System UUID:     5F08662A-06CB-4EA8-85F5-92A26CEBB84A
- Boot ID:     994297a1-e55d-4a88-8415-8cf4c90ec4ed
+ Machine ID:      fb27615218794eb2948ad091360318ef
+ System UUID:     FB276152-1879-4EB2-948A-D091360318EF
+ Boot ID:     74136fe6-ad78-4834-8cd5-971117b27a21
  Kernel Version:    3.10.0-514.16.1.el7.x86_64
  OS Image:      CentOS Linux 7 (Core)
  Operating System:    linux
  Architecture:      amd64
  Container Runtime Version: docker://1.12.6
- Kubelet Version:   v1.6.5
- Kube-Proxy Version:    v1.6.5
+ Kubelet Version:   v1.7.1
+ Kube-Proxy Version:    v1.7.1
 ExternalID:     kubeadm-master
-Non-terminated Pods:    (9 in total)
+Non-terminated Pods:    (8 in total)
   Namespace     Name            CPU Requests  CPU Limits  Memory Requests Memory Limits
   ---------     ----            ------------  ----------  --------------- -------------
-  kube-system     contiv-api-proxy-lgcg7        0 (0%)    0 (0%)    0 (0%)    0 (0%)
-  kube-system     contiv-etcd-2g52j       0 (0%)    0 (0%)    0 (0%)    0 (0%)
-  kube-system     contiv-netmaster-n8dhg        0 (0%)    0 (0%)    0 (0%)    0 (0%)
-  kube-system     contiv-netplugin-tvvlb        0 (0%)    0 (0%)    0 (0%)    0 (0%)
+  kube-system     contiv-etcd-830bh       0 (0%)    0 (0%)    0 (0%)    0 (0%)
+  kube-system     contiv-netmaster-nr29m        0 (0%)    0 (0%)    0 (0%)    0 (0%)
+  kube-system     contiv-netplugin-w44nr        0 (0%)    0 (0%)    0 (0%)    0 (0%)
   kube-system     etcd-kubeadm-master       0 (0%)    0 (0%)    0 (0%)    0 (0%)
   kube-system     kube-apiserver-kubeadm-master     250m (25%)  0 (0%)    0 (0%)    0 (0%)
   kube-system     kube-controller-manager-kubeadm-master    200m (20%)  0 (0%)    0 (0%)    0 (0%)
-  kube-system     kube-proxy-t9hs4        0 (0%)    0 (0%)    0 (0%)    0 (0%)
+  kube-system     kube-proxy-kq3nb        0 (0%)    0 (0%)    0 (0%)    0 (0%)
   kube-system     kube-scheduler-kubeadm-master     100m (10%)  0 (0%)    0 (0%)    0 (0%)
 Allocated resources:
   (Total limits may be over 100 percent, i.e., overcommitted.)
@@ -426,13 +432,13 @@ Allocated resources:
 Events:
   FirstSeen LastSeen  Count From        SubObjectPath Type    Reason      Message
   --------- --------  ----- ----        ------------- --------  ------      -------
-  10m   10m   1 kubelet, kubeadm-master       Normal    Starting    Starting kubelet.
-  10m   10m   1 kubelet, kubeadm-master       Warning   ImageGCFailed   unable to find data for container /
-  10m   9m    27  kubelet, kubeadm-master       Normal    NodeHasSufficientDisk Node kubeadm-master status is now: NodeHasSufficientDisk
-  10m   9m    27  kubelet, kubeadm-master       Normal    NodeHasSufficientMemory Node kubeadm-master status is now: NodeHasSufficientMemory
-  10m   9m    27  kubelet, kubeadm-master       Normal    NodeHasNoDiskPressure Node kubeadm-master status is now: NodeHasNoDiskPressure
-  9m    9m    1 kube-proxy, kubeadm-master      Normal    Starting    Starting kube-proxy.
-  6m    6m    1 kubelet, kubeadm-master       Normal    NodeReady   Node kubeadm-master status is now: NodeReady
+  23m   23m   1 kubelet, kubeadm-master       Normal    Starting    Starting kubelet.
+  23m   23m   1 kubelet, kubeadm-master       Normal    NodeAllocatableEnforced Updated Node Allocatable limit across pods
+  23m   23m   31  kubelet, kubeadm-master       Normal    NodeHasSufficientDisk Node kubeadm-master status is now: NodeHasSufficientDisk
+  23m   23m   31  kubelet, kubeadm-master       Normal    NodeHasSufficientMemory Node kubeadm-master status is now: NodeHasSufficientMemory
+  23m   23m   31  kubelet, kubeadm-master       Normal    NodeHasNoDiskPressure Node kubeadm-master status is now: NodeHasNoDiskPressure
+  22m   22m   1 kube-proxy, kubeadm-master      Normal    Starting    Starting kube-proxy.
+  16m   16m   1 kubelet, kubeadm-master       Normal    NodeReady   Node kubeadm-master status is now: NodeReady
 
 
 Name:     kubeadm-worker0
@@ -443,16 +449,17 @@ Labels:     beta.kubernetes.io/arch=amd64
 Annotations:    node.alpha.kubernetes.io/ttl=0
       volumes.kubernetes.io/controller-managed-attach-detach=true
 Taints:     &lt;none&gt;
-CreationTimestamp:  Mon, 19 Jun 2017 19:04:41 +0000
-Phase:
+CreationTimestamp:  Mon, 24 Jul 2017 21:30:42 +0000
 Conditions:
-  Type      Status  LastHeartbeatTime     LastTransitionTime    Reason        Message
-  ----      ------  -----------------     ------------------    ------        -------
-  OutOfDisk     False   Mon, 19 Jun 2017 19:11:52 +0000   Mon, 19 Jun 2017 19:04:42 +0000   KubeletHasSufficientDisk  kubelet has sufficient disk space available
-  MemoryPressure  False   Mon, 19 Jun 2017 19:11:52 +0000   Mon, 19 Jun 2017 19:04:42 +0000   KubeletHasSufficientMemory  kubelet has sufficient memory available
-  DiskPressure    False   Mon, 19 Jun 2017 19:11:52 +0000   Mon, 19 Jun 2017 19:04:42 +0000   KubeletHasNoDiskPressure  kubelet has no disk pressure
-  Ready     True  Mon, 19 Jun 2017 19:11:52 +0000   Mon, 19 Jun 2017 19:05:22 +0000   KubeletReady      kubelet is posting ready status
-Addresses:    192.168.2.55,192.168.2.55,kubeadm-worker0
+  Type      Status  LastHeartbeatTime     LastTransitionTime      Reason      Message
+  ----      ------  -----------------     ------------------      ------      -------
+  OutOfDisk     False   Mon, 24 Jul 2017 21:51:13 +0000   Mon, 24 Jul 2017 21:30:41 +0000   KubeletHasSufficientDisk  kubelet has sufficient disk space available
+  MemoryPressure  False   Mon, 24 Jul 2017 21:51:13 +0000   Mon, 24 Jul 2017 21:30:41 +0000   KubeletHasSufficientMemory  kubelet has sufficient memory available
+  DiskPressure    False   Mon, 24 Jul 2017 21:51:13 +0000   Mon, 24 Jul 2017 21:30:41 +0000   KubeletHasNoDiskPressure  kubelet has no disk pressure
+  Ready     True  Mon, 24 Jul 2017 21:51:13 +0000   Mon, 24 Jul 2017 21:34:12 +0000   KubeletReady    kubelet is posting ready status
+Addresses:
+  InternalIP: 192.168.2.55
+  Hostname: kubeadm-worker0
 Capacity:
  cpu:   1
  memory:  500396Ki
@@ -462,23 +469,23 @@ Allocatable:
  memory:  397996Ki
  pods:    110
 System Info:
- Machine ID:      4296ae5f450d4f2cba94642f7ba5eefb
- System UUID:     4296AE5F-450D-4F2C-BA94-642F7BA5EEFB
- Boot ID:     355607dc-67c7-4464-af09-3b8681355d39
+ Machine ID:      5be94368fb224d23a855991223e7d5e9
+ System UUID:     5BE94368-FB22-4D23-A855-991223E7D5E9
+ Boot ID:     69689afc-a3ed-43f5-b3ce-cd957dc2b522
  Kernel Version:    3.10.0-514.16.1.el7.x86_64
  OS Image:      CentOS Linux 7 (Core)
  Operating System:    linux
  Architecture:      amd64
  Container Runtime Version: docker://1.12.6
- Kubelet Version:   v1.6.5
- Kube-Proxy Version:    v1.6.5
+ Kubelet Version:   v1.7.1
+ Kube-Proxy Version:    v1.7.1
 ExternalID:     kubeadm-worker0
 Non-terminated Pods:    (3 in total)
   Namespace     Name          CPU Requests  CPU Limits  Memory Requests Memory Limits
   ---------     ----          ------------  ----------  --------------- -------------
-  kube-system     contiv-netplugin-6d95p      0 (0%)    0 (0%)    0 (0%)    0 (0%)
-  kube-system     kube-dns-692378583-0pt26    260m (26%)  0 (0%)    110Mi (28%) 170Mi (43%)
-  kube-system     kube-proxy-pbk2h      0 (0%)    0 (0%)    0 (0%)    0 (0%)
+  kube-system     contiv-netplugin-zc1qj      0 (0%)    0 (0%)    0 (0%)    0 (0%)
+  kube-system     kube-dns-2838158301-2dgwr   260m (26%)  0 (0%)    110Mi (28%) 170Mi (43%)
+  kube-system     kube-proxy-g01zr      0 (0%)    0 (0%)    0 (0%)    0 (0%)
 Allocated resources:
   (Total limits may be over 100 percent, i.e., overcommitted.)
   CPU Requests  CPU Limits  Memory Requests Memory Limits
@@ -487,13 +494,13 @@ Allocated resources:
 Events:
   FirstSeen LastSeen  Count From        SubObjectPath Type    Reason      Message
   --------- --------  ----- ----        ------------- --------  ------      -------
-  7m    7m    1 kubelet, kubeadm-worker0      Normal    Starting    Starting kubelet.
-  7m    7m    1 kubelet, kubeadm-worker0      Warning   ImageGCFailed   unable to find data for container /
-  7m    7m    2 kubelet, kubeadm-worker0      Normal    NodeHasSufficientDisk Node kubeadm-worker0 status is now: NodeHasSufficientDisk
-  7m    7m    2 kubelet, kubeadm-worker0      Normal    NodeHasSufficientMemory Node kubeadm-worker0 status is now: NodeHasSufficientMemory
-  7m    7m    2 kubelet, kubeadm-worker0      Normal    NodeHasNoDiskPressure Node kubeadm-worker0 status is now: NodeHasNoDiskPressure
-  7m    7m    1 kube-proxy, kubeadm-worker0     Normal    Starting    Starting kube-proxy.
-  6m    6m    1 kubelet, kubeadm-worker0      Normal    NodeReady   Node kubeadm-worker0 status is now: NodeReady
+  20m   20m   1 kubelet, kubeadm-worker0      Normal    Starting    Starting kubelet.
+  20m   20m   2 kubelet, kubeadm-worker0      Normal    NodeHasSufficientDisk Node kubeadm-worker0 status is now: NodeHasSufficientDisk
+  20m   20m   2 kubelet, kubeadm-worker0      Normal    NodeHasSufficientMemory Node kubeadm-worker0 status is now: NodeHasSufficientMemory
+  20m   20m   2 kubelet, kubeadm-worker0      Normal    NodeHasNoDiskPressure Node kubeadm-worker0 status is now: NodeHasNoDiskPressure
+  20m   20m   1 kubelet, kubeadm-worker0      Normal    NodeAllocatableEnforced Updated Node Allocatable limit across pods
+  20m   20m   1 kube-proxy, kubeadm-worker0     Normal    Starting    Starting kube-proxy.
+  17m   17m   1 kubelet, kubeadm-worker0      Normal    NodeReady   Node kubeadm-worker0 status is now: NodeReady
 </code></pre>
 <p>You can see a two node Kubernetes cluster running the latest Kubernetes version.
 The kubeadm-master node also has a taint <code>Taints: node-role.kubernetes.io/master:NoSchedule</code> that tells the Kubernetes scheduler to not schedule worker workloads on the master node causing all worker pods to be scheduled on kubeadm-worker0.</p>
@@ -501,43 +508,42 @@ The kubeadm-master node also has a taint <code>Taints: node-role.kubernetes.io/m
 <h4>Step 5: Check contiv and related services.</h4>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl get pods -n kube-system
 NAME                                     READY     STATUS    RESTARTS   AGE
-contiv-api-proxy-r6cvg                   1/1       Running   0          17m
-contiv-etcd-mkb0g                        1/1       Running   0          17m
-contiv-netmaster-1fzsz                   1/1       Running   0          17m
-contiv-netplugin-mb478                   1/1       Running   2          17m
-contiv-netplugin-vpjw8                   1/1       Running   0          17m
-etcd-kubeadm-master                      1/1       Running   0          20m
-kube-apiserver-kubeadm-master            1/1       Running   0          21m
-kube-controller-manager-kubeadm-master   1/1       Running   0          20m
-kube-dns-692378583-60lqq                 3/3       Running   0          21m
-kube-proxy-2vx4f                         1/1       Running   0          21m
-kube-proxy-f7p78                         1/1       Running   0          17m
-kube-scheduler-kubeadm-master            1/1       Running   0          20m
+contiv-etcd-830bh                        1/1       Running   0          19m
+contiv-netmaster-nr29m                   2/2       Running   0          19m
+contiv-netplugin-w44nr                   1/1       Running   0          18m
+contiv-netplugin-zc1qj                   1/1       Running   0          18m
+etcd-kubeadm-master                      1/1       Running   0          24m
+kube-apiserver-kubeadm-master            1/1       Running   0          23m
+kube-controller-manager-kubeadm-master   1/1       Running   0          23m
+kube-dns-2838158301-2dgwr                3/3       Running   0          24m
+kube-proxy-g01zr                         1/1       Running   0          22m
+kube-proxy-kq3nb                         1/1       Running   0          24m
+kube-scheduler-kubeadm-master            1/1       Running   0          23m
 </code></pre>
 <p>You should see contiv-netmaster, contiv-netplugin, contiv-etcd and contiv-api-proxy nodes in <code>Running</code> status. A small number of initial restarts are normal while all the pods startup, but you should not see an increasing number here.</p>
 <p><code>netctl</code> is a utility to create, update, read and modify Contiv objects. It is a CLI wrapper on top of REST interface.</p>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ netctl version
 Client Version:
-Version: 1.0.3
-GitCommit: c61eb64
-BuildTime: 06-08-2017.01-26-14.UTC
+Version: 1.1.1
+GitCommit: 6657054
+BuildTime: 07-20-2017.21-46-06.UTC
 
 Server Version:
-Version: 1.0.3
-GitCommit: c61eb64
-BuildTime: 06-08-2017.01-26-14.UTC
+Version: 1.1.1
+GitCommit: 6657054
+BuildTime: 07-20-2017.21-46-06.UTC
 </code></pre>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ netctl net ls -a
 Tenant   Network      Nw Type  Encap type  Packet tag  Subnet        Gateway    IPv6Subnet  IPv6Gateway  Cfgd Tag
 ------   -------      -------  ----------  ----------  -------       ------     ----------  -----------  ---------
-default  default-net  data     vxlan       0           20.1.1.0/24   20.1.1.1
 default  contivh1     infra    vxlan       0           132.1.1.0/24  132.1.1.1
+default  default-net  data     vxlan       0           20.1.1.0/24   20.1.1.1
 </code></pre>
-<p>You can see that <code>netctl</code> is able to communicate with the Contiv API &amp; policy server, netmaster. You can also see that a <code>default-net</code> network has been created.</p>
+<p>You can see that <code>netctl</code> is able to communicate with the Contiv API &amp; policy server, netmaster. You can also see that the <code>default-net</code> network has been created.</p>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ ifconfig docker0
 docker0: flags=4099&lt;UP,BROADCAST,MULTICAST&gt;  mtu 1500
         inet 172.17.0.1  netmask 255.255.0.0  broadcast 0.0.0.0
-        ether 02:42:0d:e0:a5:58  txqueuelen 0  (Ethernet)
+        ether 02:42:3b:23:24:0e  txqueuelen 0  (Ethernet)
         RX packets 0  bytes 0 (0.0 B)
         RX errors 0  dropped 0  overruns 0  frame 0
         TX packets 0  bytes 0 (0.0 B)
@@ -546,30 +552,29 @@ docker0: flags=4099&lt;UP,BROADCAST,MULTICAST&gt;  mtu 1500
 [vagrant@kubeadm-master ~]$ ifconfig eth0
 eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
         inet 10.0.2.15  netmask 255.255.255.0  broadcast 10.0.2.255
-        inet6 fe80::5054:ff:fe88:15b6  prefixlen 64  scopeid 0x20&lt;link&gt;
-        ether 52:54:00:88:15:b6  txqueuelen 1000  (Ethernet)
-        RX packets 336889  bytes 399925256 (381.3 MiB)
+        inet6 fe80::5054:ff:feba:512b  prefixlen 64  scopeid 0x20&lt;link&gt;
+        ether 52:54:00:ba:51:2b  txqueuelen 1000  (Ethernet)
+        RX packets 252200  bytes 347597635 (331.4 MiB)
         RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 123372  bytes 6973757 (6.6 MiB)
+        TX packets 58977  bytes 3425158 (3.2 MiB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
 [vagrant@kubeadm-master ~]$ ifconfig eth1
 eth1: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
         inet 192.168.2.54  netmask 255.255.255.0  broadcast 192.168.2.255
-        inet6 fe80::a00:27ff:fe72:826  prefixlen 64  scopeid 0x20&lt;link&gt;
-        ether 08:00:27:72:08:26  txqueuelen 1000  (Ethernet)
-        RX packets 17195  bytes 2415230 (2.3 MiB)
+        inet6 fe80::a00:27ff:feab:beb0  prefixlen 64  scopeid 0x20&lt;link&gt;
+        ether 08:00:27:ab:be:b0  txqueuelen 1000  (Ethernet)
+        RX packets 105278  bytes 17338406 (16.5 MiB)
         RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 13926  bytes 7675230 (7.3 MiB)
+        TX packets 98561  bytes 25160323 (23.9 MiB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
 [vagrant@kubeadm-master ~]$ ifconfig eth2
 eth2: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
-        inet6 fe80::3ac5:5a79:a7e6:b2e6  prefixlen 64  scopeid 0x20&lt;link&gt;
-        ether 08:00:27:97:0a:cf  txqueuelen 1000  (Ethernet)
-        RX packets 1055  bytes 360810 (352.3 KiB)
+        ether 08:00:27:2c:a1:15  txqueuelen 1000  (Ethernet)
+        RX packets 70  bytes 23940 (23.3 KiB)
         RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 2865  bytes 507022 (495.1 KiB)
+        TX packets 214  bytes 37284 (36.4 KiB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 </code></pre>
 <p>In the above output, you&#39;ll see the following interfaces:<br>
@@ -596,33 +601,34 @@ contivh0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
 ...
 </code></pre>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ sudo iptables -t nat -v -L POSTROUTING -n --line-number
-Chain POSTROUTING (policy ACCEPT 20 packets, 1200 bytes)
+Chain POSTROUTING (policy ACCEPT 0 packets, 0 bytes)
 num   pkts bytes target     prot opt in     out     source               destination
-1     3451  206K KUBE-POSTROUTING  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes postrouting rules */
+1     1852  112K KUBE-POSTROUTING  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes postrouting rules */
 2        0     0 MASQUERADE  all  --  *      !docker0  172.17.0.0/16        0.0.0.0/0
 3        0     0 MASQUERADE  all  --  *      !contivh0  172.19.0.0/16        0.0.0.0/0
 </code></pre>
-<p>Contiv uses contivh0 as the host port to route external traffic. It adds a post routing rule in iptables on the host to masquerade traffic coming through contivh0.</p>
+<p>Contiv uses <code>contivh0</code> as the host port to route external traffic. It adds a post routing rule in iptables on the host to masquerade traffic coming through <code>contivh0</code>.</p>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ ifconfig contivh1
-contivh1: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
-        inet 132.1.1.3  netmask 255.255.255.0  broadcast 0.0.0.0
-        inet6 fe80::2:84ff:fe01:103  prefixlen 64  scopeid 0x20&lt;link&gt;
-        ether 02:02:84:01:01:03  txqueuelen 1000  (Ethernet)
-        RX packets 4683  bytes 1437562 (1.3 MiB)
+contivh1: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1450
+        inet 132.1.1.2  netmask 255.255.255.0  broadcast 0.0.0.0
+        inet6 fe80::2:84ff:fe01:102  prefixlen 64  scopeid 0x20&lt;link&gt;
+        ether 02:02:84:01:01:02  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
         RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 4699  bytes 430994 (420.8 KiB)
+        TX packets 8  bytes 648 (648.0 B)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
 [vagrant@kubeadm-master ~]$ ip route
 default via 10.0.2.2 dev eth0  proto static  metric 100
 10.0.2.0/24 dev eth0  proto kernel  scope link  src 10.0.2.15  metric 100
+10.96.0.0/12 via 132.1.1.2 dev contivh1
 20.1.1.0/24 via 132.1.1.2 dev contivh1
 132.1.1.0/24 dev contivh1  proto kernel  scope link  src 132.1.1.2
 172.17.0.0/16 dev docker0  proto kernel  scope link  src 172.17.0.1
 172.19.0.0/16 dev contivh0  proto kernel  scope link  src 172.19.255.254
 192.168.2.0/24 dev eth1  proto kernel  scope link  src 192.168.2.54  metric 100
 </code></pre>
-<p>contivh1 port allows the host to access the container/pod networks in routing mode. As Contiv tenants allow multiple tenants to have the same IP address range, host access is currently supported only for pods in the default tenant.</p>
+<p><code>contivh1</code> interface allows the host to access the container/pod networks in routing mode. As Contiv tenants allow multiple tenants to have the same IP address range, host access is currently supported only for pods in the default tenant.</p>
 
 <h3><a name="ch1"></a> Chapter 1: Introduction to Container Networking</h3>
 <p>There are two main container networking models discussed within the community.</p>
@@ -656,7 +662,7 @@ b60fdf5ccb88        bridge              bridge              local
 6feedf8caae3        host                host                local
 133512a17887        none                null                local
 </code></pre>
-<p>Unlike in the Legacy Swarm tutorial, Contiv networks are not visible under docker networks in a Kubernetes setup. This is because Contiv is a CNI plugin for Kubernetes and not visible as a docker networking CNM plugin in the Kubernetes environment.</p>
+<p>Unlike in the Legacy Swarm tutorial, Contiv networks are not visible under Docker networks in a Kubernetes setup. This is because Contiv is a CNI plugin for Kubernetes and not visible as a Docker networking CNM plugin in the Kubernetes environment.</p>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl run -it vanilla-c --image=alpine /bin/sh
 If you don't see a command prompt, try pressing enter.
 
@@ -665,10 +671,10 @@ eth0      Link encap:Ethernet  HWaddr 02:02:14:01:01:03
           inet addr:20.1.1.3  Bcast:0.0.0.0  Mask:255.255.255.0
           inet6 addr: fe80::2:14ff:fe01:103/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1450  Metric:1
-          RX packets:8 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
+          RX packets:7 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:7 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:0
-          RX bytes:648 (648.0 B)  TX bytes:648 (648.0 B)
+          RX bytes:578 (578.0 B)  TX bytes:578 (578.0 B)
 
 lo        Link encap:Local Loopback
           inet addr:127.0.0.1  Mask:255.0.0.0
@@ -686,7 +692,7 @@ default via 20.1.1.1 dev eth0
 </code></pre>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl get pods -o wide
 NAME                         READY     STATUS    RESTARTS   AGE       IP         NODE
-vanilla-c-1408101207-vvwxv   1/1       Running   1           1m       20.1.1.3   kubeadm-worker0
+vanilla-c-1408101207-p6swm   1/1       Running   1          47s       20.1.1.3   kubeadm-worker0
 </code></pre>
 <p><strong>Note</strong>:
 Please note this pod got scheduled by Kubernetes on kubeadm-worker0 node, as seen in the NODE column above. In order to see all of this pod&#39;s interfaces, we must run it on the kubeadm-worker0 node since it is scheduled on that node.</p>
@@ -704,7 +710,7 @@ $ vagrant ssh kubeadm-master
 <p>In the <code>ifconfig</code> output, you will see that it would have created a vvport <code>virtual 
 ethernet interface</code> that would look like <code>vvport#</code>.</p>
 <p>The other pair of veth interface is put into the pod with the name <code>eth0</code>.</p>
-<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl exec -it vanilla-c-1408101207-vvwxv sh
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl exec -it vanilla-c-1408101207-p6swm sh
 / # ifconfig eth0
 eth0      Link encap:Ethernet  HWaddr 02:02:14:01:01:03
           inet addr:20.1.1.3  Bcast:0.0.0.0  Mask:255.255.255.0
@@ -769,7 +775,7 @@ default  contiv-net   data     vxlan       0           10.1.2.0/24   10.1.2.1
 </code></pre>
 <p>We can now spin a couple of pods belonging to the <code>contiv-net</code> network.
 We will create one pod on the master node and one pod on the worker node.
-This will create a pod on the master node because we have specified tolerations in accordance with the master nodes taints.</p>
+This will create a pod on the master node because we have specified tolerations in accordance with the master node&#39;s taints.</p>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ cat &lt;&lt;EOF &gt; contiv-c1.yaml
 apiVersion: v1
 kind: Pod
@@ -799,8 +805,9 @@ EOF
 pod "contiv-c1" created
 
 [vagrant@kubeadm-master ~]$ kubectl get pods -o wide
-NAME        READY     STATUS    RESTARTS   AGE       IP         NODE
-contiv-c1   1/1       Running   0          4s        10.1.2.2   kubeadm-master
+NAME                         READY     STATUS    RESTARTS   AGE       IP         NODE
+contiv-c1                    1/1       Running   0          36s       10.1.2.2   kubeadm-master
+vanilla-c-1408101207-p6swm   1/1       Running   1          5m        20.1.1.3   kubeadm-worker0
 
 [vagrant@kubeadm-master ~]$ kubectl exec -it contiv-c1 sh
 / # ifconfig
@@ -825,7 +832,26 @@ lo        Link encap:Local Loopback
 / # exit
 </code></pre>
 <p>The IP address of this pod is 10.1.2.2 which means it is part of the <code>contiv-net</code> network.</p>
-<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl create -f contiv-c2.yaml
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ cat &lt;&lt;EOF &gt; contiv-c2.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    io.contiv.tenant: default
+    io.contiv.network: contiv-net
+    k8s-app: contiv-c2
+  name: contiv-c2
+spec: 
+  containers: 
+    - 
+      image: alpine
+      name: alpine
+      command: 
+      - sleep
+      - "6000"
+EOF
+
+[vagrant@kubeadm-master ~]$ kubectl create -f contiv-c2.yaml
 pod "contiv-c2" created
 
 [vagrant@kubeadm-master ~]$ kubectl get pods -o wide
@@ -854,7 +880,6 @@ lo        Link encap:Local Loopback
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
 / # exit
-
 </code></pre>
 <p>Now let&#39;s try to ping between these two pods.</p>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl exec -it contiv-c1 sh
@@ -886,9 +911,9 @@ default
 Creating network blue:contiv-net
 </code></pre>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ netctl net ls -t blue
-Tenant  Network     Nw Type  Encap type  Packet tag  Subnet       Gateway  IPv6Subnet  IPv6Gateway  Cfgd Tag
-------  -------     -------  ----------  ----------  -------      ------   ----------  -----------  ---------
-blue    contiv-net  data     vxlan       0           10.1.2.0/24
+Tenant  Network     Nw Type  Encap type  Packet tag  Subnet       Gateway   IPv6Subnet  IPv6Gateway  Cfgd Tag
+------  -------     -------  ----------  ----------  -------      ------    ----------  -----------  ---------
+blue    contiv-net  data     vxlan       0           10.1.2.0/24  10.1.2.1
 </code></pre>
 <p>Next, we can run pods belonging to this tenant.</p>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$
@@ -913,7 +938,7 @@ spec:
 EOF
 
 [vagrant@kubeadm-master ~]$ kubectl create -f contiv-blue-c1.yaml
-pod "contiv-blue-c2" created
+pod "contiv-blue-c1" created
 </code></pre>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$
 cat &lt;&lt;EOF &gt; contiv-blue-c2.yaml
@@ -968,42 +993,107 @@ pod "contiv-blue-c3" created
 </code></pre>
 <p>Let&#39;s see what has been created.</p>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl get pods -o wide
-NAME             READY     STATUS    RESTARTS   AGE       IP         NODE
-contiv-blue-c1   1/1       Running   0          48s       10.1.2.2   kubeadm-worker0
-contiv-blue-c2   1/1       Running   0          19s       10.1.2.3   kubeadm-master
-contiv-blue-c3   1/1       Running   0          6s        10.1.2.4   kubeadm-worker0
-contiv-c1        1/1       Running   0          5m        10.1.2.2   kubeadm-master
-contiv-c2        1/1       Running   0          3m        10.1.2.3   kubeadm-worker0
+NAME                         READY     STATUS    RESTARTS   AGE       IP         NODE
+contiv-blue-c1               1/1       Running   0          53s       10.1.2.2   kubeadm-worker0
+contiv-blue-c2               1/1       Running   0          20s       10.1.2.3   kubeadm-master
+contiv-blue-c3               1/1       Running   0          6s        10.1.2.4   kubeadm-worker0
+contiv-c1                    1/1       Running   0          6m        10.1.2.2   kubeadm-master
+contiv-c2                    1/1       Running   0          4m        10.1.2.3   kubeadm-worker0
+vanilla-c-1408101207-p6swm   1/1       Running   1          12m       20.1.1.3   kubeadm-worker0
 </code></pre>
 <p>Now, let&#39;s try to ping between these pods.</p>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl exec -it contiv-blue-c1 sh
 / # ping -c 3 10.1.2.3
 PING 10.1.2.3 (10.1.2.3): 56 data bytes
-64 bytes from 10.1.2.3: seq=0 ttl=64 time=1.197 ms
-64 bytes from 10.1.2.3: seq=1 ttl=64 time=0.758 ms
-64 bytes from 10.1.2.3: seq=2 ttl=64 time=0.918 ms
+64 bytes from 10.1.2.3: seq=0 ttl=64 time=11.651 ms
+64 bytes from 10.1.2.3: seq=1 ttl=64 time=0.927 ms
+64 bytes from 10.1.2.3: seq=2 ttl=64 time=0.890 ms
 
 --- 10.1.2.3 ping statistics ---
 3 packets transmitted, 3 packets received, 0% packet loss
-round-trip min/avg/max = 0.758/0.957/1.197 ms
+round-trip min/avg/max = 0.890/4.489/11.651 ms
 / # ping -c 3 10.1.2.4
 PING 10.1.2.4 (10.1.2.4): 56 data bytes
-64 bytes from 10.1.2.4: seq=0 ttl=64 time=1.343 ms
-64 bytes from 10.1.2.4: seq=1 ttl=64 time=0.082 ms
-64 bytes from 10.1.2.4: seq=2 ttl=64 time=0.065 ms
+64 bytes from 10.1.2.4: seq=0 ttl=64 time=1.033 ms
+64 bytes from 10.1.2.4: seq=1 ttl=64 time=0.086 ms
+64 bytes from 10.1.2.4: seq=2 ttl=64 time=0.086 ms
 
 --- 10.1.2.4 ping statistics ---
 3 packets transmitted, 3 packets received, 0% packet loss
-round-trip min/avg/max = 0.065/0.496/1.343 ms
---- 10.1.2.3 ping statistics ---
-3 packets transmitted, 3 packets received, 0% packet loss
-round-trip min/avg/max = 0.084/0.417/1.076 ms
+round-trip min/avg/max = 0.086/0.401/1.033 ms
 / # exit
 </code></pre>
 
 <h3><a name="ch4"></a> Chapter 4: Connecting pods to external networks</h3>
-<p>In this chapter, we explore ways to connect pods to external networks.</p>
-<p>TBD: Add Cluster IP and NodePort access here.</p>
+<p>In order for pods to connect to external networks a gateway must be provided. When we created the <code>contiv-net</code> in the previous chapter we provided the gateway <code>10.1.2.1</code>. Let&#39;s see if we can ping between one of the pods on the <code>contiv-net</code> and and external website. First let&#39;s see which pods are on <code>contiv-net</code>.</p>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ netctl net inspect contiv-net
+{
+  "Config": {
+    "key": "default:contiv-net",
+    "encap": "vxlan",
+    "gateway": "10.1.2.1",
+    "networkName": "contiv-net",
+    "nwType": "data",
+    "subnet": "10.1.2.0/24",
+    "tenantName": "default",
+    "link-sets": {},
+    "links": {
+      "Tenant": {
+        "type": "tenant",
+        "key": "default"
+      }
+    }
+  },
+  "Oper": {
+    "allocatedAddressesCount": 2,
+    "allocatedIPAddresses": "10.1.2.1-10.1.2.3",
+    "availableIPAddresses": "10.1.2.4-10.1.2.254",
+    "endpoints": [
+      {
+        "containerName": "contiv-c1",
+        "endpointID": "21f97ca11caa355fd56c75869b60587f149257932095c552fc3af76b0be0d91f",
+        "homingHost": "kubeadm-master",
+        "ipAddress": [
+          "10.1.2.2",
+          ""
+        ],
+        "labels": "map[]",
+        "macAddress": "02:02:0a:01:02:02",
+        "network": "contiv-net.default"
+      },
+      {
+        "containerName": "contiv-c2",
+        "endpointID": "a9506061759f9d36304997929ed66c360e09ae01aaa98b65394ae8c463cad158",
+        "homingHost": "kubeadm-worker0",
+        "ipAddress": [
+          "10.1.2.3",
+          ""
+        ],
+        "labels": "map[]",
+        "macAddress": "02:02:0a:01:02:03",
+        "network": "contiv-net.default"
+      }
+    ],
+    "externalPktTag": 3,
+    "networkTag": "contiv-net.default",
+    "numEndpoints": 2,
+    "pktTag": 3
+  }
+}
+</code></pre>
+<p><code>contiv-c1</code> and <code>contiv-c2</code> are on <code>contiv-net</code>. Let&#39;s try to ping Google&#39;s DNS server.</p>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl exec -it contiv-c1 sh
+/ # ping -c 3 8.8.8.8
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=61 time=5.459 ms
+64 bytes from 8.8.8.8: seq=1 ttl=61 time=4.433 ms
+64 bytes from 8.8.8.8: seq=2 ttl=61 time=4.615 ms
+
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 4.433/4.835/5.459 ms
+/ # exit
+</code></pre>
 
 <h3><a name="cleanup"></a> Cleanup:</h3>
 <p>To cleanup the setup, after doing all the experiments, exit the VM and destroy the VMs:</p>

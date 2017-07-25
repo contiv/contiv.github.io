@@ -25,11 +25,11 @@ This tutorial will walk through container networking and concepts step by step i
 ### <a name="prereqs"></a> Prerequisites 
 1. [Download Vagrant](https://www.vagrantup.com/downloads.html)
 2. [Download VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-3. [Install git client](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-4. [Install docker for Mac](https://docs.docker.com/docker-for-mac/install/)
+3. [Install Git client](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+4. [Install Docker for Mac](https://docs.docker.com/docker-for-mac/install/)
 
 **Note**:
-If you are using a platform other than Mac, please install docker-engine, for that platform.
+If you are using a platform other than Mac, please install docker-engine for that platform.
 
 Make virtualbox the default provider for vagrant
 
@@ -37,7 +37,7 @@ Make virtualbox the default provider for vagrant
 export VAGRANT_DEFAULT_PROVIDER=virtualbox
 ```
 
-The steps below download a centos vagrant box. If you have a centos box available already, or you have access to the box file, add it to list of box images with the specific name centos/7, as follows:
+The steps below download a CentOS vagrant box. If you have a CentOS box available already, or you have access to the box file, add it to list of box images with the specific name centos/7, as follows:
 
 ```
 vagrant box add --name centos/7 CentOS-7-x86_64-Vagrant-1703_01.VirtualBox.box
@@ -45,7 +45,7 @@ vagrant box add --name centos/7 CentOS-7-x86_64-Vagrant-1703_01.VirtualBox.box
  
 ### <a name="setup"></a> Setup
 
-#### Step 1: Get the Contiv installer code from github.
+#### Step 1: Get the Contiv installer code from Github.
 ```
 $ git clone https://github.com/contiv/install.git
 $ cd install
@@ -64,7 +64,7 @@ $ make demo-legacy-swarm
 This will create two VMs on VirtualBox. It will install Legacy Swarm and all the required services and software for Contiv using Ansible. This might take some time (usually approx 15-20 mins) depending upon your internet connection.
 
 -- OR --
-#### Step 2a: Create a vagrant VM cluster
+#### Step 2a: Create a Vagrant VM cluster
 
 ```
 $ make cluster-legacy-swarm

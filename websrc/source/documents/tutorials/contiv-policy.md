@@ -8,7 +8,6 @@ description: |-
 
 
 
- 
 
 ## Contiv Policy Tutorial with Legacy Swarm
 
