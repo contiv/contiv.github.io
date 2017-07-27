@@ -1027,7 +1027,7 @@ across using a vxlan overlay.
 
 ### <a name="cleanup"></a> Cleanup:
 
-To cleanup the setup, after doing all the experiments, exit the VM destroy VMs:
+To cleanup the setup, after doing all the experiments, exit the VM and destroy the VMs:
 
 ```
 [vagrant@legacy-swarm-master ~]$ exit

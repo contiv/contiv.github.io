@@ -12,7 +12,7 @@ description: |-
 ## Container Networking Tutorial with Contiv + Kubernetes
 
 - [Prerequisites](#prereqs)
-- [Setup](#prereqs)
+- [Setup](#setup)
 - [Chapter 1 - Introduction to Container Networking](#ch1)
 - [Chapter 2 - Multi-host networking](#ch2)
 - [Chapter 3 - Using multiple tenants with arbitrary IPs in the networks](#ch3)
@@ -501,7 +501,7 @@ b60fdf5ccb88        bridge              bridge              local
 Unlike in the Legacy Swarm tutorial, Contiv networks are not visible under Docker networks in a Kubernetes setup. This is because Contiv is a CNI plugin for Kubernetes and not visible as a Docker networking CNM plugin in the Kubernetes environment.
 
 ```
-[vagrant@kubeadm-master ~]$ kubectl run -it vanilla-c --image=alpine /bin/sh
+[vagrant@kubeadm-master ~]$ kubectl run -it vanilla-c --image=contiv/alpine /bin/sh
 If you don't see a command prompt, try pressing enter.
 
 / # ifconfig
@@ -651,7 +651,7 @@ spec:
     node-role.kubernetes.io/master: ""
   containers: 
     - 
-      image: alpine
+      image: contiv/alpine
       name: alpine
       command: 
       - sleep
@@ -704,7 +704,7 @@ metadata:
 spec: 
   containers: 
     - 
-      image: alpine
+      image: contiv/alpine
       name: alpine
       command: 
       - sleep
@@ -715,9 +715,10 @@ EOF
 pod "contiv-c2" created
 
 [vagrant@kubeadm-master ~]$ kubectl get pods -o wide
-NAME        READY     STATUS    RESTARTS   AGE       IP         NODE
-contiv-c1   1/1       Running   0          2m        10.1.2.2   kubeadm-master
-contiv-c2   1/1       Running   0          6s        10.1.2.3   kubeadm-worker0
+NAME                        READY     STATUS    RESTARTS   AGE       IP         NODE
+contiv-c1                   1/1       Running   0          27s       10.1.2.2   kubeadm-master
+contiv-c2                   1/1       Running   0          6s        10.1.2.3   kubeadm-worker0
+vanilla-c-357166617-s5tff   1/1       Running   1          1m        20.1.1.5   kubeadm-worker0
 
 [vagrant@kubeadm-master ~]$ kubectl exec -it contiv-c2 sh
 / # ifconfig
@@ -746,15 +747,15 @@ Now let's try to ping between these two pods.
 
 ```
 [vagrant@kubeadm-master ~]$ kubectl exec -it contiv-c1 sh
-/ # ping -c 3 contiv-c2
-PING contiv-c2 (10.1.2.3): 56 data bytes
-64 bytes from 10.1.2.3: seq=0 ttl=64 time=1.685 ms
-64 bytes from 10.1.2.3: seq=1 ttl=64 time=0.912 ms
-64 bytes from 10.1.2.3: seq=2 ttl=64 time=0.913 ms
+/ # ping -c 3 10.1.2.3
+PING 10.1.2.3 (10.1.2.3): 56 data bytes
+64 bytes from 10.1.2.3: seq=0 ttl=64 time=3.877 ms
+64 bytes from 10.1.2.3: seq=1 ttl=64 time=1.213 ms
+64 bytes from 10.1.2.3: seq=2 ttl=64 time=0.877 ms
 
---- contiv-c2 ping statistics ---
+--- 10.1.2.3 ping statistics ---
 3 packets transmitted, 3 packets received, 0% packet loss
-round-trip min/avg/max = 0.912/1.170/1.685 ms
+round-trip min/avg/max = 0.877/1.989/3.877 ms
 / # exit
 ```
 
@@ -788,8 +789,7 @@ blue    contiv-net  data     vxlan       0           10.1.2.0/24  10.1.2.1
 Next, we can run pods belonging to this tenant.
 
 ```
-[vagrant@kubeadm-master ~]$
-cat <<EOF > contiv-blue-c1.yaml
+[vagrant@kubeadm-master ~]$ cat <<EOF > contiv-blue-c1.yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -802,7 +802,7 @@ spec:
 
   containers: 
     - 
-      image: alpine
+      image: contiv/alpine
       name: alpine
       command: 
       - sleep
@@ -813,8 +813,7 @@ EOF
 pod "contiv-blue-c1" created
 ```
 ```
-[vagrant@kubeadm-master ~]$
-cat <<EOF > contiv-blue-c2.yaml
+[vagrant@kubeadm-master ~]$ cat <<EOF > contiv-blue-c2.yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -831,7 +830,7 @@ spec:
     node-role.kubernetes.io/master: ""
   containers: 
     - 
-      image: alpine
+      image: contiv/alpine
       name: alpine
       command: 
       - sleep
@@ -842,8 +841,7 @@ EOF
 pod "contiv-blue-c2" created
 ```
 ```
-[vagrant@kubeadm-master ~]$
-cat <<EOF > contiv-blue-c3.yaml
+[vagrant@kubeadm-master ~]$ cat <<EOF > contiv-blue-c3.yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -855,7 +853,7 @@ metadata:
 spec: 
   containers: 
     - 
-      image: alpine
+      image: contiv/alpine
       name: alpine
       command: 
       - sleep
