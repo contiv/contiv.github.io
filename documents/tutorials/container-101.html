@@ -257,23 +257,23 @@ GitHub</a></li>
 </li>
 <li><a href="https://www.virtualbox.org/wiki/Downloads">Download VirtualBox</a>
 </li>
-<li><a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">Install git client</a>
+<li><a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">Install Git client</a>
 </li>
-<li><a href="https://docs.docker.com/docker-for-mac/install/">Install docker for Mac</a>
+<li><a href="https://docs.docker.com/docker-for-mac/install/">Install Docker for Mac</a>
 </li>
 </ol>
 <p><strong>Note</strong>:
-If you are using a platform other than Mac, please install docker-engine, for that platform.</p>
+If you are using a platform other than Mac, please install docker-engine for that platform.</p>
 <p>Make virtualbox the default provider for vagrant</p>
 <pre class="highlight plaintext"><code>export VAGRANT_DEFAULT_PROVIDER=virtualbox
 </code></pre>
-<p>The steps below download a centos vagrant box. If you have a centos box available already, or you have access to the box file, add it to list of box images with the specific name centos/7, as follows:</p>
+<p>The steps below download a CentOS vagrant box. If you have a CentOS box available already, or you have access to the box file, add it to list of box images with the specific name centos/7, as follows:</p>
 <pre class="highlight plaintext"><code>vagrant box add --name centos/7 CentOS-7-x86_64-Vagrant-1703_01.VirtualBox.box
 </code></pre>
 
 <h3><a name="setup"></a> Setup</h3>
 
-<h4>Step 1: Get the Contiv installer code from github.</h4>
+<h4>Step 1: Get the Contiv installer code from Github.</h4>
 <pre class="highlight plaintext"><code>$ git clone https://github.com/contiv/install.git
 $ cd install
 </code></pre>
@@ -287,7 +287,7 @@ Please make sure that you are NOT connected to VPN here.</p>
 <p>This will create two VMs on VirtualBox. It will install Legacy Swarm and all the required services and software for Contiv using Ansible. This might take some time (usually approx 15-20 mins) depending upon your internet connection.</p>
 <p>-- OR --</p>
 
-<h4>Step 2a: Create a vagrant VM cluster</h4>
+<h4>Step 2a: Create a Vagrant VM cluster</h4>
 <pre class="highlight plaintext"><code>$ make cluster-legacy-swarm
 </code></pre>
 <p>This will create two VMs on VirtualBox. It will also create a cluster/.cfg_legacy-swarm.yaml config file that will be used in later steps. Setup the following two config vars.</p>
@@ -1117,7 +1117,7 @@ to the IP address of <code>overlay-c1</code> container and be able to reach anot
 across using a vxlan overlay.</p>
 
 <h3><a name="cleanup"></a> Cleanup:</h3>
-<p>To cleanup the setup, after doing all the experiments, exit the VM destroy VMs:</p>
+<p>To cleanup the setup, after doing all the experiments, exit the VM and destroy the VMs:</p>
 <pre class="highlight plaintext"><code>[vagrant@legacy-swarm-master ~]$ exit
 logout
 Connection to 127.0.0.1 closed.

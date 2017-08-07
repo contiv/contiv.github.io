@@ -8,7 +8,6 @@ description: |-
 
 
 
- 
 
 ## Contiv Policy Tutorial with Legacy Swarm
 
@@ -27,7 +26,7 @@ Follow all steps from the [Container Networking Tutorial](/documents/tutorials/c
 
 In this section, we will create two groups epgA and epgB. We will create containers with respect to those groups. Then, by default, communication between the groups is allowed. So, we will create an ICMP deny policy and verify that we are not able to ping between those containers.
 
-Let's create a Tenant and Network first.
+Let's create a tenant and network first.
 
 ```
 [vagrant@legacy-swarm-master ~]$ export DOCKER_HOST=tcp://192.168.2.50:2375
@@ -86,7 +85,7 @@ f7d7643491f3        legacy-swarm-master/none      null                local
 
 ```
 
-Let's create two containers, one on each group network, and check whethere they are able to ping each other or not. By default, Contiv allows connectivity between groups under the same network.
+Let's create two containers, one on each group network, and check whether they are able to ping each other or not. By default, Contiv allows connectivity between groups under the same network.
 
 ```
 [vagrant@legacy-swarm-master ~]$ docker run -itd --net="epgA/TestTenant" --name=AContainer contiv/alpine sh
@@ -211,10 +210,9 @@ PING 10.1.1.2 (10.1.1.2): 56 data bytes
 
 ### <a name="ch2"></a> Chapter 2 - TCP Policy 
 
-In this section, we will create TCP deny policy as well as selective TCP port allow policy.
+In this section, we will create a TCP deny policy as well as a selective TCP port allow policy.
 
 ```
-
 [vagrant@legacy-swarm-master ~]$ netctl policy rule-add -t TestTenant -d in --protocol tcp --port 0  --from-group epgA  --action deny policyAB 2
 [vagrant@legacy-swarm-master ~]$ netctl policy rule-add -t TestTenant -d in --protocol tcp --port 8001  --from-group epgA  --action allow --priority 10 policyAB 3
 [vagrant@legacy-swarm-master ~]$ netctl policy rule-ls -t TestTenant policyAB
@@ -227,16 +225,14 @@ Rule  Priority  From EndpointGroup  From Network  From IpAddress  Protocol  Port
 Outgoing Rules:
 Rule  Priority  To EndpointGroup  To Network  To IpAddress  Protocol  Port  Action
 ----  --------  ----------------  ----------  ---------     --------  ----  ------
-
 ```
 
-Now check that from epgB, only TCP 8001 port is open. To test this, Let us run iperf on BContainer and
-verify using nc utility on AContainer.
+Now check that from epgB, only TCP 8001 port is open. To test this, let's run `iperf` on BContainer and
+verify using the `nc` utility on AContainer.
 
-
-```
 On BContainer:
 
+```
 [vagrant@legacy-swarm-master ~]$ docker exec -it BContainer sh
 / # iperf -s -p 8001
 ------------------------------------------------------------
@@ -244,29 +240,23 @@ Server listening on TCP port 8001
 TCP window size: 85.3 KByte (default)
 ------------------------------------------------------------
 ```
-
-On AContainer:
+Open another terminal and login to AContainer:
 
 ```
 [vagrant@legacy-swarm-master ~]$ docker exec -it AContainer sh
-/ # nc -zvw 1 10.1.1.2 8001 -------> here 10.1.1.2 is IP address of BContainer.
+/ # nc -zvw 1 10.1.1.2 8001    # here 10.1.1.2 is IP address of BContainer.
 10.1.1.2 (10.1.1.2:8001) open
 / # nc -zvw 1 10.1.1.2 8000
 10.1.1.2 (10.1.1.2:8000): Operation timed out
-/ #
+/ # exit
 ```
-
-You see that port 8001 is open and port 8000 is not open.
+We can see that port 8001 is open and port 8000 is not open.
 
 ### <a name="ch3"></a> Chapter 3 - Bandwidth Policy 
 
-In this chapter, we will explore bandwidth policy feature of contiv. 
-We will create tenant, network and groups. Then we will attach netprofile to one group
-and verify that applied bandwidth is working or not as expected in data path.
+In this chapter, we will explore the bandwidth policy feature of Contiv. We will create a tenant, a network and some groups. Then we will attach a netprofile to one endpoint group and verify that the applied bandwidth policy works as expected.
 
-
-So, let us create tenant, a network and group "A" under network.
-
+So, let's create a tenant, a network and group "A" under the network.
 
 ```
 [vagrant@legacy-swarm-master ~]$ netctl tenant create BandwidthTenant
@@ -275,19 +265,19 @@ Creating tenant: BandwidthTenant
 Creating network BandwidthTenant:BandwidthTestNet
 [vagrant@legacy-swarm-master ~]$ netctl group create -t BandwidthTenant BandwidthTestNet epgA
 Creating EndpointGroup BandwidthTenant:epgA
+```
+```
 [vagrant@legacy-swarm-master ~]$ netctl net ls -a
 Tenant           Network           Nw Type  Encap type  Packet tag  Subnet       Gateway     IPv6Subnet  IPv6Gateway
 ------           -------           -------  ----------  ----------  -------      ------      ----------  -----------
 BandwidthTenant  BandwidthTestNet  data     vlan        1001        50.1.1.0/24  50.1.1.254
+
 [vagrant@legacy-swarm-master ~]$ netctl group ls -a
 Tenant           Group  Network           IP Pool   Policies  Network profile
 ------           -----  -------           --------  ---------------
 BandwidthTenant  epgA   BandwidthTestNet
-
 ```
-
-Now, We are going to run serverA and clientA containers using group epgA as a network.
-
+Now, we are going to run two containers in the epgA network space: serverA and clientA.
 
 ```
 [vagrant@legacy-swarm-master ~]$ docker run -itd --net="epgA/BandwidthTenant" --name=serverA contiv/alpine sh
@@ -303,16 +293,12 @@ d50a96536aeb        contiv/alpine                "sh"                     6 minu
 654e678abd24        contiv/auth_proxy:1.0.3      "./auth_proxy --tls-k"   9 hours ago         Up 9 hours                              legacy-swarm-master/auth-proxy
 e8f9f40077f1        quay.io/coreos/etcd:v2.3.8   "/etcd"                  9 hours ago         Up 9 hours                              legacy-swarm-worker0/etcd
 7810f563e836        quay.io/coreos/etcd:v2.3.8   "/etcd"                  9 hours ago         Up 9 hours                              legacy-swarm-master/etcd
-
 ```
+Now run `iperf` on the server and client to find out the current bandwidth policies which are on the network. It may vary depending upon base OS, network speed, etc.
 
-Now run iperf server and client to find out current bandwidth which we are getting on the network
-where you are running this tutorial. It may vary depending upon base OS , network speed etc.
-
-
-```
 On serverA:
 
+```
 [vagrant@legacy-swarm-master ~]$ docker exec -it serverA sh
 / # ifconfig
 eth0      Link encap:Ethernet  HWaddr 02:02:32:01:01:01
@@ -342,10 +328,10 @@ UDP buffer size:  208 KByte (default)
 [  3] local 50.1.1.1 port 5001 connected with 50.1.1.2 port 34700
 [ ID] Interval       Transfer     Bandwidth        Jitter   Lost/Total Datagrams
 [  3]  0.0-10.0 sec  1.25 MBytes  1.05 Mbits/sec   0.028 ms    0/  893 (0%)
+```
+Open up a new terminal and login to clientA:
 
-
-On clientA:
-
+```
 [vagrant@legacy-swarm-worker0 ~]$ export DOCKER_HOST=tcp://192.168.2.50:2375
 [vagrant@legacy-swarm-worker0 ~]$ docker exec -it clientA sh
 / # iperf -c 50.1.1.1 -u
@@ -361,37 +347,30 @@ UDP buffer size:  208 KByte (default)
 [  3] Server Report:
 [  3]  0.0-10.0 sec  1.25 MBytes  1.05 Mbits/sec   0.027 ms    0/  893 (0%)
 / # exit
+```
+Now we see that the current bandwidth we are getting is 1.05 Mbits/sec. So let's create a new group B and create a netprofile with a bandwidth less than the one we got above: 500Kbits/sec bandwidth.
 
 ```
-
-Now we see that, current bandwidth we are getting is 1.05 Mbits/sec.
-So let us create new group B and create netprofile with bandwidth less than the one 
-we got above. So let us create netprofile with bandwidth of 500Kbits/sec.
-
-```
-
 [vagrant@legacy-swarm-master ~]$ netctl netprofile create -t BandwidthTenant -b 500Kbps -d 6 -s 80 testProfile
 Creating netprofile BandwidthTenant:testProfile
+
 [vagrant@legacy-swarm-master ~]$ netctl group create -t BandwidthTenant -n testProfile BandwidthTestNet epgB
 Creating EndpointGroup BandwidthTenant:epgB
+
 [vagrant@legacy-swarm-master ~]$ netctl netprofile ls -a
 Name         Tenant           Bandwidth  DSCP      burst size
 ------       ------           ---------  --------  ----------
 testProfile  BandwidthTenant  500Kbps    6         80
+
 [vagrant@legacy-swarm-master ~]$ netctl group ls -a
 Tenant           Group  Network           IP Pool   Policies  Network profile
 ------           -----  -------           --------  ---------------
 BandwidthTenant  epgA   BandwidthTestNet
 BandwidthTenant  epgB   BandwidthTestNet              testProfile
-[vagrant@legacy-swarm-master ~]$
-
+```
+Run clientB and serverB containers:
 
 ```
-
-Running clientB and serverB containers:
-
-```
-
 [vagrant@legacy-swarm-master ~]$ docker run -itd --net="epgB/BandwidthTenant" --name=serverB contiv/alpine sh
 2f4845ed86c5496537ccece77683354e447c28df8f00c10a1a175eb5f44aee76
 [vagrant@legacy-swarm-master ~]$ docker run -itd --net="epgB/BandwidthTenant" --name=clientB contiv/alpine sh
@@ -407,18 +386,12 @@ d50a96536aeb        contiv/alpine                "sh"                     14 min
 654e678abd24        contiv/auth_proxy:1.0.3      "./auth_proxy --tls-k"   9 hours ago         Up 9 hours                              legacy-swarm-master/auth-proxy
 e8f9f40077f1        quay.io/coreos/etcd:v2.3.8   "/etcd"                  9 hours ago         Up 9 hours                              legacy-swarm-worker0/etcd
 7810f563e836        quay.io/coreos/etcd:v2.3.8   "/etcd"                  9 hours ago         Up 9 hours                              legacy-swarm-master/etcd
-[vagrant@legacy-swarm-master ~]$
-
-
 ```
-
-Now as we are running clientB and serverB containers on group B network. we should see bandwidth around
-500Kbps. Thats the verification that our bandwidth netprofile is working as per expectation.
-
-```
+Now we are running clientB and serverB containers on the group B network. We should see bandwidth around 500Kbps when we run `iperf`. Let's verify that our bandwidth netprofile is working as expected.
 
 On serverB:
 
+```
 [vagrant@legacy-swarm-master ~]$ docker exec -it serverB sh
 / # ifconfig
 eth0      Link encap:Ethernet  HWaddr 02:02:32:01:01:03
@@ -448,10 +421,10 @@ UDP buffer size:  208 KByte (default)
 [  3] local 50.1.1.3 port 5001 connected with 50.1.1.4 port 57180
 [ ID] Interval       Transfer     Bandwidth        Jitter   Lost/Total Datagrams
 [  3]  0.0-10.3 sec   692 KBytes   552 Kbits/sec  15.720 ms  411/  893 (46%)
+```
+Open another terminal and login to clientB:
 
-
-On clientB:
-
+```
 [vagrant@legacy-swarm-worker0 ~]$ docker exec -it clientB sh
 / # iperf -c 50.1.1.3 -u
 ------------------------------------------------------------
@@ -465,19 +438,20 @@ UDP buffer size:  208 KByte (default)
 [  3] Sent 893 datagrams
 [  3] Server Report:
 [  3]  0.0-10.3 sec   692 KBytes   552 Kbits/sec  15.720 ms  411/  893 (46%)
-
-
-As we see, clientB is getting roughly around 500Kbps bandwidth.
-
 ```
+We can see that clientB is getting roughly around 500Kbps bandwidth.
 
+### <a name="cleanup"></a> Cleanup:
 
-### <a name="cleanup"></a> Cleanup: 
-To cleanup the setup, after doing all the experiments, exit the VM destroy VMs:
+To cleanup the setup, after doing all the experiments, exit the VM and destroy the VMs:
 
 ```
 [vagrant@legacy-swarm-master ~]$ exit
-
+logout
+Connection to 127.0.0.1 closed.
+```
+```
+$ cd .. # go back to install directory
 $ make cluster-destroy
 cd cluster && vagrant destroy -f
 ==> kubeadm-worker0: VM not created. Moving on...
@@ -488,10 +462,17 @@ cd cluster && vagrant destroy -f
 ==> legacy-swarm-worker0: Destroying VM and associated drives...
 ==> legacy-swarm-master: Forcing shutdown of VM...
 ==> legacy-swarm-master: Destroying VM and associated drives...
-
-$ make vagrant-clean
-
 ```
+```
+$ make vagrant-clean
+```
+
+### References
+1. [CNI Specification](https://github.com/containernetworking/cni/blob/master/SPEC.md)
+2. [CNM Design](https://github.com/docker/libnetwork/blob/master/docs/design.md)
+3. [Contiv User Guide](http://docs.contiv.io)
+4. [Contiv Networking Code](https://github.com/contiv/netplugin)
+
 
 ### Improvements or Comments
 This tutorial was developed by Contiv engineers. Thank you for trying out this tutorial.
