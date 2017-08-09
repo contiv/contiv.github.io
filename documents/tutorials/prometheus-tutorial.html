@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Tutorials">
+    <meta name="description" content="Contiv Prometheus Integration">
 
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <title>Tutorials - Contiv</title>
+    <title>Contiv Prometheus Integration - Contiv</title>
 
     <link href="/assets/stylesheets/application-ffbab1f8.css" rel="stylesheet"/>
 
@@ -19,7 +19,7 @@
     
   </head>
 
-  <body id="page-Tutorials" class=" page-Tutorials layout-documents page-sub">
+  <body id="page-Contiv Prometheus Integration" class=" page-Contiv Prometheus Integration layout-documents page-sub">
 
   <div class="navbar-jumbotron">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -176,7 +176,7 @@ GitHub</a></li>
 			<hr><p>
 			<h3>Tutorials and Talks</h3>
 				<ul class="nav">
-					<li class="active">
+					<li>
 						<a href="/documents/tutorials/index.html">Tutorials</a>
 					</li>
 					<li>
@@ -228,36 +228,104 @@ GitHub</a></li>
 		</div>  
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
-					<h1>Tutorials</h1>
-
-<h2>Legacy Swarm</h2>
+					<h2>Data Analytics with Prometheus and Grafana</h2>
 
 <ul>
-<li><a href="/documents/tutorials/container-101.html">Container Networking Tutorial</a>
+<li><a href="#setup">Setup</a>
 </li>
-<li><a href="/documents/tutorials/contiv-policy.html">Contiv Policy Tutorial</a>
+<li><a href="#ch1">Chapter 1 - What is Prometheus? Grafana?</a>
 </li>
-</ul>
-
-<h2>Kubernetes 1.6</h2>
-
-<ul>
-<li><a href="/documents/tutorials/networking-kubernetes-16.html">Container Networking Tutorial</a> 
+<li><a href="#ch2">Chapter 2 - Examples</a>
 </li>
-<li><a href="/documents/tutorials/contiv-policy-kubernetes-16.html">Contiv Policy Tutorial</a>
-</li>
-<li><a href="/documents/tutorials/prometheus-tutorial.html">Contiv Prometheus Integration</a>
+<li><a href="#resources">Resources</a>
 </li>
 </ul>
+<p>This walks through some examples that may be useful for troubleshooting connectivity issues within your cluster.</p>
 
-<h2>Other</h2>
+<h3><a name="setup"></a> Setup</h3>
+<p>You can setup an example cluster by following the <a href="https://contiv.github.io/documents/tutorials/networking-kubernetes-16.html">Kubernetes Networking Tutorial</a>. When Contiv is installed, it should be installed with Prometheus and Grafana already configured for the cluster.</p>
 
-<ul>
-<li><a href="/documents/tutorials/contiv-compose.html">Networking Policies with Compose <strong>Deprecated</strong></a>
-</li>
-<li><a href="http://contiv.ciscolive.com/">Contiv and Cisco ACI</a>
-</li>
-</ul>
+<h3><a name="ch1"></a> Chapter 1: What is Prometheus? Grafana?</h3>
+<p>Prometheus is an open source monitoring platform that is useful for visualizing time series data. You can get monitor and get alerts for your cluster through Prometheus. You can find out more about Prometheus <a href="https://prometheus.io/">here</a>.</p>
+<p>Grafana is also an open source monitoring platform which further enhances the user experience for data visualization. In this tutorial you will learn how Grafana can directly injest data from Prometheus and some useful queries. For more information of Grafana, click <a href="https://grafana.com/">here</a>.</p>
+<p>There are many other data monitoring platforms besides Prometheus and Grafana, such as Graphite, InfluxDB, OpenTSDB, Nagios, and Sensu. Because Prometheus and Grafana are open source platforms, they allow for easy integration and personalized configuration. To find out more about alternatives, click <a href="https://prometheus.io/docs/introduction/comparison/">here</a>.</p>
+<p>Let&#39;s explore Prometheus and Grafana.</p>
+<p>Note: These steps assume you are working with the demo environment and following along with the Kubernetes Networking and Policy tutorials.</p>
+<p>Prometheus and Grafana are running as nodeports which are exposed on the host IP. Since they are both configured to run on the master node, let&#39;s find out the IP of the master node.</p>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl describe nodes kubeadm-master
+</code></pre>
+<p>We can see that it&#39;s IP is 192.168.2.54.</p>
+<p>We can also find out what port Prometheus is exposed at.</p>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl get svc -n kube-system
+NAME         CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+grafana      10.100.180.79    &lt;nodes&gt;       3000:30001/TCP   1h
+kube-dns     10.96.0.10       &lt;none&gt;        53/UDP,53/TCP    1h
+prometheus   10.111.247.164   &lt;nodes&gt;       9090:30000/TCP   1h
+</code></pre>
+<p>Let&#39;s open a browser and navigate to <a href="http://192.168.2.54:30000">http://192.168.2.54:30000</a>. This will open up the Prometheus UI.</p>
+<p>Let&#39;s check and make sure that Prometheus is able to fetch data from all the nodes. At the top click on Status and in the drop down menu click on Targets. You should see that there are two targets and that they are <code>UP</code> and green. If it says <code>UNKNOWN</code> it is likely because the environment or prometheus is still configuring.</p>
+<p>Go back to Graph from the top tool bar. Click on the drop down menu that says -insert metric at cursor- and pick any metric. Then click on execute and graph right below the execute button.</p>
+<p>Now let&#39;s move to Grafana.</p>
+<p>Grafana is exposed at port 30001 so let&#39;s navigate to <a href="http://192.168.2.54:30001">http://192.168.2.54:30001</a> in our browser. The Grafana UI will open up and prompt you for a username and password. Username is &quot;admin&quot; and password is &quot;admin&quot;. We will be working with Grafana for the remainder of this tutorial because it is feature-rich, easy to use, and very flexible.</p>
+<p>After you have logged in, you will see an option to Add data source. Click on that. Fill out the information as show in the following screenshot.</p>
+<p><img alt="image" src="/assets/images/link"/></p>
+<p>Click on the Grafana logo in the top left of the screen and go to Dashboard and click on new.
+Click on graph. Click on &quot;Panel Title&quot; and then click on &quot;Edit&quot;.</p>
+
+<h3><a name="ch2"></a> Chapter 2: Examples</h3>
+
+<h4>Multi-host networking</h4>
+<p>Now let&#39;s go back to our Kubernetes Networking Tutorial and complete chatper 2.</p>
+<p>Instead of <code>ping -c 3 10.1.2.3</code> it maybe more telling to run <code>ping -c 1 10.1.2.3 -s 5000</code>. This tutorial has run this command three times (once every 15 seconds).</p>
+<p>We can add the following four queries:</p>
+<pre class="highlight plaintext"><code>rx_bytes{containerName="contiv-c1"}
+rx_bytes{containerName="contiv-c2"}
+tx_bytes{containerName="contiv-c1"}
+tx_bytes{containerName="contiv-c2"}
+</code></pre>
+<p><img alt="image" src="/assets/images/link"/></p>
+<p>We see three steps as expected, so our basic ping works.</p>
+
+<h4>Multi-tenancy networking</h4>
+<p>Finish chapter 3 from the Kubernetes Networking Tutorial.</p>
+<p>Again it may be better to send 5000 bytes instead of the default 64 bytes.</p>
+<p>Let&#39;s add the following queries.</p>
+<pre class="highlight plaintext"><code>rx_bytes{containerName="contiv-blue-c1"}
+rx_bytes{containerName="contiv-blue-c2"}
+rx_bytes{containerName="contiv-blue-c3"}
+tx_bytes{containerName="contiv-blue-c1"}
+tx_bytes{containerName="contiv-blue-c2"}
+tx_bytes{containerName="contiv-blue-c3"}
+</code></pre>
+<p><img alt="image" src="/assets/images/link"/></p>
+<p>The reason we see that one graph has 6 steps and the other graphs have three steps is because contiv-blue-c1 pings three times to both contiv-blue-c2 and contiv-blue-c3. We first pinged to c2 and then to c3 which is why the graph for c3 is shifted.</p>
+
+<h4>External networking</h4>
+<p>Finish chapter 4 from the Kubernetes Networking Tutorial.</p>
+<p>After letting <code>ping 8.8.8.8</code> run for 2-3 minutes we can see that bytes are transmitted and received by the contiv-c1 pod.</p>
+<p><img alt="image" src="/assets/images/link"/></p>
+<pre class="highlight plaintext"><code>rx_bytes{containerName="contiv-c1"}
+tx_bytes{containerName="contiv-c1"}
+</code></pre>
+
+<h3>ICMP Policy</h3>
+<p>Now let&#39;s move on to visualizing policies. Finish chapter 1 of the Kubernetes Policy Tutorial.</p>
+<p><img alt="image" src="/assets/images/link"/></p>
+<p>The first three steps we see are a basic ping test between apod and bpod. After a deny policy was added. We can see that rx and tx don&#39;t move for any of the pods except</p>
+
+<h4>TCP Policy</h4>
+<pre class="highlight plaintext"><code>rx_bytes{containerName="apod"}
+rx_bytes{containerName="bpod"}
+tx_bytes{containerName="apod"}
+tx_bytes{containerName="bpod"}
+</code></pre>
+
+<h3><a name="resources"></a> Resources</h3>
+
+<h3>Improvements or Comments</h3>
+<p>This tutorial was developed by Contiv engineers. Thank you for trying out this tutorial.
+Please file a GitHub issue if you see an issue with the tutorial, or if you prefer
+improving some text, feel free to send a pull request.</p>
 
 	<hr>
 
