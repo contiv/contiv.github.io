@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Tutorials">
+    <meta name="description" content="Contiv Prometheus Integration">
 
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <title>Tutorials - Contiv</title>
+    <title>Contiv Prometheus Integration for Kubernetes - Contiv</title>
 
     <link href="/assets/stylesheets/application-ffbab1f8.css" rel="stylesheet"/>
 
@@ -19,7 +19,7 @@
     
   </head>
 
-  <body id="page-Tutorials" class=" page-Tutorials layout-documents page-sub">
+  <body id="page-Contiv Prometheus Integration for Kubernetes" class=" page-Contiv Prometheus Integration for Kubernetes layout-documents page-sub">
 
   <div class="navbar-jumbotron">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -176,7 +176,7 @@ GitHub</a></li>
 			<hr><p>
 			<h3>Tutorials and Talks</h3>
 				<ul class="nav">
-					<li class="active">
+					<li>
 						<a href="/documents/tutorials/index.html">Tutorials</a>
 					</li>
 					<li>
@@ -228,36 +228,111 @@ GitHub</a></li>
 		</div>  
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
-					<h1>Tutorials</h1>
-
-<h2>Legacy Swarm</h2>
+					<h2>Data Analytics with Prometheus and Grafana for Kubernetes</h2>
 
 <ul>
-<li><a href="/documents/tutorials/container-101.html">Container Networking Tutorial</a>
+<li><a href="#setup">Setup</a>
 </li>
-<li><a href="/documents/tutorials/contiv-policy.html">Contiv Policy Tutorial</a>
+<li><a href="#ch1">Chapter 1 - Prometheus and Grafana</a>
 </li>
-</ul>
-
-<h2>Kubernetes 1.6</h2>
-
-<ul>
-<li><a href="/documents/tutorials/networking-kubernetes-16.html">Container Networking Tutorial</a> 
+<li><a href="#ch2">Chapter 2 - Basic Ping Example</a>
 </li>
-<li><a href="/documents/tutorials/contiv-policy-kubernetes-16.html">Contiv Policy Tutorial</a>
-</li>
-<li><a href="/documents/tutorials/prometheus-tutorial.html">Contiv Prometheus Integration</a>
+<li><a href="#resources">Resources</a>
 </li>
 </ul>
+<p>This walks through the setup for Prometheus and Grafana and an example that may be useful for troubleshooting connectivity issues within your cluster.</p>
 
-<h2>Other</h2>
+<h3><a name="setup"></a> Setup</h3>
+<p>Please finish the <a href="https://contiv.github.io/documents/tutorials/networking-kubernetes-16.html">Container Networking Tutorial</a>, but do not clean up your cluster.</p>
+<p>In order to install Prometheus and Grafana, please follow these steps.</p>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ cd contiv-*
+[vagrant@kubeadm-master contiv-1.1.1]$  cd install/k8s/k8s1.6
+[vagrant@kubeadm-master k8s1.6]$ sudo bash
+[root@kubeadm-master k8s1.6]# cp prometheus.yml /var/contiv/prometheus.yml
+[root@kubeadm-master k8s1.6]# exit
+exit
+</code></pre>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master k8s1.6]$ kubectl create -f contiv-prometheus.yml
+clusterrole "prometheus" created
+serviceaccount "prometheus" created
+clusterrolebinding "prometheus" created
+replicaset "contiv-prometheus" created
+service "prometheus" created
 
-<ul>
-<li><a href="/documents/tutorials/contiv-compose.html">Networking Policies with Compose <strong>Deprecated</strong></a>
-</li>
-<li><a href="http://contiv.ciscolive.com/">Contiv and Cisco ACI</a>
-</li>
-</ul>
+[vagrant@kubeadm-master k8s1.6]$ kubectl create -f contiv-grafana.yml
+clusterrole "grafana" created
+serviceaccount "grafana" created
+clusterrolebinding "grafana" created
+replicaset "contiv-grafana" created
+service "grafana" created
+
+[vagrant@kubeadm-master k8s1.6]$ cd
+</code></pre>
+
+<h3><a name="ch1"></a> Chapter 1: Prometheus and Grafana</h3>
+<p>Prometheus is an open source monitoring platform that is useful for visualizing time series data. You can monitor and get alerts for your cluster through Prometheus. You can find out more about Prometheus <a href="https://prometheus.io/">here</a>.</p>
+<p>Grafana is an open source data visualization platform which further enhances the user experience. In this tutorial you will learn how Grafana can directly ingest data from Prometheus and some useful queries. For more information on Grafana, click <a href="https://grafana.com/">here</a>.</p>
+<p>Let&#39;s explore Prometheus and Grafana.</p>
+<p>Prometheus and Grafana are running as NodePorts which are exposed on the host IP. Since they are both configured to run on the master node, let&#39;s find out the IP of the master node.</p>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl describe nodes kubeadm-master
+</code></pre>
+<p>We can see that it&#39;s IP is 192.168.2.54.</p>
+<p>We can also find out what port Prometheus is exposed at.</p>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl get svc -n kube-system
+NAME         CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+grafana      10.107.61.77     &lt;nodes&gt;       3000:32701/TCP   25m
+kube-dns     10.96.0.10       &lt;none&gt;        53/UDP,53/TCP    58m
+prometheus   10.101.101.193   &lt;nodes&gt;       9090:32700/TCP   25m
+</code></pre>
+<p>Open a browser and navigate to <a href="http://192.168.2.54:32700">http://192.168.2.54:32700</a>. This will open up the Prometheus UI.</p>
+<p>Let&#39;s check and make sure that Prometheus is able to fetch data from all the nodes. At the top click on Status and in the drop down menu click on Targets. You should see a list of targets and that they are <code>UP</code> and green. If it says <code>UNKNOWN</code> it is likely because the environment or prometheus is still configuring.</p>
+<p>Go back to Graph from the top tool bar. Click on the drop down menu that says <code>-insert metric at cursor-</code> and pick any metric. Then click on <code>Execute</code> and <code>Graph</code> right below the <code>Execute</code> button.</p>
+<p>Now let&#39;s move to Grafana.</p>
+<p>Grafana is exposed at port 32701, so let&#39;s navigate to <a href="http://192.168.2.54:32701">http://192.168.2.54:32701</a> in our browser. The Grafana UI will open up and prompt you for a username and password. Username is &quot;admin&quot; and password is &quot;admin&quot;. We will be working with Grafana for the remainder of this tutorial because it&#39;s UI is more user friendly.</p>
+<p>After you have logged in, you will see an option to <code>Add data source</code>. Click on that. Fill out the information as show in the following screenshot.</p>
+<p><img alt="Add Data Source" src="/documents/tutorials/add_data_source-d28908f3.png"/></p>
+<p>Click on <code>Add</code> and <code>Save &amp; Test</code>.</p>
+<p>Click on the Grafana logo in the top left of the screen and go to Dashboard and click on <code>New</code>.
+Click on <code>Graph</code>. Click on &quot;Panel Title&quot; and then click on &quot;Edit&quot;.</p>
+
+<h3><a name="ch2"></a> Chapter 2: Basic Ping Example</h3>
+<p>Now go back to your terminal which has the cluster running. You should already have a <code>contiv-net</code> setup as part of the Networking Tutorial as well as the <code>contiv-c1</code> and <code>contiv-c2</code> pods up and running.</p>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ netctl net ls
+Tenant   Network      Nw Type  Encap type  Packet tag  Subnet        Gateway    IPv6Subnet  IPv6Gateway  Cfgd Tag
+------   -------      -------  ----------  ----------  -------       ------     ----------  -----------  ---------
+default  default-net  data     vxlan       0           20.1.1.0/24   20.1.1.1
+default  contiv-net   data     vxlan       0           10.1.2.0/24   10.1.2.1
+default  contivh1     infra    vxlan       0           132.1.1.0/24  132.1.1.1
+...
+
+
+[vagrant@kubeadm-master ~]$ kubectl get pods
+NAME        READY     STATUS    RESTARTS   AGE
+contiv-c1   1/1       Running   0          24s
+contiv-c2   1/1       Running   0          9s
+...
+</code></pre>
+<p>Now let&#39;s go back to the Grafana UI and add the following four queries.</p>
+<pre class="highlight plaintext"><code>rx_packets{containerName="contiv-c1"}
+rx_packets{containerName="contiv-c2"}
+tx_packets{containerName="contiv-c1"}
+tx_packets{containerName="contiv-c2"}
+</code></pre>
+<p>Go back to the terminal and set up a ping between the two pods.</p>
+<pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl exec -it contiv-c1 sh
+/ # ping 10.1.2.3
+</code></pre>
+<p>Now if we go back to the Grafana Dashboard, we should see that the number of packets transmitted increases, so our basic ping works.</p>
+<p><img alt="Basic Ping" src="/documents/tutorials/basic_ping-42d7791e.png"/></p>
+<p>As you go through the rest of the Networking and Policy Tutorials, you can keep experimenting with different queries and viewing graphs on Grafana.</p>
+
+<h3><a name="resources"></a> Resources</h3>
+<p>For more query functions, find them <a href="https://prometheus.io/docs/querying/functions/">here</a>.</p>
+
+<h3>Improvements or Comments</h3>
+<p>This tutorial was developed by Contiv engineers. Thank you for trying out this tutorial.
+Please file a GitHub issue if you see an issue with the tutorial, or if you prefer
+improving some text, feel free to send a pull request.</p>
 
 	<hr>
 
