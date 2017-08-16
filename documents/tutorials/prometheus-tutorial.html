@@ -243,11 +243,11 @@ GitHub</a></li>
 <p>This walks through the setup for Prometheus and Grafana and an example that may be useful for troubleshooting connectivity issues within your cluster.</p>
 
 <h3><a name="setup"></a> Setup</h3>
-<p>Please finish the <a href="https://contiv.github.io/documents/tutorials/networking-kubernetes-16.html">Container Networking Tutorial</a>, but do not clean up your cluster.</p>
+<p>Please finish the <a href="/documents/tutorials/networking-kubernetes-16.html">Container Networking Tutorial</a>, but do not clean up your cluster.</p>
 <p>In order to install Prometheus and Grafana, please follow these steps.</p>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ cd contiv-*
 [vagrant@kubeadm-master contiv-1.1.1]$  cd install/k8s/k8s1.6
-[vagrant@kubeadm-master k8s1.6]$ sudo bash
+[vagrant@kubeadm-master k8s1.6]$ sudo -i
 [root@kubeadm-master k8s1.6]# cp prometheus.yml /var/contiv/prometheus.yml
 [root@kubeadm-master k8s1.6]# exit
 exit
@@ -271,12 +271,12 @@ service "grafana" created
 
 <h3><a name="ch1"></a> Chapter 1: Prometheus and Grafana</h3>
 <p>Prometheus is an open source monitoring platform that is useful for visualizing time series data. You can monitor and get alerts for your cluster through Prometheus. You can find out more about Prometheus <a href="https://prometheus.io/">here</a>.</p>
-<p>Grafana is an open source data visualization platform which further enhances the user experience. In this tutorial you will learn how Grafana can directly ingest data from Prometheus and some useful queries. For more information on Grafana, click <a href="https://grafana.com/">here</a>.</p>
+<p>Grafana is an open source data visualization platform which further enhances the user experience. In this tutorial, you will learn how Grafana can visualize the data stored in Prometheus and how to run some useful queries in the Grafana dashboard. For more information on Grafana, click <a href="https://grafana.com/">here</a>.</p>
 <p>Let&#39;s explore Prometheus and Grafana.</p>
 <p>Prometheus and Grafana are running as NodePorts which are exposed on the host IP. Since they are both configured to run on the master node, let&#39;s find out the IP of the master node.</p>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl describe nodes kubeadm-master
 </code></pre>
-<p>We can see that it&#39;s IP is 192.168.2.54.</p>
+<p>We can see that its IP is 192.168.2.54.</p>
 <p>We can also find out what port Prometheus is exposed at.</p>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ kubectl get svc -n kube-system
 NAME         CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
@@ -288,15 +288,15 @@ prometheus   10.101.101.193   &lt;nodes&gt;       9090:32700/TCP   25m
 <p>Let&#39;s check and make sure that Prometheus is able to fetch data from all the nodes. At the top click on Status and in the drop down menu click on Targets. You should see a list of targets and that they are <code>UP</code> and green. If it says <code>UNKNOWN</code> it is likely because the environment or prometheus is still configuring.</p>
 <p>Go back to Graph from the top tool bar. Click on the drop down menu that says <code>-insert metric at cursor-</code> and pick any metric. Then click on <code>Execute</code> and <code>Graph</code> right below the <code>Execute</code> button.</p>
 <p>Now let&#39;s move to Grafana.</p>
-<p>Grafana is exposed at port 32701, so let&#39;s navigate to <a href="http://192.168.2.54:32701">http://192.168.2.54:32701</a> in our browser. The Grafana UI will open up and prompt you for a username and password. Username is &quot;admin&quot; and password is &quot;admin&quot;. We will be working with Grafana for the remainder of this tutorial because it&#39;s UI is more user friendly.</p>
-<p>After you have logged in, you will see an option to <code>Add data source</code>. Click on that. Fill out the information as show in the following screenshot.</p>
+<p>Grafana is exposed at port 32701, so let&#39;s navigate to <a href="http://192.168.2.54:32701">http://192.168.2.54:32701</a> in our browser. The Grafana UI will open up and prompt you for a username and password. Username is &quot;admin&quot; and password is &quot;admin&quot;. We will be working with Grafana for the remainder of this tutorial because its UI is more user friendly.</p>
+<p>After you have logged in, you will see an option to <code>Add data source</code>. Click on that. Fill out the information as shown in the following screenshot.</p>
 <p><img alt="Add Data Source" src="/documents/tutorials/add_data_source-d28908f3.png"/></p>
 <p>Click on <code>Add</code> and <code>Save &amp; Test</code>.</p>
 <p>Click on the Grafana logo in the top left of the screen and go to Dashboard and click on <code>New</code>.
 Click on <code>Graph</code>. Click on &quot;Panel Title&quot; and then click on &quot;Edit&quot;.</p>
 
 <h3><a name="ch2"></a> Chapter 2: Basic Ping Example</h3>
-<p>Now go back to your terminal which has the cluster running. You should already have a <code>contiv-net</code> setup as part of the Networking Tutorial as well as the <code>contiv-c1</code> and <code>contiv-c2</code> pods up and running.</p>
+<p>Now go back to your terminal which has the cluster running. You should already have a <code>contiv-net</code> network setup as part of the Networking Tutorial as well as the <code>contiv-c1</code> and <code>contiv-c2</code> pods up and running.</p>
 <pre class="highlight plaintext"><code>[vagrant@kubeadm-master ~]$ netctl net ls
 Tenant   Network      Nw Type  Encap type  Packet tag  Subnet        Gateway    IPv6Subnet  IPv6Gateway  Cfgd Tag
 ------   -------      -------  ----------  ----------  -------       ------     ----------  -----------  ---------
@@ -324,6 +324,8 @@ tx_packets{containerName="contiv-c2"}
 </code></pre>
 <p>Now if we go back to the Grafana Dashboard, we should see that the number of packets transmitted increases, so our basic ping works.</p>
 <p><img alt="Basic Ping" src="/documents/tutorials/basic_ping-42d7791e.png"/></p>
+<p>The way the data is displayed shows a monotonically increasing counter. This may not be the most ideal way to display your data, in which case you can also graph deltas. <code>idelta()</code> is a query function that takes a range vector of the metric you want to graph. A range vector is a list of datapoints over a period of time. For example, you can graph the received bytes over a one day span with the following query.</p>
+<p><code>idelta(rx_packets{containerName=&quot;contiv-c1&quot;}[1d])</code></p>
 <p>As you go through the rest of the Networking and Policy Tutorials, you can keep experimenting with different queries and viewing graphs on Grafana.</p>
 
 <h3><a name="resources"></a> Resources</h3>
