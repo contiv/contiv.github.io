@@ -95,9 +95,6 @@ svc-0-default  default   svc-net-1-0  [key0=value1 key1=value2 key2=value3 key3=
     docker exec -it net0-2-srv2-2-2  nc -z -n -v -w 1  30.2.0.1 80
     docker exec -it net0-2-srv0-0-0  nc -z -n -v -w 1  30.2.0.1 80
 	
-
-
-
 	 
 
 ### To create a Service Load Balancer using the UI:
