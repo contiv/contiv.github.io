@@ -240,14 +240,73 @@ GitHub</a></li>
 <li>Minimal downtime.
 </li>
 </ul>
-<p>A provider is one or more containers that match the label selector associated with the services.</p>
+<p>A provider is one or more containers that match the label selector associated with the services.
+ <strong>Note</strong>: This feature would be deprecated since docker 1.12 onward service load balancer feature  is supported natively by docker swarm.</p>
 
 <h2>Defining Services</h2>
 <p>After you create your network, you can define services using the UI, the <code>netctl</code> command line interface (CLI), or the Contiv Network REST APIs, but it is recommended
 to use the UI or API to take advantage of the authentication and authorization options in those interfaces.</p>
-<p>Note: Service requirements are defined by <em>selectors</em>. Selectors are key-value pairs 
+<p><strong>Note</strong>: Service requirements are defined by <em>selectors</em>. Selectors are key-value pairs 
 that group providers with matching labels.</p>
-<p>To create a Service Load Balancer using the UI:</p>
+
+<h3>To create a Service Load Balancer using netctl:</h3>
+<p>1. Create network as net0-2 in default tenant</p>
+<pre class="highlight plaintext"><code>netctl network create net0-2 -s 10.0.0.0/24 -g 10.0.0.254 -encap vxlan -t default
+</code></pre>
+<p>2. Create service network as svc-net-2-0 in default tenant</p>
+<pre class="highlight plaintext"><code>netctl network create svc-net-2-0 -s 30.2.0.0/24 -g 30.2.0.254 -encap vxlan -t default
+</code></pre>
+<p>3. Create service on service network as svc-0-default in default tenant</p>
+<pre class="highlight plaintext"><code>netctl service create svc-0-default --network svc-net-2-0 -t default --selector=key0=value1 --selector=key1=value2 --selector=key2=value3 --selector=key3=value4 --port=80:8080:TCP --port=643:7070:UDP
+</code></pre>
+<p>4. Verify service name and its IPs.</p>
+<pre class="highlight plaintext"><code>[vagrant@netplugin-node1 ~]$ netctl service ls
+ServiceName    Tenant    Network      Selectors
+---------      --------  -------      -------
+svc-0-default  default   svc-net-1-0  [key0=value1 key1=value2 key2=value3 key3=value4]
+
+[vagrant@netplugin-node1 ~]$ netctl service inspect svc-0-default
+----
+----
+       "labels": "map[key0:value1 key1:value2 key2:value3 key3:value4]",
+       "macAddress": "02:02:0a:00:00:08",
+       "network": "net0-1.default",
+       "serviceName": "svc-0-default"
+      }
+    ],
+    "serviceVip": "30.1.0.1" 
+  }
+</code></pre>
+<p>4. Create four service containers in network net0-2</p>
+<pre class="highlight plaintext"><code>docker run -itd --name=net0-2-srv0-0-0 --net=net0-2  contiv/alpine  sleep 600m
+docker run -itd --name=net0-2-srv1-1-1 --net=net0-2  contiv/alpine  sleep 600m
+docker run -itd --name=net0-2-srv2-2-2 --net=net0-2  contiv/alpine  sleep 600m
+docker run -itd --name=net0-2-srv3-0-3 --net=net0-2  contiv/alpine  sleep 600m
+</code></pre>
+<p>5. Similarly create  provider containers as service backend containers</p>
+<pre class="highlight plaintext"><code>docker run -itd --name=srv-default-net0-2-20-3 --net=net0-2  --label=key0=value1 --label=key1=value2 --label=key2=value3 --label=key3=value4  contiv/alpine sleep 600m
+docker run -itd --name=srv-default-net0-2-21-1 --net=net0-2  --label=key0=value1 --label=key1=value2 --label=key2=value3 --label=key3=value4  contiv/alpine sleep 600m
+docker run -itd --name=srv-default-net0-2-22-2 --net=net0-2  --label=key0=value1 --label=key1=value2 --label=key2=value3 --label=key3=value4  contiv/alpine sleep 600m
+docker run -itd --name=srv-default-net0-2-23-0 --net=net0-2  --label=key0=value1 --label=key1=value2 --label=key2=value3 --label=key3=value4  contiv/alpine sleep 600m
+</code></pre>
+<p>6. Run Service  instances on provider containers(TCP server at ports 8080 and 7070) i.e Use netcat utility to run server</p>
+<pre class="highlight plaintext"><code>docker exec -it srv-default-net0-2-20-3  nc -lk -p 7070 -e /bin/true &amp;
+docker exec -it srv-default-net0-2-21-1  nc -lk -p 7070 -e /bin/true &amp;
+docker exec -it srv-default-net0-2-22-2  nc -lk -p 7070 -e /bin/true &amp;
+docker exec -it srv-default-net0-2-23-0  nc -lk -p 7070 -e /bin/true &amp;
+docker exec -it srv-default-net0-2-20-3  nc -lk -p 8080 -e /bin/true &amp;
+docker exec -it srv-default-net0-2-21-1  nc -lk -p 8080 -e /bin/true &amp;
+docker exec -it srv-default-net0-2-22-2  nc -lk -p 8080 -e /bin/true &amp;
+docker exec -it srv-default-net0-2-23-0  nc -lk -p 8080 -e /bin/true &amp; 
+</code></pre>
+<p>7. login into service conatiners and connect to service  i.e Use netcat utility to run client to connect service</p>
+<pre class="highlight plaintext"><code>docker exec -it net0-2-srv1-1-1  nc -z -n -v -w 1  30.2.0.1 80
+docker exec -it net0-2-srv3-0-3  nc -z -n -v -w 1  30.2.0.1 80
+docker exec -it net0-2-srv2-2-2  nc -z -n -v -w 1  30.2.0.1 80
+docker exec -it net0-2-srv0-0-0  nc -z -n -v -w 1  30.2.0.1 80
+</code></pre>
+
+<h3>To create a Service Load Balancer using the UI:</h3>
 <p>1. From <em>Service Load Balancer</em>, click <em>Create Service Load Balanacer</em>. 
 <img alt="service" src="/documents/networking/CreateServiceLoadBalancer-22ae2b28.png"/><br>
    The Create Service Load Balancer page displays.<br>
