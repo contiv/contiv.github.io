@@ -28,8 +28,8 @@ Changes can be proposed by sending a pull request (PR). One of the committers
 will review the changes and provide feedback. The pull request will be merged
 into the master branch after discussion.
 
-Please make sure that the unit tests and the system tests pass before
-submitting the PR, as appropriate.
+Please make sure that all tests are passing before
+submitting the PR, as applicable.
 Please keep in mind some changes might not be merged if committers
 decide they can't be merged.
 
@@ -54,10 +54,10 @@ After design discussions:
 - Re-run the unit and system tests
 - Submit a pull request with the code changes
 - A discussion may take place on your pull request
-- Discussing while writing the code is also recommended
+- Discussion while writing the code is also recommended
 - Requested changes should be made to the same branch on your fork
 - Changes should be force pushed to the same branch of the pull request
-- The unit and system tests need to be run again after committers `LGTM` the change
+- The unit and system tests may need to be run again after committers `LGTM` the change
 - One of the committers will merge the changes
 
 
