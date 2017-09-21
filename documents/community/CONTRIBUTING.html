@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Video Demonstrations">
+    <meta name="description" content="Contributing to Contiv">
 
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <title>Video Demonstrations - Contiv</title>
+    <title>Contiv Community - Contiv</title>
 
     <link href="/assets/stylesheets/application-ffbab1f8.css" rel="stylesheet"/>
 
@@ -19,7 +19,7 @@
     
   </head>
 
-  <body id="page-Video Demonstrations" class=" page-Video Demonstrations layout-documents page-sub">
+  <body id="page-Contiv Community" class=" page-Contiv Community layout-documents page-sub">
 
   <div class="navbar-jumbotron">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -179,7 +179,7 @@ GitHub</a></li>
 					<li>
 						<a href="/documents/tutorials/index.html">Tutorials</a>
 					</li>
-					<li class="active">
+					<li>
 						<a href="/documents/demos/index.html">Demonstration Videos</a>
 					</li>
 					<li>
@@ -205,7 +205,7 @@ GitHub</a></li>
 			<h3>Community</h3>
 				<ul class="nav">
 						</li>
-						<li>
+						<li class="active">
 							<a href="/documents/community/index.html">Engagement</a>
 							<a href="/documents/community/examples.html">Community Resources </a>
 						</li>
@@ -229,76 +229,142 @@ GitHub</a></li>
 		</div>  
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
-					<h1>Video Demonstrations</h1>
+					<h1>Contributing to Contiv</h1>
+<p>Submitting code changes is only one of the many ways to contribute.
+Reporting issues, proposing documentation and design changes,
+discussing use cases and proposing integration with other software
+from the ecosystem are more ways to contribute to Contiv.
+Contributors can also become maintainers or committers.</p>
+<p>All contributions are welcome, no matter how small or how big they are.</p>
+<p>Various repos may have more specific requirements for contribution - check out CONTRIBUTING.md
+files in respective repos.</p>
 
-<h2>Introduction</h2>
+<h2>Reporting Issues</h2>
+<p>You can report an issue in a specific repo by 
+clicking <code>New Issue</code> in the respective repo.
+Issues should also be opened for feature requests.</p>
 
-<h3>Contiv Introduction and Demo</h3>
-<p>Introduction to Contiv by Kiran Kamity. (8 minutes)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/GwqHu5ZQu6U" frameborder="0" allowfullscreen></iframe></p>
+<h2>Submitting pull requests for code or documentation changes</h2>
+<p>Changes can be proposed by sending a pull request (PR). One of the committers
+will review the changes and provide feedback. The pull request will be merged
+into the master branch after discussion.</p>
+<p>Please make sure that all tests are passing before
+submitting the PR, as applicable.
+Please keep in mind some changes might not be merged if committers
+decide they can&#39;t be merged.</p>
 
-<h2>Cisco ACI</h2>
+<h2>Submitting proposals for major changes</h2>
+<p>Please include <code>Proposal: ...</code> in the title of the issue if you wish to
+do significant refactoring of the code, to propose a new component or to
+introduce a major change. Marking the issue as a proposal will ensure that
+more people provide feedback as early as possible.</p>
+<p>Significant code changes submitted without an accompanying proposal might
+be rejected and not merged. Such significant submissions without a proposal are
+discouraged to avoid wasting time.</p>
+<p>After design discussions:
+- Fork the repository to your own public repository
+- Make the changes in your repository in a new branch
+- Add unit and system test cases for your code, as appropriate
+- Make sure existing tests and newly added tests pass, as appropriate
+- Rebase your branch on top of the latest master branch
+- Re-run the unit and system tests
+- Submit a pull request with the code changes
+- A discussion may take place on your pull request
+- Discussion while writing the code is also recommended
+- Requested changes should be made to the same branch on your fork
+- Rebase your branch against master before resubmission. These changes may require a force push to the same branch of the pull request
+- The unit and system tests may need to be run again after committers <code>LGTM</code> the change
+- One of the committers will merge the changes</p>
 
-<h3>Contiv and Cisco ACI Demonstration</h3>
-<p>A Cisco Live demonstration of Contiv and ACI by Rohit Agarwalla. (28 minutes)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/dUXPkLyufVc" frameborder="0" allowfullscreen></iframe></p>
+<h2>Discussing use cases and requesting new features</h2>
+<p>Submit an issue to discuss your use case. A description of the use case
+should be provided. The description should also explain why the existing
+features don&#39;t help with this use case.
+Feature requests should have a title which starts with <code>Feature request: ...</code>.
+We encourage the inclusion of diagrams (or pictures of drawings) and other
+details to provide a better description of the use case.</p>
 
-<h3>Contiv on Docker Swarm using Docker service with ACI and external contracts</h3>
-<p>A quick introduction to Contiv and Cisco ACI and a (silent) demonstration setting up Contiv and ACI on Docker Swarm with existing external contracts. (6 minutes)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/GxrCMHzo3iA" frameborder="0" allowfullscreen></iframe></p>
+<h2>Becoming a committer</h2>
+<p>Play with the code and know it inside out. Once you think you are comfortable
+with the code and you think you are ready to become a committer, you can send
+an email to one of the committers. For more information, see <a href="/documents/community/GOVERNANCE.html">GOVERNANCE.md</a></p>
 
-<h3>Contiv on RedHat Openshift Origin with ACI and external contracts</h3>
-<p>A quick introduction to Contiv and Cisco ACI and a (silent) demonstration setting up Contiv and ACI on OpenShift Origin with existing external contracts. (6 minutes)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/OqTbeHkIsQM" frameborder="0" allowfullscreen></iframe></p>
+<h2>Commit message format guidelines</h2>
+<p>The commit message should have a short summary of no more than 50
+characters on the first line. The description should use verbs in the imperative
+(e.g. <code>netmaster: fix bug</code>, not <code>netmaster: fixed bug</code>).
+The second line should be left empty.</p>
+<p>A longer description of what the commit does should start on the third line when
+such a description is deemed necessary. This description needs to be wrapped to
+72 characters. Paragraphs following this one should have an empty line above
+them.</p>
 
-<h3>Contiv on Docker Swarm with ACI and external contracts</h3>
-<p>A quick introduction to Contiv and Cisco ACI and a (silent) demonstration setting up Contiv and ACI on Docker Swarm with existing external contracts. (6 minutes)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/vSsvOj1sHDc" frameborder="0" allowfullscreen></iframe></p>
+<h2>Legal Stuff: Sign your work</h2>
+<p>You must sign off on your work by adding your signature at the end of the
+commit message. Your signature certifies that you wrote the patch or
+otherwise have the right to pass it on as an open-source patch. 
+By signing off your work you ascertain following (from <a href="http://developercertificate.org/">developercertificate.org</a>):</p>
+<pre class="highlight plaintext"><code>Developer Certificate of Origin
+Version 1.1
 
-<h3>Contiv on Kubernetes with ACI and external contracts</h3>
-<p>A quick introduction to Contiv and Cisco ACI and a (silent) demonstration setting up Contiv and ACI on Kubernetes with existing external contracts. (4 minutes)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Xf3Q9DWRtJ8" frameborder="0" allowfullscreen></iframe></p>
+Copyright (C) 2004, 2006 The Linux Foundation and its contributors.
+660 York Street, Suite 102,
+San Francisco, CA 94110 USA
 
-<h3>Contiv on Docker Swarm mode using VLAN (L2) networking</h3>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/GlNuapz0Oxg" frameborder="0" allowfullscreen>
-</iframe>
-<h3>Contiv on Docker Legacy Swarm using VLAN (L2) networking</h3>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/oJf8gGV390g" frameborder="0" allowfullscreen>
-</iframe>
-<h3>Contiv on Kubernetes cluster using VLAN (L2) networking</h3>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/HC4MljGX5RY" frameborder="0" allowfullscreen>
-</iframe>
-<h2>Archive of Older Videos</h2>
-<p>These videos are from previous versions of Contiv and are now considered archive material.</p>
+Everyone is permitted to copy and distribute verbatim copies of this
+license document, but changing it is not allowed.
 
-<h3>Getting Started</h3>
+Developer's Certificate of Origin 1.1
 
-<h4>Getting Started with Contiv Networking</h4>
-<iframe width="600" height="400" src="https://www.youtube.com/embed/KzansAxCBQE?list=PL2k86RlAekM_g6csRwSRQAWvln5SmgicN" frameborder="0" allowfullscreen>
-</iframe>
-<h4>Using Contiv with Docker Swarm</h4>
-<iframe width="600" height="400" src="https://www.youtube.com/embed/_nJRy88UG2Q?list=PL2k86RlAekM_g6csRwSRQAWvln5SmgicN" frameborder="0" allowfullscreen>
-</iframe>
-<h4>Policy Based Container Networking Using Contiv</h4>
-<iframe width="600" height="400" src="https://www.youtube.com/embed/FuvBal8Gp3c?list=PL2k86RlAekM_g6csRwSRQAWvln5SmgicN" frameborder="0" allowfullscreen>
-</iframe>
-<h4>Setting Up a Kubernetes Cluster for Contiv Networking</h4>
-<iframe width="600" height="400" src="https://www.youtube.com/embed/a-po7owZmw8" frameborder="0" allowfullscreen>
-</iframe>
-<h3>Networking</h3>
+By making a contribution to this project, I certify that:
 
-<h4>DockerCon ACI Demo</h4>
-<iframe width="600" height="400" src="https://www.youtube.com/embed/wTTLRhByqW0" frameborder="0" allowfullscreen>
-</iframe>
-<h4>Contiv L2 with Docker Demo</h4>
-<iframe width="600" height="400" src="https://www.youtube.com/embed/ogqMpesZMtE" frameborder="0" allowfullscreen>
-</iframe>
-<h4>Contiv Layer 3 Network Integration</h4>
-<iframe width="600" height="400" src="https://www.youtube.com/embed/FrA1szyp9jc" frameborder="0" allowfullscreen>
-</iframe>
-<h4>Contiv Bandwidth Policy Demonstration</h4>
-<iframe width="600" height="400" src="https://www.youtube.com/embed/25OZHQ_t3nY" frameborder="0" allowfullscreen>
-</iframe>
+(a) The contribution was created in whole or in part by me and I
+    have the right to submit it under the open source license
+    indicated in the file; or
+
+(b) The contribution is based upon previous work that, to the best
+    of my knowledge, is covered under an appropriate open source
+    license and I have the right under that license to submit that
+    work with modifications, whether created in whole or in part
+    by me, under the same open source license (unless I am
+    permitted to submit under a different license), as indicated
+    in the file; or
+
+(c) The contribution was provided directly to me by some other
+    person who certified (a), (b) or (c) and I have not modified
+    it.
+
+(d) I understand and agree that this project and the contribution
+    are public and that a record of the contribution (including all
+    personal information I submit with it, including my sign-off) is
+    maintained indefinitely and may be redistributed consistent with
+    this project or the open source license(s) involved.
+</code></pre>
+<p>Every git commit message must have the following at the end on a separate line:</p>
+<pre class="highlight plaintext"><code>Signed-off-by: Joe Smith &lt;joe.smith@email.com&gt;
+</code></pre>
+<p>Your real legal name has to be used. Anonymous contributions or contributions
+submitted using pseudonyms cannot be accepted.</p>
+<p>Two examples of commit messages with the sign-off message can be found below:
+```
+netmaster: fix bug</p>
+<p>This fixes a random bug encountered in netmaster.</p>
+<p>Signed-off-by: Joe Smith <a href="mailto:joe.smith@email.com">joe.smith@email.com</a>
+<code>
+</code>
+netmaster: fix bug</p>
+<p>Signed-off-by: Joe Smith <a href="mailto:joe.smith@email.com">joe.smith@email.com</a>
+```</p>
+<p>If you set your <code>user.name</code> and <code>user.email</code> git configuration options, you can
+sign your commits automatically with <code>git commit -s</code>.</p>
+<p>These git options can be set using the following commands:
+<code>
+git config user.name &quot;Joe Smith&quot;
+git config user.email joe.smith@email.com
+</code></p>
+<p><code>git commit -s</code> should be used now to sign the commits automatically, instead of
+<code>git commit</code>.</p>
+
 	<hr>
 
 			</div>
