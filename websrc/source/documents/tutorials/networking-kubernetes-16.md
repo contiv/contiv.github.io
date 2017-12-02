@@ -333,7 +333,7 @@ kube-proxy-kq3nb                         1/1       Running   0          24m
 kube-scheduler-kubeadm-master            1/1       Running   0          23m
 ```
 
-You should see contiv-netmaster, contiv-netplugin, contiv-etcd and contiv-api-proxy nodes in `Running` status. A small number of initial restarts are normal while all the pods startup, but you should not see an increasing number here.
+You should see contiv-netmaster, contiv-netplugin, and contiv-etcd nodes in `Running` status (and contiv-api-proxy if deployed with kubespray). A small number of initial restarts are normal while all the pods startup, but you should not see a continuous increasing number of restarts.
 
 `netctl` is a utility to create, update, read and modify Contiv objects. It is a CLI wrapper on top of REST interface.
 
@@ -398,14 +398,15 @@ eth2: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
 
-In the above output, you'll see the following interfaces:  
+In the above output for the VM, you'll see the following interfaces:
+
 - `docker0` interface corresponds to the linux bridge and its associated
-subnet `172.17.0.1/16`. This is created by the docker daemon automatically, and
-is the default network containers would belong to when an override network
-is not specified.
-- `eth0` in this VM is the management interface, on which we ssh into the VM  
-- `eth1` in this VM is the interface that connects to an external network (if needed)  
-- `eth2` in this VM is the interface that carries vxlan and control (e.g. etcd) traffic
+  subnet `172.17.0.1/16`. This is created by the docker daemon automatically,
+  and containers belong to this network unless an override network is
+  specified.
+- `eth0` is the management interface, on which we ssh into the VM
+- `eth1` is the interface that connects to an external network (if needed)
+- `eth2` is the interface that carries vxlan and control (e.g. etcd) traffic
 
 ```
 [vagrant@kubeadm-master ~]$ ifconfig contivh0
