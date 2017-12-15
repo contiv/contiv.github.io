@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Tutorials">
+    <meta name="description" content="">
 
     <link rel="shortcut icon" href="/assets/images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <title>Tutorials - Contiv</title>
+    <title>Contiv</title>
 
     <link href="/assets/stylesheets/application-ffbab1f8.css" rel="stylesheet"/>
 
@@ -19,7 +19,7 @@
     
   </head>
 
-  <body id="page-Tutorials" class=" page-Tutorials layout-documents page-sub">
+  <body id="page-home" class=" page-home layout-documents">
 
   <div class="navbar-jumbotron">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -178,7 +178,7 @@ GitHub</a></li>
 			<hr><p>
 			<h3>Tutorials and Talks</h3>
 				<ul class="nav">
-					<li class="active">
+					<li>
 						<a href="/documents/tutorials/index.html">Tutorials</a>
 					</li>
 					<li>
@@ -231,36 +231,28 @@ GitHub</a></li>
 		</div>  
 		<div id="main-content" class="col-sm-9 col-md-9 col-xs-12" role="main">
 			<div class="bs-docs-section">
-					<h1>Tutorials</h1>
+					<h1>Support and Validation Matrix</h1>
+<p>Contiv works with Docker and Kubernetes on multiple Linux distributions in a variety of infrastructure settings. In our labs, we validate Contiv on a subset of these options, as outlined below.</p>
 
-<h2>Legacy Swarm</h2>
-
-<ul>
-<li><a href="/documents/tutorials/container-101.html">Container Networking Tutorial</a>
-</li>
-<li><a href="/documents/tutorials/contiv-policy.html">Contiv Policy Tutorial</a>
-</li>
-</ul>
-
-<h2>Kubernetes 1.6</h2>
-
-<ul>
-<li><a href="/documents/tutorials/networking-kubernetes-16.html">Container Networking Tutorial</a> 
-</li>
-<li><a href="/documents/tutorials/contiv-policy-kubernetes-16.html">Contiv Policy Tutorial</a>
-</li>
-<li><a href="/documents/tutorials/prometheus-tutorial.html">Contiv Prometheus Integration</a>
-</li>
-</ul>
-
-<h2>Other</h2>
-
-<ul>
-<li><a href="/documents/tutorials/contiv-compose.html">Networking Policies with Compose <strong>Deprecated</strong></a>
-</li>
-<li><a href="http://contiv.ciscolive.com/">Contiv and Cisco ACI</a>
-</li>
-</ul>
+<table><thead>
+<tr>
+<th>Container Platforms</th>
+<th style="text-align: center">Version</th>
+<th>Host OS</th>
+<th>Infrastructure</th>
+<th>Support Model</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Kubernetes</td>
+<td style="text-align: center">1.6.x, 1.8.x</td>
+<td>CentOS 7.x, Ubuntu 16.04</td>
+<td>AWS, vCenter 6.5+, Bare Metal</td>
+<td>Community</td>
+<td></td>
+</tr>
+</tbody></table>
 
 	<hr>
 
