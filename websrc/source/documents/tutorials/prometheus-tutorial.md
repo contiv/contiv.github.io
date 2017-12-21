@@ -25,29 +25,64 @@ Please finish the [Container Networking Tutorial](/documents/tutorials/networkin
 In order to install Prometheus and Grafana, please follow these steps.
 
 ```
+$ cd install/cluster/
+$ vagrant ssh kubeadm-master
 [vagrant@kubeadm-master ~]$ cd contiv-*
-[vagrant@kubeadm-master contiv-1.1.1]$  cd install/k8s/k8s1.6
-[vagrant@kubeadm-master k8s1.6]$ sudo -i
-[root@kubeadm-master k8s1.6]# cp prometheus.yml /var/contiv/prometheus.yml
-[root@kubeadm-master k8s1.6]# exit
+[vagrant@kubeadm-master contiv-1.2.0]$ cd install/k8s/configs/
+[vagrant@kubeadm-master configs]$ pwd
+/home/vagrant/contiv-1.2.0/install/k8s/configs
+[vagrant@kubeadm-master configs]$ sudo -i
+[root@kubeadm-master ~]# cd /home/vagrant/contiv-1.2.0/install/k8s/configs
+[root@kubeadm-master configs]# cp prometheus.yml /var/contiv/prometheus.yml
+[root@kubeadm-master configs]# exit
 exit
 ```
 ```
-[vagrant@kubeadm-master k8s1.6]$ kubectl create -f contiv-prometheus.yml
+[vagrant@kubeadm-master configs]$  kubectl create -f contiv-prometheus.yml
 clusterrole "prometheus" created
 serviceaccount "prometheus" created
 clusterrolebinding "prometheus" created
 replicaset "contiv-prometheus" created
 service "prometheus" created
 
-[vagrant@kubeadm-master k8s1.6]$ kubectl create -f contiv-grafana.yml
+[vagrant@kubeadm-master configs]$ kubectl create -f contiv-grafana.yml
 clusterrole "grafana" created
 serviceaccount "grafana" created
 clusterrolebinding "grafana" created
 replicaset "contiv-grafana" created
 service "grafana" created
 
-[vagrant@kubeadm-master k8s1.6]$ cd
+[vagrant@kubeadm-master configs]$ cd
+```
+
+Check if Contiv's `stats_exporter` is running as a sidecar container in the netmaster and netplugin kubernetes pods.
+
+```
+[vagrant@kubeadm-master configs]$ kubectl get pods -n=kube-system | grep 'netplugin\|netmaster'
+contiv-netmaster-425jp                   3/3       Running   0          2d
+contiv-netplugin-75dxx                   2/2       Running   0          2d
+contiv-netplugin-zhbrd                   2/2       Running   0          2d
+
+[vagrant@kubeadm-master configs]$ kubectl describe pod -n=kube-system contiv-netmaster-425jp | grep stats
+    Image:          contiv/stats
+    Image ID:       docker-pullable://docker.io/contiv/stats@sha256:9dc89b719703cfbd5f3459a4976336c42d470e9eaa9769de647c1ce3486f8e8b
+
+[vagrant@kubeadm-master configs]$ kubectl describe pod -n=kube-system contiv-netplugin-75dxx | grep stats
+    Image:          contiv/stats
+    Image ID:       docker-pullable://docker.io/contiv/stats@sha256:9dc89b719703cfbd5f3459a4976336c42d470e9eaa9769de647c1ce3486f8e8b
+
+[vagrant@kubeadm-master configs]$ kubectl describe pod -n=kube-system contiv-netplugin-zhbrd | grep stats
+    Image:          contiv/stats
+    Image ID:       docker-pullable://docker.io/contiv/stats@sha256:9dc89b719703cfbd5f3459a4976336c42d470e9eaa9769de647c1ce3486f8e8b
+```
+
+Check if `stats_exporter` exposes metrics for Prometheus to scrape.
+
+```
+[vagrant@kubeadm-master configs]$ curl localhost:9004/metrics
+
+[vagrant@kubeadm-master configs]$ curl localhost:9005/metrics
+
 ```
 
 ### <a name="ch1"></a> Chapter 1: Prometheus and Grafana
