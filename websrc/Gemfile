@@ -11,6 +11,7 @@ gem "middleman-deploy", "1.0.0"
 gem "middleman-syntax", "2.1.0"
 gem "nokogiri", "1.6.7"
 gem 'redcarpet', "3.3.4"
+gem "rack-protection", ">= 1.5.5"
 
 gem "rouge", "1.10.1"
 
