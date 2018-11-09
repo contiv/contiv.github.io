@@ -9,9 +9,11 @@ gem "middleman-hashicorp", github: "contiv/middleman-hashicorp"
 gem "middleman-blog", "3.5.3"
 gem "middleman-deploy", "1.0.0"
 gem "middleman-syntax", "2.1.0"
-gem "nokogiri", "1.6.7"
-gem 'redcarpet', "3.3.4"
+gem "nokogiri", "1.8.2"
+gem "redcarpet", "3.3.4"
 gem "rack-protection", ">= 1.5.5"
+gem "sprockets", ">= 2.12.5"
+gem "ffi", ">= 1.9.24"
 
 gem "rouge", "1.10.1"
 
