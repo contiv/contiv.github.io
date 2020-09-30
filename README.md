@@ -25,4 +25,5 @@ Directory structure:
 		  +- assets: contains stylesheets, images, and javascript files
 		  +- documents: this folder contains all the .md files for documentation
 		  +- layouts: contains the template for header, footer, and sidebar elements
+		  +- amazing code
 ```
