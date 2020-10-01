@@ -15,7 +15,7 @@ The directory structure for this repo follows the typical Middleman project stru
 - Top level directory contains the compiled static content for the contiv.github.io website
 - `websrc` directory contains the source files used to build the static content
 
-Directory structure:
+Directory structure-
 
 ```
 +- websrc: makefile, gemfile, and other build related files
