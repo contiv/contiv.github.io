@@ -12,8 +12,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 The directory structure for this repo follows the typical Middleman project structure. See https://middlemanapp.com for details.
 
-- Top level directory contains the compiled static content for the contiv.github.io website
-- `websrc` directory contains the source files used to build the static content
+- Top level directory contains the compiled static content for the contiv.github.io website.
+- `websrc` directory contains the source files used to build the static content.
 
 Directory structure:
 
