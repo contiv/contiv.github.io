@@ -2,7 +2,7 @@
 
 URL: http://contiv.github.io
 
-This repo contains the Contiv website source files (Markdown) and build scripts. If you want to make changes to the Contiv website, make changes to the source files under `websrc/source` and follow the instructions below.
+This repo contains the Contiv website's source files (Markdown) and build scripts. If you want to make changes to the Contiv website, make changes to the source files under `websrc/source` and follow the instructions below.
 
 # Contributing
 
