@@ -18,11 +18,11 @@ The directory structure for this repo follows the typical Middleman project stru
 Directory structure:
 
 ```
-+- websrc: makefile, gemfile, and other build related files
-	 +- helpers: helper scripts used for compiling the website
-	 +- source: root directory for all html template files. `index.html.erb` is the main html page for the website.
-		  +- articles: this folder contains the blog articles
-		  +- assets: contains stylesheets, images, and javascript files
-		  +- documents: this folder contains all the .md files for documentation
-		  +- layouts: contains the template for header, footer, and sidebar elements
+ +- websrc: makefile, gemfile, and other build related files
+ +- helpers: helper scripts used for compiling the website
+ +- source: root directory for all html template files. `index.html.erb` is the main html page for the website.
+ +- articles: this folder contains the blog articles
+ +- assets: contains stylesheets, images, and javascript files
+ +- documents: this folder contains all the .md files for documentation
+ +- layouts: contains the template for header, footer, and sidebar elements
 ```
