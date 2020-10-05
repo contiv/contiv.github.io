@@ -1,4 +1,4 @@
-# NIce work from your side ..I am very excited for for you accepting my request
+# NIce work from your side ..I am very excited for you accepting my request
 # Contiv Website
 
 URL: http://contiv.github.io
