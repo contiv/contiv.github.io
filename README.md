@@ -16,7 +16,6 @@ The directory structure for this repo follows the typical Middleman project stru
 - `websrc` directory contains the source files used to build the static content
 
 Directory structure:
-
 ```
 +- websrc: makefile, gemfile, and other build related files
 	 +- helpers: helper scripts used for compiling the website
